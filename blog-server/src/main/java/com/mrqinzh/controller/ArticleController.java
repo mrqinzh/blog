@@ -2,10 +2,10 @@ package com.mrqinzh.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.mrqinzh.entity.Article;
-import com.mrqinzh.entity.Page;
-import com.mrqinzh.entity.Resp;
-import com.mrqinzh.entity.User;
+import com.mrqinzh.model.dto.PageDTO;
+import com.mrqinzh.model.entity.Article;
+import com.mrqinzh.model.entity.Resp;
+import com.mrqinzh.model.entity.User;
 import com.mrqinzh.service.ArticleService;
 
 import java.util.*;
@@ -36,19 +36,19 @@ public class ArticleController {
 
     /**
      * 分页请求文章信息
-     * @param page  封装请求信息 页数 页大小 查询条件
+     * @param pageDTO  封装请求信息 页数 页大小 查询条件
      * @return  返回数据
      */
     @RequestMapping("/orderArticle")
-    public Map<String,Object> someArticles(@RequestBody Page page) {
+    public Map<String,Object> someArticles(@RequestBody PageDTO pageDTO) {
         Map<String,Object> map = new HashMap<>();
 
-        PageHelper.startPage(page.getCurrentPage(),page.getPageSize());
-        List<Article> articles = articleService.orderArticles(page);
+        PageHelper.startPage(pageDTO.getCurrentPage(),pageDTO.getPageSize());
+        List<Article> articles = articleService.orderArticles(pageDTO);
         PageInfo<Article> pageInfo = new PageInfo<>(articles);
 
-        map.put("count",pageInfo.getTotal());
-        map.put("list",pageInfo.getList());
+        map.put("count", pageInfo.getTotal());
+        map.put("list", pageInfo.getList());
 
         return map;
     }

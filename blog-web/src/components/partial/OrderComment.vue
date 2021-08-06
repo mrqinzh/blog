@@ -25,7 +25,7 @@ export default {
   methods: {
     getData() {
       getRequest('/comment/list').then(resp => {
-        console.log(resp);
+        // console.log(resp);
         this.commentList = resp.data.body;
       });
     },

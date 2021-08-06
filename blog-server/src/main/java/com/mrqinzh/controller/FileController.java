@@ -1,7 +1,7 @@
 package com.mrqinzh.controller;
 
-import com.mrqinzh.entity.Resp;
-import com.mrqinzh.entity.User;
+import com.mrqinzh.model.entity.Resp;
+import com.mrqinzh.model.entity.User;
 import com.mrqinzh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;

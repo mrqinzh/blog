@@ -1,75 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mrqinzh.mapper.ArticleMapper">
 
     <cache />
-
-    <!--  加载用户个人的博客信息  -->
-    <select id="findByUserId" resultMap="myBlog">
-        SELECT
-            a.article_id, a.article_author, a.article_title, a.article_body, a.article_tag, a.article_time, a.article_md, u.id, u.name
-        FROM
-            article_table a
-           , user_table u
-        WHERE
-            a.user_id = u.id
-        <if test="id != null">
-            AND
-            a.user_id = #{id}
-        </if>
-        ORDER BY
-            a.article_time DESC
-    </select>
-    <resultMap id="myBlog" type="com.mrqinzh.entity.Article">
-        <id column="article_id" property="article_id" />
-        <result column="article_author" property="article_author" />
-        <result column="article_title" property="article_title" />
-        <result column="article_body" property="article_body" />
-        <result column="article_tag" property="article_tag" />
-        <result column="article_time" property="article_time" />
-        <result column="article_md" property="article_md" />
-        <association property="user" javaType="com.mrqinzh.entity.User">
-            <id property="id" column="id" />
-            <result property="name" column="name" />
-        </association>
-    </resultMap>
-
-    <!--  对全部文章进行排序、并添加查询条件、以及分页实现  -->
-    <select id="orderArticles" resultType="Article" parameterType="Page">
-        select
-             *
-        from
-             article_table
-        where
-             1=1
-        <if test="condition != null">
-            and article_tag like '%${condition}%'
-            or article_title like '%${condition}%'
-        </if>
-        order by
-             article_time desc
-    </select>
-
-    <!-- 写文章 -->
-    <insert id="addArticle" parameterType="Article">
-        insert into
-            article_table (article_author,article_title,article_body,article_time,article_md,article_tag,user_id)
-        values
-               (#{article_author},#{article_title},#{article_body},#{article_time},#{article_md},#{article_tag},#{user_id})
-    </insert>
-
-    <!--  修改文章内容  -->
-    <update id="updateArticle" parameterType="Article">
-        update
-            article_table
-        set
-            article_title=#{article_title}, article_time=#{article_time}, article_md=#{article_md}, article_tag=#{article_tag}
-        where
-            article_id = #{article_id}
-    </update>
 
 
 </mapper>

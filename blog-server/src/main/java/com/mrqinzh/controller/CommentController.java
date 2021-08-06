@@ -1,17 +1,12 @@
 package com.mrqinzh.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.mrqinzh.entity.*;
-import com.mrqinzh.service.MsgService;
-import com.mrqinzh.service.MyCommentService;
+import com.mrqinzh.model.entity.*;
+import com.mrqinzh.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -19,59 +14,26 @@ import java.util.Map;
 public class CommentController {
 
     @Autowired
-    private MsgService msgService;
+    private CommentService commentService;
 
-    @Autowired
-    private MyCommentService myCommentService;
-
-    @RequestMapping(value = "/list", method = {RequestMethod.GET})
-    public Resp<List<MyComment>> list() {
-        List<MyComment> myComments = myCommentService.preOrder();
-        return Resp.success(myComments);
+    @GetMapping(value = "/list")
+    public Resp<List<Comment>> list() {
+        List<Comment> comments = commentService.preOrder();
+        return Resp.success(comments);
     }
 
-    @GetMapping("/{id}")
-    public Resp<List<MyComment>> loadComment(@PathVariable("id") int articleId) {
-        return Resp.success(myCommentService.all(articleId));
+    @GetMapping("/id")
+    public Resp<List<Comment>> loadComment(@PathVariable("id") int articleId) {
+        return Resp.success(commentService.all(articleId));
     }
 
     @PostMapping("/add")
-    public Resp<String> add(@RequestBody MyComment myComment, HttpServletRequest req) {
+    public Resp<String> add(@RequestBody Comment comment, HttpServletRequest req) {
         User user = (User) req.getAttribute("user");
-        myComment.setUser_id(user.getId());
-        myCommentService.addComment(myComment);
+        comment.setUser_id(user.getId());
+        commentService.addComment(comment);
 
         return Resp.success("success");
-    }
-
-    /* ================================================  留言部分方法  ======================================================== */
-
-    @PostMapping("/addMsg")
-    public Resp<String> addMsg(@RequestBody LeaveMsg leaveMsg, HttpServletRequest req){
-        User user = (User) req.getAttribute("user");
-        leaveMsg.setUser_id(user.getId());
-
-        int i = msgService.addMsg(leaveMsg);
-        return i==1 ? new Resp<>("200","添加成功","") : Resp.error("500","添加失败");
-    }
-
-    /**
-     * 分页获取所有的留言
-     * @param currentPage   当前页
-     * @param pageSize  每页大小
-     * @return  封装返回信息  count： 总的数量     list： 查询结果集
-     */
-    @RequestMapping("/all/{currentPage}/{pageSize}")
-    public Map<String,Object> showAll(@PathVariable("currentPage")int currentPage, @PathVariable("pageSize")int pageSize){
-        Map<String,Object> map = new HashMap<>();
-
-        PageHelper.startPage(currentPage,pageSize);
-        List<LeaveMsg> allMsg = msgService.findAllMsg();
-        PageInfo<LeaveMsg> pageInfo = new PageInfo<>(allMsg);
-        map.put("count",pageInfo.getTotal());
-        map.put("list",pageInfo.getList());
-
-        return map;
     }
 
 }

@@ -1,9 +1,9 @@
 package com.mrqinzh.service.Impl;
 
 import com.mrqinzh.mapper.ArticleMapper;
-import com.mrqinzh.mapper.MyCommentMapper;
-import com.mrqinzh.entity.Article;
-import com.mrqinzh.entity.Page;
+import com.mrqinzh.mapper.CommentMapper;
+import com.mrqinzh.model.dto.PageDTO;
+import com.mrqinzh.model.entity.Article;
 import com.mrqinzh.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleMapper articleMapper;
 
     @Autowired
-    private MyCommentMapper myCommentMapper;
+    private CommentMapper commentMapper;
 
 
     @Override
@@ -31,13 +31,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> orderArticles(Page page) {
-        return articleMapper.orderArticles(page);
+    public List<Article> orderArticles(PageDTO pageDTO) {
+        return articleMapper.orderArticles(pageDTO);
     }
 
     @Override
     public int delArticle(int id) {
-        myCommentMapper.delByArtId(id);
+        commentMapper.delByArtId(id);
         return articleMapper.delArticle(id);
     }
 

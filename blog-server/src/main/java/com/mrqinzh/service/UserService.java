@@ -1,9 +1,7 @@
 package com.mrqinzh.service;
 
-import com.mrqinzh.entity.User;
+import com.mrqinzh.model.entity.User;
 import com.mrqinzh.util.Resp;
-
-import java.util.List;
 
 public interface UserService {
 

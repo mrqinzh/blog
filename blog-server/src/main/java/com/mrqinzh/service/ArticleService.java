@@ -1,13 +1,13 @@
 package com.mrqinzh.service;
 
-import com.mrqinzh.entity.Article;
-import com.mrqinzh.entity.Page;
+import com.mrqinzh.model.dto.PageDTO;
+import com.mrqinzh.model.entity.Article;
 
 import java.util.List;
 
 public interface ArticleService {
 
-    List<Article> orderArticles(Page page); // 排序全部文章、以及分页
+    List<Article> orderArticles(PageDTO pageDTO); // 排序全部文章、以及分页
 
     Article findByArticleId(int id); // 根据文章id展示当前文章
 

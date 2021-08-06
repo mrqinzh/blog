@@ -1,6 +1,5 @@
-package com.mrqinzh.entity;
+package com.mrqinzh.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,12 +12,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MyComment implements Serializable {
+public class Comment implements Serializable {
 
     private int id;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date comment_time;
     private String comment_content;
+    private String comment_type;
 
     private int user_id;
     private User user;
@@ -27,6 +28,6 @@ public class MyComment implements Serializable {
     private Article article;
 
     private int parent_id;
-    private List<MyComment> comments;
+    private List<Comment> comments;
 
 }

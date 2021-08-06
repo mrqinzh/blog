@@ -1,8 +1,8 @@
 package com.mrqinzh.service.Impl;
 
 import com.mrqinzh.mapper.UserMapper;
-import com.mrqinzh.entity.User;
-import java.util.List;
+import com.mrqinzh.model.entity.User;
+
 import java.util.UUID;
 
 import com.mrqinzh.service.UserService;

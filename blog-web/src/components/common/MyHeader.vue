@@ -55,7 +55,7 @@ export default {
       }).then((action) => {
         // action分别为confirm（确认），cancel（取消），close（关闭）的时候分别触发回调。
         if(action === 'confirm'){
-          getRequest('/login/logout').then(resp => {
+          getRequest('/logout').then(resp => {
             this.$message.success(resp.data.body);
             localStorage.removeItem('token');
             this.$router.replace({path:'/login'});

@@ -32,39 +32,6 @@
             </el-form-item>
           </el-form>
         </div>
-        <div>
-          <!-- 注册Form -->
-          <el-dialog title="注册账号" :visible.sync="openRegisterForm" :before-close="quitReg" v-loading="loading">
-            <el-form :model="registerForm" ref="registerForm" :rules="passRule" status-icon label-position="right" label-width="100px">
-              <el-form-item label="用户昵称">
-                <el-input v-model="registerForm.uname" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="登录邮箱" prop="email"
-              :rules="[
-              { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-              { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]">
-                <el-input v-model="registerForm.email" autocomplete="off">
-                </el-input>
-              </el-form-item>
-              <el-form-item label="电话" prop="tel" 
-              :rules="[
-                { required: true, message: '电话号码不能为空'},
-                { type: 'number', message: '输入错误字符'}]">
-                <el-input v-model.number="registerForm.tel" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="密码" prop="password">
-                <el-input type="password" v-model="registerForm.password" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="确认密码" prop="checkPass">
-                <el-input type="password" v-model="registerForm.checkPass" autocomplete="off"></el-input>
-              </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="openRegisterForm = false">取 消</el-button>
-              <el-button type="primary" @click="submitForm('registerForm');">确 定</el-button>
-            </div>
-          </el-dialog>
-        </div>
       </el-col>
     </el-row>
     
@@ -77,28 +44,7 @@ import { postRequest } from '../utils/api'
 const Base64 = require('js-base64').Base64
 export default {
   data() {
-    // 密码验证
-    var validatePass = (rule, value, callback) => {
-        if (value === '') {
-            callback(new Error('请输入密码'));
-        } else {
-        if (this.registerForm.checkPass !== '') {
-            this.$refs.registerForm.validateField('checkPass');
-        }
-        callback();
-        }
-    };
-    var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-            callback(new Error('请再次输入密码'));
-        } else if (value !== this.registerForm.password) {
-            callback(new Error('两次输入密码不一致!'));
-        } else {
-            callback();
-        }
-    };
     return {
-      openRegisterForm: false,
       loading: false,
       labelPosition: 'right',
       // 登录表单
@@ -107,67 +53,9 @@ export default {
           password: '',
           remember: false
       },
-      // 注册表单
-      registerForm: {
-        uname: '',
-        email: '',
-        tel: '',
-        password: '',
-        checkPass: '',
-      },
-      // 注册表单密码验证规则
-      passRule: {
-        password: [
-          { validator: validatePass, trigger: 'blur' }
-        ],
-        checkPass: [
-          { validator: validatePass2, trigger: 'blur' }
-        ],
-      },
     }
   },
   methods: {
-    // 表单验证方法
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        this.loading = true;
-        if (valid) {
-          //console.log('submit!');
-          let param = {
-            uname: this.registerForm.uname,
-            email: this.registerForm.email,
-            tel: this.registerForm.tel,
-            password: this.registerForm.checkPass,
-          }
-          postRequest('/login/reg',param).then(resp => {
-            // console.log(resp);
-            const h = this.$createElement;
-            if (resp.data === "success") {
-              this.$notify({
-                type: 'success',
-                title: '消息提示',
-                duration: 2000,
-                message: h('b', { style: 'color: teal'}, '成功注册，可以登录了哦'),
-              });
-              this.loading = false;
-              this.openRegisterForm = false;
-            }
-          },
-          error => {
-            //console.log(error)
-            this.$message({
-              type: 'error',
-              message: '注册失败了',
-            });
-            this.loading = false;
-          })
-        } else {
-          this.openRegisterForm = true;
-          this.loading = false;
-          return false;
-        }
-      });
-    },
     // 登录提交方法
     loginSubmit() {
       if(this.loginForm.uid === ""){
@@ -183,15 +71,15 @@ export default {
         uid: this.loginForm.uid,
         password: this.loginForm.password,
       };
-      postRequest('/login/isLogin',param).then(resp => {
-        // console.log(resp);
-        if (resp.data.message === "success") {
+      postRequest('/login',param).then(resp => {
+        console.log(resp);
+        if (resp.data.success) {
           this.$message.success('登录成功');
           this.setUserInfo(); // 记住我功能实现
-          localStorage.setItem("token",resp.data.body);
+          localStorage.setItem("token",resp.data.data);
           this.$router.replace({path: "/"}) // , query: {userid: this.loginForm.uid}
         } else {
-          this.$message.error(resp.data.message);
+          this.$message.error(resp.data.data);
           this.loading = false;
         };
       },
@@ -200,16 +88,6 @@ export default {
         this.$message.error('服务器错误');
         this.loading = false;
       });
-    },
-    // 关闭注册表单方法
-    quitReg() {
-      this.$confirm('蒸的要取消注册了吗?', '提示',{
-        iconClass: 'layui-icon layui-icon-face-cry',
-      })
-      .then(_ => {
-        this.openRegisterForm = false;
-      })
-      .catch(_ => {});
     },
     // 储存表单信息  记住我功能
     setUserInfo () {

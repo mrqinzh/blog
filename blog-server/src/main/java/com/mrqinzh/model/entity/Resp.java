@@ -1,4 +1,4 @@
-package com.mrqinzh.entity;
+package com.mrqinzh.model.entity;
 
 /**
  * 统一响应的格式

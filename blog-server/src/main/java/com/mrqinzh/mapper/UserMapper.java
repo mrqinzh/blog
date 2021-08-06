@@ -1,6 +1,6 @@
 package com.mrqinzh.mapper;
 
-import com.mrqinzh.entity.User;
+import com.mrqinzh.model.entity.User;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

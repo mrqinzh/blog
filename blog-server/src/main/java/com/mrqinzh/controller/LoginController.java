@@ -1,7 +1,7 @@
 package com.mrqinzh.controller;
 
 import com.mrqinzh.util.Resp;
-import com.mrqinzh.entity.User;
+import com.mrqinzh.model.entity.User;
 import com.mrqinzh.service.UserService;
 import com.mrqinzh.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;

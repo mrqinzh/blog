@@ -1,8 +1,8 @@
 package com.mrqinzh.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mrqinzh.entity.Resp;
-import com.mrqinzh.entity.User;
+import com.mrqinzh.model.entity.Resp;
+import com.mrqinzh.model.entity.User;
 import com.mrqinzh.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

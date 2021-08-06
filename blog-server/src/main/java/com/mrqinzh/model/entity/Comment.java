@@ -14,20 +14,21 @@ import java.util.List;
 @NoArgsConstructor
 public class Comment implements Serializable {
 
-    private int id;
+    private Integer id;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date comment_time;
     private String comment_content;
     private String comment_type;
+    private Integer status;
 
-    private int user_id;
+    private Integer user_id;
     private User user;
 
-    private int article_id;
+    private Integer article_id;
     private Article article;
 
-    private int parent_id;
+    private Integer parent_id;
     private List<Comment> comments;
 
 }

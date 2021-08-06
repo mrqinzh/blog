@@ -3,6 +3,7 @@ package com.mrqinzh.mapper;
 import com.mrqinzh.model.entity.Comment;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,16 +12,10 @@ import java.util.List;
 @Repository
 public interface CommentMapper {
 
-    List<Comment> all(int articleId);
+    @Select("select * from comment where article_id = #{articleId}")
+    List<Comment> list(Integer articleId);
 
-    int addComment(Comment comment);
+    int add(Comment comment);
 
-    @Delete("delete from mycomment where article_id = #{article_id}")
-    int delByArtId(int articleId);
-
-    /**
-     * 最新评论
-     * @return
-     */
-    List<Comment> preOrder();
+    int delete(Integer articleId);
 }

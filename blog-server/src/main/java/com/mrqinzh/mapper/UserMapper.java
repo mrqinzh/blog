@@ -11,13 +11,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper {
 
-    @Select("select * from user_table")
+    @Select("select * from user")
     List<User> findAllUser(); // 查询所有用户
 
-    @Select("select * from user_table where uid = #{uid} or tel=#{uid} or email=#{uid}")
-    User logByUidEmailTel(String uid); // 登录方法
-
-    @Update("update user_table set head_img = #{head_img} where uid = #{uid}")
-    int updateUserInfo(User user); // 更新用户的信息
+    @Select("select * from user where user_name = #{usernameOrEmail} or user_email = #{usernameOrEmail}")
+    User getByUsernameOrEmail(String usernameOrEmail); // 登录方法
 
 }

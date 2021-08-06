@@ -1,0 +1,38 @@
+server:
+  port: 9090
+
+#logging.level.com.qin.mapper : debug
+
+mybatis:
+  type-aliases-package: com.qin.pojo
+  mapper-locations: classpath:mapper/*.xml
+
+spring:
+  datasource:
+    url: jdbc:mysql://47.108.209.62:3306/myweb?useSSL=false&serverTimezone=UTC&characterEncoding=utf-8    #  jdbc:mysql://localhost:3306/myweb?useSSL=false&serverTimezone=UTC&characterEncoding=utf-8   jdbc:mysql://47.108.209.62:3306/myweb?useSSL=false&serverTimezone=UTC&characterEncoding=utf-8
+    username: root
+    password: '000928'
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  # Redis配置
+  # Redis服务器地址
+  redis:
+    host: 47.108.209.62
+    port: 6379  # 端口
+    password: '000928'
+    database: 0  # 数据库索引
+    lettuce:
+      pool:
+        max-active: 50  # 最大连接数
+        max-wait: 3000  # 最大阻塞等待时间
+        max-idle: 20  # 最大空闲连接
+        min-idle: 2  # 最小空间连接
+    timeout: 60000 # 连接超时时间（毫秒）
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+
+

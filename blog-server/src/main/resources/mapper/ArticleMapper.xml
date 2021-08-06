@@ -3,7 +3,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qin.mapper.ArticleMapper">
+<mapper namespace="com.mrqinzh.mapper.ArticleMapper">
 
     <cache />
 
@@ -33,7 +33,7 @@
         ORDER BY
             a.article_time DESC
     </select>
-    <resultMap id="myBlog" type="com.qin.pojo.Article">
+    <resultMap id="myBlog" type="com.mrqinzh.entity.Article">
         <id column="article_id" property="article_id" />
         <result column="article_author" property="article_author" />
         <result column="article_title" property="article_title" />
@@ -41,7 +41,7 @@
         <result column="article_tag" property="article_tag" />
         <result column="article_time" property="article_time" />
         <result column="article_md" property="article_md" />
-        <association property="user" javaType="com.qin.pojo.User">
+        <association property="user" javaType="com.mrqinzh.entity.User">
             <id property="id" column="id" />
             <result property="name" column="name" />
         </association>

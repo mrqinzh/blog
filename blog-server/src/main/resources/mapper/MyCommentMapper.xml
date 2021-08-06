@@ -3,7 +3,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qin.mapper.MyCommentMapper">
+<mapper namespace="com.mrqinzh.mapper.MyCommentMapper">
 
     <cache />
 
@@ -14,11 +14,11 @@
         <result column="parent_id" property="parent_id" />
         <result column="comment_content" property="comment_content" />
         <result column="comment_time" property="comment_time" />
-        <association property="user" javaType="com.qin.pojo.User">
+        <association property="user" javaType="com.mrqinzh.entity.User">
             <result column="uname" property="uname" />
             <result column="head_img" property="head_img" />
         </association>
-        <association property="article" javaType="com.qin.pojo.Article">
+        <association property="article" javaType="com.mrqinzh.entity.Article">
             <result column="article_title" property="article_title" />
         </association>
     </resultMap>

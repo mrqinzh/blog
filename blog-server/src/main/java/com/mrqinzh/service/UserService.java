@@ -1,15 +1,13 @@
 package com.mrqinzh.service;
 
 import com.mrqinzh.entity.User;
+import com.mrqinzh.util.Resp;
+
 import java.util.List;
 
 public interface UserService {
 
-    List<User> findAllUser(); // 查询所有用户
-
-    User logByUidEmailTel(String uid); // 登录方法
-
-    int regUser(User user); // 用户注册
+    Resp findByUidEmailTel(User user); // 登录方法
 
     int updateUserInfo(User user); // 更新用户的信息
 }

@@ -8,11 +8,11 @@
         <version>2.4.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.qin</groupId>
-    <artifactId>vueserver</artifactId>
+    <groupId>com.mrqinzh</groupId>
+    <artifactId>blog-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>vueserver</name>
-    <description>Demo project for Spring Boot</description>
+    <name>blog-server</name>
+    <description>My Blog Server</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -27,12 +27,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
-        </dependency>
-        <!-- shiro整合 -->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring-boot-web-starter</artifactId>
-            <version>1.5.3</version>
         </dependency>
         <!-- pageHelper -->
         <dependency>
@@ -49,6 +43,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
         </dependency>
+        <!-- mybatis-plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.0.6</version>
+        </dependency>
+        <!-- mybatis -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -59,11 +60,13 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.46</version>
         </dependency>
+        <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.10</version>
         </dependency>
+        <!-- spring-mvc -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

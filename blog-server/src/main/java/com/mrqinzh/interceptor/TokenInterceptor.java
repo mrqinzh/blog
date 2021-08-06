@@ -19,12 +19,14 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
-        String token = req.getHeader("Authorization");
+
+        String token = req.getHeader("token");
         System.out.println(token);
 
         if (redisUtil.hasKey(token)) {
             User user = (User) redisUtil.get(token);
-            req.setAttribute("user", user);
+
+            req.setAttribute("user", user); // 将信息存入request对象
             return true;
         }
         resp.setContentType("text/json; charset=utf-8");

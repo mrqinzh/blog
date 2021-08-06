@@ -1,11 +1,7 @@
 server:
   port: 9090
 
-#logging.level.com.mrqinzh.mapper : debug
-
-mybatis:
-  type-aliases-package: com.mrqinzh.entity
-  mapper-locations: classpath:mapper/*.xml
+logging.level.com.mrqinzh.mapper : debug
 
 spring:
   datasource:
@@ -35,4 +31,6 @@ spring:
       enabled: true
       max-file-size: 10MB
 
-
+mybatis-plus:
+  type-aliases-package: com.mrqinzh.entity
+  mapper-locations: classpath:mapper/*.xml

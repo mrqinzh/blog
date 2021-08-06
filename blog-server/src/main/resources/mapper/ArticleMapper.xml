@@ -7,16 +7,6 @@
 
     <cache />
 
-    <!--  获取指定的文章信息  -->
-    <select id="findByArticleId" resultType="Article">
-        SELECT
-               *
-        FROM
-             article_table
-        WHERE
-              article_id = #{article_id}
-    </select>
-
     <!--  加载用户个人的博客信息  -->
     <select id="findByUserId" resultMap="myBlog">
         SELECT
@@ -81,13 +71,5 @@
             article_id = #{article_id}
     </update>
 
-    <!--  删除文章  -->
-    <delete id="delArticle">
-        DELETE
-        FROM
-             article_table
-        WHERE
-              article_id = #{article_id}
-    </delete>
 
 </mapper>

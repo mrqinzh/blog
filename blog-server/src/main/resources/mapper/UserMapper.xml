@@ -5,39 +5,5 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mrqinzh.mapper.UserMapper">
 
-    <select id="findAllUser" resultType="User">
-        select
-               uid,name,uname,sex,tel,birth,email,address
-        from
-             user_table
-    </select>
-
-    <select id="logByUidEmailTel" resultType="User" parameterType="java.lang.String">
-        select
-               *
-        from
-             user_table
-        where
-              uid = #{uid} or tel=#{uid} or email=#{uid}
-    </select>
-
-    <insert id="regUser" parameterType="User">
-        insert into
-            user_table (uid, uname, head_img, tel, email, password, salt)
-        values
-               (#{uid}, #{uname}, #{head_img}, #{tel}, #{email}, #{password}, #{salt})
-    </insert>
-
-
-    <!--  更新用户信息  -->
-    <update id="updateUserInfo" parameterType="User">
-        update
-            user_table
-        set
-            head_img = #{head_img}
-        where
-            uid = #{uid}
-    </update>
-
 
 </mapper>

@@ -8,12 +8,9 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 用户留言实体类
- */
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class LeaveMsg implements Serializable {
 
     private int id;

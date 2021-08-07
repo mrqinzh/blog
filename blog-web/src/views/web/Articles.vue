@@ -45,7 +45,7 @@
                 </div>
               </el-timeline-item>
               <el-timeline-item
-              :timestamp="allBlogs[index].article_time" 
+              :timestamp="allBlogs[index].articleUpdateTime" 
               placement="top" 
               size="large"
               :color="'#409EFF'"
@@ -54,16 +54,17 @@
                   <div class="card">
                     <i class="el-icon-caret-left" style="float: left;margin: 10px 0 0 -15px;font-size: 20px;color: #dedede;"></i>
                     <div class="card_head">
-                      <span><a  @click="showBlog(item.article_id)">{{ item.article_title }}</a></span>
+                      <span><a  @click="showBlog(item.id)">{{ item.articleTitle }}</a></span>
                     </div>
                     <hr>
                     <div class="card_foot">
-                      <a-tag color="#87d068">原创</a-tag>
+                      <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
+                      <a-tag color="#f50" v-else>转载</a-tag>
                       <i class="el-icon-s-custom"></i>
-                      <span><a style="color: #898d92">{{ item.article_author }}</a></span>
+                      <span><a style="color: #898d92">{{ item.articleAuthor }}</a></span>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <i class="el-icon-price-tag"></i>
-                      <span><a style="color: #898d92">{{ item.article_tag }}</a></span>
+                      <span><a style="color: #898d92">{{ item.articleTag }}</a></span>
                     </div>
                   </div>
                 </div>
@@ -89,8 +90,7 @@
 </template>
 
 <script>
-import { postRequest } from '../../utils/api'
-import { getRequest } from '../../utils/api'
+import { postRequest, getRequest } from '@/utils/api'
 export default {
   data(){
     return {
@@ -141,14 +141,11 @@ export default {
     },
     // 加载博客
     loadBlogs(currentPage, pageSize, condition) {
-      postRequest('/article/orderArticle', {
-        currentPage: currentPage,
-        pageSize: pageSize,
-        condition: condition,
-      }).then(resp => {
-        // console.log(resp);
-        this.allBlogs = resp.data.list;
-        this.totalCount = resp.data.count; //获取数据行数
+      let url = `/article/list?currentPage=${currentPage}&pageSize=${pageSize}&condition=${condition}`
+      getRequest(url).then(resp => {
+        console.log(resp);
+        this.allBlogs = resp.data.rows;
+        this.totalCount = resp.data.total; //获取数据行数
         this.loading = false;
       })
     },

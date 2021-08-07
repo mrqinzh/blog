@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrqinzh.mapper.CommentMapper">
+
+    <resultMap id="baseMap" type="com.mrqinzh.model.entity.Comment">
+        <id property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="articleId" column="article_id" />
+        <result property="commentContent" column="comment_content" />
+        <result property="commentTime" column="comment_time" />
+        <result property="parentId" column="parent_id" />
+        <association property="user" javaType="com.mrqinzh.model.entity.User">
+            <result property="nickname" column="nickname" />
+            <result property="userAvatar" column="user_avatar" />
+        </association>
+        <association property="article" javaType="com.mrqinzh.model.entity.Article">
+            <result property="articleTitle" column="article_title" />
+        </association>
+    </resultMap>
+
+    <select id="getById" resultMap="baseMap">
+        SELECT
+            *
+        FROM
+            `comment` c
+        LEFT JOIN `user` u ON c.user_id = u.id
+        LEFT JOIN article a ON a.id = c.article_id
+        WHERE
+            1 = 1
+        <if test=" type == 'userId'">
+            and user_id = #{id}
+        </if>
+        <if test=" type == 'articleId'">
+            and article_id = #{id}
+        </if>
+    </select>
+
+    <insert id="add">
+
+    </insert>
+
+</mapper>

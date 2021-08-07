@@ -4,7 +4,7 @@
   <el-drawer
     :visible.sync="drawer"
     size="20%"
-    :direction="direction">
+    direction="ltr">
     <template slot="title">
       <h2>感谢你的访问&nbsp;&nbsp;<a-icon type="smile" /></h2>
     </template>
@@ -48,18 +48,7 @@
       <!-- 中间 -->
       <el-col :xs="24" :sm="24" :md="14" :lg="14" :xl="14" v-loading="loading">
         <!-- 头部滚动栏 -->
-        <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);" class="animate__animated animate__fadeInUp">
-          <i class="layui-icon layui-icon-speaker" style="margin-left: 10px;font-size: 30px;color: #c26565"></i>
-          <div class="roll">
-            <ul>
-              <li v-for="(item, index) in ulList" 
-              :key="item.id" 
-              :class="!index && play ? 'toUp' : ''">
-                <span>{{item.msg}}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <Notice></Notice>
 
         <!-- 中间左侧文章列表部分 -->
         <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="17">
@@ -69,23 +58,24 @@
                 <div style="padding: 15px 0 0 20px;">
                   <blockquote style="border-left: 4px solid #409EFF">
                     <h1 style="padding-left: 10px">
-                      <a class="boxchilde" @click="showBlog(item.article_id)">
-                        <span>{{item.article_title}}</span>
+                      <a class="boxchilde" @click="showBlog(item.id)">
+                        <span>{{item.articleTitle}}</span>
                       </a>
                     </h1>
                   </blockquote>
                 </div>
-                <div class="info">
-                  <span><a-tag color="#87d068">原创</a-tag></span>
-                  <span><i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.article_author}}</a></span>
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span><i class="el-icon-date"></i>&nbsp;&nbsp;<a>{{item.article_time}}</a></span>
+                <div style="margin: 10px 0 0 20px;">
+                    <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
+                    <a-tag color="#f50" v-else>转载</a-tag>
+                    <i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.articleAuthor}}</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="el-icon-date"></i>&nbsp;&nbsp;<a>{{item.articleUpdateTime}}</a>
                 </div>
                 <div class="content">
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.article_body }}。。。</span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.articleSummary }}。。。</span>
                 </div>
-                <hr>
                 <div class="foot">
-                  <span v-for="(tag, index) in item.article_tag.split(',')" :key="index">
+                  <span v-for="(tag, index) in item.articleTag.split(',')" :key="index">
                     <i class="layui-icon layui-icon-note"></i>&nbsp;&nbsp;<a>{{tag}}</a>&nbsp;&nbsp;
                   </span>
                   <span style="float: right;margin: 0 20px 10px 0;">
@@ -95,26 +85,25 @@
                     <a style="color: red">
                       <a-icon type="heart" @click="like()"/>
                     </a>
-                    <a style="color: red">
+                    <a style="color: red;text-decoration:none; ">
                       <a-icon type="fire" />
+                      <span>{{item.articleViews}}</span>
                     </a>
                   </span>
                 </div>
-                
               </div>
             </div>
-            <div style="text-align: center;margin-top: 20px">
-              <!-- 分页 -->
-              <el-pagination
-                v-if="totalCount > 10"
-                background
-                layout="prev, pager, next"
-                :page-size="pageSize"
-                :total="totalCount"
-                :current-page="currentPage"
-                @current-change="changePageNum">
-              </el-pagination>
-            </div>
+            <!-- 分页 -->
+            <el-pagination
+              v-show="totalCount > 10"
+              background
+              layout="prev, pager, next"
+              :page-size="pageSize"
+              :total="totalCount"
+              :current-page="currentPage"
+              @current-change="changePageNum"
+              style="text-align: center;margin-top: 20px">
+            </el-pagination>
           </div>
         </el-col>
         
@@ -122,9 +111,7 @@
         <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="7">
           <div class="animate__animated animate__fadeInRight">
             <!-- 搜索文章按钮 -->
-            <div style="margin-top: 30px">
-              <SearchBtn></SearchBtn>
-            </div>
+            <SearchBtn style="margin-top: 30px;"></SearchBtn>
             <!-- 左边个人信息简介 -->
             <div class="user-card">
               <!-- 头像 -->
@@ -134,13 +121,12 @@
                 action="#"
                 :show-file-list="false"
                 :http-request="uploadSectionFile">
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="@/assets/static/img/touxiang.jpg" title="点击更换头像">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  <img src="http://localhost:9090/img/avatar.jpg" class="avatar">
                 </el-upload>
               </div>
               <!-- 姓名、座右铭 -->
-              <div style="font-family: STKaiti">
-                <span style="font-size: 20px;">{{user.name}}</span><br>
+              <div style="font-family: STKaiti;font-size: 20px;">
+                <span>{{user.name}}</span><br>
                 <span style="font-size: 15px;line-height: 2em">{{user.motto}}</span>
               </div>
               <div style="margin-top: 10px">
@@ -148,7 +134,6 @@
                   点击发现新世界
                 </el-button>
               </div>
-              <hr>
               <div>
                 <span style="letter-spacing: 1em;color: #67C23A">
                   <el-tooltip class="item" effect="dark" :content="user.vx" placement="bottom-start">
@@ -163,7 +148,7 @@
                 </span>
               </div>
             </div>
-            <OrderComment></OrderComment>
+            <!-- <OrderComment></OrderComment> -->
             <LinkCard></LinkCard>
             <!-- <WebInfo></WebInfo> -->
           </div>
@@ -179,29 +164,25 @@
 </template>
 
 <script>
+import Notice from '@/components/web/index/Notice'
 import WebInfo from '@/components/partial/WebInfo'
 import SearchBtn from '@/components/partial/SearchBtn'
 import LinkCard from '@/components/partial/LinkCard';
 import OrderComment from '@/components/partial/OrderComment'
 import {logOrNot } from '@/utils/utils'
-import { postRequest, uploadFileRequest } from '@/utils/api'
+import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
   export default {
     components: {
       'LinkCard': LinkCard,
       'SearchBtn': SearchBtn,
       'WebInfo': WebInfo,
       'OrderComment': OrderComment,
+      'Notice': Notice,
     },
     data() {
       return {
         loading: true,
-        // 公告
-        play: false,
-        ulList: [
-          { msg: '只要学不死，就往死里学。当你牛逼到一定程度时，你就有了话语权。累了看看父母，倦了想想未来。' },
-          { msg: '不同的人，即使站在同一个地方，透过各自的人生，看到的风景也有所不同。' },
-          { msg: '曾经我以为：孤独是世界上只剩一个人。现在我认为：孤独是自己竟能成为一个世界。' },
-        ],
+        
         // 用户信息
         user: {
           name: '秦志宏',
@@ -216,7 +197,6 @@ import { postRequest, uploadFileRequest } from '@/utils/api'
         pageSize: 10,
         // 抽屉
         drawer: false,
-        direction: 'ltr',
 
         // 中间博客文章部分
         articles: [],
@@ -225,21 +205,16 @@ import { postRequest, uploadFileRequest } from '@/utils/api'
         count_time: '00:00:00',
         start_use_time: '2021-04-17 16:30:00',
 
-        imageUrl: '@/assets/static/img/touxiang.jpg', // 用户头像url 设置了默认头像
-
         log: false, // 判断是否登录
       }
     },
     methods: {
       // 加载博客
       loadBlogs(currentPage, pageSize) {
-        postRequest('/article/orderArticle', {
-          currentPage: currentPage,
-          pageSize: pageSize,
-        }).then(resp => {
+        getRequest(`/article/list?currentPage=${currentPage}&pageSize=${pageSize}`).then(resp => {
           // console.log(resp);
-          this.articles = resp.data.list;
-          this.totalCount = resp.data.count; //获取数据行数
+          this.articles = resp.data.rows;
+          this.totalCount = resp.data.total; //获取数据行数
 
           this.loading = false;
         });
@@ -253,16 +228,6 @@ import { postRequest, uploadFileRequest } from '@/utils/api'
       changePageNum(val) {
         this.currentPage = val;
         this.loadBlogs(this.currentPage, this.pageSize);
-      },
-      // 头部公告滚动
-      startPlay() {
-        let that = this
-        that.play = true //开始播放
-        setTimeout(() => {
-          that.ulList.push(that.ulList[0]) //将第一条数据塞到最后一个
-          that.ulList.shift() //删除第一条数据
-          that.play = false //暂停播放
-        }, 500)
       },
       // 计算网页运行时长
       countTime (startTime) {
@@ -307,18 +272,13 @@ import { postRequest, uploadFileRequest } from '@/utils/api'
           // console.log(resp)
           if(resp.data.message === "success"){
             this.imageUrl = resp.data.body;
-            localStorage.setItem("head_img_url",resp.data.body);
           } else {
             this.$message.info(resp.data.message);
           }
-        },
-        err => {
-          this.$message.error('服务器好像出了点小问题');
-          this.imageUrl = '@/assets/static/img/touxiang.jpg';
         });
       },
 
-      // 点击文章列表的 图片 方法
+      // 点击文章列表的 图标 方法
       like(){
         this.$message.success('谢谢你de支持 -> ^_^')
       }
@@ -326,14 +286,7 @@ import { postRequest, uploadFileRequest } from '@/utils/api'
     },
 
     mounted() {
-      // console.log(localStorage.getItem("head_img_url"));
-      if(localStorage.getItem("head_img_url") != null){
-        this.imageUrl = localStorage.getItem("head_img_url");
-      } else {
-        this.imageUrl = '@/assets/static/img/touxiang.jpg';
-      }
       
-      setInterval(this.startPlay, 4000);
       // console.log(logOrNot())
       this.loadBlogs(this.currentPage, this.pageSize);
       this.log = logOrNot();
@@ -357,9 +310,6 @@ import { postRequest, uploadFileRequest } from '@/utils/api'
   .mystory:hover {
     transform: translate(0, -5px);
     box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
-  }
-  .info {
-    margin: 10px 0 0 20px;
   }
   .content {
     margin: 10px;
@@ -398,31 +348,6 @@ import { postRequest, uploadFileRequest } from '@/utils/api'
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     font-size: 18px;
     background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
-  }
-
-  /* 滚动栏 */
-  .roll {
-    display: inline-block;
-    height: 21px;
-    position: relative;
-    overflow: hidden;
-    margin-left: 10px;
-  }
-  .roll ul {
-    list-style: none;
-    overflow: hidden;
-    height: 20px;
-    padding: 0;
-    margin: 0;
-  }
-  .roll li {
-    text-align: left;
-    height: 20px;
-    line-height: 20px;
-  }
-  .toUp {
-    margin-top: -20px;
-    transition: all 1s;
   }
 
   /* 头像上传的css */

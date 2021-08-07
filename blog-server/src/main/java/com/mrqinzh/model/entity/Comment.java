@@ -16,19 +16,21 @@ public class Comment implements Serializable {
 
     private Integer id;
 
+    private String commentContent;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
-    private Date comment_time;
-    private String comment_content;
-    private String comment_type;
+    private Date commentTime;
+
+    private String commentType;
     private Integer status;
 
-    private Integer user_id;
+    private Integer userId;
     private User user;
 
-    private Integer article_id;
+    private Integer articleId;
     private Article article;
 
-    private Integer parent_id;
+    private Integer parentId;
     private List<Comment> comments;
 
 }

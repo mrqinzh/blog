@@ -3,6 +3,7 @@ package com.mrqinzh.service.Impl;
 import com.mrqinzh.mapper.CommentMapper;
 import com.mrqinzh.model.entity.Comment;
 import com.mrqinzh.service.CommentService;
+import com.mrqinzh.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,26 +17,43 @@ public class CommentServiceImpl implements CommentService {
     private CommentMapper commentMapper;
 
     @Override
-    public List<Comment> all(int articleId) {
-        List<Comment> comments = commentMapper.all(articleId);
+    public Resp getListByArticleId(Integer articleId) {
+        List<Comment> comments = commentMapper.getListByArticleId(articleId);
 
         for (Comment comment : comments) {
-            if (comment.getParent_id() == 0) {
-                comment.setComments(comments.stream().filter(c -> c.getParent_id() == comment.getId()).collect(Collectors.toList()));
+            if (comment.getParentId() == 0) {
+                comment.setComments(comments.stream().filter(c -> c.getParentId() == comment.getId()).collect(Collectors.toList()));
             }
         }
 
-        return comments.stream().filter(c -> c.getParent_id() == 0).collect(Collectors.toList());
+        List<Comment> list = comments.stream().filter(c -> c.getParentId() == 0).collect(Collectors.toList());
+        return Resp.ok(list);
     }
 
     @Override
-    public void addComment(Comment comment) {
-        commentMapper.addComment(comment);
+    public void deleteByArticleId(Integer articleId) {
+        commentMapper.deleteByArticleId(articleId);
     }
 
     @Override
-    public List<Comment> preOrder() {
-        List<Comment> comments = commentMapper.preOrder();
-        return comments;
+    public void add(Comment comment) {
+        commentMapper.add(comment);
     }
+
+    @Override
+    public Resp getById(String type, Integer id) {
+
+        List<Comment> comments = commentMapper.getById(type, id);
+
+        for (Comment comment : comments) {
+            if (comment.getParentId() == 0) {
+                comment.setComments(comments.stream().filter(c -> c.getParentId() == comment.getId()).collect(Collectors.toList()));
+            }
+        }
+
+        List<Comment> list = comments.stream().filter(c -> c.getParentId() == 0).collect(Collectors.toList());
+        return Resp.ok(list);
+    }
+
+
 }

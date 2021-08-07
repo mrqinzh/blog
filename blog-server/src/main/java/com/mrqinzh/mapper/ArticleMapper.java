@@ -15,7 +15,6 @@ public interface ArticleMapper {
 
     List<Article> list(PageDTO pageDTO); // 排序全部文章、以及分页
 
-    @Select("select * from article where id = #{id}")
     Article getById(Integer articleId); // 根据文章id展示当前文章
 
     List<Article> getByUserId(Integer userId); // 根据UserId寻找当前User发表的文章

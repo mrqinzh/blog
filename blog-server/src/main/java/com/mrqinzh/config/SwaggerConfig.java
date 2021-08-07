@@ -24,12 +24,12 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(new ApiInfoBuilder()
-                        .title("SpringBoot整合Swagger")
-                        .description("SpringBoot整合Swagger，详细信息......")
-                        .version("1.0")
-                        .contact(new Contact("aaaa", "blog.csdn.net", "aa@qq.com"))
-                        .license("The Apache License")
-                        .licenseUrl("https://www.baidu.com")
+                        .title("个人博客网站")
+                        .description("对项目代码进行了重构")
+                        .version("2.0")
+                        .contact(new Contact("我的网站", "http://mrqinzh.info", "1552589784@qq.com"))
+                        .license("The Apache License2.0")
+                        .licenseUrl("https://gitee.com/mrqinzh/blog")
                         .build()
                 );
     }

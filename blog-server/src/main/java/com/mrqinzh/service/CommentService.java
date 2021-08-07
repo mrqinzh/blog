@@ -1,18 +1,20 @@
 package com.mrqinzh.service;
 
 import com.mrqinzh.model.entity.Comment;
+import com.mrqinzh.util.Resp;
 
 import java.util.List;
 
 public interface CommentService {
 
-    List<Comment> all(int articleId);
+    Resp getListByArticleId(Integer articleId);
 
-    void addComment(Comment comment);
+    void deleteByArticleId(Integer articleId);
 
-    /**
-     * 最新评论
-     * @return
-     */
-    List<Comment> preOrder();
+    void add(Comment comment);
+
+    Resp getById(String type, Integer id);
+
+
+
 }

@@ -1,9 +1,9 @@
 package com.mrqinzh.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mrqinzh.model.entity.Resp;
 import com.mrqinzh.model.entity.User;
 import com.mrqinzh.util.RedisUtil;
+import com.mrqinzh.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -26,12 +26,13 @@ public class TokenInterceptor implements HandlerInterceptor {
         if (redisUtil.hasKey(token)) {
             User user = (User) redisUtil.get(token);
 
-            req.setAttribute("user", user); // 将信息存入request对象
+            // 将信息存入request对象
+            req.setAttribute("user", user);
             return true;
         }
         resp.setContentType("text/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(new Resp<>("403", "权限不足", token));
+        String json = objectMapper.writeValueAsString(Resp.error("403", "权限不足"));
         resp.getWriter().write(json);
 
         return false;

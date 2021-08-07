@@ -22,11 +22,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
+        // 跨域拦截器
         registry.addInterceptor(new CorsInterceptor()).addPathPatterns("/**");
 
+        // token 验证拦截器
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/file/**")
-                .addPathPatterns("/article/add", "/article/myblog/**")
-                .addPathPatterns("/comment/add", "/comment/addMsg");
+                .addPathPatterns("/article/add")
+                .addPathPatterns("/comment/add");
     }
 }

@@ -46,13 +46,13 @@
 
               <div v-for="(item, index) in parentComments" :key="index">
                 <div style="display: inline-block;">
-                  <el-avatar :src="item.user.head_img"></el-avatar>
-                  <span style="font-size: 19px;margin-left: 20px">{{ item.user.uname}}</span>
-                  <span style="font-size: 17px;margin-left: 50px">评论时间： {{ item.comment_time}}</span>
+                  <el-avatar :src="item.user.userAvatar"></el-avatar>
+                  <span style="font-size: 19px;margin-left: 20px">{{ item.user.nickname}}</span>
+                  <span style="font-size: 17px;margin-left: 50px">评论时间： {{ item.commentTime}}</span>
                 </div>
                 <el-button style="margin-left: 50px"  @click="flag=index" type="primary" icon="el-icon-edit" size="mini">回复</el-button>
                 <p style="margin-left: 60px">
-                  <span>{{ item.comment_content}}</span>
+                  <span>{{ item.commentContent}}</span>
                 </p>
                 <!-- 点击显示回复框 -->
                 <div v-show="flag===index" style="margin: 20px">
@@ -62,11 +62,11 @@
                 <blockquote class="child_comment">
                   <div style="margin: 20px" v-for="(child, child_index) in item.comments" :key="child_index">
                     <div style="display: inline-block;">
-                      <el-avatar :src="child.user.head_img"></el-avatar>
-                      <span style="font-size: 16px;margin-left: 20px">{{ child.user.uname }}</span>
+                      <el-avatar :src="child.user.userAvatar"></el-avatar>
+                      <span style="font-size: 16px;margin-left: 20px">{{ child.user.nickname }}</span>
                     </div>
-                    <span style="font-size: 13px;margin-left: 50%;">评论时间： {{ child.comment_time }}</span>
-                    <p>{{ child.comment_content }}</p>
+                    <span style="font-size: 13px;margin-left: 50%;">评论时间： {{ child.commentTime }}</span>
+                    <p>{{ child.commentContent }}</p>
                   </div>
                 </blockquote>
               </div>
@@ -122,20 +122,20 @@ export default {
     // 加载文章内容
     loadArticleInfo() {
       this.currentArticleId = this.$route.query.article_id;
-      getRequest(`/article/blog/${this.$route.query.article_id}`).then(resp => {
+      getRequest(`/article/${this.$route.query.article_id}`).then(resp => {
         // console.log(resp);
-        this.content = marked(resp.data.article_md)
-        this.article.article_title = resp.data.article_title;
-        this.article.article_author = resp.data.article_author;
-        this.article.article_time = resp.data.article_time;
+        this.content = marked(resp.data.data.data.articleContentMd)
+        this.article.article_title = resp.data.data.data.articleTitle;
+        this.article.article_author = resp.data.data.data.articleAuthor;
+        this.article.article_time = resp.data.data.data.articleUpdateTime;
         this.loading = false;
       });
     },
     // 加载评论内容
     loadComments() {
-      getRequest(`/comment/${this.$route.query.article_id}`).then(resp => {
-        console.log(resp);
-        this.parentComments = resp.data.body;
+      getRequest(`/comment/articleId/${this.$route.query.article_id}`).then(resp => {
+        // console.log(resp);
+        this.parentComments = resp.data.data;
       })
     },
     // 提交评论内容

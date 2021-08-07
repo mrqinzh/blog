@@ -25,6 +25,8 @@ public class Article implements Serializable {
 
     private String articleContentMd;
 
+    private String articleTag;
+
     private String articleType;
 
     private Integer articleViews;

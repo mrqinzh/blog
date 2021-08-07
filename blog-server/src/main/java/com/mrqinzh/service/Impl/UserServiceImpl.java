@@ -21,10 +21,10 @@ public class UserServiceImpl implements UserService {
     private RedisUtil redisUtil;
 
     @Override
-    public Resp findByUidEmailTel(User user) {
-        String loginId = user.getUid();
-        User realUser = userMapper.logByUidEmailTel(loginId);
-        if (null == realUser || !realUser.getPassword().equals(user.getPassword())){   // 数据库进行了md5加密加盐
+    public Resp getByUsernameOrEmail(User user) {
+        User realUser = userMapper.getByUsernameOrEmail(user.getUserName());
+        // 数据库进行了md5加密加盐
+        if (null == realUser || !realUser.getUserPwd().equals(user.getUserPwd())){
             return Resp.error("200", "用户名或密码错误!");
         }
 
@@ -33,8 +33,4 @@ public class UserServiceImpl implements UserService {
         return Resp.ok(token);
     }
 
-    @Override
-    public int updateUserInfo(User user) {
-        return userMapper.updateUserInfo(user);
-    }
 }

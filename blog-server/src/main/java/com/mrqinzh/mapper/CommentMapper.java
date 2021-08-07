@@ -13,9 +13,15 @@ import java.util.List;
 public interface CommentMapper {
 
     @Select("select * from comment where article_id = #{articleId}")
-    List<Comment> list(Integer articleId);
+    List<Comment> getListByArticleId(Integer articleId);
+
+    @Delete("delete from `comment` where article_id = #{articleId}")
+    int deleteByArticleId(Integer articleId);
 
     int add(Comment comment);
 
-    int delete(Integer articleId);
+    List<Comment> getById(String type, Integer id);
+
+
+
 }

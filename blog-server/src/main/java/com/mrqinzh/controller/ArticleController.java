@@ -30,8 +30,8 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "分页加载文章列表")
-    @RequestMapping("/list")
-    public Page list(@RequestBody PageDTO pageDTO) {
+    @GetMapping("/list")
+    public Page list(PageDTO pageDTO) {
         return articleService.list(pageDTO);
     }
 

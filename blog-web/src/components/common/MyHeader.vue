@@ -11,18 +11,6 @@
       <el-menu-item index="/"><i class="el-icon-s-home"></i>首页</el-menu-item>
       <el-menu-item index="/articles"><i class="el-icon-menu"></i>分类</el-menu-item>
       <!-- <el-menu-item index="/updateinfo"><i class="el-icon-position"></i>更新</el-menu-item> -->
-
-      <el-menu-item @click="lgout" style="float: right;" v-if="this.isLogin">
-        <el-tooltip effect="dark" content="退出" placement="bottom">
-          <i class="el-icon-switch-button"></i>
-        </el-tooltip>
-      </el-menu-item>
-
-      <el-menu-item index="/login" style="float: right;" v-else>
-        <el-tooltip effect="dark" content="登录" placement="bottom">
-          <i class="el-icon-thumb"></i>
-        </el-tooltip>
-      </el-menu-item>
       
       <el-submenu index="" style="float: right;">
         <template slot="title"><i class="el-icon-user"></i></template>

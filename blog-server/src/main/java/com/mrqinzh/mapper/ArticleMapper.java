@@ -17,8 +17,6 @@ public interface ArticleMapper {
 
     Article getById(Integer articleId); // 根据文章id展示当前文章
 
-    List<Article> getByUserId(Integer userId); // 根据UserId寻找当前User发表的文章
-
     int add(Article article); // 添加一篇文章
 
     int update(Article article); // 修改文章内容

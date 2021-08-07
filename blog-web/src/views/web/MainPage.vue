@@ -55,16 +55,16 @@
           <div class="animate__animated animate__fadeInUp">
             <div style="min-height: 600px">
               <div class="mystory" v-for="(item, index) in articles" :key="index">
-                <div style="padding: 15px 0 0 20px;">
+                <div style="padding: 10px 0 0 20px;">
                   <blockquote style="border-left: 4px solid #409EFF">
-                    <h1 style="padding-left: 10px">
+                    <h2 style="padding-left: 10px">
                       <a class="boxchilde" @click="showBlog(item.id)">
                         <span>{{item.articleTitle}}</span>
                       </a>
-                    </h1>
+                    </h2>
                   </blockquote>
                 </div>
-                <div style="margin: 10px 0 0 20px;">
+                <div style="margin: 5px 0 0 20px;">
                     <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
                     <a-tag color="#f50" v-else>转载</a-tag>
                     <i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.articleAuthor}}</a>
@@ -312,15 +312,15 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
     box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
   }
   .content {
-    margin: 10px;
-    font-size: 17px;
+    margin: 5px 10px;
+    font-size: 14px;
     line-height: 1.7em;
-    height: 55px;
+    height: 50px;
     overflow: hidden;
   }
   .foot {
-    padding: 0 0 10px 20px;
-    font-size: 17px;
+    padding: 0px 0px 5px 20px;
+    font-size: 15px;
   }
   .mystory a:hover {
     cursor: pointer;

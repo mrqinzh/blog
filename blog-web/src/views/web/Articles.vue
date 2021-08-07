@@ -16,15 +16,14 @@
       <div class="chooseType">
         <div class="animate__animated animate__fadeInLeft">
           <div class="categories_title">
-            <i class="el-icon-s-operation"></i>&nbsp;&nbsp;&nbsp;<span @click="loadBlogs(currentPage, pageSize, '')">所有文章</span>
+            <i class="el-icon-s-operation"></i>&nbsp;&nbsp;&nbsp;<span @click="loadBlogs(currentPage, pageSize, '')" style="cursor: pointer">所有文章</span>
           </div>
-          <hr>
-          <div class="categories_type">
-            <div v-for="(item, index) in linkTypes" :key="index">
-              <span type="primary" @click="findByType(item.val)">{{item.linkName}}</span>
-              <span style="float: right;" @click="findByType(item.val)"><i class="el-icon-caret-right"></i></span>
-            </div>
-          </div>
+          <ul>
+            <li style="padding: 5px;" v-for="(item, index) in linkTypes" :key="index" @click="findByType(item.val)">
+              <span type="primary">{{item.linkName}}</span>
+              <span style="float: right;"><i class="el-icon-caret-right"></i></span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -192,20 +191,17 @@ export default {
   .chooseType {
     position: fixed;
     top: 60px;
-    left: 30%;
-    width: 160px;
+    left: 28%;
+    width: 200px;
     font-size: 14px;
     margin: 150px auto;
     line-height: 2em;
-    box-shadow: 0 0 8px 0 rgba(232,237,250,.6),0 2px 4px 0 rgba(232,237,250,.5);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     border-radius: 4px;
-    padding: 10px;
+    padding: 10px
   }
-  .chooseType div {
-    color: #616161;
-    margin-top: 5px;
-  }
-  .chooseType div span:hover {
+
+  .chooseType div li:hover {
     cursor: pointer;
     color: #3EC1D3;
     background: #eeeeee;

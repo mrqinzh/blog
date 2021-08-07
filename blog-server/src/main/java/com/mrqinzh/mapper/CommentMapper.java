@@ -12,14 +12,14 @@ import java.util.List;
 @Repository
 public interface CommentMapper {
 
-    @Select("select * from comment where article_id = #{articleId}")
-    List<Comment> getListByArticleId(Integer articleId);
-
-    @Delete("delete from `comment` where article_id = #{articleId}")
-    int deleteByArticleId(Integer articleId);
-
     int add(Comment comment);
 
+    /**
+     * 根据id 查询评论信息
+     * @param type id类型： userId、articleId
+     * @param id id值
+     * @return java.util.List
+     */
     List<Comment> getById(String type, Integer id);
 
 

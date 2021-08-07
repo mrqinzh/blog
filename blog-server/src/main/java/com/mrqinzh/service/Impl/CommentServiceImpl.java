@@ -17,25 +17,6 @@ public class CommentServiceImpl implements CommentService {
     private CommentMapper commentMapper;
 
     @Override
-    public Resp getListByArticleId(Integer articleId) {
-        List<Comment> comments = commentMapper.getListByArticleId(articleId);
-
-        for (Comment comment : comments) {
-            if (comment.getParentId() == 0) {
-                comment.setComments(comments.stream().filter(c -> c.getParentId() == comment.getId()).collect(Collectors.toList()));
-            }
-        }
-
-        List<Comment> list = comments.stream().filter(c -> c.getParentId() == 0).collect(Collectors.toList());
-        return Resp.ok(list);
-    }
-
-    @Override
-    public void deleteByArticleId(Integer articleId) {
-        commentMapper.deleteByArticleId(articleId);
-    }
-
-    @Override
     public void add(Comment comment) {
         commentMapper.add(comment);
     }
@@ -47,7 +28,7 @@ public class CommentServiceImpl implements CommentService {
 
         for (Comment comment : comments) {
             if (comment.getParentId() == 0) {
-                comment.setComments(comments.stream().filter(c -> c.getParentId() == comment.getId()).collect(Collectors.toList()));
+                comment.setComments(comments.stream().filter(c -> c.getParentId().equals(comment.getId())).collect(Collectors.toList()));
             }
         }
 

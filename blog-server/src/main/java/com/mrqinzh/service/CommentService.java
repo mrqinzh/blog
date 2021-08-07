@@ -5,16 +5,13 @@ import com.mrqinzh.util.Resp;
 
 import java.util.List;
 
+/**
+ * @author mrqinzh
+ */
 public interface CommentService {
-
-    Resp getListByArticleId(Integer articleId);
-
-    void deleteByArticleId(Integer articleId);
 
     void add(Comment comment);
 
     Resp getById(String type, Integer id);
-
-
 
 }

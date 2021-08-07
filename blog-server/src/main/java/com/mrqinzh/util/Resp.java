@@ -1,10 +1,12 @@
 package com.mrqinzh.util;
 
+import java.io.Serializable;
+
 /**
  * 统一返回数据类型
  * @param <E> 传入数据类型
  */
-public class Resp<E> {
+public class Resp<E> implements Serializable {
 
     private String code;
     private boolean success;

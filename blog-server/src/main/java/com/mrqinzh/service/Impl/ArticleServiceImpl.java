@@ -1,10 +1,13 @@
 package com.mrqinzh.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mrqinzh.mapper.ArticleMapper;
-import com.mrqinzh.mapper.CommentMapper;
 import com.mrqinzh.model.dto.PageDTO;
 import com.mrqinzh.model.entity.Article;
 import com.mrqinzh.service.ArticleService;
+import com.mrqinzh.util.Page;
+import com.mrqinzh.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,47 +19,49 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleMapper articleMapper;
 
-    @Autowired
-    private CommentMapper commentMapper;
-
-
     @Override
-    public Article findByArticleId(int id) {
-        return articleMapper.findByArticleId(id);
+    public Page list(PageDTO pageDTO) {
+        PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
+        List<Article> articles = articleMapper.list(pageDTO);
+        PageInfo<Article> pageInfo = new PageInfo<>(articles);
+
+        return Page.getPageData(pageInfo);
     }
 
     @Override
-    public List<Article> findByUserId(int id) {
-        return articleMapper.findByUserId(id);
+    public Resp getById(Integer articleId) {
+        Article article = articleMapper.getById(articleId);
+        return Resp.ok(article);
     }
 
     @Override
-    public List<Article> orderArticles(PageDTO pageDTO) {
-        return articleMapper.orderArticles(pageDTO);
-    }
-
-    @Override
-    public int delArticle(int id) {
-        commentMapper.delByArtId(id);
-        return articleMapper.delArticle(id);
-    }
-
-    @Override
-    public int updateArticle(Article article) {
-        return articleMapper.updateArticle(article);
-    }
-
-    @Override
-    public int addNewArticle(Article article) {
-        String md = stripHtml(article.getArticle_html());
-        if (md.length() > 100){
-            article.setArticle_body(md.substring(0, 100));
+    public void add(Article article) {
+        String articleSummary = stripHtml(article.getArticleSummary());
+        if (articleSummary.length() > 100) {
+            article.setArticleSummary(articleSummary.substring(0, 100));
         } else {
-            article.setArticle_body(md);
+            article.setArticleSummary(articleSummary);
         }
-        return articleMapper.addArticle(article);
+
+        articleMapper.add(article);
     }
 
+    @Override
+    public void update(Article article) {
+        articleMapper.update(article);
+    }
+
+    @Override
+    public void delete(Integer articleId) {
+        articleMapper.delete(articleId);
+    }
+
+
+    /**
+     * 将 content 中的 HTML 标签过滤
+     * @param content HTML
+     * @return java.lang.String
+     */
     public String stripHtml(String content) {
         content = content.replaceAll("<p .*?>", "");
         content = content.replaceAll("<br\\s*/?>", "");

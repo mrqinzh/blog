@@ -1,21 +1,20 @@
 package com.mrqinzh.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.mrqinzh.model.dto.PageDTO;
 import com.mrqinzh.model.entity.Article;
-import com.mrqinzh.model.entity.Resp;
 import com.mrqinzh.model.entity.User;
 import com.mrqinzh.service.ArticleService;
 
-import java.util.*;
-
+import com.mrqinzh.util.Page;
+import com.mrqinzh.util.Resp;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-
+@Api(tags = "文章接口")
 @CrossOrigin
 @RestController
 @RequestMapping("/article")
@@ -24,92 +23,40 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    /**
-     * 根据请求文章ID，返回文章的html内容
-     * @param blog_id 文章ID
-     * @return 返回文章信息
-     */
-    @GetMapping("/blog/{blog_id}")
-    public Article findOneArticle(@PathVariable("blog_id") int blog_id){
-        return articleService.findByArticleId(blog_id);
+    @ApiOperation(value = "根据文章id查询文章具体信息")
+    @GetMapping("/{articleId}")
+    public Resp getById(@PathVariable("articleId") Integer articleId){
+        return Resp.ok(articleService.getById(articleId));
     }
 
-    /**
-     * 分页请求文章信息
-     * @param pageDTO  封装请求信息 页数 页大小 查询条件
-     * @return  返回数据
-     */
-    @RequestMapping("/orderArticle")
-    public Map<String,Object> someArticles(@RequestBody PageDTO pageDTO) {
-        Map<String,Object> map = new HashMap<>();
-
-        PageHelper.startPage(pageDTO.getCurrentPage(),pageDTO.getPageSize());
-        List<Article> articles = articleService.orderArticles(pageDTO);
-        PageInfo<Article> pageInfo = new PageInfo<>(articles);
-
-        map.put("count", pageInfo.getTotal());
-        map.put("list", pageInfo.getList());
-
-        return map;
+    @ApiOperation(value = "分页加载文章列表")
+    @RequestMapping("/list")
+    public Page list(@RequestBody PageDTO pageDTO) {
+        return articleService.list(pageDTO);
     }
 
-    /**
-     * 查询当前用户发表的文章
-     * @param currentPage 当前页数
-     * @param pageSize 每页多少
-     * @return 封装返回信息
-     */
-    @GetMapping("/myblog/{currentPage}/{pageSize}")
-    public Map<String,Object> findOwnArticle(@PathVariable("currentPage")int currentPage,
-                                             @PathVariable("pageSize")int pageSize,
-                                             HttpServletRequest req){
-        Map<String,Object> map = new HashMap<>();
-        User user = (User) req.getAttribute("user");
-        try {
-            PageHelper.startPage(currentPage,pageSize);
-            List<Article> articles = articleService.findByUserId(user.getId());
-            PageInfo<Article> pageInfo = new PageInfo<>(articles);
-            map.put("count",pageInfo.getTotal());
-            map.put("list",pageInfo.getList());
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("msg","登录信息好像过期了，试着重新登录下吧");
-        }
-        return map;
-    }
-
-    /**
-     * 写文章
-     * @param article   要保存的信息
-     * @return 1： 成功    ！= 1： 添加失败
-     */
+    @ApiOperation(value = "添加一篇文章")
     @PostMapping("/add")
-    public int add(@RequestBody Article article, HttpServletRequest req) {
-        User user = (User) req.getAttribute("user");
-        article.setUser_id(user.getId());   // 设置作者的id号
-        return this.articleService.addNewArticle(article);
+    public Resp add(@RequestBody Article article, HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        article.setUserId(user.getId());
+        articleService.add(article);
+        return Resp.ok("添加成功");
     }
 
-    /**
-     * 更新文章内容
-     * @param article 封装文章信息
-     * @return 1： 成功    ！= 1： 添加失败
-     */
-    @PostMapping("/change/{id}")
-    public int updateArticle(@PathVariable("id") int id , @RequestBody Article article){
-        article.setArticle_id(id);
-        return articleService.updateArticle(article);
-
+    @ApiOperation(value = "根据文章id更新文章")
+    @PostMapping("/update/{articleId}")
+    public Resp update(@PathVariable("articleId") Integer articleId , @RequestBody Article article){
+        article.setId(articleId);
+        articleService.update(article);
+        return Resp.ok("修改成功");
     }
 
-    /**
-     * 删除一篇文章
-     * @param id    删除的文章id
-     * @return 封装返回信息
-     */
-    @DeleteMapping("/del/{articleId}")
-    public Resp<String> delArticle(@PathVariable("articleId") int id){
-        return articleService.delArticle(id) == 1 ? Resp.success("删除成功") : Resp.error("500","删除失败");
+    @ApiOperation(value = "根据文章id删除文章")
+    @DeleteMapping("/{articleId}")
+    public Resp delete(@PathVariable("articleId") Integer articleId){
+        articleService.delete(articleId);
+        return Resp.ok("删除成功");
     }
 
 }

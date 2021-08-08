@@ -50,5 +50,20 @@
             a.id = #{articleId}
     </select>
 
+    <!-- article_title = #{articleTitle}, article_summary = #{articleSummary}, article_update_time = #{articleUpdateTime}, article_content_md = #{articleContentMd}, article_tag = #{articleTag}, article_type = #{articleType} -->
+    <update id="update" parameterType="com.mrqinzh.model.entity.Article">
+        UPDATE
+            article
+        SET
+            <if test="articleViews != null"><!-- 判断是 浏览 还是 更新内容 -->
+                article_views = article_views + 1
+            </if>
+            <if test="articleViews == null">
+                article_title = #{articleTitle}, article_summary = #{articleSummary}, article_update_time = #{articleUpdateTime}, article_content_md = #{articleContentMd}, article_tag = #{articleTag}, article_type = #{articleType}
+            </if>
+        WHERE
+            id = #{id}
+    </update>
+
 
 </mapper>

@@ -9,7 +9,7 @@ import Articles from '@/views/web/Articles'
 import WriteArticle from '@/views/web/WriteArticle'
 import LeaveMessage from '@/views/web/LeaveMessage'
 import UserInfo from '@/views/web/UserInfo'
-import WelcomePage from '../components/userinfo/WelcomePage'
+import About from '@/views/web/About'
 // ===============================  admin   ===============================
 
 Vue.use(VueAxios,axios)
@@ -34,13 +34,9 @@ export default new VueRouter({
                 { path: '/write', component: WriteArticle },
                 { path: '/articles', component: Articles },
                 { path: '/leaveMsg', component: LeaveMessage },
-                { path: '/userInfo', component: UserInfo,
-                    children: [
-                        { path: '/userInfo', component: WelcomePage },
-                        { path: '/userInfo/myComment', component: () => import(/* studyPage */'../components/userinfo/MyComment') },
-                        { path: '/userInfo/myArticles', component: () => import(/* myArticles */'../components/userinfo/MyArticles') },
-                    ]
-                },
+                { path: '/about', component: About, },
+                { path: '/userInfo/myComment', component: () => import(/* studyPage */'../components/userinfo/MyComment') },
+                { path: '/userInfo/myArticles', component: () => import(/* myArticles */'../components/userinfo/MyArticles') },
                 { path: '/blog', name: Articles, component: () => import(/* Articles */'@/views/web/ShowArticles') },
             ]
         },
@@ -50,7 +46,8 @@ export default new VueRouter({
             children: [
                 { path: '/admin', component: () => import('@/views/admin/Index') },
                 { path: '/admin/user', component: () => import('@/views/admin/system/UserManager') },
-                { path: '/admin/blog', component: () => import('@/views/admin/system/BlogManager') }
+                { path: '/admin/blog', component: () => import('@/views/admin/system/BlogManager') },
+                { path: '/admin/comment', component: () => import('@/views/admin/system/comment') },
             ]
         },
         { path: '*', component: () => import(/* Error */'@/views/Error') },

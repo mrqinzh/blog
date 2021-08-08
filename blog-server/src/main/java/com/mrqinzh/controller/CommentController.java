@@ -14,14 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 @Api(tags = "评论接口")
 @CrossOrigin
 @RestController
-@RequestMapping("/comment")
+@RequestMapping("comment")
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
     @ApiOperation(value = "添加一条评论")
-    @PostMapping("/add")
+    @PostMapping("add")
     public Resp add(@RequestBody Comment comment, HttpServletRequest req) {
 
         User user = (User) req.getAttribute("user");
@@ -31,9 +31,22 @@ public class CommentController {
         return Resp.ok("添加成功");
     }
 
-    @GetMapping("/{type}/{id}")
-    public Resp getById(@PathVariable String type, @PathVariable Integer id) {
-        return commentService.getById(type, id);
+    @ApiOperation(value = "根据(*id)查询评论")
+    @GetMapping("{idType}/{id}")
+    public Resp getById(@PathVariable String idType, @PathVariable Integer id) {
+        return commentService.getById(idType, id);
+    }
+
+    @ApiOperation(value = "根据(*id)删除评论")
+    @DeleteMapping("{idType}/{id}")
+    public Resp deleteById(@PathVariable String idType, @PathVariable Integer id) {
+        return commentService.deleteById(idType, id);
+    }
+
+    @ApiOperation(value = "查询 list limit 5")
+    @GetMapping("list")
+    public Resp list() {
+        return commentService.list();
     }
 
 

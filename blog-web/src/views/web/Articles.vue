@@ -142,7 +142,7 @@ export default {
     loadBlogs(currentPage, pageSize, condition) {
       let url = `/article/list?currentPage=${currentPage}&pageSize=${pageSize}&condition=${condition}`
       getRequest(url).then(resp => {
-        console.log(resp);
+        // console.log(resp);
         this.allBlogs = resp.data.rows;
         this.totalCount = resp.data.total; //获取数据行数
         this.loading = false;
@@ -174,6 +174,7 @@ export default {
   .card {
     height: 100px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    background-color: white;
   }
   .card_head {
     font-size: 20px;
@@ -198,7 +199,8 @@ export default {
     line-height: 2em;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     border-radius: 4px;
-    padding: 10px
+    padding: 10px;
+    background-color: white;
   }
 
   .chooseType div li:hover {

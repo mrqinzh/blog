@@ -10,8 +10,12 @@ import java.util.List;
  */
 public interface CommentService {
 
+    Resp list();
+
     void add(Comment comment);
 
-    Resp getById(String type, Integer id);
+    Resp getById(String idType, Integer id);
+
+    Resp deleteById(String idType, Integer id);
 
 }

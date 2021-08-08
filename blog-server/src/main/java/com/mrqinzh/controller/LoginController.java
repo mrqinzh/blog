@@ -35,7 +35,8 @@ public class LoginController {
 
         if (redisUtil.hasKey(token)) {
             redisUtil.del(token);
+
         }
-        return Resp.ok("推出成功");
+        return Resp.ok("退出成功");
     }
 }

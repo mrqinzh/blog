@@ -13,7 +13,7 @@ public interface ArticleService {
 
     void add(Article article);
 
-    void update(Article article); // 修改文章内容
+    Resp update(Article article); // 修改文章内容
 
     void delete(Integer articleId); // 删除一篇文章
 

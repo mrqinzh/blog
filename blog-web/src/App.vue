@@ -20,9 +20,9 @@ export default {
   #app {
     color: rgba(0, 0, 0, 0.65);
     /* position: relative; */
-    background-color: #fff;
     font-size: 14px;
     /* line-height: 1.5; */
+    background-image: repeating-linear-gradient(135deg, rgba(189,189,189,0.1) 0px, rgba(189,189,189,0.1) 2px,transparent 2px, transparent 4px),linear-gradient(90deg, rgb(255,255,255),rgb(255,255,255));
   }
 
   /* 侧边滚动栏 */

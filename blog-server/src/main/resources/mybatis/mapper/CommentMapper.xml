@@ -29,13 +29,28 @@
         LEFT JOIN article a ON a.id = c.article_id
         WHERE
             1 = 1
-        <if test=" type == 'userId'">
+        <if test=" idType == 'userId'">
             and user_id = #{id}
         </if>
-        <if test=" type == 'articleId'">
+        <if test=" idType == 'articleId'">
             and article_id = #{id}
         </if>
     </select>
+
+    <delete id="deleteById">
+        DELETE FROM comment
+        WHERE
+            1 = 1
+        <if test=" idType == 'commentId'">
+            and id = #{id}
+        </if>
+        <if test=" idType == 'userId'">
+            and user_id = #{id}
+        </if>
+        <if test=" idType == 'articleId'">
+            and article_id = #{id}
+        </if>
+    </delete>
 
     <insert id="add">
 

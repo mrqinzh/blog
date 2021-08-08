@@ -11,6 +11,7 @@ import com.mrqinzh.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,8 +48,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void update(Article article) {
-        articleMapper.update(article);
+    public Resp update(Article article) {
+
+        article.setArticleUpdateTime(new Date());
+        System.out.println(article);
+
+//        articleMapper.update(article); //
+        return Resp.ok(null);
     }
 
     @Override

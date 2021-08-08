@@ -21,10 +21,8 @@
           </div>
           
           <!-- 文章内容 -->
-          <div class="article">            
-            <div v-highlight v-html="content" class="markdown-body" style="margin: 20px;">
-            </div>
-          </div>
+          <div class="article-content" v-html="content"></div>
+
           <!-- 底部评论区域 -->
           <div class="page_footer">
             <div>
@@ -83,17 +81,56 @@
 
 <script>
 import { logOrNot } from '@/utils/utils'
-import 'mavon-editor/dist/css/index.css'
-import 'mavon-editor/dist/markdown/github-markdown.min.css'
-import '@/utils/plugins/hljs'
 import { getRequest, postRequest } from '@/utils/api'
-import marked from 'marked'   //引入
+import Clipboard from 'clipboard'
 
+// 引入默认样式
+import 'highlight.js/styles/darcula.css' // 样式文件
+// 引入个性化的vs2015样式
+import 'highlight.js/styles/vs2015.css'
+
+const MarkdownIt = require('markdown-it')
+const hljs = require('highlight.js')
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true,
+  highlight: function (str, lang) {
+    // 当前时间加随机数生成唯一的id标识
+    const codeIndex = parseInt(Date.now()) + Math.floor(Math.random() * 10000000)
+    // 复制功能主要使用的是 clipboard.js
+    let html = `<button class="copy-btn" type="button" data-clipboard-action="copy" data-clipboard-target="#copy${codeIndex}">复制</button>`
+    const linesLength = str.split(/\n/).length - 1
+    // 生成行号
+    let linesNum = '<span aria-hidden="true" class="line-numbers-rows">'
+    for (let index = 0; index < linesLength; index++) {
+      linesNum = linesNum + '<span></span>'
+    }
+    linesNum += '</span>'
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        // highlight.js 高亮代码
+        const preCode = hljs.highlight(lang, str, true).value
+        html = html + preCode
+        if (linesLength) {
+          html += '<b class="name">' + lang + '</b>'
+        }
+        // 将代码包裹在 textarea 中
+        return `<pre class="hljs"><code>${html}</code>${linesNum}</pre><textarea style="position: absolute;top: -9999px;left: -9999px;z-index: -9999;" id="copy${codeIndex}">${str.replace(/<\/textarea>/g, '&lt;/textarea>')}</textarea>`
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    const preCode = md.utils.escapeHtml(str)
+    html = html + preCode
+    // 将代码包裹在 textarea 中
+    return `<pre class="hljs"><code>${html}</code>${linesNum}</pre><textarea style="position: absolute;top: -9999px;left: -9999px;z-index: -9999;" id="copy${codeIndex}">${str.replace(/<\/textarea>/g, '&lt;/textarea>')}</textarea>`
+  }
+});
 export default {
-  
   data() {
     return {
-
       // 评论内容和回复内容
       commentContent: '',
       replyContent: '',
@@ -108,14 +145,13 @@ export default {
       loading: true,
       loading2: false,
 
-
       // 评论区域相关信息
       parentComments: [],
       currentArticleId: '',
-
       flag: '', // 显示回复框的标志位
-
       isLogin: false,
+
+      clipboard: '', // 添加复制功能
     }
   },
   methods: {
@@ -124,7 +160,7 @@ export default {
       this.currentArticleId = this.$route.query.article_id;
       getRequest(`/article/${this.$route.query.article_id}`).then(resp => {
         // console.log(resp);
-        this.content = marked(resp.data.data.data.articleContentMd)
+        this.content = md.render(`${resp.data.data.data.articleContentMd}`);
         this.article.article_title = resp.data.data.data.articleTitle;
         this.article.article_author = resp.data.data.data.articleAuthor;
         this.article.article_time = resp.data.data.data.articleUpdateTime;
@@ -173,51 +209,99 @@ export default {
         this.loading2 = false;
       })
     },
+    // 更新浏览量
+    updateViews() {
+      
+    }
     
   },
   mounted() {
-    this.isLogin = logOrNot()
-    this.loadComments();
-  },
-  created() {
+    this.isLogin = logOrNot();
     this.loadArticleInfo();
+    this.loadComments();
+
+    this.$nextTick(() => {
+      this.clipboard = new Clipboard('.copy-btn')
+      // 复制成功失败的提示
+      this.clipboard.on('success', (e) => {
+        this.$message.success('复制成功')
+      })
+      this.clipboard.on('error', (e) => {
+        this.$message.error('复制成功失败')
+      })
+    });
+
   },
+  destroyed () {
+    this.clipboard.destroy()
+  }
 }
 </script>
 
-<style>
-  .article {
-    border: 1px solid #eeeeee;
-    border-radius: 20px;
+<style lang="scss">
+  .article-content {
+    font-size: 18px;
+    background-color: white;
+    blockquote {
+      border-left: 2px solid rgb(64, 158, 255);
+    }
   }
-  .page_footer {
-    margin-top: 100px;
-  }
-
-  blockquote {
-    border-left: 3px dashed red;
-  }
-  .child_comment {
-    border-left: 2px solid green;
-    margin-left: 10%;
-    background-color: #F2F6FC;
-  }
-
-
-  /* markdown内容样式 */
-  .article pre {
-    line-height: 2em;
-    background-color: #F1F6F9;
-				
-  }
-  .article blockquote {
-    border-left: 4px solid #409EFF;
-    color: #409EFF;
-  }
-  .article pre code {
-    font-size: 15px;
-  }
-  .markdown-body img:hover {
-    cursor: pointer;
+  pre.hljs {
+    padding: 12px 2px 12px 40px !important;
+    border-radius: 5px !important;
+    position: relative;
+    font-size: 15px !important;
+    line-height: 25px !important;
+    overflow: hidden !important;
+    code {
+      display: block !important;
+      margin: 0 10px !important;
+      overflow-x: auto !important;
+    }
+    .line-numbers-rows {
+      position: absolute;
+      pointer-events: none;
+      top: 12px;
+      bottom: 12px;
+      left: 0;
+      font-size: 100%;
+      width: 40px;
+      text-align: center;
+      letter-spacing: -1px;
+      border-right: 1px solid rgba(0, 0, 0, .66);
+      user-select: none;
+      counter-reset: linenumber;
+      span {
+        pointer-events: none;
+        display: block;
+        counter-increment: linenumber;
+        &:before {
+          content: counter(linenumber);
+          color: #999;
+          display: block;
+          text-align: center;
+        }
+      }
+    }
+    b.name {
+      position: absolute;
+      top: 2px;
+      right: 100px;
+      z-index: 10;
+      color: #999;
+      pointer-events: none;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 2px;
+      right: 4px;
+      z-index: 10;
+      color: #333;
+      cursor: pointer;
+      background-color: #fff;
+      border: 0;
+      border-radius: 2px;
+      width: 40px;
+    }
   }
 </style>

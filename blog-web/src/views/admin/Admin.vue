@@ -35,7 +35,7 @@
                 <el-menu-item index="/admin/blog">文章管理</el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group title="分组2">
-                <el-menu-item>评论管理</el-menu-item>
+                <el-menu-item index="/admin/comment">评论管理</el-menu-item>
                 <el-menu-item>分类管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>

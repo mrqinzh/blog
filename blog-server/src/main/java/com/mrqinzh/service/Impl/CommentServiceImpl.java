@@ -17,14 +17,20 @@ public class CommentServiceImpl implements CommentService {
     private CommentMapper commentMapper;
 
     @Override
+    public Resp list() {
+        List<Comment> comments = commentMapper.list();
+        return Resp.ok(comments);
+    }
+
+    @Override
     public void add(Comment comment) {
         commentMapper.add(comment);
     }
 
     @Override
-    public Resp getById(String type, Integer id) {
+    public Resp getById(String idType, Integer id) {
 
-        List<Comment> comments = commentMapper.getById(type, id);
+        List<Comment> comments = commentMapper.getById(idType, id);
 
         for (Comment comment : comments) {
             if (comment.getParentId() == 0) {
@@ -34,6 +40,12 @@ public class CommentServiceImpl implements CommentService {
 
         List<Comment> list = comments.stream().filter(c -> c.getParentId() == 0).collect(Collectors.toList());
         return Resp.ok(list);
+    }
+
+    @Override
+    public Resp deleteById(String idType, Integer id) {
+        commentMapper.deleteById(idType, id);
+        return Resp.ok(null);
     }
 
 

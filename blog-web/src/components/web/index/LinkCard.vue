@@ -1,6 +1,10 @@
 <template>
   <el-card class="link_card">
-    <h3>链接库</h3>
+    <div>
+      <blockquote>
+        <span style="margin-left: 5px;font-size: 18px;">链接库</span>
+      </blockquote>
+    </div>
     <hr>
     <div style="line-height: 2em">
       <el-link type="primary" href="https://space.bilibili.com/503592515" target="_blank">bilibili</el-link>&nbsp;&nbsp;

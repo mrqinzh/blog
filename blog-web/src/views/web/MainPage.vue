@@ -51,7 +51,7 @@
         <Notice></Notice>
 
         <!-- 中间左侧文章列表部分 -->
-        <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="17">
+        <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="16">
           <div class="animate__animated animate__fadeInUp">
             <div style="min-height: 600px">
               <div class="mystory" v-for="(item, index) in articles" :key="index">
@@ -86,7 +86,7 @@
                       <a-icon type="heart" @click="like()"/>
                     </a>
                     <a style="color: red;text-decoration:none; ">
-                      <a-icon type="fire" />
+                      <a-icon type="eye" />
                       <span>{{item.articleViews}}</span>
                     </a>
                   </span>
@@ -108,7 +108,7 @@
         </el-col>
         
         <!-- 中间右侧个人信息部分 -->
-        <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="7">
+        <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="8">
           <div class="animate__animated animate__fadeInRight">
             <!-- 搜索文章按钮 -->
             <SearchBtn style="margin-top: 30px;"></SearchBtn>
@@ -148,9 +148,9 @@
                 </span>
               </div>
             </div>
-            <!-- <OrderComment></OrderComment> -->
             <LinkCard></LinkCard>
             <!-- <WebInfo></WebInfo> -->
+            <Tag></Tag>
           </div>
         </el-col>
         
@@ -165,10 +165,10 @@
 
 <script>
 import Notice from '@/components/web/index/Notice'
+import Tag from '@/components/web/index/Tag'
+import LinkCard from '@/components/web/index/LinkCard';
 import WebInfo from '@/components/partial/WebInfo'
 import SearchBtn from '@/components/partial/SearchBtn'
-import LinkCard from '@/components/partial/LinkCard';
-import OrderComment from '@/components/partial/OrderComment'
 import {logOrNot } from '@/utils/utils'
 import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
   export default {
@@ -176,8 +176,8 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
       'LinkCard': LinkCard,
       'SearchBtn': SearchBtn,
       'WebInfo': WebInfo,
-      'OrderComment': OrderComment,
       'Notice': Notice,
+      'Tag': Tag,
     },
     data() {
       return {
@@ -306,6 +306,7 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
     margin: 30px auto;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in;
+    background-color: white;
   }
   .mystory:hover {
     transform: translate(0, -5px);
@@ -332,7 +333,7 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
     width: 100%;
     min-height: 320px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-    background-color: #F2F6FC;
+    background-color: white;
     text-align: center;
     transition: all 0.3s ease-in;
   }

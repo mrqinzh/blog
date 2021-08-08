@@ -10,11 +10,12 @@
       <el-menu-item style="width: 30%;cursor: auto" :disabled="true"></el-menu-item>
       <el-menu-item index="/"><i class="el-icon-s-home"></i>首页</el-menu-item>
       <el-menu-item index="/articles"><i class="el-icon-menu"></i>分类</el-menu-item>
+      <el-menu-item index="/about"><i class="el-icon-share"></i>关于</el-menu-item>
       <!-- <el-menu-item index="/updateinfo"><i class="el-icon-position"></i>更新</el-menu-item> -->
       
       <el-submenu index="" style="float: right;">
         <template slot="title"><i class="el-icon-user"></i></template>
-        <el-menu-item index="/userInfo"><i class="el-icon-house"></i>个人主页</el-menu-item>
+        
         
         <el-menu-item :index="isLogin ? '/leaveMsg' : '/login'"><i class="el-icon-chat-round"></i>留言板</el-menu-item>
         <el-menu-item :index="isLogin ? '/write' : '/login'" class="hidden-xs-only"><i class="el-icon-edit"></i>写博客</el-menu-item>

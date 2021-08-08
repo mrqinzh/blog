@@ -23,7 +23,7 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @ApiOperation(value = "根据文章id查询文章具体信息")
+    @ApiOperation(value = "根据 articleId 查询文章具体信息")
     @GetMapping("/{articleId}")
     public Resp getById(@PathVariable("articleId") Integer articleId){
         return Resp.ok(articleService.getById(articleId));
@@ -35,7 +35,7 @@ public class ArticleController {
         return articleService.list(pageDTO);
     }
 
-    @ApiOperation(value = "添加一篇文章")
+    @ApiOperation(value = "添加文章")
     @PostMapping("/add")
     public Resp add(@RequestBody Article article, HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
@@ -44,15 +44,14 @@ public class ArticleController {
         return Resp.ok("添加成功");
     }
 
-    @ApiOperation(value = "根据文章id更新文章")
+    @ApiOperation(value = "根据 articleId 更新文章")
     @PostMapping("/update/{articleId}")
     public Resp update(@PathVariable("articleId") Integer articleId , @RequestBody Article article){
         article.setId(articleId);
-        articleService.update(article);
-        return Resp.ok("修改成功");
+        return articleService.update(article);
     }
 
-    @ApiOperation(value = "根据文章id删除文章")
+    @ApiOperation(value = "根据 articleId 删除文章")
     @DeleteMapping("/{articleId}")
     public Resp delete(@PathVariable("articleId") Integer articleId){
         articleService.delete(articleId);

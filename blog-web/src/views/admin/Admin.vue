@@ -11,46 +11,34 @@
         </span>
       </el-header>
       <el-container>
-        <el-aside class="left" width="">
-          <span @click="folded = !folded" class="btn_fold">
-            <i :class=" folded ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
-          </span>
-          <el-menu
-            background-color="rgb(48, 65, 86)"
-            text-color="#fff"
-            default-active="2"
-            @select="handleSelect"
-            :collapse="folded">
-            <el-menu-item index="/admin">
-              <i class="el-icon-coffee-cup"></i>
-              <span slot="title">首页</span>
-            </el-menu-item>
-            <el-submenu index="">
-              <template slot="title">
-                <i class="el-icon-setting"></i>
-                <span slot="title">系统管理</span>
-              </template>
-              <el-menu-item-group title="分组1">
-                <el-menu-item index="/admin/user">用户管理</el-menu-item>
-                <el-menu-item index="/admin/blog">文章管理</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分组2">
-                <el-menu-item index="/admin/comment">评论管理</el-menu-item>
-                <el-menu-item>分类管理</el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-
-            <el-submenu index="1-4">
-              <template slot="title">
-                <i class="el-icon-menu"></i>
-                <span slot="title">页面管理</span>
-              </template>
-              <el-menu-item index="">导航管理</el-menu-item>
-            </el-submenu>
-          </el-menu>
+        <el-aside class="left">
+          <Slider></Slider>
         </el-aside>
+
         <el-main class="main">
-          <router-view></router-view>
+          <!-- 此处放置el-tabs代码 -->
+          <div>
+            <el-tabs
+              v-model="activeIndex"
+              type="border-card"
+              closable
+              v-if="openTab.length"
+                @tab-click='tabClick'
+                @tab-remove='tabRemove'
+              >
+              <el-tab-pane
+                :key="index"
+                v-for="(item, index) in openTab"
+                :label="item.name"
+                :name="item.route"
+                >
+              </el-tab-pane>
+            </el-tabs>
+          </div>
+
+          <div class="admin-content">
+            <router-view></router-view>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -58,36 +46,99 @@
 </template>
 
 <script>
+import Slider from '@/components/admin/index/Slider.vue'
 import { getRequest } from '@/utils/api'
 export default {
-  data() {
-    return {
-      folded: false,
+  name: 'admin',
+  components: {
+    Slider,
+  },
+  
+  methods: {
+    
+
+    //tab标签点击时，切换相应的路由
+    tabClick(tab){
+      console.log("tab",tab);
+      console.log('active',this.activeIndex);
+      this.$router.push({path: this.activeIndex});
+    },
+    //移除tab标签
+    tabRemove(targetName){
+      console.log("tabRemove",targetName);
+      //首页不删
+      if(targetName == '/admin'){
+        return
+      }
+      this.$store.commit('delete_tabs', targetName);
+      if (this.activeIndex === targetName) {
+        // 设置当前激活的路由
+        if (this.openTab && this.openTab.length >= 1) {
+          console.log('=============',this.openTab[this.openTab.length-1].route)
+          this.$store.commit('set_active_index', this.openTab[this.openTab.length-1].route);
+          this.$router.push({path: this.activeIndex});
+        } else {
+          this.$router.push({path: '/admin'});
+        }
+      }
     }
   },
-  methods: {
-    //输出点击的导航栏 号
-    handleSelect(key) {
-      this.$router.push(key);
+
+  mounted () {
+    // 刷新时以当前路由做为tab加入tabs
+    // 当前路由不是首页时，添加首页以及另一页到store里，并设置激活状态
+    // 当当前路由是首页时，添加首页到store，并设置激活状态
+  if (this.$route.path !== '/admin') {
+      console.log('1');
+      this.$store.commit('add_tabs', {route: '/admin'});
+      this.$store.commit('add_tabs', {route: this.$route.path , name: this.$route.name });
+      this.$store.commit('set_active_index', this.$route.path);
+    } else {
+      console.log('2');
+      this.$store.commit('add_tabs', {route: '/admin'});
+      this.$store.commit('set_active_index', '/admin');
+      this.$router.push('/admin');
+    }
+  },
+  computed: {
+    openTab () {
+      return this.$store.state.openTab;
     },
-    //退出按钮
-    lgout() {
-      this.$confirm('是否确定退出?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then((action) => {
-        // action分别为confirm（确认），cancel（取消），close（关闭）的时候分别触发回调。
-        if(action === 'confirm'){
-          getRequest('/login/logout').then(resp => {
-            this.$message.success(resp.data.body);
-            localStorage.removeItem('token');
-            this.$router.replace({path:'/login'});
-          })
+    activeIndex:{
+      get () {
+        return this.$store.state.activeIndex;
+      },
+      set (val) {
+        this.$store.commit('set_active_index', val);
+      }
+    }
+  },
+  watch:{
+    '$route'(to,from){
+      //判断路由是否已经打开
+      //已经打开的 ，将其置为active
+      //未打开的，将其放入队列里
+      let flag = false;
+      for(let item of this.openTab){
+        console.log("item.name",item.name)
+        console.log("t0.name",to.name)
+        if(item.name === to.name){
+          console.log('to.path',to.path);
+          this.$store.commit('set_active_index',to.path)
+          flag = true;
+          break;
         }
-      });
+      }
+      if(!flag){
+        console.log('to.path',to.path);
+        this.$store.commit('add_tabs', {route: to.path, name: to.name});
+        this.$store.commit('set_active_index', to.path);
+      }
     }
   }
+
+
+
 }
 </script>
 
@@ -133,16 +184,12 @@ export default {
   .folded .main {
     margin-left: 64px;
   }
-  .btn_fold {
-    display: block;
-    width: 100%;
-    height: 40px;
-    line-height: 40px;
-    position: absolute;
-    bottom: 0px;
-    font-size: 24px;
-    text-align: center;
-    background-color: #E4E7ED;
-    cursor: pointer;
+  
+</style>
+
+<style>
+  .el-tabs.el-tabs--border-card {
+    box-shadow: none;
+    border-bottom: none;
   }
 </style>

@@ -7,6 +7,7 @@ import com.mrqinzh.model.dto.PageDTO;
 import com.mrqinzh.model.entity.Article;
 import com.mrqinzh.service.ArticleService;
 import com.mrqinzh.util.Page;
+import com.mrqinzh.util.RedisUtil;
 import com.mrqinzh.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public Page list(PageDTO pageDTO) {
@@ -59,7 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void delete(Integer articleId) {
-        articleMapper.delete(articleId);
+//        articleMapper.delete(articleId);
     }
 
 

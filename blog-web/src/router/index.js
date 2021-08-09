@@ -6,9 +6,7 @@ import VueAxios from 'vue-axios'
 import Main from '@/views/Main'
 import MainPage from '@/views/web/MainPage'
 import Articles from '@/views/web/Articles'
-import WriteArticle from '@/views/web/WriteArticle'
 import LeaveMessage from '@/views/web/LeaveMessage'
-import UserInfo from '@/views/web/UserInfo'
 import About from '@/views/web/About'
 // ===============================  admin   ===============================
 
@@ -31,7 +29,6 @@ export default new VueRouter({
             component: Main,
             children: [
                 { path: '/', component: MainPage },
-                { path: '/write', component: WriteArticle },
                 { path: '/articles', component: Articles },
                 { path: '/leaveMsg', component: LeaveMessage },
                 { path: '/about', component: About, },
@@ -42,12 +39,14 @@ export default new VueRouter({
         },
         { 
             path: '/admin',
+            name: 'admin',
             component: () => import('@/views/admin/Admin'),
             children: [
-                { path: '/admin', component: () => import('@/views/admin/Index') },
-                { path: '/admin/user', component: () => import('@/views/admin/system/UserManager') },
-                { path: '/admin/blog', component: () => import('@/views/admin/system/BlogManager') },
-                { path: '/admin/comment', component: () => import('@/views/admin/system/comment') },
+                { path: '/admin', name: 'adminHome', component: () => import('@/views/admin/Index.vue') },
+                { path: '/admin/user', name: 'adminUser', component: () => import('@/views/admin/system/UserManager.vue') },
+                { path: '/admin/blog', name: 'adminBlog' , component: () => require('@/views/admin/system/BlogManager.vue') },
+                { path: '/admin/comment', name: 'adminComment', component: () => import('@/views/admin/system/comment.vue') },
+                { path: '/admin/article/add', name: 'adminAdd', component: () => import('@/views/admin/system/article/add.vue') },
             ]
         },
         { path: '*', component: () => import(/* Error */'@/views/Error') },

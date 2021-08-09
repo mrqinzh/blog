@@ -2,8 +2,8 @@
   <div class="animate__animated animate__fadeIn">
     <el-container>
       <el-header>
-        <el-input :maxlength="25" v-model="articles.article_title" placeholder="请输入标题..." show-word-limit style="width: 400px;margin-left: 10px"></el-input>
-        <el-input :maxlength="8" v-model="articles.article_author" placeholder="请输入作者的大名..." style="width: 400px;margin-left: 10px"></el-input>
+        <el-input :maxlength="25" v-model="article.article_title" placeholder="请输入标题..." show-word-limit style="width: 400px;margin-left: 10px"></el-input>
+
         <span style="margin-left: 10px;font-size: 17px">选择文章标签：</span>
         <el-tag
           :key="tag"
@@ -12,7 +12,7 @@
           :disable-transitions="false"
           @close="handleClose(tag)" style="margin-left: 10px">
           {{tag}}
-        </el-tag>
+        </el-tag> 
         <el-input
           class="input-new-tag"
           v-if="inputVisible"
@@ -23,10 +23,18 @@
           @blur="handleInputConfirm">
         </el-input>
         <el-button v-else class="button-new-tag" type="primary" size="small" @click="showInput">+Tag</el-button>
+
+        <!-- 选择文章类型、转载/原创 -->
+        <span style="margin-left: 10px;font-size: 17px">选择文章类型：</span>
+        <el-select v-model="article.articleType" placeholder="请选择">
+          <el-option value="原创">原创</el-option>
+          <el-option value="转载">转载</el-option>
+        </el-select>
         <div style="float: right;position: relative;">
           <el-button type="primary" @click="saveBlog()">保存发布</el-button>
         </div>
       </el-header>
+
       <el-main>
         <!-- markdown部分 -->
         <div class="markdown_body">
@@ -62,11 +70,11 @@ export default {
       content: '', // 输入的markdown
       html: '',    // 转成的html
       // 保存表单
-      articles: {
+      article: {
         // article_id: '',
-        article_author: '',
         article_title: '',
         article_time: '',
+        articleType: '',
       },
 
       dynamicTags: ['java'],
@@ -154,6 +162,11 @@ export default {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
     showInput() {
+      let tags = this.dynamicTags;
+      if (tags.length > 3) {
+        this.$message.warning('最多添加四个标签。。');
+        return 
+      }
       this.inputVisible = true;
       this.$nextTick(_ => {
         this.$refs.saveTagInput.$refs.input.focus();

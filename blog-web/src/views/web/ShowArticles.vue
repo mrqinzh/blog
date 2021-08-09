@@ -13,10 +13,12 @@
         <div style="margin-top: 30px" v-loading="loading" class="animate__animated animate__fadeIn">
           <!-- 文章头区域 -->
           <div style="font-size: 17px;">
-            <h1 style="font-size: 40px;text-align: center"><strong>{{article.article_title}}</strong></h1>
+            <h1 style="font-size: 40px;text-align: center"><strong>{{article.articleTitle}}</strong></h1>
+            
             <div style="margin: 20px;text-align: right;">
-              <i class="el-icon-user"></i>&nbsp;&nbsp;<span>{{article.article_author}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <i class="el-icon-date"></i>&nbsp;&nbsp;<span>{{article.article_time}}</span>
+              <i class="el-icon-user"></i>&nbsp;&nbsp;<span>{{article.articleAuthor}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+              <i class="el-icon-date"></i>&nbsp;&nbsp;<span>{{article.articleUpdateTime}}</span>
+              <el-tag :type="article.articleType === '原创' ? 'success' : 'danger'" style="float: left;">{{ article.articleType}}</el-tag>
             </div>
           </div>
           
@@ -99,7 +101,7 @@ const md = new MarkdownIt({
     // 当前时间加随机数生成唯一的id标识
     const codeIndex = parseInt(Date.now()) + Math.floor(Math.random() * 10000000)
     // 复制功能主要使用的是 clipboard.js
-    let html = `<button class="copy-btn" type="button" data-clipboard-action="copy" data-clipboard-target="#copy${codeIndex}">复制</button>`
+    let html = `<el-button class="copy-btn" size="mini" data-clipboard-action="copy" data-clipboard-target="#copy${codeIndex}" title="复制"><i class="el-icon-document-copy"></i></el-button>`
     const linesLength = str.split(/\n/).length - 1
     // 生成行号
     let linesNum = '<span aria-hidden="true" class="line-numbers-rows">'
@@ -136,11 +138,7 @@ export default {
       replyContent: '',
 
       // 文章正文部分
-      article: {
-        article_title: '',
-        article_author: '',
-        article_time: '',
-      },
+      article: {},
       content: '',
       loading: true,
       loading2: false,
@@ -161,9 +159,7 @@ export default {
       getRequest(`/article/${this.$route.query.article_id}`).then(resp => {
         // console.log(resp);
         this.content = md.render(`${resp.data.data.data.articleContentMd}`);
-        this.article.article_title = resp.data.data.data.articleTitle;
-        this.article.article_author = resp.data.data.data.articleAuthor;
-        this.article.article_time = resp.data.data.data.articleUpdateTime;
+        this.article = resp.data.data.data;
         this.loading = false;
       });
     },
@@ -240,10 +236,22 @@ export default {
 
 <style lang="scss">
   .article-content {
+    border: 1px solid red;
+    padding: 30px;
     font-size: 18px;
+    font-family: KaiTi;
     background-color: white;
-    blockquote {
-      border-left: 2px solid rgb(64, 158, 255);
+    h1 {
+      color: #F56C6C;
+    }
+    h2 {
+      color: #67C23A;
+    }
+    h3 {
+      color: #E6A23C;
+    }
+    img {
+      width: 100%;
     }
   }
   pre.hljs {
@@ -296,7 +304,8 @@ export default {
       top: 2px;
       right: 4px;
       z-index: 10;
-      color: #333;
+      color: black;
+      text-align: center;
       cursor: pointer;
       background-color: #fff;
       border: 0;

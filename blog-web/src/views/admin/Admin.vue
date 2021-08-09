@@ -2,17 +2,54 @@
   <div class="admin">
     <el-container class="ctner" :class="{ 'folded' : folded }">
       <el-header class="header">
-        <!-- logo -->
-        <!-- <span>
-          <img src="@/assets/logo.png" alt="" class="logo">
-        </span> -->
         <span style="float: right;cursor: pointer;">
           <i class="el-icon-switch-button" @click="lgout()"></i>
         </span>
       </el-header>
       <el-container>
-        <el-aside class="left">
-          <Slider></Slider>
+        <el-aside class="left" width="">
+          <span @click="folded = !folded" class="btn_fold">
+            <i :class=" folded ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
+          </span>
+          <el-menu
+            background-color="rgb(48, 65, 86)"
+            text-color="#fff"
+            default-active="1"
+            @select="handleSelect"
+            :collapse="folded">
+            <el-menu-item index="/admin">
+              <i class="el-icon-coffee-cup"></i>
+              <span slot="title">首页</span>
+            </el-menu-item>
+            <el-submenu index="">
+              <template slot="title">
+                <i class="el-icon-setting"></i>
+                <span slot="title">系统管理</span>
+              </template>
+              <el-menu-item-group title="分组1">
+                <el-menu-item index="/admin/user">用户管理</el-menu-item>
+                <el-menu-item index="/admin/blog">文章管理</el-menu-item>
+              </el-menu-item-group>
+              <el-menu-item-group title="分组2">
+                <el-menu-item index="/admin/comment">评论管理</el-menu-item>
+                <el-menu-item>分类管理</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="1-4">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span slot="title">页面管理</span>
+              </template>
+              <el-menu-item index="">导航管理</el-menu-item>
+            </el-submenu>
+            <el-submenu index="2">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span slot="title">文章管理</span>
+              </template>
+              <el-menu-item index="/admin/article/add">写文章</el-menu-item>
+            </el-submenu>
+          </el-menu>
         </el-aside>
 
         <el-main class="main">
@@ -20,18 +57,16 @@
           <div>
             <el-tabs
               v-model="activeIndex"
-              type="border-card"
+              type="card"
               closable
               v-if="openTab.length"
-                @tab-click='tabClick'
-                @tab-remove='tabRemove'
-              >
+              @tab-click='tabClick'
+              @tab-remove='tabRemove'>
               <el-tab-pane
                 :key="index"
                 v-for="(item, index) in openTab"
                 :label="item.name"
-                :name="item.route"
-                >
+                :name="item.route">
               </el-tab-pane>
             </el-tabs>
           </div>
@@ -46,17 +81,37 @@
 </template>
 
 <script>
-import Slider from '@/components/admin/index/Slider.vue'
 import { getRequest } from '@/utils/api'
 export default {
-  name: 'admin',
   components: {
-    Slider,
   },
-  
+  data() {
+    return {
+      folded: false,
+    }
+  },
   methods: {
-    
-
+    //输出点击的导航栏 号
+    handleSelect(key) {
+      this.$router.push(key);
+    },
+    //退出按钮
+    lgout() {
+      this.$confirm('是否确定退出?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then((action) => {
+        // action分别为confirm（确认），cancel（取消），close（关闭）的时候分别触发回调。
+        if(action === 'confirm'){
+          getRequest('/login/logout').then(resp => {
+            this.$message.success(resp.data.body);
+            localStorage.removeItem('token');
+            this.$router.replace({path:'/login'});
+          })
+        }
+      });
+    },
     //tab标签点击时，切换相应的路由
     tabClick(tab){
       console.log("tab",tab);
@@ -88,16 +143,15 @@ export default {
     // 刷新时以当前路由做为tab加入tabs
     // 当前路由不是首页时，添加首页以及另一页到store里，并设置激活状态
     // 当当前路由是首页时，添加首页到store，并设置激活状态
-  if (this.$route.path !== '/admin') {
-      console.log('1');
-      this.$store.commit('add_tabs', {route: '/admin'});
-      this.$store.commit('add_tabs', {route: this.$route.path , name: this.$route.name });
+    // if (this.$route.path !== '/admin' && this.$route.path !== '/admin/home') {
+  if (this.$route.path !== '/admin/home') {
+      this.$store.commit('add_tabs', {route: '/admin/home', name: '首页'});
+      this.$store.commit('add_tabs', {route: this.$route.path , name: this.$route.name});
       this.$store.commit('set_active_index', this.$route.path);
     } else {
-      console.log('2');
-      this.$store.commit('add_tabs', {route: '/admin'});
-      this.$store.commit('set_active_index', '/admin');
-      this.$router.push('/admin');
+      this.$store.commit('add_tabs', {route: '/admin/home', name: '首页'});
+      this.$store.commit('set_active_index', '/admin/home');
+      this.$router.push('/admin/home');
     }
   },
   computed: {
@@ -149,10 +203,7 @@ export default {
     width: 100%;
     font-size: 24px;
     line-height: 60px;
-  }
-  .logo {
-    padding: 5px;
-    height: 100%;
+    z-index: 1000;
   }
   .left {
     background-color: rgb(48, 65, 86);
@@ -183,6 +234,18 @@ export default {
   }
   .folded .main {
     margin-left: 64px;
+  }
+  .btn_fold {
+    display: block;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    bottom: 0px;
+    font-size: 24px;
+    text-align: center;
+    background-color: #E4E7ED;
+    cursor: pointer;
   }
   
 </style>

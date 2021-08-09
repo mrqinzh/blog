@@ -40,13 +40,14 @@ export default new VueRouter({
         { 
             path: '/admin',
             name: 'admin',
+            redirect: '/admin/home',
             component: () => import('@/views/admin/Admin'),
             children: [
-                { path: '/admin', name: 'adminHome', component: () => import('@/views/admin/Index.vue') },
-                { path: '/admin/user', name: 'adminUser', component: () => import('@/views/admin/system/UserManager.vue') },
-                { path: '/admin/blog', name: 'adminBlog' , component: () => require('@/views/admin/system/BlogManager.vue') },
-                { path: '/admin/comment', name: 'adminComment', component: () => import('@/views/admin/system/comment.vue') },
-                { path: '/admin/article/add', name: 'adminAdd', component: () => import('@/views/admin/system/article/add.vue') },
+                { path: '/admin/home', name: '首页', component: () => import('@/views/admin/Index.vue') },
+                { path: '/admin/user', name: '用户管理', component: () => import('@/views/admin/system/UserManager.vue') },
+                { path: '/admin/blog', name: '文章管理' , component: () => import('@/views/admin/system/BlogManager.vue') },
+                { path: '/admin/comment', name: '评论管理', component: () => import('@/views/admin/system/comment.vue') },
+                { path: '/admin/article/add', name: '写文章', component: () => import('@/views/admin/system/article/add.vue') },
             ]
         },
         { path: '*', component: () => import(/* Error */'@/views/Error') },

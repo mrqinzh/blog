@@ -9,14 +9,19 @@ import com.mrqinzh.service.ArticleService;
 import com.mrqinzh.util.Page;
 import com.mrqinzh.util.RedisUtil;
 import com.mrqinzh.util.Resp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class.getSimpleName());
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -30,6 +35,8 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> articles = articleMapper.list(pageDTO);
         PageInfo<Article> pageInfo = new PageInfo<>(articles);
 
+
+
         return Page.getPageData(pageInfo);
     }
 
@@ -40,6 +47,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public void add(Article article) {
         String articleSummary = stripHtml(article.getArticleSummary());
         if (articleSummary.length() > 100) {
@@ -52,6 +60,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public Resp update(Article article) {
 
         article.setArticleUpdateTime(new Date());
@@ -62,6 +71,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer articleId) {
 //        articleMapper.delete(articleId);
     }

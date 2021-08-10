@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mrqinzh.model.entity.User;
 import com.mrqinzh.util.RedisUtil;
 import com.mrqinzh.util.Resp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
+
+    private static final Logger logger = LoggerFactory.getLogger(TokenInterceptor.class.getSimpleName());
 
     @Autowired
     private RedisUtil redisUtil;
@@ -34,6 +38,8 @@ public class TokenInterceptor implements HandlerInterceptor {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(Resp.error("403", "权限不足"));
         resp.getWriter().write(json);
+
+        logger.error("token验证失败 => " + token);
 
         return false;
     }

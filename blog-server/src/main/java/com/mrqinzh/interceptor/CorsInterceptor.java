@@ -1,5 +1,7 @@
 package com.mrqinzh.interceptor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -8,8 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CorsInterceptor implements HandlerInterceptor {
 
+    private static final Logger logger = LoggerFactory.getLogger(CorsInterceptor.class.getSimpleName());
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        logger.info("有请求进来了。。。ip => " + request.getRemoteAddr());
 
         //表示接受任意域名的请求,也可以指定域名
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));
@@ -24,7 +30,7 @@ public class CorsInterceptor implements HandlerInterceptor {
 
         //判断前端简单请求 非简单请求（请求为json类型为非简单请求）
         //遇简放行
-        if(HttpMethod.OPTIONS.toString().equals(request.getMethod())){
+        if (HttpMethod.OPTIONS.toString().equals(request.getMethod())) {
             return true;
         }
         return true;

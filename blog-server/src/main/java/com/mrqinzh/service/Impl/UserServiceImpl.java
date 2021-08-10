@@ -8,11 +8,15 @@ import java.util.UUID;
 import com.mrqinzh.service.UserService;
 import com.mrqinzh.util.RedisUtil;
 import com.mrqinzh.util.Resp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class.getSimpleName());
 
     @Autowired
     private UserMapper userMapper;
@@ -22,6 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Resp getByUsernameOrEmail(User user) {
+        logger.info("有用户进行了登录操作。。。user => " + user);
         User realUser = userMapper.getByUsernameOrEmail(user.getUserName());
         // 数据库进行了md5加密加盐
         if (null == realUser || !realUser.getUserPwd().equals(user.getUserPwd())){

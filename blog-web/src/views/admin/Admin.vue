@@ -44,7 +44,7 @@
             </el-submenu>
             <el-submenu index="2">
               <template slot="title">
-                <i class="el-icon-menu"></i>
+                <i class="el-icon-document"></i>
                 <span slot="title">文章管理</span>
               </template>
               <el-menu-item index="/admin/article/add">写文章</el-menu-item>
@@ -54,22 +54,20 @@
 
         <el-main class="main">
           <!-- 此处放置el-tabs代码 -->
-          <div>
-            <el-tabs
-              v-model="activeIndex"
-              type="card"
-              closable
-              v-if="openTab.length"
-              @tab-click='tabClick'
-              @tab-remove='tabRemove'>
-              <el-tab-pane
-                :key="index"
-                v-for="(item, index) in openTab"
-                :label="item.name"
-                :name="item.route">
-              </el-tab-pane>
-            </el-tabs>
-          </div>
+          <el-tabs
+            v-model="activeIndex"
+            type="card"
+            closable
+            v-if="openTab.length"
+            @tab-click='tabClick'
+            @tab-remove='tabRemove'>
+            <el-tab-pane
+              :key="index"
+              v-for="(item, index) in openTab"
+              :label="item.name"
+              :name="item.route">
+            </el-tab-pane>
+          </el-tabs>
 
           <div class="admin-content">
             <router-view></router-view>
@@ -196,7 +194,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
   .header {
     background-color: #E4E7ED;
     position: fixed;

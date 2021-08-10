@@ -10,6 +10,7 @@ import com.mrqinzh.util.Page;
 import com.mrqinzh.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,12 +36,14 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public Resp add(Tag tag) {
         tagMapper.add(tag);
         return Resp.ok(null);
     }
 
     @Override
+    @Transactional
     public Resp delete(Integer id) {
         tagMapper.delete(id);
         return Resp.ok(null);

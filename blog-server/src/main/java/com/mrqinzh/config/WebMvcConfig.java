@@ -29,6 +29,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/file/**")
                 .addPathPatterns("/article/add")
-                .addPathPatterns("/comment/add");
+                .addPathPatterns("/comment/add")
+                .addPathPatterns("/logout");
     }
 }

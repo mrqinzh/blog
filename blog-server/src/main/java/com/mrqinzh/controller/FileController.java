@@ -1,30 +1,31 @@
 package com.mrqinzh.controller;
 
-import com.mrqinzh.model.entity.User;
+import com.mrqinzh.service.FileService;
 import com.mrqinzh.service.UserService;
+import com.mrqinzh.util.Resp;
 import io.swagger.annotations.Api;
-import net.bytebuddy.implementation.bind.annotation.Pipe;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
-import java.util.UUID;
 
 @Api(tags = "文件接口")
 @CrossOrigin
-@RequestMapping("/file")
+@RequestMapping("file")
 @RestController
 public class FileController {
 
     @Autowired
-    private UserService userService;
+    private FileService fileService;
+
+    @ApiOperation(value = "添加一个文件")
+    @PostMapping("add")
+    public Resp add(HttpServletRequest request, MultipartFile file) {
+        return fileService.add(request, file);
+    }
+
 
 //    private static final String baseFolderPath = "/files/";
 //    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");

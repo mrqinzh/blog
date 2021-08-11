@@ -28,7 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // token 验证拦截器
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/file/**")
-                .addPathPatterns("/article/add")
+//                .addPathPatterns("/article/add")
                 .addPathPatterns("/comment/add")
                 .addPathPatterns("/logout");
     }

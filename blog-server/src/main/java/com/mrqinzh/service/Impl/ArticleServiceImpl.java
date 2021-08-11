@@ -15,8 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -35,8 +38,6 @@ public class ArticleServiceImpl implements ArticleService {
         List<Article> articles = articleMapper.list(pageDTO);
         PageInfo<Article> pageInfo = new PageInfo<>(articles);
 
-
-
         return Page.getPageData(pageInfo);
     }
 
@@ -48,7 +49,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public void add(Article article) {
+    public Resp add(Article article, HttpServletRequest request) {
+
+        // request 添加 文章userId & articleAuthor信息
+        // 目前处于写死的状态，后续通过 request获取
+        article.setUserId(1).setArticleAuthor("秦志宏");
+
         String articleSummary = stripHtml(article.getArticleSummary());
         if (articleSummary.length() > 100) {
             article.setArticleSummary(articleSummary.substring(0, 100));
@@ -56,7 +62,12 @@ public class ArticleServiceImpl implements ArticleService {
             article.setArticleSummary(articleSummary);
         }
 
+        article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date()).setArticleViews(0);
+
         articleMapper.add(article);
+
+        logger.info("新增文章了。。。 => " + article);
+        return Resp.ok(article.getId());
     }
 
     @Override

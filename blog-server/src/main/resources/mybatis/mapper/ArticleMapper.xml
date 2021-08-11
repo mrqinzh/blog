@@ -50,6 +50,34 @@
             a.id = #{articleId}
     </select>
 
+    <insert id="add" parameterType="com.mrqinzh.model.entity.Article" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO article (
+            article_author,
+            article_title,
+            article_summary,
+            article_update_time,
+            article_create_time,
+            article_content_md,
+            article_tag,
+            article_type,
+            article_views,
+            user_id
+        )
+        VALUES
+            (
+                #{articleAuthor},
+                #{articleTitle},
+                #{articleSummary},
+                #{articleUpdateTime},
+                #{articleCreateTime},
+                #{articleContentMd},
+                #{articleTag},
+                #{articleType},
+                #{articleViews},
+                #{userId}#
+            )
+    </insert>
+
     <!-- article_title = #{articleTitle}, article_summary = #{articleSummary}, article_update_time = #{articleUpdateTime}, article_content_md = #{articleContentMd}, article_tag = #{articleTag}, article_type = #{articleType} -->
     <update id="update" parameterType="com.mrqinzh.model.entity.Article">
         UPDATE

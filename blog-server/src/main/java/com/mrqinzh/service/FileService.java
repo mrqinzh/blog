@@ -9,4 +9,6 @@ public interface FileService {
 
     Resp add(HttpServletRequest request, MultipartFile file);
 
+    Resp delete(String condition);
+
 }

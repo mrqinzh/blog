@@ -1,26 +1,22 @@
 package com.mrqinzh.service.Impl;
 
 import com.mrqinzh.mapper.FileMapper;
+import com.mrqinzh.model.entity.MyFile;
 import com.mrqinzh.service.FileService;
+import com.mrqinzh.util.FileUtil;
 import com.mrqinzh.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
+import java.util.Map;
 
 @Service
 public class FileServiceImpl implements FileService {
-
-    private static final String BASE_FOLDER_PATH = "/files/"; // 文件存储根路径
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
     @Autowired
     private FileMapper fileMapper;
@@ -28,32 +24,46 @@ public class FileServiceImpl implements FileService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Resp add(HttpServletRequest request, MultipartFile file) {
-        String filePath = sdf.format(new Date());
-        String fileName = UUID.randomUUID().toString().replaceAll("-", "");
-        File baseFolder = new File(BASE_FOLDER_PATH + filePath);
-        if (!baseFolder.exists()) {
-            baseFolder.mkdir();
-        }
-        File realPath = new File(baseFolder, fileName);
-        try {
-            FileCopyUtils.copy(file.getBytes(), realPath);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        Map<String, Object> fileData = FileUtil.getFilePath(request, file);
+        if (!((Boolean) fileData.get("status"))) {
+            return Resp.error("200", "文件上传失败");
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(request.getScheme())
-                .append("://")
-                .append(request.getServerName())
-                .append(":")
-                .append(request.getServerPort())
-                .append(request.getContextPath())
-                .append(BASE_FOLDER_PATH)
-                .append(filePath)
-                .append("/")
-                .append(fileName);
+        String fileSize = FileUtil.getFileSize(file.getSize());
+        String fileType = fileData.get("fileType").toString();
+        String fileName = fileData.get("fileName").toString();
+        String filePath = fileData.get("filePath").toString();
 
-        return null;
+        MyFile dbFile = new MyFile();
+        dbFile.setFileCreateTime(new Date());
+        dbFile.setFileName(fileName);
+        dbFile.setFilePath(filePath);
+        dbFile.setFileSize(fileSize);
+        dbFile.setFileType(fileType);
+
+        boolean add = fileMapper.add(dbFile);
+        if (add) {
+            return Resp.ok(fileData.get("resultUrl").toString());
+        }
+        return Resp.error("200", "数据库保存错误");
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Resp delete(String condition) {
+        MyFile dbFile = fileMapper.getOne(condition);
+        String filePath =  dbFile.getFilePath() + "\\" + dbFile.getFileName();
+        File file = new File(filePath);
+        if (!file.exists()) {
+            return Resp.ok("文件不存在");
+        }
+        if (file.delete()) {
+            return Resp.ok("文件已删除");
+        }
+        fileMapper.delete(condition);
+
+        return Resp.error("200", "错误操作");
     }
 }

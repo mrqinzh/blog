@@ -131,11 +131,11 @@ export default {
     // 将图片上传到服务器，返回地址替换到md中
     uploadImg (pos, $file) {
       var formdata = new FormData();
-      formdata.append('image', $file);
-      uploadFileRequest('/file/uploadImg', formdata).then(resp => {
+      formdata.append('file', $file);
+      uploadFileRequest('/file/add', formdata).then(resp => {
         // console.log(resp)
-        if (resp.data.code === "200") {
-          var url = resp.data.body;
+        if (resp.data.success) {
+          var url = resp.data.data;
           this.$refs.md.$img2Url(pos, url);
         } else {
           this.$message.error(resp.message)
@@ -147,13 +147,10 @@ export default {
     // 删除图片
     imgDel(pos){
       var imgPlace = pos[0].slice(37); // 截取文件名
-      deleteRequest('/file/delImg/' + imgPlace).then(resp => {
+      // console.log(imgPlace);
+      deleteRequest('/file/delete/' + imgPlace).then(resp => {
         // console.log(resp)
-      },
-      error => {
-        
       })
-      
     }, 
 
     // 添加标签相关方法

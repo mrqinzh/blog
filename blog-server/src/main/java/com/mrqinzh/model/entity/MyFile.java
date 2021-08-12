@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class File implements Serializable {
+public class MyFile implements Serializable {
 
     private Integer id;
 
@@ -20,10 +20,8 @@ public class File implements Serializable {
 
     private String fileType;
 
-    private Date fileCreateDate;
+    private Date fileCreateTime;
 
     private String fileSize;
-
-    private String fileSuffix;
 
 }

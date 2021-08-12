@@ -26,10 +26,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new CorsInterceptor()).addPathPatterns("/**");
 
         // token 验证拦截器
-        registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/file/**")
-//                .addPathPatterns("/article/add")
-                .addPathPatterns("/comment/add")
-                .addPathPatterns("/logout");
+//        registry.addInterceptor(tokenInterceptor)
+////                .addPathPatterns("/file/**")
+////                .addPathPatterns("/article/add")
+//                .addPathPatterns("/comment/add")
+//                .addPathPatterns("/logout");
     }
 }

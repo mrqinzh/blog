@@ -2,7 +2,7 @@
   <div class="animate__animated animate__fadeIn">
     <el-container>
       <el-header>
-        <el-input :maxlength="25" v-model="article.article_title" placeholder="请输入标题..." show-word-limit style="width: 400px;margin-left: 10px"></el-input>
+        <el-input :maxlength="25" v-model="article.articleTitle" placeholder="请输入标题..." show-word-limit style="width: 400px;margin-left: 10px"></el-input>
 
         <span style="margin-left: 10px;font-size: 17px">选择文章标签：</span>
         <el-tag
@@ -55,7 +55,7 @@
 
 <script>
 import { isNotNullORBlank } from '@/utils/utils'
-import { postRequest, getRequest, deleteRequest, uploadFileRequest} from '@/utils/api'
+import { base, postRequest, getRequest, deleteRequest, uploadFileRequest} from '@/utils/api'
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import 'mavon-editor/dist/markdown/github-markdown.min.css'
@@ -72,8 +72,7 @@ export default {
       // 保存表单
       article: {
         // article_id: '',
-        article_title: '',
-        article_time: '',
+        articleTitle: '',
         articleType: '',
       },
 
@@ -94,7 +93,7 @@ export default {
     },
     //真正的保存方法
     saveBlog() {
-      if (this.articles.article_title === "" || this.content === "") {
+      if (this.article.articleTitle === "" || this.content === "") {
         this.$message.warning('标题和内容均不能为空哦，不然还有什么保存的意义！ ！！');
         return;
       };
@@ -106,20 +105,20 @@ export default {
         url = '/article/add'
         console.log("添加")
       }
-      postRequest(url, {       //   /article/addarticle
-        article_author: this.articles.article_author,
-        article_title: this.articles.article_title,
-        article_md: this.content,
-        article_html: this.html,
-        article_time: Date.parse(new Date()),
-        article_tag: this.dynamicTags.toString().toLowerCase(),
-      }).then(resp => {
-        // console.log(resp)     
-        if (resp.data === 1 && resp.status === 200) {
+      let param = {
+        articleTitle: this.article.articleTitle,
+        articleContentMd: this.content,
+        articleSummary: this.html,
+        articleTag: this.dynamicTags.toString(),
+        articleType: this.article.articleType
+      }
+      postRequest(url, param).then(resp => {
+        console.log(resp)     
+        if (resp.data.success) {
           this.$message.success('恭喜恭喜，保存成功了。 => ^_^');
         } else {
           this.$message.warning('保存失败');
-        };
+        }
       },
       error => {
         this.$message.warning('保存失败');
@@ -132,11 +131,11 @@ export default {
     // 将图片上传到服务器，返回地址替换到md中
     uploadImg (pos, $file) {
       var formdata = new FormData();
-      formdata.append('image', $file);
-      uploadFileRequest('/file/uploadImg', formdata).then(resp => {
+      formdata.append('file', $file);
+      uploadFileRequest('/file/add', formdata).then(resp => {
         // console.log(resp)
-        if (resp.data.code === "200") {
-          var url = resp.data.body;
+        if (resp.data.success) {
+          var url = resp.data.data;
           this.$refs.md.$img2Url(pos, url);
         } else {
           this.$message.error(resp.message)
@@ -148,13 +147,10 @@ export default {
     // 删除图片
     imgDel(pos){
       var imgPlace = pos[0].slice(37); // 截取文件名
-      deleteRequest('/file/delImg/' + imgPlace).then(resp => {
+      // console.log(imgPlace);
+      deleteRequest('/file/delete/' + imgPlace).then(resp => {
         // console.log(resp)
-      },
-      error => {
-        
       })
-      
     }, 
 
     // 添加标签相关方法

@@ -39,10 +39,7 @@ public class ArticleController {
     @ApiOperation(value = "添加文章")
     @PostMapping("/add")
     public Resp add(@RequestBody Article article, HttpServletRequest request) {
-        User user = (User) request.getAttribute("user");
-        article.setUserId(user.getId());
-        articleService.add(article);
-        return Resp.ok("添加成功");
+        return articleService.add(article, request);
     }
 
     @ApiOperation(value = "根据 articleId 更新文章")

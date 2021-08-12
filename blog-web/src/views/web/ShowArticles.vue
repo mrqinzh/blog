@@ -236,19 +236,20 @@ export default {
 
 <style lang="scss">
   .article-content {
-    border: 1px solid red;
+    // border: 1px solid red;
     padding: 30px;
     font-size: 18px;
     font-family: KaiTi;
+    color: #303133;
     background-color: white;
     h1 {
       color: #F56C6C;
     }
     h2 {
-      color: #67C23A;
+      color: #E6A23C;
     }
     h3 {
-      color: #E6A23C;
+      color: #67C23A;
     }
     img {
       width: 100%;

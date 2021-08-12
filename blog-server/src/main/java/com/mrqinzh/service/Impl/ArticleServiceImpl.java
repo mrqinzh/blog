@@ -9,14 +9,22 @@ import com.mrqinzh.service.ArticleService;
 import com.mrqinzh.util.Page;
 import com.mrqinzh.util.RedisUtil;
 import com.mrqinzh.util.Resp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class.getSimpleName());
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -40,7 +48,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void add(Article article) {
+    @Transactional
+    public Resp add(Article article, HttpServletRequest request) {
+
+        // request 添加 文章userId & articleAuthor信息
+        // 目前处于写死的状态，后续通过 request获取
+        article.setUserId(1).setArticleAuthor("秦志宏");
+
         String articleSummary = stripHtml(article.getArticleSummary());
         if (articleSummary.length() > 100) {
             article.setArticleSummary(articleSummary.substring(0, 100));
@@ -48,10 +62,16 @@ public class ArticleServiceImpl implements ArticleService {
             article.setArticleSummary(articleSummary);
         }
 
+        article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date()).setArticleViews(0);
+
         articleMapper.add(article);
+
+        logger.info("新增文章了。。。 => " + article);
+        return Resp.ok(article.getId());
     }
 
     @Override
+    @Transactional
     public Resp update(Article article) {
 
         article.setArticleUpdateTime(new Date());
@@ -62,6 +82,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer articleId) {
 //        articleMapper.delete(articleId);
     }

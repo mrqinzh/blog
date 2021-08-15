@@ -18,7 +18,4 @@
         </environment>
     </environments>
 
-    <mappers>
-        <package name="com.mrqinzh.mapper" />
-    </mappers>
 </configuration>

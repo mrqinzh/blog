@@ -2,7 +2,6 @@ package com.mrqinzh.controller;
 
 import com.mrqinzh.model.dto.PageDTO;
 import com.mrqinzh.model.entity.Article;
-import com.mrqinzh.model.entity.User;
 import com.mrqinzh.service.ArticleService;
 
 import com.mrqinzh.util.Page;
@@ -12,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = "文章接口")

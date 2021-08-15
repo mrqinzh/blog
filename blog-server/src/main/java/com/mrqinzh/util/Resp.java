@@ -1,12 +1,10 @@
 package com.mrqinzh.util;
 
-import java.io.Serializable;
-
 /**
  * 统一返回数据类型
  * @param <E> 传入数据类型
  */
-public class Resp<E> implements Serializable {
+public class Resp<E> {
 
     private String code;
     private boolean success;
@@ -25,6 +23,10 @@ public class Resp<E> implements Serializable {
         this.success = success;
         this.data = body;
     }
+
+
+
+
 
     public String getCode() {
         return code;

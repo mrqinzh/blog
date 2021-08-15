@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard', affix: true }
     }]
   },
 
@@ -123,20 +123,8 @@ export const constantRoutes = [
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
                 name: 'Menu1-2-1',
                 meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
               }
             ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
           }
         ]
       },
@@ -160,13 +148,19 @@ export const constantRoutes = [
         path: 'user',
         name: 'User',
         component: () => import('@/views/system/user/User'),
-        meta: { title: '用户', icon: 'user' }
+        meta: { title: '用户管理', icon: 'user' }
       },
       {
         path: 'article',
         name: 'Article',
         component: () => import('@/views/system/article/Article'),
-        meta: { title: '文章', icon: 'el-icon-reading' }
+        meta: { title: '文章管理', icon: 'el-icon-reading' }
+      },
+      {
+        path: 'comment',
+        name: 'Comment',
+        component: () => import('@/views/system/comment/Comment'),
+        meta: { title: '评论管理', icon: 'el-icon-chat-line-round' }
       }
     ]
   },
@@ -176,8 +170,8 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'http://mrqinzh.info/',
+        meta: { title: '网站前台', icon: 'link' }
       }
     ]
   },

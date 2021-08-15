@@ -64,8 +64,33 @@ export default {
   mounted() {
     this.initTags()
     this.addTags()
+    this.beforeUnload()
   },
   methods: {
+    beforeUnload() {
+      // 监听页面刷新
+      window.addEventListener('beforeunload', () => {
+        // visitedViews数据结构太复杂无法直接JSON.stringify处理，先转换需要的数据
+        const tabViews = this.visitedViews.map(item => {
+          return {
+            fullPath: item.fullPath,
+            hash: item.hash,
+            meta: { ...item.meta },
+            name: item.name,
+            params: { ...item.params },
+            path: item.path,
+            query: { ...item.query },
+            title: item.title
+          }
+        })
+        sessionStorage.setItem('tabViews', JSON.stringify(tabViews))
+      })
+      // 页面初始化加载判断缓存中是否有数据
+      const oldViews = JSON.parse(sessionStorage.getItem('tabViews')) || []
+      if (oldViews.length > 0) {
+        this.$store.state.tagsView.visitedViews = oldViews
+      }
+    },
     isActive(route) {
       return route.path === this.$route.path
     },
@@ -74,23 +99,25 @@ export default {
     },
     filterAffixTags(routes, basePath = '/') {
       let tags = []
-      routes.forEach(route => {
-        if (route.meta && route.meta.affix) {
-          const tagPath = path.resolve(basePath, route.path)
-          tags.push({
-            fullPath: tagPath,
-            path: tagPath,
-            name: route.name,
-            meta: { ...route.meta }
-          })
-        }
-        if (route.children) {
-          const tempTags = this.filterAffixTags(route.children, route.path)
-          if (tempTags.length >= 1) {
-            tags = [...tags, ...tempTags]
+      if (this.routes) {
+        routes.forEach(route => {
+          if (route.meta && route.meta.affix) {
+            const tagPath = path.resolve(basePath, route.path)
+            tags.push({
+              fullPath: tagPath,
+              path: tagPath,
+              name: route.name,
+              meta: { ...route.meta }
+            })
           }
-        }
-      })
+          if (route.children) {
+            const tempTags = this.filterAffixTags(route.children, route.path)
+            if (tempTags.length >= 1) {
+              tags = [...tags, ...tempTags]
+            }
+          }
+        })
+      }
       return tags
     },
     initTags() {
@@ -199,7 +226,7 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 34px;
+  height: 40px;
   width: 100%;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
@@ -209,8 +236,8 @@ export default {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 26px;
-      line-height: 26px;
+      height: 28px;
+      line-height: 28px;
       border: 1px solid #d8dce5;
       color: #495060;
       background: #fff;

@@ -16,7 +16,7 @@
               主页
             </el-dropdown-item>
           </router-link>
-          <a href="javascript:;">
+          <a href="https://github.com/mrqinzh" target="_blank">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">

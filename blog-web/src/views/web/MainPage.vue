@@ -121,7 +121,7 @@
                 action="#"
                 :show-file-list="false"
                 :http-request="uploadSectionFile">
-                  <img src="http://localhost:9090/img/avatar.jpg" class="avatar">
+                  <img :src="user.avatar" class="avatar">
                 </el-upload>
               </div>
               <!-- 姓名、座右铭 -->
@@ -186,6 +186,7 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
         // 用户信息
         user: {
           name: '秦志宏',
+          avatar: 'http://mrqinzh.info:9090/img/avatar.jpg',
           vx: 'qzh09010',
           qq: '1552589784',
           tel: '157-3056-7860',
@@ -286,7 +287,6 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
     },
 
     mounted() {
-      
       // console.log(logOrNot())
       this.loadBlogs(this.currentPage, this.pageSize);
       this.log = logOrNot();

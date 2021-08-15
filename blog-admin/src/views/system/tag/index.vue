@@ -1,11 +1,12 @@
 <template>
-  <div class="article-container">
+  <div class="tag-container">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
         <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
+        <el-button type="primary" @click="addOrUpdateHandle()">新增</el-button>
         <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
@@ -16,46 +17,28 @@
       @selection-change="selectionChangeHandle"
       style="width: 100%;">
       <el-table-column
-        type="selection"
+        prop="tagId"
         header-align="center"
         align="center"
-        width="50">
+        label="标签编号">
+      </el-table-column>
+      <el-table-column
+        prop="tagName"
+        header-align="center"
+        align="center"
+        label="标签名称">
       </el-table-column>
       <el-table-column
         prop="articleId"
         header-align="center"
         align="center"
-        label="文章编号">
+        label="所属文章编号">
       </el-table-column>
       <el-table-column
-        prop="articleTitle"
+        prop="commentTime"
         header-align="center"
         align="center"
-        label="文章题目">
-      </el-table-column>
-      <el-table-column
-        prop="articleAuthor"
-        header-align="center"
-        align="center"
-        label="作者名">
-      </el-table-column>
-      <el-table-column
-        prop="articleContent"
-        header-align="center"
-        align="center"
-        label="文章内容">
-      </el-table-column>
-      <el-table-column
-        prop="articleCreateTime"
-        header-align="center"
-        align="center"
-        label="发布时间">
-      </el-table-column>
-      <el-table-column
-        prop="articleViews"
-        header-align="center"
-        align="center"
-        label="浏览量">
+        label="评论时间">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -64,8 +47,8 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.articleId)">修改</el-button>
-          <el-button type="text" size="small" @click="deleteHandle(scope.row.articleId)">删除</el-button>
+          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.commentId)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteHandle(scope.row.commentId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -78,11 +61,17 @@
       :total="totalPage"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
+    <!-- 弹窗, 新增 / 修改 -->
+    <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
   </div>
 </template>
 
 <script>
+import AddOrUpdate from './tag-add-or-update'
 export default {
+  components: {
+    AddOrUpdate
+  },
   data() {
     return {
       dataForm: {
@@ -94,6 +83,7 @@ export default {
       totalPage: 0,
       dataListLoading: false,
       dataListSelections: [],
+      addOrUpdateVisible: false
     }
   },
   activated() {
@@ -166,13 +156,20 @@ export default {
           }
         })
       })
-    }
+    },
+    // 新增 / 修改
+    addOrUpdateHandle (id) {
+      this.addOrUpdateVisible = true
+      this.$nextTick(() => {
+        this.$refs.addOrUpdate.init(id)
+      })
+    },
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.article {
+.tag {
   &-container {
     margin: 30px;
   }

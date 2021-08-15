@@ -40,10 +40,10 @@
         label="评论内容">
       </el-table-column>
       <el-table-column
-        prop="movieId"
+        prop="articleId"
         header-align="center"
         align="center"
-        label="所属电影编号">
+        label="所属文章编号">
       </el-table-column>
       <el-table-column
         prop="commentTime"

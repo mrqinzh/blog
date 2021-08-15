@@ -13,7 +13,7 @@
       <span>QQ: 1552589784</span>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <span>
-        <a href="https://github.com/mrqinzh"><a-icon type="github" theme="filled" /></a>
+        <a href="https://github.com/mrqinzh" target="_blank"><a-icon type="github" /></a>
         <a style="color: inherit" href="https://account.aliyun.com/login/qr_login.htm" target="_blank"><a-icon type="aliyun" /></a>
       </span>
     </div>

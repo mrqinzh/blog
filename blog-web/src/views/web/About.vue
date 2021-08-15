@@ -4,11 +4,6 @@
     <div class="content">
       <div>
         <el-avatar :src="user.avatar" :size="100" style="display: inline-block;"></el-avatar>
-        <el-upload
-          class="file"
-          list-type="picture-card">
-          <i class="el-icon-plus"></i>
-        </el-upload>
       </div>
       <div>
         <div style="margin-top: 10px;">自我介绍</div>
@@ -32,7 +27,7 @@ export default {
     return {
       user: {
         name: '秦志宏',
-        avatar: 'http://localhost:9090/img/avatar.jpg',
+        avatar: 'http://mrqinzh.info:9090/img/avatar.jpg',
         sex: '男',
         address: '重庆市渝北区',
         job: '00年的Java程序猿',

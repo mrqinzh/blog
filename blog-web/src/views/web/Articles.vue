@@ -169,7 +169,6 @@ export default {
 </script>
 
 <style>
-
   /* 卡片 */
   .card {
     height: 100px;

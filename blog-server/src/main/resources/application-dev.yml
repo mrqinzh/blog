@@ -1,7 +1,7 @@
 server:
   port: 9090
 
-logging.level.com.mrqinzh.mapper : debug
+logging.level.com.mrqinzh..blog.mapper : debug
 
 spring:
   datasource:

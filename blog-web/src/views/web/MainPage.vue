@@ -53,44 +53,38 @@
         <!-- 中间左侧文章列表部分 -->
         <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="16">
           <div class="animate__animated animate__fadeInUp">
-            <div style="min-height: 600px">
-              <div class="mystory" v-for="(item, index) in articles" :key="index">
-                <div style="padding: 10px 0 0 20px;">
-                  <blockquote style="border-left: 4px solid #409EFF">
-                    <h2 style="padding-left: 10px">
-                      <a class="boxchilde" @click="showBlog(item.id)">
-                        <span>{{item.articleTitle}}</span>
-                      </a>
-                    </h2>
-                  </blockquote>
-                </div>
-                <div style="margin: 5px 0 0 20px;">
-                    <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
-                    <a-tag color="#f50" v-else>转载</a-tag>
-                    <i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.articleAuthor}}</a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <i class="el-icon-date"></i>&nbsp;&nbsp;<a>{{item.articleUpdateTime}}</a>
-                </div>
-                <div class="content">
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.articleSummary }}。。。</span>
-                </div>
-                <div class="foot">
-                  <span v-for="(tag, index) in item.articleTag.split(',')" :key="index">
-                    <i class="layui-icon layui-icon-note"></i>&nbsp;&nbsp;<a>{{tag}}</a>&nbsp;&nbsp;
-                  </span>
-                  <span style="float: right;margin: 0 20px 10px 0;">
-                    <a style="color: red">
-                      <a-icon type="like" @click="like()"/>
-                    </a>
-                    <a style="color: red">
-                      <a-icon type="heart" @click="like()"/>
-                    </a>
-                    <a style="color: red;text-decoration:none; ">
-                      <a-icon type="eye" />
-                      <span>{{item.articleViews}}</span>
-                    </a>
-                  </span>
-                </div>
+            <div class="mystory" v-for="(item, index) in articles" :key="index">
+              <blockquote class="boxchilde">
+                <a  @click="showBlog(item.id)">
+                  <span>{{item.articleTitle}}</span>
+                </a>
+              </blockquote>
+              <div style="margin-left: 20px;">
+                  <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
+                  <a-tag color="#f50" v-else>转载</a-tag>
+                  <i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.articleAuthor}}</a>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <i class="el-icon-date"></i>&nbsp;&nbsp;<a>{{item.articleUpdateTime}}</a>
+              </div>
+              <div class="content">
+                &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.articleSummary }}。。。</span>
+              </div>
+              <div class="foot">
+                <span v-for="(tag, index) in item.articleTag.split(',')" :key="index">
+                  <a-icon type="tag" />&nbsp;&nbsp;<a>{{tag}}</a>&nbsp;&nbsp;
+                </span>
+                <span style="float: right;margin: 0 20px 10px 0;">
+                  <a style="color: red">
+                    <a-icon type="like" @click="like()"/>
+                  </a>
+                  <a style="color: red">
+                    <a-icon type="heart" @click="like()"/>
+                  </a>
+                  <a style="color: red;text-decoration:none; ">
+                    <a-icon type="eye" />
+                    <span>{{item.articleViews}}</span>
+                  </a>
+                </span>
               </div>
             </div>
             <!-- 分页 -->
@@ -129,24 +123,20 @@
                 <span>{{user.name}}</span><br>
                 <span style="font-size: 15px;line-height: 2em">{{user.motto}}</span>
               </div>
-              <div style="margin-top: 10px">
-                <el-button @click="drawer = true" type="primary" round style="margin-left: 16px;" class="hidden-xs-only">
-                  点击发现新世界
-                </el-button>
-              </div>
-              <div>
-                <span style="letter-spacing: 1em;color: #67C23A">
-                  <el-tooltip class="item" effect="dark" :content="user.vx" placement="bottom-start">
-                    <i class="layui-icon layui-icon-login-wechat" style="font-size: 35px"></i>
-                  </el-tooltip>
-                  <el-tooltip class="item" effect="dark" :content="user.qq" placement="bottom-start">
-                    <i class="layui-icon layui-icon-login-qq" style="font-size: 35px"></i>
-                  </el-tooltip>
-                  <el-tooltip class="item" effect="dark" :content="user.tel" placement="bottom-start">
-                    <i class="layui-icon layui-icon-cellphone" style="font-size: 35px"></i>
-                  </el-tooltip>
-                </span>
-              </div>
+              <el-button @click="drawer = true" type="primary" round class="hidden-xs-only" style="margin-top: 10px;">
+                点击发现新世界
+              </el-button>
+              <span style="letter-spacing: 1em;color: #67C23A;font-size: 35px;display: block;">
+                <el-tooltip class="item" effect="dark" :content="user.vx" placement="bottom-start">
+                  <a-icon type="wechat" />
+                </el-tooltip>
+                <el-tooltip class="item" effect="dark" :content="user.qq" placement="bottom-start">
+                  <a-icon type="qq" />
+                </el-tooltip>
+                <el-tooltip class="item" effect="dark" :content="user.tel" placement="bottom-start">
+                  <a-icon type="mobile" />
+                </el-tooltip>
+              </span>
             </div>
             <LinkCard></LinkCard>
             <!-- <WebInfo></WebInfo> -->
@@ -331,7 +321,6 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
   .user-card {
     margin: 30px 0;
     width: 100%;
-    min-height: 320px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     background-color: white;
     text-align: center;
@@ -378,12 +367,14 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
 
   /* 中间文章内容的title动画 */
   .boxchilde{
+    font-size: 20px;
+    margin: 10px 0 7px 20px;
     display: inline-block;
     transition: all 0.4s ease-in;
   }
   .boxchilde:hover{
     cursor: pointer;
-    transform: translate(20px,0);
+    transform: translate(15px,0);
   }
 
 </style>

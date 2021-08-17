@@ -55,15 +55,18 @@
                     <div class="card_head">
                       <span><a  @click="showBlog(item.id)">{{ item.articleTitle }}</a></span>
                     </div>
-                    <hr>
                     <div class="card_foot">
                       <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
                       <a-tag color="#f50" v-else>转载</a-tag>
                       <i class="el-icon-s-custom"></i>
                       <span><a style="color: #898d92">{{ item.articleAuthor }}</a></span>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <i class="el-icon-price-tag"></i>
+                      <a-icon type="tags" />
                       <span><a style="color: #898d92">{{ item.articleTag }}</a></span>
+                      <span style="float: right;margin: 0px 15px;">
+                        <a-icon type="eye" />
+                        {{item.articleViews}}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -171,13 +174,12 @@ export default {
 <style>
   /* 卡片 */
   .card {
-    height: 100px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     background-color: white;
   }
   .card_head {
     font-size: 20px;
-    padding: 15px 0 0 20px;
+    padding: 10px 0 0 20px;
   }
   .card span a:hover {
     text-decoration: underline;
@@ -185,7 +187,7 @@ export default {
   .card_foot {
     color: #898d92;
     background-color: rgba(244,246,247,0.2);
-    padding: 10px 5px 5px 15px
+    padding: 10px 5px 10px 15px
   }
 
   .chooseType {

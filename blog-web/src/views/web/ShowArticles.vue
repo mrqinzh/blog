@@ -12,13 +12,13 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
         <div style="margin-top: 30px" v-loading="loading" class="animate__animated animate__fadeIn">
           <!-- 文章头区域 -->
-          <div style="font-size: 17px;">
-            <h1 style="font-size: 40px;text-align: center"><strong>{{article.articleTitle}}</strong></h1>
+          <div style="font-size: 15px;">
+            <h1 class="big-title">{{article.articleTitle}}</h1>
             
             <div style="margin: 20px;text-align: right;">
+              <a-tag :color="article.articleType === '原创' ? '#87d068' : 'f50'">{{ article.articleType}}</a-tag>
               <i class="el-icon-user"></i>&nbsp;&nbsp;<span>{{article.articleAuthor}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
               <i class="el-icon-date"></i>&nbsp;&nbsp;<span>{{article.articleUpdateTime}}</span>
-              <el-tag :type="article.articleType === '原创' ? 'success' : 'danger'" style="float: left;">{{ article.articleType}}</el-tag>
             </div>
           </div>
           
@@ -26,28 +26,25 @@
           <div class="article-content" v-html="content"></div>
 
           <!-- 底部评论区域 -->
-          <div class="page_footer">
-            <div>
-              <el-input
-                type="textarea"
-                placeholder="请输入内容"
-                maxlength="100"
-                show-word-limit
-                :rows="6"
-                v-model="commentContent"
-                >
-              </el-input>
-              <el-button style="margin: 20px 0 0 80%" @click="submitComment(0)" type="primary" icon="el-icon-edit">发表评论</el-button>
-            </div>
-            <blockquote style="margin: 30px 0">
-              <h1 style="padding: 0 0 0 20px">所有评论</h1>
+          <div class="page-comment">
+            <el-input
+              type="textarea"
+              placeholder="请输入内容"
+              maxlength="100"
+              show-word-limit
+              :rows="6"
+              v-model="commentContent"
+              >
+            </el-input>
+            <el-button style="margin: 20px 0 0 80%" @click="submitComment(0)" type="primary" icon="el-icon-edit" size="small">发表评论</el-button>
+            <blockquote>
+              <h2 style="padding: 0 0 0 20px">所有评论</h2>
             </blockquote>
             <div style="line-height: 2em" v-loading="loading2">
-
               <div v-for="(item, index) in parentComments" :key="index">
                 <div style="display: inline-block;">
                   <el-avatar :src="item.user.userAvatar"></el-avatar>
-                  <span style="font-size: 19px;margin-left: 20px">{{ item.user.nickname}}</span>
+                  <span style="font-size: 19px;margin-left: 20px">{{ item.user.userName}}</span>
                   <span style="font-size: 17px;margin-left: 50px">评论时间： {{ item.commentTime}}</span>
                 </div>
                 <el-button style="margin-left: 50px"  @click="flag=index" type="primary" icon="el-icon-edit" size="mini">回复</el-button>
@@ -158,8 +155,8 @@ export default {
       this.currentArticleId = this.$route.query.article_id;
       getRequest(`/article/${this.$route.query.article_id}`).then(resp => {
         // console.log(resp);
-        this.content = md.render(`${resp.data.data.data.articleContentMd}`);
-        this.article = resp.data.data.data;
+        this.content = md.render(`${resp.data.data.articleContentMd}`);
+        this.article = resp.data.data;
         this.loading = false;
       });
     },
@@ -205,9 +202,11 @@ export default {
         this.loading2 = false;
       })
     },
-    // 更新浏览量
+    // 更新浏览量，存在问题 ==> 刷新页面也会发起请求，导致浏览量增加。
     updateViews() {
-      
+      postRequest(`/article/views/${this.$route.query.article_id}`).then(resp => {
+        // console.log(resp);
+      })
     }
     
   },
@@ -215,7 +214,7 @@ export default {
     this.isLogin = logOrNot();
     this.loadArticleInfo();
     this.loadComments();
-
+    // 添加代码块复制方法
     this.$nextTick(() => {
       this.clipboard = new Clipboard('.copy-btn')
       // 复制成功失败的提示
@@ -228,8 +227,11 @@ export default {
     });
 
   },
+  created() {
+    this.updateViews();
+  },
   destroyed () {
-    this.clipboard.destroy()
+    this.clipboard.destroy();
   }
 }
 </script>
@@ -238,7 +240,7 @@ export default {
   .article-content {
     // border: 1px solid red;
     padding: 30px;
-    font-size: 18px;
+    font-size: 16px;
     font-family: KaiTi;
     color: #303133;
     background-color: white;
@@ -254,6 +256,59 @@ export default {
     img {
       width: 100%;
     }
+    ul li, ol li {
+      list-style: disc;
+      margin-left: 15px;
+    }
+    li p.first {
+      display: inline-block;
+    }
+    ul,
+    ol {
+        padding-left: 30px;
+    }
+    ul:first-child,
+    ol:first-child {
+        margin-top: 0;
+    }
+    ul:last-child,
+    ol:last-child {
+        margin-bottom: 0;
+    }
+    table {
+      padding: 0;
+      word-break: initial;
+    }
+    table tr {
+      border: 1px solid #dfe2e5;
+      margin: 0;
+      padding: 0;
+    }
+    table tr:nth-child(2n),
+    thead {
+      background-color: #f8f8f8;
+    }
+    table th {
+      font-weight: bold;
+      border: 1px solid #dfe2e5;
+      border-bottom: 0;
+      margin: 0;
+      padding: 6px 13px;
+    }
+    table td {
+      border: 1px solid #dfe2e5;
+      margin: 0;
+      padding: 6px 13px;
+    }
+    table th:first-child,
+    table td:first-child {
+      margin-top: 0;
+    }
+    table th:last-child,
+    table td:last-child {
+      margin-bottom: 0;
+    }
+
   }
   pre.hljs {
     padding: 12px 2px 12px 40px !important;
@@ -313,5 +368,9 @@ export default {
       border-radius: 2px;
       width: 40px;
     }
+  }
+  .page-comment {
+    margin: 30px;
+    line-height: 1.8em;
   }
 </style>

@@ -8,7 +8,7 @@
   <!-- 页面主区域 -->
   <el-main style="min-height: 700px">
 
-    <router-view/>
+    <router-view />
   </el-main>
 
   <!-- 页面脚步区域 -->

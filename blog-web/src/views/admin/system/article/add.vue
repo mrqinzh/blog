@@ -116,6 +116,12 @@ export default {
         console.log(resp)     
         if (resp.data.success) {
           this.$message.success('恭喜恭喜，保存成功了。 => ^_^');
+          this.$notify({
+            title: '通知',
+            dangerouslyUseHTMLString: true,
+            duration: 0,
+            message: '<strong>有新文章添加了，快去看看把<a href="/" target="_blank">点击前往</a></strong>'
+          });
         } else {
           this.$message.warning('保存失败');
         }

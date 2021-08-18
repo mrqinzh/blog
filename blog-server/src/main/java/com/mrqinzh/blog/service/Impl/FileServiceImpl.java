@@ -1,22 +1,40 @@
 package com.mrqinzh.blog.service.Impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mrqinzh.blog.mapper.FileMapper;
 import com.mrqinzh.blog.model.entity.MyFile;
 import com.mrqinzh.blog.service.FileService;
 import com.mrqinzh.blog.util.FileUtil;
 import com.mrqinzh.blog.util.Resp;
+import com.qiniu.http.Response;
+import com.qiniu.storage.Configuration;
+import com.qiniu.storage.Region;
+import com.qiniu.storage.UploadManager;
+import com.qiniu.util.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class FileServiceImpl implements FileService {
+
+    @Value("${oos.qiniu.domain}")
+    private String domain;
+    @Value("${oos.qiniu.bucketname}")
+    private String bucketName;
+    @Value("${oos.qiniu.access-key}")
+    private String accessKey;
+    @Value("${oos.qiniu.secret-key}")
+    private String secretKey;
 
     @Autowired
     private FileMapper fileMapper;
@@ -66,4 +84,24 @@ public class FileServiceImpl implements FileService {
 
         return Resp.error(200, "错误操作");
     }
+
+    public Resp uploadToQiNiu(MultipartFile uploadFile) throws IOException {
+        Configuration cfg = new Configuration(Region.huadong());
+        UploadManager uploadManager = new UploadManager(cfg);
+        Auth auth = Auth.create(accessKey, secretKey);
+        String upToken = auth.uploadToken(bucketName);
+
+        String fileName = uploadFile.getOriginalFilename();
+        String suffix = fileName.substring(fileName.lastIndexOf("."));
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        fileName = uuid + suffix;
+
+        Response response = uploadManager.put(uploadFile.getBytes(), fileName, upToken);
+        System.out.println("res.bodyString() = " + response.bodyString());
+        JSONObject res = JSONObject.parseObject(response.bodyString());
+
+        String url = domain + "/" + res.getString("key");
+        return Resp.ok(url);
+    }
+
 }

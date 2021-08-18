@@ -5,7 +5,7 @@
 <mapper namespace="com.mrqinzh.blog.mapper.FileMapper">
 
     <insert id="add" parameterType="com.mrqinzh.blog.model.entity.MyFile">
-        INSERT INTO myFile (
+        INSERT INTO file (
             file_name,
             file_path,
             file_type,

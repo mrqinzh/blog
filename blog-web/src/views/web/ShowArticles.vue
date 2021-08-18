@@ -85,8 +85,6 @@ import Clipboard from 'clipboard'
 
 // 引入默认样式
 import 'highlight.js/styles/darcula.css' // 样式文件
-// 引入个性化的vs2015样式
-import 'highlight.js/styles/vs2015.css'
 
 const MarkdownIt = require('markdown-it')
 const hljs = require('highlight.js')
@@ -312,6 +310,7 @@ export default {
   }
   pre.hljs {
     padding: 12px 2px 12px 40px !important;
+    border: 1px solid;
     border-radius: 5px !important;
     position: relative;
     font-size: 15px !important;

@@ -55,7 +55,7 @@
           <div class="animate__animated animate__fadeInUp">
             <div class="mystory" v-for="(item, index) in articles" :key="index">
               <blockquote class="boxchilde">
-                <a  @click="showBlog(item.id)">
+                <a @click="showBlog(item.id)">
                   <span>{{item.articleTitle}}</span>
                 </a>
               </blockquote>
@@ -290,7 +290,7 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
   }
 </script>
 
-<style>
+<style lang="scss">
   /* 中间博客卡片 */
   .mystory {
     margin: 30px auto;
@@ -366,13 +366,16 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
   }
 
   /* 中间文章内容的title动画 */
-  .boxchilde{
+  .boxchilde {
     font-size: 20px;
     margin: 10px 0 7px 20px;
     display: inline-block;
-    transition: all 0.4s ease-in;
+    span {
+      display: inline-block;
+      transition: all 0.4s ease-in;
+    }
   }
-  .boxchilde:hover{
+  .boxchilde span:hover{
     cursor: pointer;
     transform: translate(15px,0);
   }

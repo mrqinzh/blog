@@ -17,8 +17,6 @@ public class MybatisTest {
         InputStream is = Resources.getResourceAsStream("mybatis/mybatis-config.xml");
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(is);
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        User user = sqlSession.selectOne("com.mrqinzh.blog.mapper.UserMapper.getByUsernameOrEmail", "1");
-        System.out.println(user);
     }
 
 }

@@ -4,11 +4,14 @@ import com.mrqinzh.blog.util.Resp;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 public interface FileService {
 
     Resp add(HttpServletRequest request, MultipartFile file);
 
     Resp delete(String condition);
+
+    Resp uploadToQiNiu(MultipartFile uploadFile) throws IOException;
 
 }

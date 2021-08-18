@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mrqinzh.blog.mapper.ArticleMapper">
+
     <cache />
 
     <resultMap id="baseMap" type="com.mrqinzh.blog.model.entity.Article">
@@ -83,12 +84,7 @@
         UPDATE
             article
         SET
-            <if test="articleViews != null"><!-- 判断是 浏览 还是 更新内容 -->
-                article_views = article_views + 1
-            </if>
-            <if test="articleViews == null">
-                article_title = #{articleTitle}, article_summary = #{articleSummary}, article_update_time = #{articleUpdateTime}, article_content_md = #{articleContentMd}, article_tag = #{articleTag}, article_type = #{articleType}
-            </if>
+            article_title = #{articleTitle}, article_summary = #{articleSummary}, article_update_time = #{articleUpdateTime}, article_content_md = #{articleContentMd}, article_tag = #{articleTag}, article_type = #{articleType}
         WHERE
             id = #{id}
     </update>

@@ -30,5 +30,14 @@ public class FileController {
         return fileService.delete(fileName);
     }
 
+    @PostMapping("qiniu")
+    public Resp uploadToQiniu(MultipartFile image) {
+        try {
+            return fileService.uploadToQiNiu(image);
+        } catch (Exception e) {
+            return Resp.error(500, "文件上传失败");
+        }
+    }
+
 
 }

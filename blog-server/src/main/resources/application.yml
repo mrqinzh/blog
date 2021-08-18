@@ -28,3 +28,18 @@ spring:
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
+
+# 七牛云配置
+oos:
+  qiniu:
+    domain: img.mrqinzh.info
+    bucketname: mrqinzh-blog
+    access-key: sKhKRCxpKHgYW-gy5g4Vzoos76jT1AA9Um7heSwC
+    secret-key: KBvSkna0rxl2ucTXltdA6wfzqZxAZs-jpESoNaEp
+
+
+#server:
+#  ssl:
+#    key-store: classpath:6138774_www.mrqinzh.info.pfx #拷贝到根目录的证书文件
+#    key-store-password: tK75MMVp #密码(下载tomcat证书压缩包里的txt文件)
+#    key-store-type: U0Iu879t       #固定写法

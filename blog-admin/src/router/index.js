@@ -31,6 +31,12 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
+
+  {
+    path: '/',
+    component: () => import('@/views/web/index')
+  },
+
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -44,9 +50,9 @@ export const constantRoutes = [
   },
 
   {
-    path: '/',
+    path: '/admin',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/admin/dashboard',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
@@ -56,7 +62,7 @@ export const constantRoutes = [
   },
 
   {
-    path: '/system',
+    path: '/admin/system',
     component: Layout,
     name: 'System',
     meta: { title: '系统', icon: 'el-icon-milk-tea' },
@@ -84,28 +90,6 @@ export const constantRoutes = [
         name: 'Tag',
         component: () => import('@/views/system/tag/index'),
         meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
-      }
-    ]
-  },
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: '示例', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: '表格', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '树形', icon: 'tree' }
       }
     ]
   },

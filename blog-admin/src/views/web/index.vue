@@ -22,11 +22,11 @@
         <hr>
         <p style="margin-top: 30px">
           微信 <br>
-          <img src="@/assets/static/img/vx.jpg" style="width: 150px; height: 150px">
+          <!-- <img src="@/assets/static/img/vx.jpg" style="width: 150px; height: 150px"> -->
         </p>
         <p style="margin-top: 30px">
           QQ <br>
-          <img src="@/assets/static/img/qq.jpg" style="width: 150px; height: 150px">
+          <!-- <img src="@/assets/static/img/qq.jpg" style="width: 150px; height: 150px"> -->
         </p>
       </div>
       <div style="margin-top: 20px">
@@ -138,9 +138,9 @@
                 </el-tooltip>
               </span>
             </div>
-            <LinkCard></LinkCard>
+            <!-- <LinkCard></LinkCard> -->
             <!-- <WebInfo></WebInfo> -->
-            <Tag></Tag>
+            <!-- <Tag></Tag> -->
           </div>
         </el-col>
         
@@ -157,9 +157,9 @@
 import Notice from '@/components/web/index/Notice'
 import Tag from '@/components/web/index/Tag'
 import LinkCard from '@/components/web/index/LinkCard';
-import WebInfo from '@/components/partial/WebInfo'
-import SearchBtn from '@/components/partial/SearchBtn'
-import {logOrNot } from '@/utils/utils'
+import WebInfo from '@/components/web/index/WebInfo'
+import SearchBtn from '@/components/web/index/SearchBtn'
+// import {logOrNot } from '@/utils/utils'
 import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
   export default {
     components: {
@@ -276,15 +276,15 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
       this.log = logOrNot();
 
     },
-    created () {
-      // 调用时机根据需求
-      this.countTime(this.start_time)
-    }
+    // created () {
+    //   // 调用时机根据需求
+    //   this.countTime(this.start_time)
+    // }
     
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   /* 中间博客卡片 */
   .mystory {
     margin: 30px auto;

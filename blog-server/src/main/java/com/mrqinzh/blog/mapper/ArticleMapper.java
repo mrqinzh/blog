@@ -15,7 +15,7 @@ public interface ArticleMapper {
 
     int add(Article article); // 添加一篇文章
 
-    int update(Article article); // 修改文章内容
+    Boolean update(Article article); // 修改文章内容
 
     @Update("update article set article_views = article_views + 1 where id = #{articleId}")
     Boolean updateArticleViews(Integer articleId);

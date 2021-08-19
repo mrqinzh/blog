@@ -53,7 +53,7 @@
                   <div class="card">
                     <i class="el-icon-caret-left" style="float: left;margin: 10px 0 0 -15px;font-size: 20px;color: #dedede;"></i>
                     <div class="card_head">
-                      <span><a  @click="showBlog(item.id)">{{ item.articleTitle }}</a></span>
+                      <span> <a><router-link :to="'/blog/'+item.id" target="_blank">{{ item.articleTitle }}</router-link></a> </span>
                     </div>
                     <div class="card_foot">
                       <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
@@ -150,11 +150,6 @@ export default {
         this.totalCount = resp.data.total; //获取数据行数
         this.loading = false;
       })
-    },
-    // 展示博客
-    showBlog(id) {
-      let href = this.$router.resolve({path: '/blog', query: {article_id: id}});
-      window.open(href.href, '_blank');
     },
     // 根据条件查找文章
     findByType(val) {

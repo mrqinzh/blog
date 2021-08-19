@@ -37,7 +37,6 @@ oos:
     access-key: sKhKRCxpKHgYW-gy5g4Vzoos76jT1AA9Um7heSwC
     secret-key: KBvSkna0rxl2ucTXltdA6wfzqZxAZs-jpESoNaEp
 
-
 #server:
 #  ssl:
 #    key-store: classpath:6138774_www.mrqinzh.info.pfx #拷贝到根目录的证书文件

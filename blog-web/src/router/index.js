@@ -35,7 +35,7 @@ export default new VueRouter({
                 { path: '/about', component: About, },
                 { path: '/userInfo/myComment', component: () => import(/* studyPage */'../components/userinfo/MyComment') },
                 { path: '/userInfo/myArticles', component: () => import(/* myArticles */'../components/userinfo/MyArticles') },
-                { path: '/blog', name: Articles, component: () => import(/* Articles */'@/views/web/ShowArticles') },
+                { path: '/blog/:articleId', name: 'details', component: () => import(/* Articles */'@/views/web/ShowArticles') },
             ]
         },
         { 

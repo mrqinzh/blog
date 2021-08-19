@@ -3,9 +3,12 @@ package com.mrqinzh.blog.service.Impl;
 import com.mrqinzh.blog.mapper.UserMapper;
 import com.mrqinzh.blog.model.entity.User;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import com.mrqinzh.blog.service.UserService;
+import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.util.Resp;
 import org.slf4j.Logger;
@@ -33,9 +36,15 @@ public class UserServiceImpl implements UserService {
             return Resp.error(200, "用户名或密码错误!");
         }
 
-        String token = UUID.randomUUID().toString().replaceAll("-", "");
+        Map<String,String> claim = new HashMap<>(); // 添加到 jwt 的 body 中
+        claim.put("username", realUser.getUserName());
+        claim.put("password", realUser.getUserPwd());
+        claim.put("avatar", realUser.getUserAvatar());
+        String token = JwtUtil.getTokenWithClaim(claim);
         redisUtil.set(token, realUser);
-        return Resp.ok(token);
+        HashMap<Object, Object> resultMap = new HashMap<>();
+        resultMap.put("token", token);
+        return Resp.ok(resultMap);
     }
 
 }

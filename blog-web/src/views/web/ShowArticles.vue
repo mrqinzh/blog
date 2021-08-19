@@ -126,6 +126,7 @@ const md = new MarkdownIt({
   }
 });
 export default {
+  name: 'details',
   data() {
     return {
       // 评论内容和回复内容
@@ -150,8 +151,7 @@ export default {
   methods: {
     // 加载文章内容
     loadArticleInfo() {
-      this.currentArticleId = this.$route.query.article_id;
-      getRequest(`/article/${this.$route.query.article_id}`).then(resp => {
+      getRequest(`/article/${this.currentArticleId}`).then(resp => {
         // console.log(resp);
         this.content = md.render(`${resp.data.data.articleContentMd}`);
         this.article = resp.data.data;
@@ -160,7 +160,7 @@ export default {
     },
     // 加载评论内容
     loadComments() {
-      getRequest(`/comment/articleId/${this.$route.query.article_id}`).then(resp => {
+      getRequest(`/comment/articleId/${this.currentArticleId}`).then(resp => {
         // console.log(resp);
         this.parentComments = resp.data.data;
       })
@@ -202,16 +202,18 @@ export default {
     },
     // 更新浏览量，存在问题 ==> 刷新页面也会发起请求，导致浏览量增加。
     updateViews() {
-      postRequest(`/article/views/${this.$route.query.article_id}`).then(resp => {
+      postRequest(`/article/views/${this.currentArticleId}`).then(resp => {
         // console.log(resp);
       })
     }
     
   },
   mounted() {
+    this.currentArticleId = this.$route.params.articleId;
     this.isLogin = logOrNot();
     this.loadArticleInfo();
     this.loadComments();
+    this.updateViews();
     // 添加代码块复制方法
     this.$nextTick(() => {
       this.clipboard = new Clipboard('.copy-btn')
@@ -224,9 +226,6 @@ export default {
       })
     });
 
-  },
-  created() {
-    this.updateViews();
   },
   destroyed () {
     this.clipboard.destroy();

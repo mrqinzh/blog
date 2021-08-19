@@ -1,5 +1,6 @@
 package com.mrqinzh.blog.controller;
 
+import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.Resp;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.service.UserService;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "登录接口")
 @CrossOrigin
 @RestController
-public class LoginController {
+@RequestMapping("user")
+public class UserController {
 
     @Autowired
     private UserService userService;
@@ -20,11 +22,10 @@ public class LoginController {
     @Autowired
     private RedisUtil redisUtil;
 
-
-
     @ApiOperation(value = "登录")
-    @PostMapping("/login")
+    @PostMapping("login")
     public Resp login(@RequestBody User user) {
+        System.out.println(user);
         return userService.getByUsernameOrEmail(user);
     }
 

@@ -12,7 +12,7 @@
         </span>
         <el-input
           ref="username"
-          v-model="loginForm.username"
+          v-model="loginForm.userName"
           placeholder="Username"
           name="username"
           type="text"
@@ -28,7 +28,7 @@
         <el-input
           :key="passwordType"
           ref="password"
-          v-model="loginForm.password"
+          v-model="loginForm.userPwd"
           :type="passwordType"
           placeholder="Password"
           name="password"
@@ -74,12 +74,12 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        userName: '1',
+        userPwd: '1'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        // username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        // password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
       passwordType: 'password',
@@ -110,7 +110,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
+            this.$router.push({ path: this.redirect || '/admin' })
             this.loading = false
           }).catch(() => {
             this.loading = false

@@ -49,36 +49,42 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Resp add(Article article, HttpServletRequest request) {
+        try {
+            // request 添加 文章userId & articleAuthor信息
+            // 目前处于写死的状态，后续通过 request获取
+            article.setUserId(1).setArticleAuthor("秦志宏");
 
-        // request 添加 文章userId & articleAuthor信息
-        // 目前处于写死的状态，后续通过 request获取
-        article.setUserId(1).setArticleAuthor("秦志宏");
+            // 获取文章摘要，截取内容的前100
+            String articleSummary = stripHtml(article.getArticleSummary());
+            if (articleSummary.length() > 100) {
+                article.setArticleSummary(articleSummary.substring(0, 100));
+            } else {
+                article.setArticleSummary(articleSummary);
+            }
 
-        // 获取文章摘要，截取内容的前100
-        String articleSummary = stripHtml(article.getArticleSummary());
-        if (articleSummary.length() > 100) {
-            article.setArticleSummary(articleSummary.substring(0, 100));
-        } else {
-            article.setArticleSummary(articleSummary);
+            // 初始化文章的固定信息
+            article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date()).setArticleViews(0);
+
+            articleMapper.add(article);
+
+            logger.info("新增文章了。。。 => ");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Resp.error(500, e.getMessage());
         }
-
-        // 初始化文章的固定信息
-        article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date()).setArticleViews(0);
-
-        articleMapper.add(article);
-
-        logger.info("新增文章了。。。 => ");
         return Resp.ok(article.getId());
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Resp update(Article article) {
 
         article.setArticleUpdateTime(new Date());
         System.out.println(article);
 
-//        articleMapper.update(article); //
+        if (!articleMapper.update(article)) {
+            return Resp.error(500, "更新失败");
+        }
         return Resp.ok(null);
     }
 

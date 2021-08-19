@@ -6,6 +6,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
+import 'ant-design-vue/dist/antd.css'; // or 'ant-design-vue/dist/antd.less'
+import Antd from 'ant-design-vue'// 引入Ant Design Vue组件
+Vue.use(Antd) //挂载到vue中
+
 import '@/styles/index.scss' // global css
 
 import App from './App'

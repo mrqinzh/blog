@@ -1,7 +1,7 @@
 <template>
   <div class="myfooter">
     <div class="foot-left">
-      <img src="@/assets/static/img/beian.png" />
+      <img src="@/assets/img/beian.png" />
       <a style="line-height:20px;color: white" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50023002020179">
         渝公网安备 50023002020179号
       </a>
@@ -10,10 +10,9 @@
     </div>
     <div class="foot-right">
       <span>Copyright - 作者->Mr.QinZH @ 2021-05-06</span><br>
-      <span>QQ: 1552589784</span>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span >QQ: 1552589784</span>
       <span>
-        <a style="color: inherit" href="https://github.com/mrqinzh" target="_blank"><a-icon type="github" /></a>
+        <a style="color: inherit;margin: 0px 8px;" href="https://github.com/mrqinzh" target="_blank"><a-icon type="github" /></a>
         <a style="color: inherit" href="https://account.aliyun.com/login/qr_login.htm" target="_blank"><a-icon type="aliyun" /></a>
       </span>
     </div>

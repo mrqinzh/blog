@@ -1,7 +1,7 @@
 <template>
   <!-- 头部滚动栏 -->
   <div class="animate__animated animate__fadeInUp notice">
-    <i class="layui-icon layui-icon-speaker" style="margin-left: 10px;font-size: 30px;color: #c26565"></i>
+    <a-icon type="notification" style="margin-left: 10px;font-size: 25px;color: #67C23A" />
     <div class="roll">
       <ul>
         <li v-for="(item, index) in ulList" 
@@ -46,7 +46,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
   .notice {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
@@ -54,7 +54,7 @@ export default {
   /* 滚动栏 */
   .roll {
     display: inline-block;
-    height: 21px;
+    height: 20px;
     position: relative;
     overflow: hidden;
     margin-left: 10px;

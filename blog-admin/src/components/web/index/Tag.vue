@@ -15,24 +15,24 @@
 </template>
 
 <script>
-// import { getRequest } from '@/utils/api'
+import { getRequest } from '@/utils/api'
 export default {
   data() {
     return {
       tags: [],
     }
   },
-  // methods: {
-  //   loadData() {
-  //     getRequest('/tag/list').then(resp => {
-  //       // console.log(resp);
-  //       this.tags = resp.data.data;
-  //     });
-  //   }
-  // },
-  // mounted() {
-  //   this.loadData();
-  // }
+  methods: {
+    loadData() {
+      getRequest('/tag/list').then(resp => {
+        // console.log(resp);
+        this.tags = resp.data.data;
+      });
+    }
+  },
+  mounted() {
+    this.loadData();
+  }
 }
 </script>
 

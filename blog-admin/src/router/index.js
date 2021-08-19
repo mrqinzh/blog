@@ -34,7 +34,14 @@ export const constantRoutes = [
 
   {
     path: '/',
-    component: () => import('@/views/web/index')
+    component: () => import('@/views/web/index'),
+    children: [
+      { path: '/', name: 'home', component: () => import('@/views/web/home') },
+      { path: '/category', name: 'Article', component: () => import('@/views/web/Article') },
+      { path: '/about', name: 'About', component: () => import('@/views/web/About') },
+      { path: '/detail/:articleId', name: 'Detail', component: () => import('@/views/web/Detail') },
+    ],
+    hidden: true
   },
 
   {

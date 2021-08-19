@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '个人网站后台系统',
+  title: 'mrqinzh~web',
 
   /**
    * @type {boolean} true | false

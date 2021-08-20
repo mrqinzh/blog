@@ -208,7 +208,7 @@ export default {
     
   },
   mounted() {
-    this.currentArticleId = this.$route.params.articleId;
+    this.currentArticleId = this.$route.query.articleId;
     this.loadArticleInfo();
     this.loadComments();
     this.updateViews();

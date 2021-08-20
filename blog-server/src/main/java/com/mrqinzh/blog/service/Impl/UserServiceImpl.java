@@ -5,7 +5,6 @@ import com.mrqinzh.blog.model.entity.User;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import com.mrqinzh.blog.service.UserService;
 import com.mrqinzh.blog.util.JwtUtil;

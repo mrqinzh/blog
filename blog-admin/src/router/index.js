@@ -103,6 +103,19 @@ export const constantRoutes = [
   },
 
   {
+    path: '/icon',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/icons/index'),
+        name: 'Icons',
+        meta: { title: '图标库', icon: 'icon', noCache: true }
+      }
+    ]
+  },
+
+  {
     path: 'external-link',
     component: Layout,
     children: [

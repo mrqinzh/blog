@@ -1,5 +1,5 @@
 <template>
-  <div id="pageMain">
+  <div>
     <!-- 页面头部区域 -->
     <MyHeader></MyHeader>
     
@@ -20,17 +20,6 @@ export default {
     components: {
       'MyHeader': MyHeader,
       'MyFooter': MyFooter,
-    },
-    data() {
-      return {
-      };
-    },
-    methods: {  
-      
-    },
+    }
 }
 </script>
-
-<style>
-  
-</style>

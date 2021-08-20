@@ -41,7 +41,9 @@ public class UserServiceImpl implements UserService {
         claim.put("password", realUser.getUserPwd());
         claim.put("avatar", realUser.getUserAvatar());
         String token = JwtUtil.getTokenWithClaim(claim);
+
         redisUtil.set(token, realUser);
+
         HashMap<Object, Object> resultMap = new HashMap<>();
         resultMap.put("token", token);
         return Resp.ok(resultMap);

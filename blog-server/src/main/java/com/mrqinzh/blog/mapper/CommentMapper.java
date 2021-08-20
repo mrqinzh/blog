@@ -16,14 +16,12 @@ public interface CommentMapper {
      * 根据id 查询评论信息
      * @param idType id类型： userId、articleId
      * @param id id值
-     * @return java.util.List
      */
     List<Comment> getById(String idType, Integer id);
+
     /**
      * 根据 id 删除评论信息
      * @param idType id类型： userId、articleId、commentId
-     * @param id
-     * @return
      */
     int deleteById(String idType, Integer id);
 

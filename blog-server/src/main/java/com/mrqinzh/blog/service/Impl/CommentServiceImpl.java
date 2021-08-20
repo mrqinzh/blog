@@ -44,6 +44,12 @@ public class CommentServiceImpl implements CommentService {
         return Resp.ok(list);
     }
 
+    /**
+     * 根据id 删除评论
+     * @param idType userId、articleId、commentId 分别对应不同的id类型
+     * @param id id 值
+     * @return
+     */
     @Override
     @Transactional
     public Resp deleteById(String idType, Integer id) {

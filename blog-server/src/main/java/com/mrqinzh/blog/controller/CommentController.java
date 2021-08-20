@@ -31,7 +31,7 @@ public class CommentController {
         return Resp.ok("添加成功");
     }
 
-    @ApiOperation(value = "根据(*id)查询评论")
+    @ApiOperation(value = "根据(*Id)查询评论")
     @GetMapping("{idType}/{id}")
     public Resp getById(@PathVariable String idType, @PathVariable Integer id) {
         return commentService.getById(idType, id);

@@ -10,7 +10,6 @@ export const postRequest = (url, params) => {
     data: JSON.stringify(params),
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
-      "token": localStorage.getItem("token"),
     }
   });
 }
@@ -21,7 +20,6 @@ export const uploadFileRequest = (url, params) => {
     data: params,
     headers: {
       'Content-Type': 'multipart/form-data',
-      'token': localStorage.getItem("token"),
     }
   });
 }
@@ -39,7 +37,6 @@ export const putRequest = (url, params) => {
     }],
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
-      "token": localStorage.getItem("token"),
     }
   });
 }
@@ -49,7 +46,6 @@ export const deleteRequest = (url) => {
     url: `${base}${url}`,
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
-      "token": localStorage.getItem("token"),
     }
   });
 }
@@ -66,7 +62,6 @@ export const getRequest = (url,params) => {
     }],
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
-      "token": localStorage.getItem("token"),
     },
     url: `${base}${url}`
   });

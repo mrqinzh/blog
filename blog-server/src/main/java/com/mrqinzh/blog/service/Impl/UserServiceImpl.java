@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         User realUser = userMapper.getByUsernameOrEmail(user.getUserName());
         // 数据库进行了md5加密加盐
         if (null == realUser || !realUser.getUserPwd().equals(user.getUserPwd())){
-            return Resp.error(200, "用户名或密码错误!");
+            return Resp.error(404, "用户名或密码错误!");
         }
 
         Map<String,String> claim = new HashMap<>(); // 添加到 jwt 的 body 中
@@ -45,6 +45,21 @@ public class UserServiceImpl implements UserService {
         HashMap<Object, Object> resultMap = new HashMap<>();
         resultMap.put("token", token);
         return Resp.ok(resultMap);
+    }
+
+    @Override
+    public Resp info(String token) {
+        Map map = new HashMap(3);
+        if (!redisUtil.hasKey(token)) {
+            return null;
+        }
+        User user = (User) redisUtil.get(token);
+
+        map.put("name", user.getNickname());
+        map.put("avatar", user.getUserAvatar());
+        map.put("role", user.getRoleName());
+
+        return Resp.ok(map);
     }
 
 }

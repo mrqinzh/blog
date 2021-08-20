@@ -1,6 +1,5 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.Resp;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.service.UserService;
@@ -22,10 +21,15 @@ public class UserController {
     @Autowired
     private RedisUtil redisUtil;
 
+    @ApiOperation(value = "获取用户信息")
+    @GetMapping("info")
+    public Resp info(@RequestParam String token) {
+        return userService.info(token);
+    }
+
     @ApiOperation(value = "登录")
     @PostMapping("login")
     public Resp login(@RequestBody User user) {
-        System.out.println(user);
         return userService.getByUsernameOrEmail(user);
     }
 
@@ -35,7 +39,6 @@ public class UserController {
 
         if (redisUtil.hasKey(token)) {
             redisUtil.del(token);
-
         }
         return Resp.ok("退出成功");
     }

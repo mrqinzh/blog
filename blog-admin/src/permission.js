@@ -8,7 +8,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login'] // no redirect whitelist
+const whiteList = ['/login', '/', '/category', '/about', '/detail/:articleId'] // 白名单，不需要登录信息就可以直接访问
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -18,12 +18,15 @@ router.beforeEach(async(to, from, next) => {
   document.title = getPageTitle(to.meta.title)
 
   // determine whether the user has logged in
+  // 通过 auth.js 中的 getToken 取得登录时发放的 token 信息
   const hasToken = getToken()
 
+  // 如果取到了令牌则说明用户已经登录
   if (hasToken) {
+    // 如果用户访问的还是登录页面，则直接跳转到首页
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
-      next({ path: '/' })
+      next({ path: '/admin' })
       NProgress.done()
     } else {
       const hasGetUserInfo = store.getters.name

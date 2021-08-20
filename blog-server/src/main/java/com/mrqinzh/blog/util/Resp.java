@@ -2,6 +2,8 @@ package com.mrqinzh.blog.util;
 
 import lombok.Data;
 
+import java.util.Map;
+
 /**
  * 统一返回数据类型
  * @param <E> 传入数据类型

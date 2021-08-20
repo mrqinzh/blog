@@ -15,3 +15,14 @@ export function getInfo(token) {
     params: { token }
   })
 }
+
+// 访问到上面后端部分的登出方法
+export function logout() {
+  return request({
+    url: '/user/logout',
+    method: 'post',
+    params:{
+      methodName:'logout'
+    }
+  })
+}

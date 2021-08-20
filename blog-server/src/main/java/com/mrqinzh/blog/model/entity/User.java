@@ -15,6 +15,8 @@ public class User implements Serializable {
 
     private Integer id;
 
+    private String roleName;
+
     /**
      * 用户最后登录时间
      */

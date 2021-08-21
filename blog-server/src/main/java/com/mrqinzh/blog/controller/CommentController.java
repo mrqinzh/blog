@@ -31,6 +31,11 @@ public class CommentController {
         return Resp.ok("添加成功");
     }
 
+    /**
+     * 根据对用的 id 类型， 对评论信息进行筛选
+     * @param idType id类型： userId、articleId
+     * @param id id值
+     */
     @ApiOperation(value = "根据(*Id)查询评论")
     @GetMapping("{idType}/{id}")
     public Resp getById(@PathVariable String idType, @PathVariable Integer id) {

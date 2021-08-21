@@ -6,13 +6,11 @@ import com.mrqinzh.blog.mapper.ArticleMapper;
 import com.mrqinzh.blog.model.dto.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.service.ArticleService;
-import com.mrqinzh.blog.util.Page;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.util.Resp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +30,12 @@ public class ArticleServiceImpl implements ArticleService {
     private RedisUtil redisUtil;
 
     @Override
-    public Page list(PageDTO pageDTO) {
+    public Resp list(PageDTO pageDTO) {
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
         List<Article> articles = articleMapper.list(pageDTO);
         PageInfo<Article> pageInfo = new PageInfo<>(articles);
 
-        return Page.getPageData(pageInfo);
+        return Resp.sendPageData(pageInfo);
     }
 
     @Override

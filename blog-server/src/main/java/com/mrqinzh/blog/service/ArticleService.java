@@ -2,14 +2,13 @@ package com.mrqinzh.blog.service;
 
 import com.mrqinzh.blog.model.dto.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
-import com.mrqinzh.blog.util.Page;
 import com.mrqinzh.blog.util.Resp;
 
 import javax.servlet.http.HttpServletRequest;
 
 public interface ArticleService {
 
-    Page list(PageDTO pageDTO); // 排序全部文章、以及分页
+    Resp list(PageDTO pageDTO); // 排序全部文章、以及分页
 
     Resp getById(Integer articleId); // 根据文章id展示当前文章
 

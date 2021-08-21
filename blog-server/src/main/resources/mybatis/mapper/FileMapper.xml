@@ -10,11 +10,12 @@
             file_path,
             file_type,
             file_create_time,
-            file_size
+            file_size,
+            file_place
         )
         VALUES
         (
-            #{fileName}, #{filePath}, #{fileType}, #{fileCreateTime}, #{fileSize}
+            #{fileName}, #{filePath}, #{fileType}, #{fileCreateTime}, #{fileSize}, #{filePlace}
         )
     </insert>
 

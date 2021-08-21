@@ -1,5 +1,21 @@
 import request from '@/utils/request'
 
+export function add(data) {
+  return request({
+    url: '/user/add',
+    method: 'post',
+    data
+  })
+}
+
+export function list(currentPage, pageSize, condition) {
+  let url = `/user/list?currentPage=${currentPage}&pageSize=${pageSize}&condition=${condition}`;
+  return request({
+    url: url,
+    method: 'get'
+  })
+}
+
 export function login(data) {
   return request({
     url: '/user/login',
@@ -16,7 +32,6 @@ export function getInfo(token) {
   })
 }
 
-// 访问到上面后端部分的登出方法
 export function logout() {
   return request({
     url: '/user/logout',

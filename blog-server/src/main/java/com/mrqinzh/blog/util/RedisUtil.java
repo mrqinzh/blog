@@ -112,7 +112,6 @@ public final class RedisUtil {
      * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
      * @return true成功 false 失败
      */
-
     public boolean set(String key, Object value, long time) {
         try {
             if (time > 0) {
@@ -317,7 +316,6 @@ public final class RedisUtil {
 
     /**
      * 根据value从一个set中查询,是否存在
-     *
      * @param key   键
      * @param value 值
      * @return true 存在 false不存在
@@ -334,7 +332,6 @@ public final class RedisUtil {
 
     /**
      * 将数据放入set缓存
-     *
      * @param key    键
      * @param values 值 可以是多个
      * @return 成功个数
@@ -351,7 +348,6 @@ public final class RedisUtil {
 
     /**
      * 将set数据放入缓存
-     *
      * @param key    键
      * @param time   时间(秒)
      * @param values 值 可以是多个
@@ -372,7 +368,6 @@ public final class RedisUtil {
 
     /**
      * 获取set缓存的长度
-     *
      * @param key 键
      */
     public long sGetSetSize(String key) {
@@ -387,12 +382,10 @@ public final class RedisUtil {
 
     /**
      * 移除值为value的
-     *
      * @param key    键
      * @param values 值 可以是多个
      * @return 移除的个数
      */
-
     public long setRemove(String key, Object... values) {
         try {
             Long count = redisTemplate.opsForSet().remove(key, values);

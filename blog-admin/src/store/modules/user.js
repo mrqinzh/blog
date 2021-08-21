@@ -28,33 +28,7 @@ const mutations = {
 }
 
 const actions = {
-  // login({ commit }, userInfo) {
-  //   const data = { token: "admin" };
-  //   setToken(data.token);
-  //   commit("SET_TOKEN", data.token);
-  // },
-  // getInfo({ commit, state }) {
-  //   const data = {
-  //     roles: "admin",
-  //     name: "admin",
-  //     avatar:
-  //       "http://mrqinzh.info:9090/img/avatar.jpg"
-  //   };
-  //   if (data.roles && data.roles.length > 0) {
-  //     // 验证返回的roles是否是一个非空数组
-  //     commit("SET_ROLES", data.roles);
-  //   } else {
-  //     reject("getInfo: roles must be a non-null array !");
-  //   }
-  //   commit("SET_NAME", data.name);
-  //   commit("SET_AVATAR", data.avatar);
-  // },
-  // logout({ commit, state }) {
-  //   commit("SET_TOKEN", "");
-  //   commit("SET_ROLES", []);
-  //   removeToken();
-  // },
-  // // user login
+  // user login
   login({ commit }, userInfo) {
     const { userName, userPwd } = userInfo
     return new Promise((resolve, reject) => {

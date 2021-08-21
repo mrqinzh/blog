@@ -6,7 +6,6 @@ import com.mrqinzh.blog.mapper.TagMapper;
 import com.mrqinzh.blog.model.dto.PageDTO;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.service.TagService;
-import com.mrqinzh.blog.util.Page;
 import com.mrqinzh.blog.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +20,12 @@ public class TagServiceImpl implements TagService {
     private TagMapper tagMapper;
 
     @Override
-    public Page page(PageDTO pageDTO) {
+    public Resp page(PageDTO pageDTO) {
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
         List<Tag> tags = tagMapper.page();
         PageInfo<Tag> pageInfo = new PageInfo<>(tags);
 
-        return Page.getPageData(pageInfo);
+        return Resp.sendPageData(pageInfo);
     }
 
     @Override

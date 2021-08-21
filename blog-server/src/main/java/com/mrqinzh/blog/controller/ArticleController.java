@@ -4,7 +4,6 @@ import com.mrqinzh.blog.model.dto.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.service.ArticleService;
 
-import com.mrqinzh.blog.util.Page;
 import com.mrqinzh.blog.util.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +29,7 @@ public class ArticleController {
 
     @ApiOperation(value = "分页加载文章列表")
     @GetMapping("/list")
-    public Page list(PageDTO pageDTO) {
+    public Resp list(PageDTO pageDTO) {
         return articleService.list(pageDTO);
     }
 

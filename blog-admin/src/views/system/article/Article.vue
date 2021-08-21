@@ -1,11 +1,12 @@
 <template>
-  <div class="article-container">
+  <div>
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
         <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
+        <el-button @click="getDataList(dataForm.key)">查询</el-button>
+        <router-link to="./add" style="margin: 0px 10px;"><el-button type="primary">新增</el-button></router-link>
         <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
@@ -22,40 +23,52 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="articleId"
-        header-align="center"
-        align="center"
-        label="文章编号">
-      </el-table-column>
-      <el-table-column
         prop="articleTitle"
         header-align="center"
         align="center"
-        label="文章题目">
+        label="文章题目"
+        width="250">
       </el-table-column>
       <el-table-column
         prop="articleAuthor"
         header-align="center"
         align="center"
-        label="作者名">
+        label="作者名"
+        width="100">
       </el-table-column>
       <el-table-column
-        prop="articleContent"
+        prop="articleSummary"
         header-align="center"
         align="center"
         label="文章内容">
       </el-table-column>
       <el-table-column
+        prop="articleUpdateTime"
+        header-align="center"
+        align="center"
+        label="最后修改时间"
+        width="170">
+      </el-table-column>
+      <el-table-column
         prop="articleCreateTime"
         header-align="center"
         align="center"
-        label="发布时间">
+        label="发布时间"
+        width="170">
+      </el-table-column>
+      <el-table-column
+        prop="articleTag"
+        header-align="center"
+        align="center"
+        label="发布时间"
+        width="150">
       </el-table-column>
       <el-table-column
         prop="articleViews"
         header-align="center"
         align="center"
-        label="浏览量">
+        label="浏览量"
+        width="70">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -72,16 +85,17 @@
     <el-pagination
       @size-change="sizeChangeHandle"
       @current-change="currentChangeHandle"
-      :current-page="pageIndex"
+      :current-page="currentPage"
       :page-sizes="[10, 20, 50, 100]"
       :page-size="pageSize"
-      :total="totalPage"
-      layout="total, sizes, prev, pager, next, jumper">
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="totalCount">
     </el-pagination>
   </div>
 </template>
 
 <script>
+import { list } from '@/api/article'
 export default {
   data() {
     return {
@@ -89,49 +103,37 @@ export default {
         key: ''
       },
       dataList: [],
-      pageIndex: 1,
+      currentPage: 1,
       pageSize: 10,
-      totalPage: 0,
+      totalCount: 0,
       dataListLoading: false,
       dataListSelections: [],
     }
   },
-  activated() {
-    this.getDataList()
+  mounted() {
+    this.getDataList('');
   },
   methods: {
     // 获取数据列表
-    getDataList() {
-      this.dataListLoading = true
-      this.$http({
-        url: this.$http.adornUrl('/movie/comment/list'),
-        method: 'get',
-        params: this.$http.adornParams({
-          'page': this.pageIndex,
-          'limit': this.pageSize,
-          'key': this.dataForm.key
-        })
-      }).then(({ data }) => {
-        if (data && data.code === 0) {
-          this.dataList = data.page.list
-          this.totalPage = data.page.totalCount
-        } else {
-          this.dataList = []
-          this.totalPage = 0
-        }
-        this.dataListLoading = false
+    getDataList(condition) {
+      this.dataListLoading = true;
+      list(this.currentPage, this.pageSize, condition).then(resp => {
+        // console.log(resp);
+        this.dataList = resp.data.rows;
+        this.totalCount = resp.data.totalCount;
+        this.dataListLoading = false;
       })
     },
     // 每页数
     sizeChangeHandle(val) {
       this.pageSize = val
       this.pageIndex = 1
-      this.getDataList()
+      this.getDataList('')
     },
     // 当前页
     currentChangeHandle(val) {
-      this.pageIndex = val
-      this.getDataList()
+      this.currentPage = val
+      this.getDataList('')
     },
     // 多选
     selectionChangeHandle(val) {
@@ -171,10 +173,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.article {
-  &-container {
-    margin: 30px;
-  }
-}
-</style>

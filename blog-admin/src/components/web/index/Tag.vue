@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { getRequest } from '@/utils/api'
+import { list } from '@/api/tag'
 export default {
   data() {
     return {
@@ -24,9 +24,9 @@ export default {
   },
   methods: {
     loadData() {
-      getRequest('/tag/list').then(resp => {
+      list().then(resp => {
         // console.log(resp);
-        this.tags = resp.data.data;
+        this.tags = resp.data;
       });
     }
   },

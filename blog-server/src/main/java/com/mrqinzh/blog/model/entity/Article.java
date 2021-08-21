@@ -33,6 +33,9 @@ public class Article implements Serializable {
 
     private Integer articleViews;
 
+    // 逻辑删除
+    private Integer status;
+
     private Integer userId;
 
     // 外键对象

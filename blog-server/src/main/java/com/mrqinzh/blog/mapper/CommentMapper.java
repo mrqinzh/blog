@@ -2,9 +2,11 @@ package com.mrqinzh.blog.mapper;
 
 import com.mrqinzh.blog.model.entity.Comment;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CommentMapper {
 
     @Select("select * from comment limit 5")

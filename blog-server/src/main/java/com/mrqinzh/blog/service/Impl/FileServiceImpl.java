@@ -42,7 +42,6 @@ public class FileServiceImpl implements FileService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Resp add(HttpServletRequest request, MultipartFile file) {
-
         Map<String, Object> fileData = FileUtil.getFilePath(request, file);
         if (!((Boolean) fileData.get("status"))) {
             return Resp.error(200, "文件上传失败");
@@ -59,32 +58,32 @@ public class FileServiceImpl implements FileService {
         dbFile.setFilePath(filePath);
         dbFile.setFileSize(fileSize);
         dbFile.setFileType(fileType);
+        dbFile.setFilePlace("本地");
 
         boolean add = fileMapper.add(dbFile);
         if (add) {
             return Resp.ok(fileData.get("resultUrl").toString());
         }
         return Resp.error(200, "数据库保存错误");
-
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Resp delete(String condition) {
-        MyFile dbFile = fileMapper.getOne(condition);
-        String filePath =  dbFile.getFilePath() + "\\" + dbFile.getFileName();
-        File file = new File(filePath);
-        if (!file.exists()) {
-            return Resp.ok("文件不存在");
+    public Resp delete(String fileName) {
+        MyFile dbFile = fileMapper.getByFileName(fileName);
+        if (dbFile.getFilePlace().equals("本地")) {
+            String filePath =  dbFile.getFilePath() + "\\" + dbFile.getFileName();
+            File file = new File(filePath);
+            if (file.exists()) {
+                file.delete();
+            }
         }
-        if (file.delete()) {
-            return Resp.ok("文件已删除");
-        }
-        fileMapper.delete(condition);
-
-        return Resp.error(200, "错误操作");
+        fileMapper.delete(fileName);
+        return Resp.ok("删除成功");
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public Resp uploadToQiNiu(MultipartFile uploadFile) throws IOException {
         Configuration cfg = new Configuration(Region.huadong());
         UploadManager uploadManager = new UploadManager(cfg);
@@ -100,8 +99,21 @@ public class FileServiceImpl implements FileService {
         System.out.println("res.bodyString() = " + response.bodyString());
         JSONObject res = JSONObject.parseObject(response.bodyString());
 
-        String url = domain + "/" + res.getString("key");
+        String url = "http://" + domain + "/" + res.getString("key");
+
+        // 将添加的文件信息保存至数据库
+        MyFile myFile = new MyFile();
+        myFile.setFilePlace("七牛云");
+        myFile.setFileName(fileName);
+        myFile.setFileCreateTime(new Date());
+        myFile.setFileType(suffix);
+        myFile.setFilePath(url);
+        if (!fileMapper.add(myFile)) {
+            return Resp.sendErrorMsg(500, "文件上传失败");
+        }
         return Resp.ok(url);
+
+
     }
 
 }

@@ -69,7 +69,7 @@
               </div>
               <div class="foot">
                 <span v-for="(tag, index) in item.articleTag.split(',')" :key="index">
-                  <a-icon type="tag" /><a>{{tag}}</a>
+                  <a-icon type="tag" />&nbsp;&nbsp;&nbsp;&nbsp;<a>{{tag}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                 </span>
                 <span style="float: right;margin: 0 20px 10px 0;color: red;">
                     <a-icon type="like" @click="like()"/>
@@ -109,7 +109,7 @@
               <el-button @click="drawer = true" type="primary" round size="medium" style="margin: 10px 0;">
                 Click Me
               </el-button>
-              <div style="letter-spacing: 2em;color: #67C23A;font-size: 35px;">
+              <div style="color: #67C23A;font-size: 35px;">
                 <el-tooltip class="item" effect="dark" :content="user.vx" placement="bottom-start">
                   <a-icon type="wechat" />
                 </el-tooltip>
@@ -142,8 +142,8 @@ import Tag from '@/components/web/index/Tag'
 import LinkCard from '@/components/web/index/LinkCard';
 import WebInfo from '@/components/web/index/WebInfo'
 import SearchBtn from '@/components/web/index/SearchBtn'
-// import {logOrNot } from '@/utils/utils'
-import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
+
+import { list } from '@/api/article'
   export default {
     components: {
       'LinkCard': LinkCard,
@@ -184,18 +184,17 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
     },
     methods: {
       // 加载博客
-      loadBlogs(currentPage, pageSize) {
-        getRequest(`/article/list?currentPage=${currentPage}&pageSize=${pageSize}`).then(resp => {
-          // console.log(resp);
+      loadBlogs() {
+        list(this.currentPage, this.pageSize, '').then(resp => {
           this.articles = resp.data.rows;
-          this.totalCount = resp.data.total; //获取数据行数
+          this.totalCount = resp.data.totalCount; //获取数据行数
           this.loading = false;
-        });
+        })
       },
       // 页码变更
       changePageNum(val) {
         this.currentPage = val;
-        this.loadBlogs(this.currentPage, this.pageSize);
+        this.loadBlogs();
       },
       // 计算网页运行时长
       countTime (startTime) {
@@ -205,7 +204,6 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
         this.timer = setInterval(() => {
           let millisecond = new Date() - start_time
           let d = Math.floor(millisecond / (24 * 60 * 60 * 1000))
-
           let h = Math.floor(millisecond % (24 * 60 * 60 * 1000) / (60 * 60 * 1000))
           h = h < 10 ? '0' + h : h
           let min = Math.floor(millisecond % (60 * 60 * 1000) / (60 * 1000))
@@ -222,15 +220,11 @@ import { getRequest, postRequest, uploadFileRequest } from '@/utils/api'
       }
 
     },
-
     mounted() {
-      this.loadBlogs(this.currentPage, this.pageSize);
+      this.loadBlogs();
+      this.countTime(this.start_time);
 
     },
-    // created () {
-    //   // 调用时机根据需求
-    //   this.countTime(this.start_time)
-    // }
     
   }
 </script>

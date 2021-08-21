@@ -24,4 +24,8 @@ public class MyFile implements Serializable {
 
     private String fileSize;
 
+    private String filePlace;
+
+    private Integer status;
+
 }

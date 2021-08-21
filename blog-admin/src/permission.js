@@ -25,7 +25,7 @@ router.beforeEach(async(to, from, next) => {
   if (hasToken) {
     // 如果用户访问的还是登录页面，则直接跳转到首页
     if (to.path === '/login') {
-      // if is logged in, redirect to the home page
+      // 如果登录成功，跳转管理员界面
       next({ path: '/admin' })
       NProgress.done()
     } else {
@@ -34,9 +34,8 @@ router.beforeEach(async(to, from, next) => {
         next()
       } else {
         try {
-          // get user info
+          // 获取用户信息
           await store.dispatch('user/getInfo')
-
           next()
         } catch (error) {
           // remove token and go to login page to re-login

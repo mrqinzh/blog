@@ -17,15 +17,12 @@
         <template slot="title"><i class="el-icon-user"></i></template>
         
         <el-menu-item :index="isLogin ? '/leaveMsg' : '/login'"><i class="el-icon-chat-round"></i>留言板</el-menu-item>
-        <el-menu-item :index="isLogin ? '/write' : '/login'" class="hidden-xs-only"><i class="el-icon-edit"></i>写博客</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
 </template>
 
 <script>
-// import { logOrNot } from '@/utils/utils'
-// import { getRequest } from '@/utils/api';
 export default {
   data() {
     return {
@@ -38,9 +35,7 @@ export default {
     handleSelect(key) {
       this.$router.push(key);
     },
-  },
-  mounted() {
-  },
+  }
 }
 </script>
 

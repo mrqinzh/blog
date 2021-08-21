@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { getRequest } from '@/utils/api'
+import { list } from '@/api/article'
 export default {
   data(){
     return {
@@ -127,15 +127,14 @@ export default {
     // 页码变更
     changePageNum(val) {
       this.currentPage = val;
-      this.loadBlogs(this.currentPage, this.pageSize, '');
+      this.loadBlogs('');
     },
     // 加载博客
-    loadBlogs(currentPage, pageSize, condition) {
-      let url = `/article/list?currentPage=${currentPage}&pageSize=${pageSize}&condition=${condition}`
-      getRequest(url).then(resp => {
+    loadBlogs(condition) {
+      list(this.currentPage, this.pageSize, condition).then( resp => {
         // console.log(resp);
         this.allBlogs = resp.data.rows;
-        this.totalCount = resp.data.total; //获取数据行数
+        this.totalCount = resp.data.totalCount; //获取数据行数
         this.loading = false;
       })
     },
@@ -144,11 +143,11 @@ export default {
       // console.log(val);
       this.currentPage = 1;
       this.pageSize = 10;
-      this.loadBlogs(this.currentPage, this.pageSize, val)
+      this.loadBlogs(val)
     }
   },
   mounted() {
-    this.loadBlogs(this.currentPage, this.pageSize, '');
+    this.loadBlogs('');
   },
   
 }

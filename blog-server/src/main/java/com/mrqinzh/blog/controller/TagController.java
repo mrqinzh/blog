@@ -3,7 +3,6 @@ package com.mrqinzh.blog.controller;
 import com.mrqinzh.blog.model.dto.PageDTO;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.service.TagService;
-import com.mrqinzh.blog.util.Page;
 import com.mrqinzh.blog.util.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +25,7 @@ public class TagController {
 
     @ApiOperation(value = "分页查询 tags")
     @GetMapping("page")
-    public Page page(PageDTO pageDTO) {
+    public Resp page(PageDTO pageDTO) {
         return tagService.page(pageDTO);
     }
 

@@ -4,13 +4,13 @@ module.exports = {
 
   /**
    * @type {boolean} true | false
-   * @description Whether fix the header
+   * @description 顶部栏，不包括tagViews，并且设为true时，tagView会消失
    */
   fixedHeader: false,
 
   /**
    * @type {boolean} true | false
-   * @description Whether show the logo in sidebar
+   * @description 侧边栏上方logo
    */
   sidebarLogo: true,
 

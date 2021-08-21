@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 // export const base = 'http://47.108.209.62:9090';
-// export const base = 'http://localhost:9090';
-export const base = 'http://www.mrqinzh.info:9090';
+export const base = 'http://localhost:9090';
+// export const base = 'http://www.mrqinzh.info:9090';
 export const postRequest = (url, params) => {
   return axios({
     method: 'post',

@@ -26,7 +26,26 @@
         </association>
     </resultMap>
 
-    <select id="list" resultMap="baseMap">
+    <resultMap id="listMap" type="com.mrqinzh.blog.model.entity.Article">
+        <id property="id" column="id" />
+        <result property="articleAuthor" column="article_author" />
+        <result property="articleTitle" column="article_title" />
+        <result property="articleSummary" column="article_summary" />
+        <result property="articleCreateTime" column="article_create_time" />
+        <result property="articleUpdateTime" column="article_update_time" />
+
+        <result property="articleTag" column="article_tag" />
+        <result property="articleType" column="article_type" />
+        <result property="articleViews" column="article_views" />
+        <association property="user" javaType="com.mrqinzh.blog.model.entity.User">
+            <id property="id" column="id" />
+            <result property="userAvatar" column="user_avatar" />
+            <result property="nickname" column="nickname" />
+
+        </association>
+    </resultMap>
+
+    <select id="list" resultMap="listMap">
         SELECT
             *
         FROM

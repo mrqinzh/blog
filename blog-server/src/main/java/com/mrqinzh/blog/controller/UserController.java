@@ -1,5 +1,6 @@
 package com.mrqinzh.blog.controller;
 
+import com.mrqinzh.blog.model.dto.PageDTO;
 import com.mrqinzh.blog.util.Resp;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.service.UserService;
@@ -41,5 +42,11 @@ public class UserController {
             redisUtil.del(token);
         }
         return Resp.ok("退出成功");
+    }
+
+    @ApiOperation(value = "获取所有用户信息")
+    @GetMapping("list")
+    public Resp list(PageDTO pageDTO) {
+        return userService.list(pageDTO);
     }
 }

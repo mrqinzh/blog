@@ -79,6 +79,7 @@
 </template>
 
 <script>
+import { getById, updateArticleView } from '@/api/article'
 import { getRequest, postRequest } from '@/utils/api'
 import Clipboard from 'clipboard'
 
@@ -150,58 +151,60 @@ export default {
   methods: {
     // 加载文章内容
     loadArticleInfo() {
-      getRequest(`/article/${this.currentArticleId}`).then(resp => {
+      getById(this.currentArticleId).then(resp => {
         // console.log(resp);
-        this.content = md.render(`${resp.data.data.articleContentMd}`);
-        this.article = resp.data.data;
+        this.content = md.render(resp.data.articleContentMd);
+        this.article = resp.data;
         this.loading = false;
-      });
+      })
     },
+    
     // 加载评论内容
-    loadComments() {
-      getRequest(`/comment/articleId/${this.currentArticleId}`).then(resp => {
-        // console.log(resp);
-        this.parentComments = resp.data.data;
-      })
-    },
+    // loadComments() {
+    //   getRequest(`/comment/articleId/${this.currentArticleId}`).then(resp => {
+    //     // console.log(resp);
+    //     this.parentComments = resp.data.data;
+    //   })
+    // },
     // 提交评论内容
-    submitComment(val) {
-      var content = "";
-      if(val === 0){
-        if(this.commentContent === ''){
-          this.$message.warning('你评论了个寂寞 => `_`');
-          return;
-        }
-        content = this.commentContent;
-      } else {
-        if(this.replyContent === ''){
-          this.$message.warning('你评论了个寂寞 => `_`');
-          return;
-        }
-        content = this.replyContent
-      }
+    // submitComment(val) {
+    //   var content = "";
+    //   if(val === 0){
+    //     if(this.commentContent === ''){
+    //       this.$message.warning('你评论了个寂寞 => `_`');
+    //       return;
+    //     }
+    //     content = this.commentContent;
+    //   } else {
+    //     if(this.replyContent === ''){
+    //       this.$message.warning('你评论了个寂寞 => `_`');
+    //       return;
+    //     }
+    //     content = this.replyContent
+    //   }
       
-      this.loading2 = true;
-      postRequest('/comment/add', {
-        comment_content: content,
-        comment_time: Date.parse(new Date()),
-        article_id: this.currentArticleId,
-        parent_id: val
-      }).then(resp => {
-        // console.log(resp);
-        if(resp.data.code === "200"){
-          this.loadComments();
-          this.commentContent = '',
-          this.$message.success('评论成功 => ^_^');
-        } else {
-          this.$message.warning('服务器出错了 => -_-。');
-        }
-        this.loading2 = false;
-      })
-    },
+    //   this.loading2 = true;
+    //   postRequest('/comment/add', {
+    //     comment_content: content,
+    //     comment_time: Date.parse(new Date()),
+    //     article_id: this.currentArticleId,
+    //     parent_id: val
+    //   }).then(resp => {
+    //     // console.log(resp);
+    //     if(resp.data.code === "200"){
+    //       this.loadComments();
+    //       this.commentContent = '',
+    //       this.$message.success('评论成功 => ^_^');
+    //     } else {
+    //       this.$message.warning('服务器出错了 => -_-。');
+    //     }
+    //     this.loading2 = false;
+    //   })
+    // },
+    
     // 更新浏览量，存在问题 ==> 刷新页面也会发起请求，导致浏览量增加。
     updateViews() {
-      postRequest(`/article/views/${this.currentArticleId}`).then(resp => {
+      updateArticleView(this.currentArticleId).then(resp => {
         // console.log(resp);
       })
     }
@@ -210,7 +213,7 @@ export default {
   mounted() {
     this.currentArticleId = this.$route.query.articleId;
     this.loadArticleInfo();
-    this.loadComments();
+    // this.loadComments();
     this.updateViews();
     // 添加代码块复制方法
     this.$nextTick(() => {

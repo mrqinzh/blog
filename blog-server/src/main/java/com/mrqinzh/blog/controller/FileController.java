@@ -31,10 +31,11 @@ public class FileController {
     }
 
     @PostMapping("qiniu")
-    public Resp uploadToQiniu(MultipartFile image) {
+    public Resp uploadToQiNiu(MultipartFile file) {
         try {
-            return fileService.uploadToQiNiu(image);
+            return fileService.uploadToQiNiu(file);
         } catch (Exception e) {
+            e.printStackTrace();
             return Resp.error(500, "文件上传失败");
         }
     }

@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ArticleMapper {
 
     List<Article> list(PageDTO pageDTO); // 排序全部文章、以及分页
@@ -20,7 +22,7 @@ public interface ArticleMapper {
     @Update("update article set article_views = article_views + 1 where id = #{articleId}")
     Boolean updateArticleViews(Integer articleId);
 
-    @Delete("delete from article where id = #{id}")
+    @Update("update article set status = 1 where id = #{id}")
     int delete(Integer articleId); // 删除一篇文章
 
 }

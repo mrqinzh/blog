@@ -15,6 +15,11 @@ public class PageDTO implements Serializable {
     private Integer pageSize;
     /**
      * 条件属性
-      */
+     */
     private String condition;
+
+    /**
+     * 排序
+     */
+    private String orderBy;
 }

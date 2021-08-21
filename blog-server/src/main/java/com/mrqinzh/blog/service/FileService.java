@@ -10,7 +10,7 @@ public interface FileService {
 
     Resp add(HttpServletRequest request, MultipartFile file);
 
-    Resp delete(String condition);
+    Resp delete(String fileName);
 
     Resp uploadToQiNiu(MultipartFile uploadFile) throws IOException;
 

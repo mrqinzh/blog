@@ -1,6 +1,7 @@
 package com.mrqinzh.blog.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mrqinzh.blog.util.Constant;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.util.Resp;
 import org.slf4j.Logger;
@@ -12,6 +13,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author mrqinzh
+ * @Description 当前拦截器只是对部分操作的 token 进行验证
+ *              如需要更细粒度的管理权限，需要对当前 token 所对应角色的权限进行判断。
+ */
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
 
@@ -32,7 +38,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         resp.setContentType("text/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(Resp.error(403, "权限不足"));
+        String json = objectMapper.writeValueAsString(Resp.error(403, "对不起，你的权限不足，请充值。。.>_>"));
         resp.getWriter().write(json);
         logger.error("token验证失败 => " + token);
 

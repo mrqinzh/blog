@@ -169,7 +169,6 @@ export default {
       this.inputVisible = false;
       this.inputValue = '';
     },
-
     // 获取要更改的文章信息
     getUpdatePageInfo(aid) {
       getRequest(`/article/blog/${aid}`).then(resp => {
@@ -181,7 +180,6 @@ export default {
       });
     }
   },
-
   mounted() {
 
   },

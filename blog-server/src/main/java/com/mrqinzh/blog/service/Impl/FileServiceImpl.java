@@ -1,8 +1,10 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mrqinzh.blog.exception.MyException;
 import com.mrqinzh.blog.mapper.FileMapper;
 import com.mrqinzh.blog.model.entity.MyFile;
+import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.FileService;
 import com.mrqinzh.blog.util.FileUtil;
 import com.mrqinzh.blog.util.Resp;
@@ -109,7 +111,7 @@ public class FileServiceImpl implements FileService {
         myFile.setFileType(suffix);
         myFile.setFilePath(url);
         if (!fileMapper.add(myFile)) {
-            return Resp.sendErrorMsg(500, "文件上传失败");
+            throw new MyException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
         }
         return Resp.ok(url);
 

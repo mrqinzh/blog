@@ -15,12 +15,9 @@ public interface ArticleMapper {
 
     Article getById(Integer articleId); // 根据文章id展示当前文章
 
-    int add(Article article); // 添加一篇文章
+    Boolean add(Article article); // 添加一篇文章
 
     Boolean update(Article article); // 修改文章内容
-
-    @Update("update article set article_views = article_views + 1 where id = #{articleId}")
-    Boolean updateArticleViews(Integer articleId);
 
     @Update("update article set status = 1 where id = #{id}")
     int delete(Integer articleId); // 删除一篇文章

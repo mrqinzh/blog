@@ -8,14 +8,6 @@ export function add(data) {
   })
 }
 
-export function updateArticleView(articleId) {
-  let url = `/article/views/${articleId}`
-  return request({
-    url: url,
-    method: 'post'
-  })
-}
-
 export function getById(articleId) {
   let url = `/article/${articleId}`;
   return request({

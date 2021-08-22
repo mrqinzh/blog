@@ -202,19 +202,11 @@ export default {
     //   })
     // },
     
-    // 更新浏览量，存在问题 ==> 刷新页面也会发起请求，导致浏览量增加。
-    updateViews() {
-      updateArticleView(this.currentArticleId).then(resp => {
-        // console.log(resp);
-      })
-    }
-    
   },
   mounted() {
     this.currentArticleId = this.$route.query.articleId;
     this.loadArticleInfo();
     // this.loadComments();
-    this.updateViews();
     // 添加代码块复制方法
     this.$nextTick(() => {
       this.clipboard = new Clipboard('.copy-btn')

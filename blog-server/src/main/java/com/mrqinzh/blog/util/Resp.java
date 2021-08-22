@@ -1,10 +1,10 @@
 package com.mrqinzh.blog.util;
 
 import com.github.pagehelper.PageInfo;
+import com.mrqinzh.blog.model.enums.ExceptionInfo;
 import lombok.Data;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,12 +37,8 @@ public class Resp<E> {
         return resp;
     }
 
-    public static Resp sendErrorMsg(Integer code, String message) {
-        Resp resp = new Resp();
-        resp.setCode(code);
-        resp.setSuccess(false);
-        resp.setMessage(message);
-        return resp;
+    public static Resp fromErrorInfo(ExceptionInfo exceptionInfo) {
+        return new Resp(exceptionInfo.getCode(), false, exceptionInfo.getMsg());
     }
 
     public static <E> Resp<Map<String, Object>> sendPageData(PageInfo<E> pageInfo) {
@@ -54,10 +50,6 @@ public class Resp<E> {
         map.put("rows", pageInfo.getList());
         return Resp.ok(map);
     }
-
-
-
-
 
     public Resp(Integer code, boolean success, E data) {
         this.code = code;

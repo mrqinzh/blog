@@ -20,7 +20,7 @@
         <association property="user" javaType="com.mrqinzh.blog.model.entity.User">
             <id property="id" column="id" />
             <result property="userAvatar" column="user_avatar" />
-            <result property="nickname" column="nickname" />
+            <result property="userNickname" column="nickname" />
             <result property="userEmail" column="user_email" />
             <result property="userName" column="user_name" />
         </association>
@@ -40,7 +40,7 @@
         <association property="user" javaType="com.mrqinzh.blog.model.entity.User">
             <id property="id" column="id" />
             <result property="userAvatar" column="user_avatar" />
-            <result property="nickname" column="nickname" />
+            <result property="userNickname" column="nickname" />
 
         </association>
     </resultMap>
@@ -103,7 +103,13 @@
         UPDATE
             article
         SET
-            article_title = #{articleTitle}, article_summary = #{articleSummary}, article_update_time = #{articleUpdateTime}, article_content_md = #{articleContentMd}, article_tag = #{articleTag}, article_type = #{articleType}
+            article_title = #{articleTitle},
+            article_summary = #{articleSummary},
+            article_update_time = #{articleUpdateTime},
+            article_content_md = #{articleContentMd},
+            article_views = #{articleViews},
+            article_tag = #{articleTag},
+            article_type = #{articleType}
         WHERE
             id = #{id}
     </update>

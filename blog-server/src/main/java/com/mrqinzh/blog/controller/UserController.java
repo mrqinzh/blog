@@ -22,6 +22,12 @@ public class UserController {
     @Autowired
     private RedisUtil redisUtil;
 
+    @ApiOperation("添加一个用户")
+    @PostMapping("add")
+    public Resp add(@RequestBody User user, @RequestHeader("token") String token) {
+        return userService.add(user, token);
+    }
+
     @ApiOperation(value = "获取用户信息")
     @GetMapping("info")
     public Resp info(@RequestParam String token) {
@@ -37,10 +43,8 @@ public class UserController {
     @ApiOperation(value = "退出")
     @PostMapping("/logout")
     public Resp exit(@RequestHeader("token") String token){
-
-        if (redisUtil.hasKey(token)) {
-            redisUtil.del(token);
-        }
+        // 这里在拦截器中已经判断了 token 是否存在
+        redisUtil.del(token);
         return Resp.ok("退出成功");
     }
 

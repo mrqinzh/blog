@@ -2,9 +2,11 @@ package com.mrqinzh.blog.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mrqinzh.blog.exception.MyException;
 import com.mrqinzh.blog.mapper.ArticleMapper;
 import com.mrqinzh.blog.model.dto.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
+import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.ArticleService;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.util.Resp;
@@ -41,35 +43,35 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Resp getById(Integer articleId) {
         Article article = articleMapper.getById(articleId);
+        article.setArticleViews(article.getArticleViews() + 1);
+        articleMapper.update(article);
         return Resp.ok(article);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Resp add(Article article, HttpServletRequest request) {
-        try {
-            // request 添加 文章userId & articleAuthor信息
-            // 目前处于写死的状态，后续通过 request获取
-            article.setUserId(1).setArticleAuthor("秦志宏");
 
-            // 获取文章摘要，截取内容的前100
-            String articleSummary = stripHtml(article.getArticleSummary());
-            if (articleSummary.length() > 100) {
-                article.setArticleSummary(articleSummary.substring(0, 100));
-            } else {
-                article.setArticleSummary(articleSummary);
-            }
+        // request 添加 文章userId & articleAuthor信息
+        // 目前处于写死的状态，后续通过 request获取
+        article.setUserId(1).setArticleAuthor("秦志宏");
 
-            // 初始化文章的固定信息
-            article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date()).setArticleViews(0);
-
-            articleMapper.add(article);
-
-            logger.info("新增文章了。。。 => ");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Resp.error(500, e.getMessage());
+        // 获取文章摘要，截取内容的前100
+        String articleSummary = stripHtml(article.getArticleSummary());
+        if (articleSummary.length() > 100) {
+            article.setArticleSummary(articleSummary.substring(0, 100));
+        } else {
+            article.setArticleSummary(articleSummary);
         }
+
+        // 初始化文章的固定信息
+        article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date()).setArticleViews(0);
+
+        if (!articleMapper.add(article)) {
+            throw new MyException(ExceptionEnums.UNKNOWN_ERROR);
+        }
+
+        logger.info("新增文章了。。。 => ");
         return Resp.ok(article.getId());
     }
 
@@ -95,13 +97,6 @@ public class ArticleServiceImpl implements ArticleService {
     public void delete(Integer articleId) {
 //        articleMapper.delete(articleId);
     }
-
-    @Override
-    public Resp updateArticleViews(Integer articleId) {
-        Boolean result = articleMapper.updateArticleViews(articleId);
-        return Resp.ok(result);
-    }
-
 
     /**
      * 将 content 中的 HTML 标签过滤

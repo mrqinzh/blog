@@ -53,10 +53,4 @@ public class ArticleController {
         return Resp.ok("删除成功");
     }
 
-    @ApiOperation(value = "更新浏览量功能")
-    @PostMapping("/views/{articleId}")
-    public Resp updateArticleViews(@PathVariable Integer articleId) {
-        return articleService.updateArticleViews(articleId);
-    }
-
 }

@@ -5,6 +5,7 @@ package com.mrqinzh.blog.util;
  */
 public class Constant {
 
-    public static final Long TOKEN_EXPIRE_TIME = 12*60*60L; // token到期时间
+    // token到期时间
+    public static final Long TOKEN_EXPIRE_TIME = 12*60*60L;
 
 }

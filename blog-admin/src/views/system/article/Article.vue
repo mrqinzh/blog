@@ -77,8 +77,8 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.articleId)">修改</el-button>
-          <el-button type="text" size="small" @click="deleteHandle(scope.row.articleId)">删除</el-button>
+          <el-button type="primary" size="mini" @click="addOrUpdateHandle(scope.row.articleId)">修改</el-button>
+          <el-button type="danger" size="mini" @click="deleteHandle(scope.row.articleId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

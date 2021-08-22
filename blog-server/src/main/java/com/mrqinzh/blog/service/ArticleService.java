@@ -18,6 +18,4 @@ public interface ArticleService {
 
     void delete(Integer articleId); // 删除一篇文章
 
-    Resp updateArticleViews(Integer articleId);
-
 }

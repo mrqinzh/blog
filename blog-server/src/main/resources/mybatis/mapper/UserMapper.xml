@@ -6,6 +6,21 @@
 
     <cache />
 
+    <update id="update" parameterType="com.mrqinzh.blog.model.entity.User">
+        UPDATE `user`
+        <trim prefix="set" suffixOverrides=",">
+            <if test="roleName != null">role_name = #{roleName}, </if>
+            <if test="loginLastTime != null">login_last_time = #{loginLastTime}, </if>
+            <if test="userAvatar != null">user_avatar = #{userAvatar}, </if>
+            <if test="userNickname != null">user_nickname = #{userNickname}, </if>
+            <if test="userEmail != null">user_email = #{userEmail}, </if>
+            <if test="userName != null">user_name = #{userName}, </if>
+            <if test="userPwd != null">user_pwd = #{userPwd}, </if>
+        </trim>
+        WHERE
+            id = #{id}
+    </update>
+
     <insert id="add" parameterType="com.mrqinzh.blog.model.entity.User">
         INSERT INTO `user` (
             role_name,

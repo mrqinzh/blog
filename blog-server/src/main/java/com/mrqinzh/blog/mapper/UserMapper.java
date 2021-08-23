@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper {
 
+    Boolean update(User user);
+
     Boolean add(User user);
 
     List<User> list(); // 查询所有用户

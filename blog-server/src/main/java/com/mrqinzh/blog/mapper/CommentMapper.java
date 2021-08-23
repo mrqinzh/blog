@@ -12,7 +12,7 @@ public interface CommentMapper {
     @Select("select * from comment limit 5")
     List<Comment> list();
 
-    int add(Comment comment);
+    Boolean add(Comment comment);
 
     /**
      * 根据id 查询评论信息
@@ -25,7 +25,7 @@ public interface CommentMapper {
      * 根据 id 删除评论信息
      * @param idType id类型： userId、articleId、commentId
      */
-    int deleteById(String idType, Integer id);
+    Boolean deleteById(String idType, Integer id);
 
 
 

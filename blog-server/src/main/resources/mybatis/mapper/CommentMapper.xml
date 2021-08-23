@@ -12,7 +12,7 @@
         <result property="commentTime" column="comment_time" />
         <result property="parentId" column="parent_id" />
         <association property="user" javaType="com.mrqinzh.blog.model.entity.User">
-            <result property="nickname" column="nickname" />
+            <result property="userNickname" column="user_nickname" />
             <result property="userAvatar" column="user_avatar" />
         </association>
         <association property="article" javaType="com.mrqinzh.blog.model.entity.Article">
@@ -51,9 +51,5 @@
             and article_id = #{id}
         </if>
     </delete>
-
-    <insert id="add">
-
-    </insert>
 
 </mapper>

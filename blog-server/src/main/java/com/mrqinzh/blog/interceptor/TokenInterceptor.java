@@ -1,7 +1,6 @@
 package com.mrqinzh.blog.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mrqinzh.blog.util.Constant;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.util.Resp;
 import org.slf4j.Logger;
@@ -30,6 +29,11 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
 
         String token = req.getHeader("token");
+
+        // 浏览器会先发送options类型请求，该请求头中不包含token，直接返回。
+        if (token == null) {
+            return false;
+        }
 
         if (redisUtil.hasKey(token)) {
             logger.info("token验证通过 => " + token);

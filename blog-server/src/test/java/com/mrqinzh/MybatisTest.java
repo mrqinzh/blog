@@ -7,6 +7,11 @@ import java.util.Arrays;
 public class MybatisTest {
 
     @Test
+    public void test2() {
+        System.out.println("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6IjEiLCJpc3MiOiJhdXRoMCIsImF2YXRhciI6Imh0dHA6Ly9tcnFpbnpoLmluZm86OTA5MC9pbWcvYXZhdGFyLmpwZyIsImV4cCI6MTYyOTcwNTQ2MCwidXNlcm5hbWUiOiJhZG1pbiJ9.6YbDjXX8hxWGJk2xZ-v8sCBGYUr7BLmsN6zduMk2Iyg".length());
+    }
+
+    @Test
     public void test() {
         int[] arr = {0,1,5,9,6,7,2,5,7,6,2,7,6,9,4,10};
         quickSort(arr, 0, arr.length-1);

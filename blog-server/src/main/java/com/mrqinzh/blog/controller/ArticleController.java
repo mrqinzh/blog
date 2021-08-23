@@ -10,8 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Api(tags = "文章接口")
 @CrossOrigin
 @RestController
@@ -35,8 +33,8 @@ public class ArticleController {
 
     @ApiOperation(value = "添加文章")
     @PostMapping("/add")
-    public Resp add(@RequestBody Article article, HttpServletRequest request) {
-        return articleService.add(article, request);
+    public Resp add(@RequestBody Article article, @RequestHeader("token") String token) {
+        return articleService.add(article, token);
     }
 
     @ApiOperation(value = "根据 articleId 更新文章")

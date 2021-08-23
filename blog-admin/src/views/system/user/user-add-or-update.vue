@@ -8,7 +8,15 @@
       <el-input v-model="dataForm.userNickname" placeholder="昵称"></el-input>
     </el-form-item>
     <el-form-item label="头像" prop="userAvatar">
-      <el-input v-model="dataForm.userAvatar" placeholder="头像"></el-input>
+      <el-upload
+        class="avatar-uploader"
+        action="https://jsonplaceholder.typicode.com/posts/"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload">
+        <img v-if="dataForm.userAvatar" :src="dataForm.userAvatar" class="avatar">
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
     </el-form-item>
     <el-form-item label="邮箱" prop="userEmail">
       <el-input v-model="dataForm.userEmail" placeholder="邮箱"></el-input>
@@ -66,6 +74,22 @@
       }
     },
     methods: {
+      // 文件上传
+      handleAvatarSuccess(res, file) {
+        this.dataForm.userAvatar = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
       init (id) {
         this.dataForm.commentId = id || 0
         this.visible = true
@@ -122,3 +146,30 @@
     }
   }
 </script>
+
+
+<style lang="scss" scoped>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+</style>

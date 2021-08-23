@@ -19,7 +19,7 @@ public interface ArticleMapper {
 
     Boolean update(Article article); // 修改文章内容
 
-    @Update("update article set status = 1 where id = #{id}")
-    int delete(Integer articleId); // 删除一篇文章
+    @Update("update article set status = 1 where id = #{articleId}")
+    Boolean delete(Integer articleId); // 删除一篇文章
 
 }

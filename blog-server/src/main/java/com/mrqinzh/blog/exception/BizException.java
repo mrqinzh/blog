@@ -7,16 +7,16 @@ import com.mrqinzh.blog.util.Resp;
 /**
  * @author mrqinzh
  */
-public class MyException extends RuntimeException {
+public class BizException extends RuntimeException {
 
     private final ExceptionInfo exceptionInfo;
 
-    public MyException(ExceptionEnums exceptionEnums) {
+    public BizException(ExceptionEnums exceptionEnums) {
         this.exceptionInfo = exceptionEnums;
     }
 
     public Resp toResp() {
-        return Resp.fromErrorInfo(exceptionInfo);
+        return Resp.sendExceptionInfo(exceptionInfo);
     }
 
 }

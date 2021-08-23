@@ -5,6 +5,7 @@ import com.mrqinzh.blog.model.enums.ExceptionInfo;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,7 +14,6 @@ import java.util.Map;
  */
 @Data
 public class Resp<E> {
-
 
     private Integer code;
     private boolean success;
@@ -29,7 +29,7 @@ public class Resp<E> {
         return new Resp<>(code, false, data);
     }
 
-    public static Resp sendSuccessMsg(String message) {
+    public static Resp<String> sendSuccessMsg(String message) {
         Resp resp = new Resp();
         resp.setCode(200);
         resp.setSuccess(true);
@@ -37,11 +37,21 @@ public class Resp<E> {
         return resp;
     }
 
-    public static Resp fromErrorInfo(ExceptionInfo exceptionInfo) {
+    /**
+     * 返回异常信息
+     * @param exceptionInfo
+     */
+    public static Resp sendExceptionInfo(ExceptionInfo exceptionInfo) {
         return new Resp(exceptionInfo.getCode(), false, exceptionInfo.getMsg());
     }
 
-    public static <E> Resp<Map<String, Object>> sendPageData(PageInfo<E> pageInfo) {
+    /**
+     * 返回分页请求相关数据
+     * @param listData 需要进行分页的list集合
+     * @return
+     */
+    public static <T> Resp<Map<String, Object>> sendPageData(List<T> listData) {
+        PageInfo<T> pageInfo = new PageInfo<>(listData);
         Map<String, Object> map = new HashMap<>(8);
         map.put("currentPage", pageInfo.getPageNum());
         map.put("pageSize", pageInfo.getPageSize());

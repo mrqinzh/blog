@@ -18,9 +18,9 @@ public interface TagMapper {
     List<Tag> list();
 
     @Insert("insert into tag(tag_name) values (#{tagName})")
-    int add(Tag tag);
+    Boolean add(Tag tag);
 
     @Delete("delete from tag where id = #{id}")
-    int delete(Integer id);
+    Boolean delete(Integer id);
 
 }

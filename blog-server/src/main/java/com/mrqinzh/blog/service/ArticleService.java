@@ -12,7 +12,7 @@ public interface ArticleService {
 
     Resp getById(Integer articleId); // 根据文章id展示当前文章
 
-    Resp add(Article article, HttpServletRequest request);
+    Resp add(Article article, String token);
 
     Resp update(Article article); // 修改文章内容
 

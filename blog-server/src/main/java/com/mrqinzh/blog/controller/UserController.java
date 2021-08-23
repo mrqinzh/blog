@@ -10,7 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = "登录接口")
+import javax.servlet.http.HttpServletRequest;
+
+@Api(tags = "用户接口")
 @CrossOrigin
 @RestController
 @RequestMapping("user")
@@ -19,8 +21,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RedisUtil redisUtil;
+    @ApiOperation("修改用户信息")
+    @PostMapping("update")
+    public Resp update(@RequestBody User user) {
+        return userService.update(user);
+    }
 
     @ApiOperation("添加一个用户")
     @PostMapping("add")
@@ -30,22 +35,20 @@ public class UserController {
 
     @ApiOperation(value = "获取用户信息")
     @GetMapping("info")
-    public Resp info(@RequestParam String token) {
-        return userService.info(token);
+    public Resp info(@RequestParam String token, HttpServletRequest request) {
+        return userService.info(token, request);
     }
 
     @ApiOperation(value = "登录")
     @PostMapping("login")
     public Resp login(@RequestBody User user) {
-        return userService.getByUsernameOrEmail(user);
+        return userService.loginByUsernameOrEmail(user);
     }
 
     @ApiOperation(value = "退出")
     @PostMapping("/logout")
     public Resp exit(@RequestHeader("token") String token){
-        // 这里在拦截器中已经判断了 token 是否存在
-        redisUtil.del(token);
-        return Resp.ok("退出成功");
+        return userService.logout(token);
     }
 
     @ApiOperation(value = "获取所有用户信息")

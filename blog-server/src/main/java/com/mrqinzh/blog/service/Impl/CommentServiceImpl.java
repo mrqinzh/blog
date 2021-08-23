@@ -2,7 +2,9 @@ package com.mrqinzh.blog.service.Impl;
 
 import com.mrqinzh.blog.mapper.CommentMapper;
 import com.mrqinzh.blog.model.entity.Comment;
+import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.service.CommentService;
+import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private CommentMapper commentMapper;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     @Override
     public Resp list() {
         List<Comment> comments = commentMapper.list();
@@ -25,8 +30,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public void add(Comment comment) {
+    public Resp add(Comment comment, String token) {
+        User user = (User) redisUtil.get(token);
+        comment.setUserId(user.getId());
         commentMapper.add(comment);
+
+        return Resp.sendSuccessMsg("评论成功");
     }
 
     @Override
@@ -53,8 +62,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public Resp deleteById(String idType, Integer id) {
+
         commentMapper.deleteById(idType, id);
-        return Resp.ok(null);
+        return Resp.sendSuccessMsg("操作成功");
     }
 
 

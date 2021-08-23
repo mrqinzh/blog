@@ -23,9 +23,8 @@ public class TagServiceImpl implements TagService {
     public Resp page(PageDTO pageDTO) {
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
         List<Tag> tags = tagMapper.page();
-        PageInfo<Tag> pageInfo = new PageInfo<>(tags);
 
-        return Resp.sendPageData(pageInfo);
+        return Resp.sendPageData(tags);
     }
 
     @Override
@@ -35,14 +34,12 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    @Transactional
     public Resp add(Tag tag) {
         tagMapper.add(tag);
         return Resp.ok(null);
     }
 
     @Override
-    @Transactional
     public Resp delete(Integer id) {
         tagMapper.delete(id);
         return Resp.ok(null);

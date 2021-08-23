@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mrqinzh.blog.exception.MyException;
+import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.FileMapper;
 import com.mrqinzh.blog.model.entity.MyFile;
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
@@ -44,9 +44,11 @@ public class FileServiceImpl implements FileService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Resp add(HttpServletRequest request, MultipartFile file) {
+
+        // 将文件保存至磁盘，并返回相关参数
         Map<String, Object> fileData = FileUtil.getFilePath(request, file);
         if (!((Boolean) fileData.get("status"))) {
-            return Resp.error(200, "文件上传失败");
+            throw new BizException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
         }
 
         String fileSize = FileUtil.getFileSize(file.getSize());
@@ -62,11 +64,10 @@ public class FileServiceImpl implements FileService {
         dbFile.setFileType(fileType);
         dbFile.setFilePlace("本地");
 
-        boolean add = fileMapper.add(dbFile);
-        if (add) {
-            return Resp.ok(fileData.get("resultUrl").toString());
+        if (!fileMapper.add(dbFile)) {
+            throw new BizException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
         }
-        return Resp.error(200, "数据库保存错误");
+        return Resp.ok(fileData.get("resultUrl").toString());
     }
 
     @Override
@@ -111,7 +112,7 @@ public class FileServiceImpl implements FileService {
         myFile.setFileType(suffix);
         myFile.setFilePath(url);
         if (!fileMapper.add(myFile)) {
-            throw new MyException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
+            throw new BizException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
         }
         return Resp.ok(url);
 

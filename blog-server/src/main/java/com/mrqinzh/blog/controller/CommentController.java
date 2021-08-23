@@ -1,15 +1,12 @@
 package com.mrqinzh.blog.controller;
 
 import com.mrqinzh.blog.model.entity.Comment;
-import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.service.CommentService;
 import com.mrqinzh.blog.util.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = "评论接口")
 @CrossOrigin
@@ -22,13 +19,8 @@ public class CommentController {
 
     @ApiOperation(value = "添加一条评论")
     @PostMapping("add")
-    public Resp add(@RequestBody Comment comment, HttpServletRequest req) {
-
-        User user = (User) req.getAttribute("user");
-        comment.setUserId(user.getId());
-        commentService.add(comment);
-
-        return Resp.ok("添加成功");
+    public Resp add(@RequestBody Comment comment, @RequestHeader("token") String token) {
+        return commentService.add(comment, token);
     }
 
     /**

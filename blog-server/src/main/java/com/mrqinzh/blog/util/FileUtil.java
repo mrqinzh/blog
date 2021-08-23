@@ -1,5 +1,6 @@
 package com.mrqinzh.blog.util;
 
+import com.mrqinzh.blog.constant.FileConstant;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +16,6 @@ import java.util.UUID;
 
 public class FileUtil {
 
-    private static final String BASE_FOLDER_PATH = "/files/"; // 文件存储根路径
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
     public static Map<String, Object> getFilePath(HttpServletRequest request, MultipartFile file) {
@@ -27,7 +27,7 @@ public class FileUtil {
         String fileType = originName.substring(originName.lastIndexOf(".") + 1);
         String fileName = UUID.randomUUID().toString().replaceAll("-", "") + "." + fileType;
 
-        File baseFolder = new File(BASE_FOLDER_PATH + filePath);
+        File baseFolder = new File(FileConstant.BASE_FOLDER_PATH + filePath);
         if (!baseFolder.exists()) {
             baseFolder.mkdir();
         }
@@ -42,7 +42,7 @@ public class FileUtil {
                     .append(":")
                     .append(request.getServerPort())
                     .append(request.getContextPath())
-                    .append(BASE_FOLDER_PATH)
+                    .append(FileConstant.BASE_FOLDER_PATH)
                     .append(filePath)
                     .append("/")
                     .append(fileName);

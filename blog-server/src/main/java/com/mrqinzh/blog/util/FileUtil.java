@@ -47,7 +47,8 @@ public class FileUtil {
                     .append("/")
                     .append(fileName);
 
-            resultMap.put("status", true);
+            // success: 判断文件是否导入成功
+            resultMap.put("success", true);
             resultMap.put("resultUrl", sb.toString());
             resultMap.put("fileType", fileType);
             resultMap.put("fileName", fileName);
@@ -58,7 +59,7 @@ public class FileUtil {
             e.printStackTrace();
         }
 
-        resultMap.put("status", false);
+        resultMap.put("success", false);
         return resultMap;
     }
 

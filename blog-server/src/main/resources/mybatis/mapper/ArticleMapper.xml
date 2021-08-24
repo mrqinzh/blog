@@ -26,7 +26,7 @@
         </association>
     </resultMap>
 
-    <resultMap id="listMap" type="com.mrqinzh.blog.model.entity.Article">
+    <resultMap id="listMap" type="Article">
         <id property="id" column="id" />
         <result property="articleAuthor" column="article_author" />
         <result property="articleTitle" column="article_title" />
@@ -37,7 +37,7 @@
         <result property="articleTag" column="article_tag" />
         <result property="articleType" column="article_type" />
         <result property="articleViews" column="article_views" />
-        <association property="user" javaType="com.mrqinzh.blog.model.entity.User">
+        <association property="user" javaType="User">
             <id property="id" column="id" />
             <result property="userAvatar" column="user_avatar" />
             <result property="userNickname" column="user_nickname" />
@@ -70,7 +70,7 @@
             a.id = #{articleId}
     </select>
 
-    <insert id="add" parameterType="com.mrqinzh.blog.model.entity.Article" useGeneratedKeys="true" keyProperty="id">
+    <insert id="add" parameterType="Article" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO article (
             article_author,
             article_title,

@@ -47,6 +47,7 @@ public class Resp<E> {
 
     /**
      * 返回分页请求相关数据
+     * 注：**原数据不能进行操作。。。否则 PageInfo 分页失效**
      * @param listData 需要进行分页的list集合
      * @return
      */

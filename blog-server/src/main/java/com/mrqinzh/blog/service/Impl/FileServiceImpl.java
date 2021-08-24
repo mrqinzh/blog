@@ -47,7 +47,7 @@ public class FileServiceImpl implements FileService {
 
         // 将文件保存至磁盘，并返回相关参数
         Map<String, Object> fileData = FileUtil.getFilePath(request, file);
-        if (!((Boolean) fileData.get("status"))) {
+        if (!((Boolean) fileData.get("success"))) {
             throw new BizException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
         }
 

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@ApiModel(value = "分页请求信息类", description = "前端传入的分页信息")
+@ApiModel(value = "分页信息类", description = "前端传入的分页信息")
 public class PageDTO implements Serializable {
 
     private Integer currentPage;

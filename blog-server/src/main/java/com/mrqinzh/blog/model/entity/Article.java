@@ -33,11 +33,11 @@ public class Article implements Serializable {
 
     private Integer articleViews;
 
-    // 逻辑删除
+    /**
+     * 状态值
+     */
     private Integer status;
 
     private Integer userId;
-
-    // 外键对象
     private User user;
 }

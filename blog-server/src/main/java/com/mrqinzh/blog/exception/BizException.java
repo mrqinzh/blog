@@ -2,7 +2,7 @@ package com.mrqinzh.blog.exception;
 
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.model.enums.ExceptionInfo;
-import com.mrqinzh.blog.util.Resp;
+import com.mrqinzh.blog.model.dto.Resp;
 
 /**
  * @author mrqinzh

@@ -1,14 +1,17 @@
 package com.mrqinzh.blog.controller;
 
+import com.mrqinzh.blog.config.WebSocketServer;
 import com.mrqinzh.blog.model.dto.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.service.ArticleService;
 
-import com.mrqinzh.blog.util.Resp;
+import com.mrqinzh.blog.model.dto.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Api(tags = "文章接口")
 @CrossOrigin
@@ -28,6 +31,11 @@ public class ArticleController {
     @ApiOperation(value = "分页加载文章列表")
     @GetMapping("/list")
     public Resp list(PageDTO pageDTO) {
+        try {
+            WebSocketServer.sendInfo("有人访问了 ===> /article/list", 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return articleService.list(pageDTO);
     }
 

@@ -13,7 +13,7 @@
 
     <!-- 文章分类 -->
     <ul class="chooseType animate__animated animate__fadeInLeft">
-      <i class="el-icon-s-operation"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span @click="loadBlogs(currentPage, pageSize, '')" style="cursor: pointer">所有文章</span>
+      <i class="el-icon-s-operation"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span @click="loadBlogs('')" style="cursor: pointer">所有文章</span>
       <li v-for="(item, index) in linkTypes" :key="index" @click="findByType(item.val)">
         {{item.linkName}}
         <span><i class="el-icon-caret-right"></i></span>
@@ -43,7 +43,7 @@
                 <div class="card">
                   <i class="el-icon-caret-left" style="float: left;margin: 10px 0 0 -15px;font-size: 20px;color: #dedede;"></i>
                   <div class="card-head">
-                    <span><a><router-link :to="{path: '/detail', query: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a> </span>
+                    <span><a><router-link :to="{path: '/detail', query: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a></span>
                   </div>
                   <div class="card-foot">
                     <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
@@ -172,7 +172,6 @@ export default {
     }
   }
   
-
   .chooseType {
     position: fixed;
     top: 60px;

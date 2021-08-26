@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.service;
 
 import com.mrqinzh.blog.model.entity.Comment;
-import com.mrqinzh.blog.util.Resp;
+import com.mrqinzh.blog.model.dto.Resp;
 
 /**
  * @author mrqinzh

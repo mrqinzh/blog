@@ -1,16 +1,17 @@
 package com.mrqinzh.blog.controller;
 
+import com.mrqinzh.blog.config.WebSocketServer;
 import com.mrqinzh.blog.model.dto.PageDTO;
-import com.mrqinzh.blog.util.Resp;
+import com.mrqinzh.blog.model.dto.Resp;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.service.UserService;
-import com.mrqinzh.blog.util.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Api(tags = "用户接口")
 @CrossOrigin

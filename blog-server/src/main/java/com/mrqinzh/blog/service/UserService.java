@@ -2,7 +2,7 @@ package com.mrqinzh.blog.service;
 
 import com.mrqinzh.blog.model.dto.PageDTO;
 import com.mrqinzh.blog.model.entity.User;
-import com.mrqinzh.blog.util.Resp;
+import com.mrqinzh.blog.model.dto.Resp;
 
 import javax.servlet.http.HttpServletRequest;
 

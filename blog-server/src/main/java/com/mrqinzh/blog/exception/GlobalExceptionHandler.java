@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.exception;
 
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
-import com.mrqinzh.blog.util.Resp;
+import com.mrqinzh.blog.model.dto.Resp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BizException.class)
     @ResponseBody
     public Resp bizExceptionHandler(BizException e) {
-        logger.error("业务发生异常！原因是: {}", e.getMessage());
+        e.printStackTrace();
         return e.toResp();
     }
 
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = NullPointerException.class)
     @ResponseBody
     public Resp exceptionHandler(NullPointerException e) {
-        logger.error("发生了空指针异常！原因是: {}", e.getMessage());
+        e.printStackTrace();
         return Resp.sendExceptionInfo(ExceptionEnums.UNKNOWN_ERROR);
     }
 
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public Resp exceptionHandler(Exception e) {
-        logger.error("未知异常！原因是: {}", e.getMessage());
+        e.printStackTrace();
         return Resp.sendExceptionInfo(ExceptionEnums.UNKNOWN_ERROR);
     }
 

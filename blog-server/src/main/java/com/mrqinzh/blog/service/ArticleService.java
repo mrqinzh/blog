@@ -2,9 +2,7 @@ package com.mrqinzh.blog.service;
 
 import com.mrqinzh.blog.model.dto.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
-import com.mrqinzh.blog.util.Resp;
-
-import javax.servlet.http.HttpServletRequest;
+import com.mrqinzh.blog.model.dto.Resp;
 
 public interface ArticleService {
 

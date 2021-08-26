@@ -4,6 +4,8 @@
 
     <breadcrumb class="breadcrumb-container" />
 
+    <msgPush class="breadcrumb-container" />
+
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
@@ -32,11 +34,13 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import MsgPush from '@/components/MsgPush'
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    MsgPush
   },
   computed: {
     ...mapGetters([

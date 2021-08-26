@@ -9,4 +9,7 @@
     <typeAliases>
         <package name="com.mrqinzh.blog.model.entity" />
     </typeAliases>
+    <mappers>
+        <package name="com.mrqinzh.blog.mapper" />
+    </mappers>
 </configuration>

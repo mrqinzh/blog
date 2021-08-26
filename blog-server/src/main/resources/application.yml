@@ -6,7 +6,6 @@ spring:
     active: dev
 
   # Redis配置
-  # Redis服务器地址
   redis:
     host: 47.108.209.62
     port: 6379  # 端口
@@ -24,6 +23,12 @@ spring:
     multipart:
       enabled: true
       max-file-size: 10MB
+
+  # 发送邮件配置
+  mail:
+    host: smtp.qq.com # 设置邮箱主机
+    username: 1552589784@qq.com # 设置用户名
+    password: pfhogftiaugdbafg # 设置密码，开启SMTP的授权码
 
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml

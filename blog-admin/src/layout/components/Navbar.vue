@@ -4,8 +4,6 @@
 
     <breadcrumb class="breadcrumb-container" />
 
-    <msgPush class="breadcrumb-container" />
-
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
@@ -34,13 +32,11 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import MsgPush from '@/components/MsgPush'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    MsgPush
   },
   computed: {
     ...mapGetters([
@@ -70,7 +66,7 @@ export default {
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
 
   .hamburger-container {
-    line-height: 46px;
+    line-height: 50px;
     height: 100%;
     float: left;
     cursor: pointer;
@@ -89,7 +85,7 @@ export default {
   .right-menu {
     float: right;
     height: 100%;
-    line-height: 50px;
+    line-height: 30px;
 
     &:focus {
       outline: none;
@@ -99,6 +95,7 @@ export default {
       display: inline-block;
       padding: 0 8px;
       height: 100%;
+      width: 100%;
       font-size: 18px;
       color: #5a5e66;
       vertical-align: text-bottom;

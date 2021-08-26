@@ -15,6 +15,7 @@ export default {
   name: 'AppMain',
   data() {
     return {
+      baseUrl: process.env.VUE_APP_BASE_API,
       userId: this.$store.state.user.userId
     }
   },
@@ -28,11 +29,15 @@ export default {
   },
   methods: {
     initWebSocket: function () {
-        this.websock = new WebSocket("ws://localhost:9090/api/websocket/" + this.userId);
-        this.websock.onopen = this.websocketonopen;
-        this.websock.onerror = this.websocketonerror;
-        this.websock.onmessage = this.websocketonmessage;
-        this.websock.onclose = this.websocketclose;
+      let url = this.baseUrl.substring(4, 25);
+      // console.log(url);
+      // let a = "http://localhost:9090";
+      // console.log(a.substring(4, 25))
+      this.websock = new WebSocket("ws" + url + "/api/websocket/" + this.userId);
+      this.websock.onopen = this.websocketonopen;
+      this.websock.onerror = this.websocketonerror;
+      this.websock.onmessage = this.websocketonmessage;
+      this.websock.onclose = this.websocketclose;
     },
     websocketonopen: function () {
         console.log("WebSocket连接成功");

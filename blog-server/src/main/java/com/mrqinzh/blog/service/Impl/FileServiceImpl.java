@@ -87,36 +87,38 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Resp uploadToQiNiu(MultipartFile uploadFile) throws IOException {
-        Configuration cfg = new Configuration(Region.huadong());
-        UploadManager uploadManager = new UploadManager(cfg);
-        Auth auth = Auth.create(accessKey, secretKey);
-        String upToken = auth.uploadToken(bucketName);
+    public Resp uploadToQiNiu(MultipartFile uploadFile) {
+        try {
+            Configuration cfg = new Configuration(Region.huadong());
+            UploadManager uploadManager = new UploadManager(cfg);
+            Auth auth = Auth.create(accessKey, secretKey);
+            String upToken = auth.uploadToken(bucketName);
 
-        String fileName = uploadFile.getOriginalFilename();
-        String suffix = fileName.substring(fileName.lastIndexOf("."));
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        fileName = uuid + suffix;
+            // 修改文件名
+            String fileName = uploadFile.getOriginalFilename();
+            String suffix = fileName.substring(fileName.lastIndexOf("."));
+            String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+            fileName = uuid + suffix;
 
-        Response response = uploadManager.put(uploadFile.getBytes(), fileName, upToken);
-        System.out.println("res.bodyString() = " + response.bodyString());
-        JSONObject res = JSONObject.parseObject(response.bodyString());
+            Response response = uploadManager.put(uploadFile.getBytes(), fileName, upToken);
+//        System.out.println("res.bodyString() = " + response.bodyString());
+            JSONObject res = JSONObject.parseObject(response.bodyString());
 
-        String url = "http://" + domain + "/" + res.getString("key");
+            String url = "http://" + domain + "/" + res.getString("key");
 
-        // 将添加的文件信息保存至数据库
-        MyFile myFile = new MyFile();
-        myFile.setFilePlace("七牛云");
-        myFile.setFileName(fileName);
-        myFile.setFileCreateTime(new Date());
-        myFile.setFileType(suffix);
-        myFile.setFilePath(url);
-        if (!fileMapper.add(myFile)) {
+            // 将添加的图片信息保存至数据库
+            MyFile myFile = new MyFile();
+            myFile.setFilePlace("七牛云");
+            myFile.setFileName(fileName);
+            myFile.setFileCreateTime(new Date());
+            myFile.setFileType(suffix);
+            myFile.setFilePath(url);
+            fileMapper.add(myFile);
+
+            return Resp.ok(url);
+        } catch (Exception e) {
             throw new BizException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
         }
-        return Resp.ok(url);
-
 
     }
 

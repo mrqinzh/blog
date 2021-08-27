@@ -3,6 +3,8 @@ package com.mrqinzh.blog.service.Impl;
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.mapper.TagMapper;
 import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.dto.resp.BaseResp;
+import com.mrqinzh.blog.model.dto.resp.PageResp;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.TagService;
@@ -19,11 +21,11 @@ public class TagServiceImpl implements TagService {
     private TagMapper tagMapper;
 
     @Override
-    public Resp page(PageDTO pageDTO) {
+    public BaseResp page(PageDTO pageDTO) {
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
         List<Tag> tags = tagMapper.page();
 
-        return Resp.sendPageData(tags);
+        return PageResp.ok(tags);
     }
 
     @Override

@@ -12,6 +12,6 @@ public interface FileService {
 
     Resp delete(String fileName);
 
-    Resp uploadToQiNiu(MultipartFile uploadFile) throws IOException;
+    Resp uploadToQiNiu(MultipartFile uploadFile);
 
 }

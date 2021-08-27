@@ -35,11 +35,7 @@ public class FileController {
 
     @PostMapping("qiniu")
     public Resp uploadToQiNiu(MultipartFile file) {
-        try {
-            return fileService.uploadToQiNiu(file);
-        } catch (IOException e) {
-            throw new BizException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
-        }
+        return fileService.uploadToQiNiu(file);
     }
 
 

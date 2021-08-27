@@ -42,6 +42,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Resp getById(Integer articleId) {
         Article article = articleMapper.getById(articleId);
+        // 更新浏览量
         article.setArticleViews(article.getArticleViews() + 1);
         articleMapper.update(article);
         return Resp.ok(article);

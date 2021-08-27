@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 public class BaseResp {
 
     private Integer code;
-
+    private Boolean success;
     private String msg;
 
     public BaseResp(AppStatus status) {
         this.code = status.getCode();
+        this.success = status.getSuccess();
         this.msg = status.getMsg();
     }
 

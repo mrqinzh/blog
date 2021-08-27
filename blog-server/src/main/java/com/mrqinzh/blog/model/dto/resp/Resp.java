@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.enums.ExceptionInfo;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,13 +15,14 @@ import java.util.Map;
  * @param <E> 传入数据类型
  */
 @Data
+@NoArgsConstructor
 public class Resp<E> {
 
     private Integer code;
-    private boolean success;
+    private Boolean success;
     private E data;
 
-    private String message;
+    private String msg;
 
     public static <E> Resp<E> ok(E data){
         return new Resp<>(200, true, data);
@@ -30,7 +32,7 @@ public class Resp<E> {
         Resp resp = new Resp();
         resp.setCode(status.getCode());
         resp.setSuccess(true);
-        resp.setMessage(status.getMsg());
+        resp.setMsg(status.getMsg());
         return resp;
     }
 
@@ -63,10 +65,6 @@ public class Resp<E> {
         this.code = code;
         this.success = success;
         this.data = data;
-    }
-
-    public Resp() {
-
     }
 
 }

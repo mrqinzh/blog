@@ -1,10 +1,9 @@
 package com.mrqinzh.blog.mapper;
 
-import com.mrqinzh.blog.model.dto.PageDTO;
+import com.mrqinzh.blog.model.dto.req.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 

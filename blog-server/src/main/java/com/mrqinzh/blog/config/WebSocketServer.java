@@ -121,14 +121,13 @@ public class WebSocketServer {
 
     /**
      * 发送自定义消息
-     *
      */
     public static void sendInfo(String message, @PathParam("userId") Integer userId) throws IOException {
         logger.info("发送消息到:"+userId+"，报文:"+message);
         if (userId != null && clients.containsKey(userId)) {
             clients.get(userId).sendMessage(message);
         } else {
-            logger.error("用户"+userId+",不在线！");
+            logger.error("用户 " + userId + " ,不在线！");
         }
     }
 

@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.service;
 
-import com.mrqinzh.blog.model.dto.PageDTO;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 
 public interface LoginLogService {
 

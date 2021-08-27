@@ -7,7 +7,7 @@ import com.mrqinzh.blog.model.entity.MyFile;
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.FileService;
 import com.mrqinzh.blog.util.FileUtil;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.Region;

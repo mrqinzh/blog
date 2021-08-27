@@ -2,7 +2,7 @@ package com.mrqinzh.blog.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mrqinzh.blog.util.RedisUtil;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.mrqinzh.blog.model.dto;
+package com.mrqinzh.blog.model.dto.resp;
 
 import com.github.pagehelper.PageInfo;
 import com.mrqinzh.blog.model.enums.ExceptionInfo;

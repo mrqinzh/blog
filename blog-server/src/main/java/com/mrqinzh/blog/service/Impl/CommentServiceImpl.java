@@ -5,7 +5,7 @@ import com.mrqinzh.blog.model.entity.Comment;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.service.CommentService;
 import com.mrqinzh.blog.util.RedisUtil;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

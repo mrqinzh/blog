@@ -1,8 +1,8 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.model.dto.EmailDTO;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.req.EmailDTO;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.EmailService;
 import com.mrqinzh.blog.util.RedisUtil;

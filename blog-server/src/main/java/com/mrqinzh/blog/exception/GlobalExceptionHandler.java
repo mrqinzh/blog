@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.exception;
 
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;

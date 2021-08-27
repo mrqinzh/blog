@@ -1,8 +1,8 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.model.dto.PageDTO;
+import com.mrqinzh.blog.model.dto.req.PageDTO;
 import com.mrqinzh.blog.service.LoginLogService;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.mrqinzh.blog.model.dto;
+package com.mrqinzh.blog.model.dto.req;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

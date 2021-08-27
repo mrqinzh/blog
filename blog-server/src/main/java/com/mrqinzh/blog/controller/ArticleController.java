@@ -3,6 +3,7 @@ package com.mrqinzh.blog.controller;
 import com.mrqinzh.blog.config.WebSocketServer;
 import com.mrqinzh.blog.model.dto.req.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.ArticleService;
 
 import com.mrqinzh.blog.model.dto.resp.Resp;
@@ -56,7 +57,7 @@ public class ArticleController {
     @DeleteMapping("/{articleId}")
     public Resp delete(@PathVariable("articleId") Integer articleId){
         articleService.delete(articleId);
-        return Resp.ok("删除成功");
+        return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
     }
 
 }

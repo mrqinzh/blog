@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.FileMapper;
 import com.mrqinzh.blog.model.entity.MyFile;
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.FileService;
 import com.mrqinzh.blog.util.FileUtil;
@@ -82,7 +83,7 @@ public class FileServiceImpl implements FileService {
             }
         }
         fileMapper.delete(fileName);
-        return Resp.ok("删除成功");
+        return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
     }
 
     @Override

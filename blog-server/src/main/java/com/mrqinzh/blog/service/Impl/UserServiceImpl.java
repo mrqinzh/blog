@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.UserService;
 import com.mrqinzh.blog.util.JwtUtil;
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
         // Todo ......
 //        userMapper.update(user);
 
-        return Resp.sendSuccessMsg("更新成功");
+        return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService {
         // Todo 这里可以对用户密码 进行加密 再入库
         userMapper.add(user);
 
-        return Resp.sendSuccessMsg("添加用户成功。。。^_^");
+        return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }
 
     @Override
@@ -98,7 +99,7 @@ public class UserServiceImpl implements UserService {
         user.setLoginLastTime(new Date());
         userMapper.update(user);
         redisUtil.del(token);
-        return Resp.sendSuccessMsg("退出成功");
+        return Resp.sendMsg(AppStatus.SUCCESS);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.mrqinzh.blog.mapper.ArticleMapper;
 import com.mrqinzh.blog.model.dto.req.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.model.entity.User;
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.ArticleService;
 import com.mrqinzh.blog.util.RedisUtil;
@@ -83,7 +84,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (!articleMapper.update(article)) {
             throw new BizException(ExceptionEnums.UNKNOWN_ERROR);
         }
-        return Resp.ok(null);
+        return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.mrqinzh.blog.model.dto.resp;
 
 import com.github.pagehelper.PageInfo;
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.enums.ExceptionInfo;
 import lombok.Data;
 
@@ -25,15 +26,11 @@ public class Resp<E> {
         return new Resp<>(200, true, data);
     }
 
-    public static <E> Resp<E> error(Integer code, E data){
-        return new Resp<>(code, false, data);
-    }
-
-    public static Resp<String> sendSuccessMsg(String message) {
+    public static Resp<String> sendMsg(AppStatus status) {
         Resp resp = new Resp();
-        resp.setCode(200);
+        resp.setCode(status.getCode());
         resp.setSuccess(true);
-        resp.setMessage(message);
+        resp.setMessage(status.getMsg());
         return resp;
     }
 

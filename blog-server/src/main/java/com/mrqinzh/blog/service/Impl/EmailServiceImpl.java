@@ -3,6 +3,7 @@ package com.mrqinzh.blog.service.Impl;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.model.dto.req.EmailDTO;
 import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.EmailService;
 import com.mrqinzh.blog.util.RedisUtil;
@@ -36,7 +37,7 @@ public class EmailServiceImpl implements EmailService {
     public Resp sendSimpleMail(EmailDTO emailDTO) {
         try {
             send(emailDTO.getEmailTitle(), emailDTO.getEmailContent(), null, false, emailDTO.getTo());
-            return Resp.sendSuccessMsg("发送成功");
+            return Resp.sendMsg(AppStatus.EMAIL_SEND_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
             throw new BizException(ExceptionEnums.UNKNOWN_ERROR);
@@ -48,7 +49,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             send(emailDTO.getEmailTitle(), emailDTO.getEmailContent(), emailDTO.getFilePath(), false, emailDTO.getTo());
             logger.info("邮件加附件发送成功！");
-            return Resp.sendSuccessMsg("发送成功");
+            return Resp.sendMsg(AppStatus.EMAIL_SEND_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
             throw new BizException(ExceptionEnums.UNKNOWN_ERROR);

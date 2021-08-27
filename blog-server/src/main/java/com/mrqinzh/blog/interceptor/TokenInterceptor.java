@@ -1,6 +1,7 @@
 package com.mrqinzh.blog.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.dto.resp.Resp;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         resp.setContentType("text/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(Resp.error(403, "对不起，你的权限不足，请充值。。.>_>"));
+        String json = objectMapper.writeValueAsString(Resp.sendMsg(AppStatus.AUTH_FAILED));
         resp.getWriter().write(json);
         logger.error("token验证失败 => " + token);
 

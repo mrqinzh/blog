@@ -3,6 +3,7 @@ package com.mrqinzh.blog.service.Impl;
 import com.mrqinzh.blog.mapper.CommentMapper;
 import com.mrqinzh.blog.model.entity.Comment;
 import com.mrqinzh.blog.model.entity.User;
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.CommentService;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.dto.resp.Resp;
@@ -35,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setUserId(user.getId());
         commentMapper.add(comment);
 
-        return Resp.sendSuccessMsg("评论成功");
+        return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class CommentServiceImpl implements CommentService {
     public Resp deleteById(String idType, Integer id) {
 
         commentMapper.deleteById(idType, id);
-        return Resp.sendSuccessMsg("操作成功");
+        return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
     }
 
 

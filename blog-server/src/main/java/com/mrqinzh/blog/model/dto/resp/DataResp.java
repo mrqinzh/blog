@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @ApiModel
-public final class DataResp<T> extends BaseResp {
+public final class DataResp<T> extends Resp {
 
     private T data;
 

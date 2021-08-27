@@ -11,24 +11,25 @@ import java.util.Map;
 
 @Data
 @ApiModel
-public class PageResp<T> extends BaseResp {
+public class PageResp extends Resp {
 
-    private T data;
+    private Map<String, Object> data;
 
-    private PageResp(T data) {
+    private PageResp(Map<String, Object> data) {
         super(AppStatus.SUCCESS);
         this.data = data;
     }
 
-    public static <T> PageResp<T> ok(List<T> listData) {
+    public static <T> PageResp ok(List<T> listData) {
         PageInfo<T> pageInfo = new PageInfo<>(listData);
         Map<String, Object> map = new HashMap<>(8);
+
         map.put("currentPage", pageInfo.getPageNum());
         map.put("pageSize", pageInfo.getPageSize());
         map.put("totalCount", pageInfo.getTotal());
         map.put("totalPage", pageInfo.getPages());
         map.put("rows", pageInfo.getList());
-        return new PageResp<>(map);
+        return new PageResp(map);
     }
 
 }

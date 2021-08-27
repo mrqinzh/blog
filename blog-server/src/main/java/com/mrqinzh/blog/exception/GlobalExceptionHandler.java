@@ -1,5 +1,6 @@
 package com.mrqinzh.blog.exception;
 
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.model.dto.resp.Resp;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Resp exceptionHandler(NullPointerException e) {
         e.printStackTrace();
-        return Resp.sendExceptionInfo(ExceptionEnums.UNKNOWN_ERROR);
+        return Resp.sendMsg(AppStatus.UNKNOWN_SERVER_ERROR);
     }
 
     /**
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Resp exceptionHandler(Exception e) {
         e.printStackTrace();
-        return Resp.sendExceptionInfo(ExceptionEnums.UNKNOWN_ERROR);
+        return Resp.sendMsg(AppStatus.UNKNOWN_SERVER_ERROR);
     }
 
 }

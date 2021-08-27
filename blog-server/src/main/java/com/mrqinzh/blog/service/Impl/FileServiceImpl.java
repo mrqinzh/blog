@@ -3,6 +3,7 @@ package com.mrqinzh.blog.service.Impl;
 import com.alibaba.fastjson.JSONObject;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.FileMapper;
+import com.mrqinzh.blog.model.dto.resp.DataResp;
 import com.mrqinzh.blog.model.entity.MyFile;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.enums.ExceptionEnums;
@@ -68,7 +69,7 @@ public class FileServiceImpl implements FileService {
         if (!fileMapper.add(dbFile)) {
             throw new BizException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
         }
-        return Resp.ok(fileData.get("resultUrl").toString());
+        return DataResp.ok(fileData.get("resultUrl").toString());
     }
 
     @Override
@@ -115,7 +116,7 @@ public class FileServiceImpl implements FileService {
             myFile.setFilePath(url);
             fileMapper.add(myFile);
 
-            return Resp.ok(url);
+            return DataResp.ok(url);
         } catch (Exception e) {
             throw new BizException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
         }

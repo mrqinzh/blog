@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.ArticleMapper;
 import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.dto.resp.DataResp;
+import com.mrqinzh.blog.model.dto.resp.PageResp;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.model.enums.AppStatus;
@@ -36,7 +38,7 @@ public class ArticleServiceImpl implements ArticleService {
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
         List<Article> articles = articleMapper.list(pageDTO);
 
-        return Resp.sendPageData(articles);
+        return PageResp.ok(articles);
     }
 
     @Override
@@ -45,7 +47,7 @@ public class ArticleServiceImpl implements ArticleService {
         // 更新浏览量
         article.setArticleViews(article.getArticleViews() + 1);
         articleMapper.update(article);
-        return Resp.ok(article);
+        return DataResp.ok(article);
     }
 
     @Override
@@ -72,7 +74,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         logger.info("新增文章了。。。 => ");
-        return Resp.ok(article.getId());
+        return DataResp.ok(article.getId());
     }
 
     @Override

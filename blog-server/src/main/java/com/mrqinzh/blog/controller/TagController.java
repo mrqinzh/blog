@@ -26,7 +26,7 @@ public class TagController {
 
     @ApiOperation(value = "分页查询 tags")
     @GetMapping("page")
-    public BaseResp page(PageDTO pageDTO) {
+    public Resp page(PageDTO pageDTO) {
         return tagService.page(pageDTO);
     }
 

@@ -26,9 +26,4 @@ public class LoginLogController {
         return loginLogService.list(pageDTO);
     }
 
-    @GetMapping("test")
-    public BaseResp test() {
-        return DataResp.ok("111");
-    }
-
 }

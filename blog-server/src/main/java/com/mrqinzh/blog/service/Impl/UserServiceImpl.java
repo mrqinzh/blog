@@ -6,6 +6,8 @@ import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.LoginLogMapper;
 import com.mrqinzh.blog.mapper.UserMapper;
 import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.dto.resp.DataResp;
+import com.mrqinzh.blog.model.dto.resp.PageResp;
 import com.mrqinzh.blog.model.entity.LoginLog;
 import com.mrqinzh.blog.model.entity.User;
 
@@ -89,7 +91,7 @@ public class UserServiceImpl implements UserService {
 
         HashMap<Object, Object> resultMap = new HashMap<>(2);
         resultMap.put("token", token);
-        return Resp.ok(resultMap);
+        return DataResp.ok(resultMap);
     }
 
     @Override
@@ -123,14 +125,14 @@ public class UserServiceImpl implements UserService {
         map.put("avatar", user.getUserAvatar());
         map.put("role", user.getRoleName());
 
-        return Resp.ok(map);
+        return DataResp.ok(map);
     }
 
     @Override
     public Resp list(PageDTO pageDTO) {
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
         List<User> users = userMapper.list();
-        return Resp.sendPageData(users);
+        return PageResp.ok(users);
     }
 
 }

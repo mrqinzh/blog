@@ -10,7 +10,7 @@ public interface TagService {
     /**
      * 分页查询 tag
      */
-    BaseResp page(PageDTO pageDTO);
+    Resp page(PageDTO pageDTO);
 
     /**
      * 查询 tags limit 20

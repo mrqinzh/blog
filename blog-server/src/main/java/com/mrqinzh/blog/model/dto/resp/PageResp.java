@@ -11,16 +11,16 @@ import java.util.Map;
 
 @Data
 @ApiModel
-public class PageResp extends Resp {
+public class PageResp<T> extends Resp {
 
-    private Map<String, Object> data;
+    private T data;
 
-    private PageResp(Map<String, Object> data) {
+    private PageResp(T data) {
         super(AppStatus.SUCCESS);
         this.data = data;
     }
 
-    public static <T> PageResp ok(List<T> listData) {
+    public static <T> PageResp<T> ok(List<T> listData) {
         PageInfo<T> pageInfo = new PageInfo<>(listData);
         Map<String, Object> map = new HashMap<>(8);
 

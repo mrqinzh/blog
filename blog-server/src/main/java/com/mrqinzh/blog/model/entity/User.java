@@ -29,14 +29,17 @@ public class User implements Serializable {
      * 昵称
      */
     private String userNickname;
+
     /**
      * email
      */
     private String userEmail;
+
     /**
      * 用户名
      */
     private String userName;
+
     /**
      * 密码
      */

@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.UserService;
 import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.RedisUtil;
@@ -62,7 +61,7 @@ public class UserServiceImpl implements UserService {
         // Todo 添加用户，先验证当前操作人的权限是否足够。。。
         User sysUser = (User) redisUtil.get(token);
         if (!sysUser.getRoleName().equals("super-admin")) {
-            throw new BizException(ExceptionEnums.NO_AUTHORITY);
+            throw new BizException(AppStatus.AUTH_FAILED);
         }
 
         // Todo 这里可以对用户密码 进行加密 再入库
@@ -77,7 +76,7 @@ public class UserServiceImpl implements UserService {
         User dbUser = userMapper.getByUsernameOrEmail(user.getUserName());
 
         if (null == dbUser || !dbUser.getUserPwd().equals(user.getUserPwd())){
-            throw new BizException(ExceptionEnums.USERNAME_PASSWORD_ERROR);
+            throw new BizException(AppStatus.USERNAME_PASSWORD_ERROR);
         }
 
         // 添加到 jwt 的 body 中

@@ -1,7 +1,6 @@
 package com.mrqinzh.blog.exception;
 
 import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.model.dto.resp.Resp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Resp bizExceptionHandler(BizException e) {
         e.printStackTrace();
-        return e.toResp();
+        return e.sendExceptionMsg();
     }
 
     /**

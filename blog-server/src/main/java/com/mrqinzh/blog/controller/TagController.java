@@ -1,7 +1,6 @@
 package com.mrqinzh.blog.controller;
 
 import com.mrqinzh.blog.model.dto.req.PageDTO;
-import com.mrqinzh.blog.model.dto.resp.BaseResp;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.service.TagService;
 import com.mrqinzh.blog.model.dto.resp.Resp;

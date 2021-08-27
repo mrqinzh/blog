@@ -21,7 +21,12 @@ public enum AppStatus {
      */
     UNKNOWN_SERVER_ERROR(500, false, "不好意思，服务端出现了未知的错误，赶快通知管理员修改BUG吧。。。-_-"),
     SERVICE_ERROR(50000, false, "业务出现异常了，赶紧去通知管理员吧。。。-_-"),
+
     IMAGE_UPLOAD_ERROR(50001, false, "图片上传失败了"),
+    INSERT_FAILED(50001, true, "添加失败"),
+    UPDATE_FAILED(50001, true,"更新失败"),
+    DELETE_FAILED(50001, true,"删除失败"),
+
     INTERNET_ERROR(50002, false, "网络好像出现了问题，稍后再试试吧。。。"),
     ;
 

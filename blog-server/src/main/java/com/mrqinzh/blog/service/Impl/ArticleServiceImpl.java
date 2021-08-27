@@ -9,7 +9,6 @@ import com.mrqinzh.blog.model.dto.resp.PageResp;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.ArticleService;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.dto.resp.Resp;
@@ -70,7 +69,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date()).setArticleViews(0);
 
         if (!articleMapper.add(article)) {
-            throw new BizException(ExceptionEnums.UNKNOWN_ERROR);
+            throw new BizException(AppStatus.INSERT_FAILED);
         }
 
         logger.info("新增文章了。。。 => ");
@@ -85,7 +84,7 @@ public class ArticleServiceImpl implements ArticleService {
         System.out.println(article);
 
         if (!articleMapper.update(article)) {
-            throw new BizException(ExceptionEnums.UNKNOWN_ERROR);
+            throw new BizException(AppStatus.UPDATE_FAILED);
         }
         return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }

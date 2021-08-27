@@ -4,7 +4,6 @@ import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.model.dto.req.EmailDTO;
 import com.mrqinzh.blog.model.dto.resp.Resp;
 import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.EmailService;
 import com.mrqinzh.blog.util.RedisUtil;
 import org.slf4j.Logger;
@@ -40,7 +39,7 @@ public class EmailServiceImpl implements EmailService {
             return Resp.sendMsg(AppStatus.EMAIL_SEND_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new BizException(ExceptionEnums.UNKNOWN_ERROR);
+            throw new BizException(AppStatus.INTERNET_ERROR);
         }
     }
 
@@ -52,7 +51,7 @@ public class EmailServiceImpl implements EmailService {
             return Resp.sendMsg(AppStatus.EMAIL_SEND_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new BizException(ExceptionEnums.UNKNOWN_ERROR);
+            throw new BizException(AppStatus.INTERNET_ERROR);
         }
     }
 

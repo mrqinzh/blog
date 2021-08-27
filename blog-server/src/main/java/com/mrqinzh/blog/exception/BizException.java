@@ -1,23 +1,23 @@
 package com.mrqinzh.blog.exception;
 
 import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.enums.ExceptionEnums;
-import com.mrqinzh.blog.model.enums.ExceptionInfo;
 import com.mrqinzh.blog.model.dto.resp.Resp;
+import lombok.Data;
 
 /**
  * @author mrqinzh
  */
+@Data
 public class BizException extends RuntimeException {
 
-    private final ExceptionInfo exceptionInfo;
+    private AppStatus status;
 
-    public BizException(ExceptionEnums exceptionEnums) {
-        this.exceptionInfo = exceptionEnums;
+    public BizException(AppStatus status) {
+        this.status = status;
     }
 
-    public Resp toResp() {
-        return Resp.sendMsg(AppStatus.UNKNOWN_SERVER_ERROR);
+    public Resp sendExceptionMsg() {
+        return Resp.sendMsg(status);
     }
 
 }

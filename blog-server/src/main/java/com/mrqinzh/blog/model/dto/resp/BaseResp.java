@@ -1,9 +1,13 @@
 package com.mrqinzh.blog.model.dto.resp;
 
 import com.mrqinzh.blog.model.enums.AppStatus;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@ApiModel
 @Data
+@NoArgsConstructor
 public class BaseResp {
 
     private Integer code;

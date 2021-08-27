@@ -1,6 +1,8 @@
 package com.mrqinzh.blog.controller;
 
 import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.dto.resp.BaseResp;
+import com.mrqinzh.blog.model.dto.resp.DataResp;
 import com.mrqinzh.blog.service.LoginLogService;
 import com.mrqinzh.blog.model.dto.resp.Resp;
 import io.swagger.annotations.Api;
@@ -22,6 +24,11 @@ public class LoginLogController {
     @GetMapping("list")
     public Resp list(PageDTO pageDTO) {
         return loginLogService.list(pageDTO);
+    }
+
+    @GetMapping("test")
+    public BaseResp test() {
+        return DataResp.ok("111");
     }
 
 }

@@ -43,7 +43,7 @@
                 <div class="card">
                   <i class="el-icon-caret-left" style="float: left;margin: 10px 0 0 -15px;font-size: 20px;color: #dedede;"></i>
                   <div class="card-head">
-                    <span><a><router-link :to="{path: '/detail', query: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a></span>
+                    <span><a><router-link :to="{name: 'Detail', params: {articleId: item.id}}">{{ item.articleTitle }}</router-link></a></span>
                   </div>
                   <div class="card-foot">
                     <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>

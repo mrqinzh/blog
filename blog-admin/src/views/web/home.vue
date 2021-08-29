@@ -55,7 +55,7 @@
           <div class="animate__animated animate__fadeInLeft">
             <div class="blog-card" v-for="(item, index) in articles" :key="index">
               <blockquote class="boxchilde">
-                <a><router-link :to="{path: '/detail', query: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a>
+                <a><router-link :to="{name: 'Detail', params: {articleId: item.id}}">{{ item.articleTitle }}</router-link></a>
               </blockquote>
               <div style="margin-left: 20px;">
                   <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>

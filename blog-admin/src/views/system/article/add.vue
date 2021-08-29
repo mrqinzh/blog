@@ -62,8 +62,9 @@ import 'mavon-editor/dist/markdown/github-markdown.min.css'
 import '@/utils/hljs'
 
 import { uploadFileRequest } from '@/api/file'
-import { add } from '@/api/article'
+import { add, getById } from '@/api/article'
 export default {
+  name: 'ArticleAdd',
   components: {
     mavonEditor, //mavon-editor组件
   },
@@ -78,7 +79,6 @@ export default {
         articleTitle: '',
         articleType: '',
       },
-
       dynamicTags: ['java'],
       inputVisible: false,
       inputValue: '',
@@ -145,7 +145,6 @@ export default {
         // console.log(resp)
       })
     }, 
-
     // 添加标签相关方法
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
@@ -178,10 +177,23 @@ export default {
         this.articles.article_author = resp.data.article_author;
         this.dynamicTags = resp.data.article_tag.split(',');
       });
+    },
+    // 更新文章
+    update() {
+      getById(this.aid).then(resp => {
+        // console.log(resp);
+        this.article.articleTitle = resp.data.articleTitle;
+        this.article.articleType = resp.data.articleType;
+        this.dynamicTags = resp.data.articleTag.split(",");
+        this.content = resp.data.articleContentMd;
+      })
     }
   },
   mounted() {
-
+    this.aid = this.$route.params.articleId;
+    if (this.aid) {
+      this.update();
+    }
   },
 }
 </script>

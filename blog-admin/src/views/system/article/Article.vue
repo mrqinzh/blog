@@ -77,7 +77,7 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="addOrUpdateHandle(scope.row.articleId)">修改</el-button>
+          <router-link :to="{name: 'ArticleAdd', params: {articleId: scope.row.id}}"><el-button type="primary" size="mini">编辑</el-button></router-link>   
           <el-button type="danger" size="mini" @click="deleteHandle(scope.row.articleId)">删除</el-button>
         </template>
       </el-table-column>
@@ -168,7 +168,7 @@ export default {
           }
         })
       })
-    }
+    },
   }
 }
 </script>

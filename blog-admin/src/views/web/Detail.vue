@@ -79,8 +79,7 @@
 </template>
 
 <script>
-import { getById, updateArticleView } from '@/api/article'
-import { getRequest, postRequest } from '@/utils/api'
+import { getById } from '@/api/article'
 import Clipboard from 'clipboard'
 
 // 引入默认样式
@@ -126,7 +125,7 @@ const md = new MarkdownIt({
   }
 });
 export default {
-  name: 'details',
+  name: 'Detail',
   data() {
     return {
       // 评论内容和回复内容
@@ -204,7 +203,7 @@ export default {
     
   },
   mounted() {
-    this.currentArticleId = this.$route.query.articleId;
+    this.currentArticleId = this.$route.params.articleId;
     this.loadArticleInfo();
     // this.loadComments();
     // 添加代码块复制方法

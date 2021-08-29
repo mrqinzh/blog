@@ -1,9 +1,7 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.model.enums.ExceptionEnums;
 import com.mrqinzh.blog.service.FileService;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @Api(tags = "文件接口")
 @CrossOrigin
@@ -35,12 +32,7 @@ public class FileController {
 
     @PostMapping("qiniu")
     public Resp uploadToQiNiu(MultipartFile file) {
-        try {
-            return fileService.uploadToQiNiu(file);
-        } catch (IOException e) {
-            throw new BizException(ExceptionEnums.IMAGE_UPLOAD_ERROR);
-        }
+        return fileService.uploadToQiNiu(file);
     }
-
 
 }

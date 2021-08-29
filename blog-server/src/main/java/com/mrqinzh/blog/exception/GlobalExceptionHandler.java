@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.exception;
 
-import com.mrqinzh.blog.model.enums.ExceptionEnums;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.enums.AppStatus;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Resp bizExceptionHandler(BizException e) {
         e.printStackTrace();
-        return e.toResp();
+        return e.sendExceptionMsg();
     }
 
     /**
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Resp exceptionHandler(NullPointerException e) {
         e.printStackTrace();
-        return Resp.sendExceptionInfo(ExceptionEnums.UNKNOWN_ERROR);
+        return Resp.sendMsg(AppStatus.UNKNOWN_SERVER_ERROR);
     }
 
     /**
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Resp exceptionHandler(Exception e) {
         e.printStackTrace();
-        return Resp.sendExceptionInfo(ExceptionEnums.UNKNOWN_ERROR);
+        return Resp.sendMsg(AppStatus.UNKNOWN_SERVER_ERROR);
     }
 
 }

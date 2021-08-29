@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.model.dto.EmailDTO;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.req.EmailDTO;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import com.mrqinzh.blog.service.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

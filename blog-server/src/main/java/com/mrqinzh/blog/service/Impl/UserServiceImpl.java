@@ -1,26 +1,26 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.github.pagehelper.PageHelper;
-import com.mrqinzh.blog.config.WebSocketServer;
 import com.mrqinzh.blog.constant.JwtConstant;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.LoginLogMapper;
 import com.mrqinzh.blog.mapper.UserMapper;
-import com.mrqinzh.blog.model.dto.PageDTO;
+import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.dto.resp.DataResp;
+import com.mrqinzh.blog.model.dto.resp.PageResp;
 import com.mrqinzh.blog.model.entity.LoginLog;
 import com.mrqinzh.blog.model.entity.User;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mrqinzh.blog.model.enums.ExceptionEnums;
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.UserService;
 import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.RedisUtil;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import com.mrqinzh.blog.util.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         // Todo ......
 //        userMapper.update(user);
 
-        return Resp.sendSuccessMsg("更新成功");
+        return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }
 
     @Override
@@ -61,13 +61,13 @@ public class UserServiceImpl implements UserService {
         // Todo 添加用户，先验证当前操作人的权限是否足够。。。
         User sysUser = (User) redisUtil.get(token);
         if (!sysUser.getRoleName().equals("super-admin")) {
-            throw new BizException(ExceptionEnums.NO_AUTHORITY);
+            throw new BizException(AppStatus.AUTH_FAILED);
         }
 
         // Todo 这里可以对用户密码 进行加密 再入库
         userMapper.add(user);
 
-        return Resp.sendSuccessMsg("添加用户成功。。。^_^");
+        return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
         User dbUser = userMapper.getByUsernameOrEmail(user.getUserName());
 
         if (null == dbUser || !dbUser.getUserPwd().equals(user.getUserPwd())){
-            throw new BizException(ExceptionEnums.USERNAME_PASSWORD_ERROR);
+            throw new BizException(AppStatus.USERNAME_PASSWORD_ERROR);
         }
 
         // 添加到 jwt 的 body 中
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
         HashMap<Object, Object> resultMap = new HashMap<>(2);
         resultMap.put("token", token);
-        return Resp.ok(resultMap);
+        return DataResp.ok(resultMap);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
         user.setLoginLastTime(new Date());
         userMapper.update(user);
         redisUtil.del(token);
-        return Resp.sendSuccessMsg("退出成功");
+        return Resp.sendMsg(AppStatus.SUCCESS);
     }
 
     @Override
@@ -124,14 +124,14 @@ public class UserServiceImpl implements UserService {
         map.put("avatar", user.getUserAvatar());
         map.put("role", user.getRoleName());
 
-        return Resp.ok(map);
+        return DataResp.ok(map);
     }
 
     @Override
     public Resp list(PageDTO pageDTO) {
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
         List<User> users = userMapper.list();
-        return Resp.sendPageData(users);
+        return PageResp.ok(users);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.mrqinzh.blog.service;
 
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +12,6 @@ public interface FileService {
 
     Resp delete(String fileName);
 
-    Resp uploadToQiNiu(MultipartFile uploadFile) throws IOException;
+    Resp uploadToQiNiu(MultipartFile uploadFile);
 
 }

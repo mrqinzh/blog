@@ -1,23 +1,23 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.github.pagehelper.PageHelper;
-import com.mrqinzh.blog.config.WebSocketServer;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.ArticleMapper;
-import com.mrqinzh.blog.model.dto.PageDTO;
+import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.dto.resp.DataResp;
+import com.mrqinzh.blog.model.dto.resp.PageResp;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.model.entity.User;
-import com.mrqinzh.blog.model.enums.ExceptionEnums;
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.ArticleService;
 import com.mrqinzh.blog.util.RedisUtil;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -37,15 +37,16 @@ public class ArticleServiceImpl implements ArticleService {
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
         List<Article> articles = articleMapper.list(pageDTO);
 
-        return Resp.sendPageData(articles);
+        return PageResp.ok(articles);
     }
 
     @Override
     public Resp getById(Integer articleId) {
         Article article = articleMapper.getById(articleId);
+        // 更新浏览量
         article.setArticleViews(article.getArticleViews() + 1);
         articleMapper.update(article);
-        return Resp.ok(article);
+        return DataResp.ok(article);
     }
 
     @Override
@@ -68,11 +69,11 @@ public class ArticleServiceImpl implements ArticleService {
         article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date()).setArticleViews(0);
 
         if (!articleMapper.add(article)) {
-            throw new BizException(ExceptionEnums.UNKNOWN_ERROR);
+            throw new BizException(AppStatus.INSERT_FAILED);
         }
 
         logger.info("新增文章了。。。 => ");
-        return Resp.ok(article.getId());
+        return DataResp.ok(article.getId());
     }
 
     @Override
@@ -83,9 +84,9 @@ public class ArticleServiceImpl implements ArticleService {
         System.out.println(article);
 
         if (!articleMapper.update(article)) {
-            throw new BizException(ExceptionEnums.UNKNOWN_ERROR);
+            throw new BizException(AppStatus.UPDATE_FAILED);
         }
-        return Resp.ok(null);
+        return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }
 
     /**

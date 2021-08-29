@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.service;
 
-import com.mrqinzh.blog.model.dto.EmailDTO;
-import com.mrqinzh.blog.model.dto.Resp;
+import com.mrqinzh.blog.model.dto.req.EmailDTO;
+import com.mrqinzh.blog.model.dto.resp.Resp;
 
 /**
  *  company 中科大业

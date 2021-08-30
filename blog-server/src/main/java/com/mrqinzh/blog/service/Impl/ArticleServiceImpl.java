@@ -12,6 +12,7 @@ import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.ArticleService;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.dto.resp.Resp;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Resp list(PageDTO pageDTO) {
+        if (!StringUtils.isNotBlank(pageDTO.getCondition())) {
+            pageDTO.setCondition(null);
+        }
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
         List<Article> articles = articleMapper.list(pageDTO);
 
@@ -66,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         // 初始化文章的固定信息
-        article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date()).setArticleViews(0);
+        article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date());
 
         if (!articleMapper.add(article)) {
             throw new BizException(AppStatus.INSERT_FAILED);

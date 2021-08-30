@@ -50,8 +50,7 @@
             article a
         LEFT JOIN `user` u ON a.user_id = u.id
         WHERE
-            1 = 1
-        AND status = 0
+            status = 0
         <if test="condition != null">
             AND article_tag like '%${condition}%'
             OR article_title like '%${condition}%'
@@ -79,7 +78,6 @@
             article_content_md,
             article_tag,
             article_type,
-            article_views,
             user_id
         )
         VALUES
@@ -92,7 +90,6 @@
                 #{articleContentMd},
                 #{articleTag},
                 #{articleType},
-                #{articleViews},
                 #{userId}#
             )
     </insert>

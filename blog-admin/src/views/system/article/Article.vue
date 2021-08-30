@@ -7,7 +7,6 @@
       <el-form-item>
         <el-button @click="getDataList(dataForm.key)">查询</el-button>
         <router-link to="./add" style="margin: 0px 10px;"><el-button type="primary">新增</el-button></router-link>
-        <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -141,10 +140,7 @@ export default {
     },
     // 删除
     deleteHandle(id) {
-      var ids = id ? [id] : this.dataListSelections.map(item => {
-        return item.commentId
-      })
-      this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+      this.$confirm(`确定对文章[id=${id}]进行[删除]操作?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -155,11 +151,13 @@ export default {
           inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
           inputErrorMessage: '邮箱格式不正确'
         }).then(({ value }) => {
+          // Todo 这里可以对邮箱信息进行验证
           this.$message.success('你的邮箱是: ' + value);
           del(id).then(resp => {
             // console.log(resp);
             if (resp.success) {
               this.$message.success(resp.msg);
+              this.getDataList('');
             }
           })
         }).catch(() => {})

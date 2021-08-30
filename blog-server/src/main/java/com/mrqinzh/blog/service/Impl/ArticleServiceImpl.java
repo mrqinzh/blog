@@ -35,7 +35,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Resp list(PageDTO pageDTO) {
-        if (!StringUtils.isNotBlank(pageDTO.getCondition())) {
+        // 如果前端传入的是 '' != null，则会导致mybatis动态sql执行失败
+        if (StringUtils.isBlank(pageDTO.getCondition())) {
             pageDTO.setCondition(null);
         }
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
@@ -62,15 +63,11 @@ public class ArticleServiceImpl implements ArticleService {
         article.setUserId(user.getId()).setArticleAuthor("秦志宏");
 
         // 获取文章摘要，截取内容的前100
-        String articleSummary = stripHtml(article.getArticleSummary());
-        if (articleSummary.length() > 100) {
-            article.setArticleSummary(articleSummary.substring(0, 100));
-        } else {
-            article.setArticleSummary(articleSummary);
-        }
+        article.setArticleSummary(subSummary(article.getArticleSummary()));
 
         // 初始化文章的固定信息
-        article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date());
+        Date date = new Date();
+        article.setArticleCreateTime(date).setArticleUpdateTime(date);
 
         if (!articleMapper.add(article)) {
             throw new BizException(AppStatus.INSERT_FAILED);
@@ -92,7 +89,8 @@ public class ArticleServiceImpl implements ArticleService {
         // 设置文章的最后更新时间
         article.setArticleUpdateTime(new Date());
 
-        articleMapper.update(article);
+        // 获取文章摘要，截取内容的前100
+        article.setArticleSummary(subSummary(article.getArticleSummary()));
 
         if (!articleMapper.update(article)) {
             throw new BizException(AppStatus.UPDATE_FAILED);
@@ -108,6 +106,12 @@ public class ArticleServiceImpl implements ArticleService {
     public Resp delete(Integer articleId) {
         articleMapper.delete(articleId);
         return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
+    }
+
+
+    public String subSummary(String articleSummary) {
+        String summary = stripHtml(articleSummary);
+        return summary.length() > 100 ? summary.substring(0, 100) : summary;
     }
 
     /**

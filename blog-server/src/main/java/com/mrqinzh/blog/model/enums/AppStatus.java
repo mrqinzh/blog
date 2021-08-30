@@ -20,6 +20,7 @@ public enum AppStatus {
      * 内部错误
      */
     UNKNOWN_SERVER_ERROR(500, false, "不好意思，服务端出现了未知的错误，赶快通知管理员修改BUG吧。。。-_-"),
+    NULL_PRINTER_EXCEPTION(500, false, "服务器出现了空指针异常。。。"),
     SERVICE_ERROR(50000, false, "业务出现异常了，赶紧去通知管理员吧。。。-_-"),
 
     IMAGE_UPLOAD_ERROR(50001, false, "图片上传失败了"),

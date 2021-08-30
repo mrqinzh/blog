@@ -54,8 +54,6 @@
 </template>
 
 <script>
-// import { isNotNullORBlank } from '@/utils/utils'
-import { base, postRequest, getRequest, deleteRequest } from '@/utils/api'
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import 'mavon-editor/dist/markdown/github-markdown.min.css'
@@ -70,12 +68,10 @@ export default {
   },
   data() {
     return {
-      imgName: '',
       content: '', // 输入的markdown
       html: '',    // 转成的html
       // 保存表单
       article: {
-        // article_id: '',
         articleTitle: '',
         articleType: '',
       },
@@ -132,7 +128,7 @@ export default {
           articleTag: this.dynamicTags.toString(),
           articleType: this.article.articleType
         }
-        console.log('add');
+        console.log('add')
         add(param).then(resp => {
           // console.log(resp);
           if (resp.success) {
@@ -169,9 +165,7 @@ export default {
     imgDel(pos){
       var imgPlace = pos[0].slice(37); // 截取文件名
       console.log(imgPlace);
-      deleteRequest().then(resp => {
-        // console.log(resp)
-      })
+      
     }, 
     // 添加标签相关方法
     handleClose(tag) {
@@ -197,16 +191,6 @@ export default {
       this.inputValue = '';
     },
     // 获取要更改的文章信息
-    getUpdatePageInfo(aid) {
-      getRequest(`/article/blog/${aid}`).then(resp => {
-        // console.log(resp);
-        this.content = resp.data.article_md;
-        this.articles.article_title = resp.data.article_title;
-        this.articles.article_author = resp.data.article_author;
-        this.dynamicTags = resp.data.article_tag.split(',');
-      });
-    },
-    // 更新文章
     initUpdateData() {
       getById(this.aid).then(resp => {
         // console.log(resp);

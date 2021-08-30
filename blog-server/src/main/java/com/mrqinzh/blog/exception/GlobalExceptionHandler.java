@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Resp exceptionHandler(NullPointerException e) {
         e.printStackTrace();
-        return Resp.sendMsg(AppStatus.UNKNOWN_SERVER_ERROR);
+        return Resp.sendMsg(AppStatus.NULL_PRINTER_EXCEPTION);
     }
 
     /**

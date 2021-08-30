@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="6">
+      <el-col :span="7">
         <div class="grid-content bg-purple">
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item>首页</el-breadcrumb-item>
@@ -9,8 +9,8 @@
           </el-breadcrumb>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-        <div style="margin-top: 30px" v-loading="loading" class="animate__animated animate__fadeIn">
+      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="10">
+        <div v-loading="loading" class="animate__animated animate__fadeIn">
           <!-- 文章头区域 -->
           <div style="font-size: 15px;">
             <h1 style="text-align: center;font-size: 20px;">{{article.articleTitle}}</h1>
@@ -230,7 +230,7 @@ export default {
     // border: 1px solid red;
     padding: 30px;
     font-size: 16px;
-    font-family: KaiTi;
+    // font-family: KaiTi;
     color: #303133;
     background-color: white;
     h1 {

@@ -1,5 +1,20 @@
 import request from '@/utils/request'
 
+export function del(articleId) {
+  return request({
+    url: `/article/${articleId}`,
+    method: 'delete',
+  })
+}
+
+export function update(data) {
+  return request({
+    url: `/article/update`,
+    method: 'post',
+    data
+  })
+}
+
 export function add(data) {
   return request({
     url: '/article/add',

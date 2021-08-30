@@ -78,7 +78,7 @@
         label="操作">
         <template slot-scope="scope">
           <router-link :to="{name: 'ArticleAdd', params: {articleId: scope.row.id}}"><el-button type="primary" size="mini">编辑</el-button></router-link>   
-          <el-button type="danger" size="mini" @click="deleteHandle(scope.row.articleId)">删除</el-button>
+          <el-button type="danger" size="mini" @click="deleteHandle(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { list } from '@/api/article'
+import { list, del } from '@/api/article'
 export default {
   data() {
     return {
@@ -149,25 +149,21 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http({
-          url: this.$http.adornUrl('/movie/comment/delete'),
-          method: 'post',
-          data: this.$http.adornData(ids, false)
-        }).then(({data}) => {
-          if (data && data.code === 0) {
-            this.$message({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                this.getDataList()
-              }
-            })
-          } else {
-            this.$message.error(data.msg)
-          }
-        })
-      })
+        this.$prompt('请输入邮箱来确认身份信息', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+          inputErrorMessage: '邮箱格式不正确'
+        }).then(({ value }) => {
+          this.$message.success('你的邮箱是: ' + value);
+          del(id).then(resp => {
+            // console.log(resp);
+            if (resp.success) {
+              this.$message.success(resp.msg);
+            }
+          })
+        }).catch(() => {})
+      }).catch(() => {})
     },
   }
 }

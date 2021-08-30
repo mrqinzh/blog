@@ -80,8 +80,15 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional(rollbackFor = Exception.class)
     public Resp update(Article article) {
 
+        // 判断传入文章的Id是否存在
+        if (article.getId() == null) {
+            throw new BizException(AppStatus.BAD_REQUEST);
+        }
+
+        // 设置文章的最后更新时间
         article.setArticleUpdateTime(new Date());
-        System.out.println(article);
+
+        articleMapper.update(article);
 
         if (!articleMapper.update(article)) {
             throw new BizException(AppStatus.UPDATE_FAILED);
@@ -90,13 +97,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 此处执行删除文章时，需要删除文章对应的评论
+     * 此处执行删除文章时(逻辑删除)，需要删除文章对应的评论
      * @param articleId 文章ID
      */
     @Override
-    @Transactional
-    public void delete(Integer articleId) {
-//        articleMapper.delete(articleId);
+    public Resp delete(Integer articleId) {
+        articleMapper.delete(articleId);
+        return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
     }
 
     /**

@@ -62,7 +62,7 @@ import 'mavon-editor/dist/markdown/github-markdown.min.css'
 import '@/utils/hljs'
 
 import { uploadFileRequest } from '@/api/file'
-import { add, getById } from '@/api/article'
+import { add, getById, update } from '@/api/article'
 export default {
   name: 'ArticleAdd',
   components: {
@@ -99,28 +99,56 @@ export default {
       if (this.article.articleTitle === "" || this.content === "") {
         this.$message.warning('标题和内容均不能为空哦，不然还有什么保存的意义！ ！！');
         return;
-      };
-      let param = {
-        articleTitle: this.article.articleTitle,
-        articleContentMd: this.content,
-        articleSummary: this.html,
-        articleTag: this.dynamicTags.toString(),
-        articleType: this.article.articleType
       }
-      add(param).then(resp => {
-        // console.log(resp);
-        if (resp.success) {
-          this.$message.success('恭喜恭喜，保存成功了。 => ^_^');
-          this.$notify({
-            title: '通知',
-            dangerouslyUseHTMLString: true,
-            duration: 0,
-            message: '<strong>有新文章添加了，快去看看把<a href="/" target="_blank">点击前往</a></strong>'
-          });
-        } else {
-          this.$message.warning('保存失败');
+      if (this.aid) {
+        let param = {
+          id: this.aid,
+          articleTitle: this.article.articleTitle,
+          articleContentMd: this.content,
+          articleSummary: this.html,
+          articleTag: this.dynamicTags.toString(),
+          articleType: this.article.articleType
         }
-      })
+        console.log('update');
+        update(param).then(resp => {
+          // console.log(resp);
+          if (resp.success) {
+            this.$message.success('恭喜恭喜，保存成功了。 => ^_^');
+            this.$notify({
+              title: '通知',
+              dangerouslyUseHTMLString: true,
+              duration: 0,
+              message: '<strong>更新成功了，快去看看把<a href="/" target="_blank">点击前往</a></strong>'
+            });
+          } else {
+            this.$message.warning('保存失败');
+          }
+        })
+      } else {
+        let param = {
+          articleTitle: this.article.articleTitle,
+          articleContentMd: this.content,
+          articleSummary: this.html,
+          articleTag: this.dynamicTags.toString(),
+          articleType: this.article.articleType
+        }
+        console.log('add');
+        add(param).then(resp => {
+          // console.log(resp);
+          if (resp.success) {
+            this.$message.success('恭喜恭喜，保存成功了。 => ^_^');
+            this.$notify({
+              title: '通知',
+              dangerouslyUseHTMLString: true,
+              duration: 0,
+              message: '<strong>有新文章添加了，快去看看把<a href="/" target="_blank">点击前往</a></strong>'
+            });
+          } else {
+            this.$message.warning('保存失败');
+          }
+        })
+      }
+      
     },
     // markdown编辑器保存方法
     saveSubmit(value, render) {
@@ -179,7 +207,7 @@ export default {
       });
     },
     // 更新文章
-    update() {
+    initUpdateData() {
       getById(this.aid).then(resp => {
         // console.log(resp);
         this.article.articleTitle = resp.data.articleTitle;
@@ -192,7 +220,7 @@ export default {
   mounted() {
     this.aid = this.$route.params.articleId;
     if (this.aid) {
-      this.update();
+      this.initUpdateData();
     }
   },
 }

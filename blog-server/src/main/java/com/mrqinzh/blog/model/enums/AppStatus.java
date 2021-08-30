@@ -7,10 +7,10 @@ public enum AppStatus {
      */
     SUCCESS(200, true, "success"),
 
-    INSERT_SUCCESS(20001, true, "添加成功"),
-    UPDATE_SUCCESS(20001, true,"更新成功"),
-    DELETE_SUCCESS(20001, true,"删除成功"),
-    EMAIL_SEND_SUCCESS(20001, true,"邮件发送成功"),
+    INSERT_SUCCESS(200, true, "添加成功"),
+    UPDATE_SUCCESS(200, true,"更新成功"),
+    DELETE_SUCCESS(200, true,"删除成功"),
+    EMAIL_SEND_SUCCESS(200, true,"邮件发送成功"),
 
 
     BAD_REQUEST(400, false, "参数校验失败"),
@@ -23,9 +23,9 @@ public enum AppStatus {
     SERVICE_ERROR(50000, false, "业务出现异常了，赶紧去通知管理员吧。。。-_-"),
 
     IMAGE_UPLOAD_ERROR(50001, false, "图片上传失败了"),
-    INSERT_FAILED(50001, true, "添加失败"),
-    UPDATE_FAILED(50001, true,"更新失败"),
-    DELETE_FAILED(50001, true,"删除失败"),
+    INSERT_FAILED(50001, false, "添加失败"),
+    UPDATE_FAILED(50001, false,"更新失败"),
+    DELETE_FAILED(50001, false,"删除失败"),
 
     INTERNET_ERROR(50002, false, "网络好像出现了问题，稍后再试试吧。。。"),
     ;

@@ -51,9 +51,10 @@
         LEFT JOIN `user` u ON a.user_id = u.id
         WHERE
             1 = 1
+        AND status = 0
         <if test="condition != null">
             AND article_tag like '%${condition}%'
-            OR article_title like '$${condition}$'
+            OR article_title like '%${condition}%'
         </if>
         order by article_update_time DESC
     </select>

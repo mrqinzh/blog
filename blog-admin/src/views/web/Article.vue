@@ -108,6 +108,10 @@ export default {
           val: 'spring'
         },
         {
+          linkName: '设计模式',
+          val: '设计模式'
+        },
+        {
           linkName: 'Redis',
           val: 'redis'
         },
@@ -118,6 +122,10 @@ export default {
         {
           linkName: 'Linux',
           val: 'linux'
+        },
+        {
+          linkName: 'Vue',
+          val: 'vue'
         },
       ],
       loading: true,

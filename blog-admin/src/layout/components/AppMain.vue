@@ -27,6 +27,7 @@ export default {
       return this.$route.path
     }*/
   },
+  // 初始化WebSocket
   methods: {
     initWebSocket: function () {
       let url = this.baseUrl.substring(4, 25);

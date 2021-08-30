@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
     <div>
-      这是首页
+      这是控制台页
       <login-log-table></login-log-table>
     </div>
   </div>

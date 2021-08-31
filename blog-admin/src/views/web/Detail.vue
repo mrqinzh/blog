@@ -40,17 +40,18 @@
             <blockquote>
               <h2>所有评论</h2>
             </blockquote>
-            <div style="line-height: 2em" v-loading="loading2">
+            <div v-loading="loading2">
               <div v-for="(item, index) in comments" :key="index">
                 <div style="display: inline-block;">
                   <el-avatar :src="item.user.userAvatar"></el-avatar>
-                  <span style="font-size: 19px;margin-left: 20px">{{ item.user.userName}}</span>
-                  <span style="font-size: 17px;margin-left: 50px">评论时间： {{ item.commentTime}}</span>
+                  <span class="name-text">{{ item.user.userNickname}}</span>
+                  <span style="font-size: 12px;margin-left: 50px;color: #909399">评论时间： {{ item.commentTime}}</span>
                 </div>
-                <el-button style="margin-left: 50px"  @click="flag=index" type="primary" icon="el-icon-edit" size="mini">回复</el-button>
-                <p style="margin-left: 60px">
-                  <span>{{ item.commentContent}}</span>
-                </p>
+                
+                <div style="color: #303133">
+                  <i class="el-icon-chat-dot-round"></i>：{{ item.commentContent}}. . .
+                  <el-link @click="flag=index" type="primary" icon="el-icon-edit" :underline="false">回复</el-link>
+                </div>
 
                 <!-- 点击显示回复框 -->
                 <div v-show="flag===index" style="margin: 20px">
@@ -58,16 +59,19 @@
                   <el-button style="margin: 10px 0 0 85%" @click="addComment(item.id);">确定</el-button>
                 </div>
 
-                <blockquote class="child_comment">
-                  <div style="margin: 20px" v-for="(child, child_index) in item.comments" :key="child_index">
-                    <div style="display: inline-block;">
+                <!-- 子评论区域 -->
+                <div class="child-comment">
+                  <blockquote>
+                    <div style="margin: 20px" v-for="(child, child_index) in item.comments" :key="child_index">
                       <el-avatar :src="child.user.userAvatar"></el-avatar>
-                      <span style="font-size: 16px;margin-left: 20px">{{ child.user.nickname }}</span>
+                      <span class="name-text">{{ child.user.userNickname }}</span>
+                      <span style="font-size: 12px;margin-left: 50%;">评论时间： {{ child.commentTime }}</span>
+                      <p>
+                        <i class="el-icon-chat-dot-round"></i>：{{ child.commentContent }}
+                      </p>
                     </div>
-                    <span style="font-size: 13px;margin-left: 50%;">评论时间： {{ child.commentTime }}</span>
-                    <p>{{ child.commentContent }}</p>
-                  </div>
-                </blockquote>
+                  </blockquote>
+                </div>
               </div>
               
             </div>
@@ -193,6 +197,7 @@ export default {
           this.loadComments();
         }
         this.$message.success(resp.msg);
+        this.flag = '';
       })
     },
     
@@ -354,8 +359,23 @@ export default {
       width: 40px;
     }
   }
+
+  // 底部评论区域
   .page-comment {
     margin: 30px;
     line-height: 1.8em;
+    .child-comment {
+      margin-left: 10%;
+      blockquote {
+        border-left: 2px solid #409EFF;
+        background-color: #F2F6FC;
+      }
+      
+    }
+    .name-text{
+      font-size: 17px;
+      margin-left: 20px;
+      color: #303133;
+    }
   }
 </style>

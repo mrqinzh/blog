@@ -39,7 +39,7 @@ export const constantRoutes = [
       { path: '/', name: 'home', component: () => import('@/views/web/home') },
       { path: '/category', name: 'Article', component: () => import('@/views/web/Article') },
       { path: '/about', name: 'About', component: () => import('@/views/web/About') },
-      { path: '/detail', name: 'Detail', component: () => import('@/views/web/Detail') },
+      { path: '/detail/:articleId', name: 'Detail', component: () => import('@/views/web/Detail') },
     ],
     hidden: true
   },

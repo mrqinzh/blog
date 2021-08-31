@@ -8,7 +8,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login', '/', '/category', '/about', '/detail'] // 白名单，不需要登录信息就可以直接访问
+const whiteList = ['/login', '/', '/category', '/about'] // 白名单，不需要登录信息就可以直接访问
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -48,7 +48,7 @@ router.beforeEach(async(to, from, next) => {
     }
   } else {
     /* has no token*/
-    if (whiteList.indexOf(to.path) !== -1) {
+    if (whiteList.indexOf(to.path) !== -1 || to.name==='Detail') {
       // in the free login whitelist, go directly
       next()
     } else {

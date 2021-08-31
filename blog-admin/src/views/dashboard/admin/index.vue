@@ -9,20 +9,18 @@
     </el-row>
 
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <raddar-chart />
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="24" :sm="24" :lg="9">
         <div class="chart-wrapper">
           <pie-chart />
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="24" :sm="24" :lg="9">
         <div class="chart-wrapper">
           <bar-chart />
         </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="6">
+        <box-card />
       </el-col>
     </el-row>
 
@@ -34,7 +32,7 @@
         <todo-list />
       </el-col>
       <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <box-card />
+        
       </el-col>
     </el-row>
   </div>
@@ -44,7 +42,6 @@
 import GithubCorner from '@/components/GithubCorner'
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
-import RaddarChart from './components/RaddarChart'
 import PieChart from './components/PieChart'
 import BarChart from './components/BarChart'
 import TransactionTable from './components/TransactionTable'
@@ -76,7 +73,6 @@ export default {
     GithubCorner,
     PanelGroup,
     LineChart,
-    RaddarChart,
     PieChart,
     BarChart,
     TransactionTable,

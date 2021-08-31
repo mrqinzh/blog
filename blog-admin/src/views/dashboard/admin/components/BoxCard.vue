@@ -2,26 +2,18 @@
   <!-- 右下角带个人头像的卡片 -->
   <el-card class="box-card-component" style="margin-left:8px;">
     <div slot="header" class="box-card-header">
-      <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
+      <img src="@/assets/img/hutao.jpg">
     </div>
     <div style="position:relative;">
       <pan-thumb :image="avatar" class="panThumb" />
-      <mallki class-name="mallki-text" text="vue-element-admin" />
+      <mallki class-name="mallki-text" text="mrqinzh-web" />
       <div style="padding-top:35px;" class="progress-item">
         <span>Java</span>
         <el-progress :percentage="70" />
       </div>
       <div class="progress-item">
         <span>Vue</span>
-        <el-progress :percentage="18" />
-      </div>
-      <div class="progress-item">
-        <span>CSS</span>
-        <el-progress :percentage="12" />
-      </div>
-      <div class="progress-item">
-        <span>ESLint</span>
-        <el-progress :percentage="100" status="success" />
+        <el-progress :percentage="55" />
       </div>
     </div>
   </el-card>
@@ -73,14 +65,14 @@ export default {
 .box-card-component {
   .box-card-header {
     position: relative;
-    height: 220px;
+    height: 200px;
     img {
       width: 100%;
       height: 100%;
-      transition: all 0.2s linear;
+      transition: all 0.3s linear;
       &:hover {
         transform: scale(1.1, 1.1);
-        filter: contrast(130%);
+        filter: contrast(120%);
       }
     }
   }

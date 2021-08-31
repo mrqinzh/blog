@@ -42,15 +42,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Resp getById(String idType, Integer id) {
-
         List<Comment> comments = commentMapper.getById(idType, id);
-
         for (Comment comment : comments) {
             if (comment.getParentId() == 0) {
                 comment.setComments(comments.stream().filter(c -> c.getParentId().equals(comment.getId())).collect(Collectors.toList()));
             }
         }
-
         List<Comment> list = comments.stream().filter(c -> c.getParentId() == 0).collect(Collectors.toList());
         return DataResp.ok(list);
     }

@@ -72,7 +72,7 @@
                   <a-icon type="tag" />&nbsp;&nbsp;&nbsp;&nbsp;<a>{{tag}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                 </span>
                 <span style="float: right;margin: 0 20px 10px 0;color: red;">
-                    <a-icon type="like" @click="like()"/>
+                    <a-icon type="like" @click="$message.success('谢谢你de支持 -> ^_^')"/>
                     <a-icon type="eye" />
                     <span>{{item.articleViews}}</span>
                 </span>
@@ -214,16 +214,10 @@ import { list } from '@/api/article'
         }, 1000)
       },
 
-      // 点击文章列表的 图标 方法
-      like(){
-        this.$message.success('谢谢你de支持 -> ^_^')
-      }
-
     },
     mounted() {
       this.loadBlogs();
       this.countTime(this.start_time);
-
     },
     
   }
@@ -254,14 +248,23 @@ import { list } from '@/api/article'
       transform: translate(0, -5px);
       box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
     }
+    a:hover {
+      cursor: pointer;
+      color: #318fb5;
+      text-decoration: underline;
+    }
   }
 
-  .blog-card a:hover {
-    cursor: pointer;
-    color: #318fb5;
-    text-decoration: underline;
-  }
   .user-card {
+    .avatar {
+      width: 100%;
+      height: 100%;
+      transition: all 0.3s linear;
+      &:hover {
+        transform: scale(1.1, 1.1);
+        filter: contrast(120%);
+      }
+    }
     text-align: center;
     font-family: STKaiti;
     margin: 30px 0;
@@ -269,24 +272,11 @@ import { list } from '@/api/article'
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     background-color: white;
     transition: all 0.3s ease-in;
+    &:hover {
+      transform: translate(0,-10px);
+      box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
+    }
   }
-  .user-card:hover {
-    transform: translate(0,-10px);
-    box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
-  }
-
-
-
-  /* 左侧抽屉 */
-  .left_drawer {
-    text-align: center;
-    margin: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-    font-size: 18px;
-    background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
-  }
-
-  
 
   /* 中间文章内容的title动画 */
   .boxchilde {
@@ -301,6 +291,15 @@ import { list } from '@/api/article'
         transform: translate(10px,0);
       }
     }
+  }
+
+  /* 左侧抽屉 */
+  .left_drawer {
+    text-align: center;
+    margin: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    font-size: 18px;
+    background-image: linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);
   }
 
 </style>

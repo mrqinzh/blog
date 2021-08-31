@@ -76,7 +76,7 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <router-link :to="{name: 'ArticleAdd', params: {articleId: scope.row.id}}"><el-button type="primary" size="mini">编辑</el-button></router-link>   
+          <el-button type="primary" size="mini" @click="update(scope.row.id)">编辑</el-button>
           <el-button type="danger" size="mini" @click="deleteHandle(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -85,7 +85,7 @@
       @size-change="sizeChangeHandle"
       @current-change="currentChangeHandle"
       :current-page="currentPage"
-      :page-sizes="[10, 20, 50, 100]"
+      :page-sizes="[10, 20, 50]"
       :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="totalCount">
@@ -163,6 +163,9 @@ export default {
         }).catch(() => {})
       }).catch(() => {})
     },
+    update(id) {
+      this.$router.push({name: 'ArticleAdd', params: {articleId: id}})
+    }
   }
 }
 </script>

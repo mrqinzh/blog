@@ -1,38 +1,31 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
-    <div>
-      这是控制台页
-      <login-log-table></login-log-table>
-    </div>
+    <component :is="currentRole" />
   </div>
 </template>
 
 <script>
-import table from './components/table'
 import { mapGetters } from 'vuex'
+import adminDashboard from './admin'
+import editorDashboard from './editor'
 
 export default {
   name: 'Dashboard',
-  components: {
-    'login-log-table': table,
+  components: { adminDashboard, editorDashboard },
+  data() {
+    return {
+      currentRole: 'adminDashboard'
+    }
   },
   computed: {
     ...mapGetters([
-      'name'
+      'roles'
     ])
+  },
+  created() {
+    // if (!this.roles.includes('admin')) {
+    //   this.currentRole = 'editorDashboard'
+    // }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
-  }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
-  }
-}
-</style>

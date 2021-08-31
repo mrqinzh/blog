@@ -18,6 +18,10 @@ import org.springframework.stereotype.Component;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 
+/**
+ * @author mrqinzh
+ * @description 发送邮件
+ */
 @Component
 public class EmailServiceImpl implements EmailService {
 

@@ -32,16 +32,16 @@
               placeholder="请输入内容"
               maxlength="100"
               show-word-limit
-              :rows="6"
+              :rows="5"
               v-model="commentContent"
               >
             </el-input>
-            <el-button style="margin: 20px 0 0 80%" @click="submitComment(0)" type="primary" icon="el-icon-edit" size="small">发表评论</el-button>
+            <el-button style="margin: 20px 0 0 80%" @click="addComment(0)" type="primary" icon="el-icon-edit" size="small">发表评论</el-button>
             <blockquote>
-              <h2 style="padding: 0 0 0 20px">所有评论</h2>
+              <h2>所有评论</h2>
             </blockquote>
             <div style="line-height: 2em" v-loading="loading2">
-              <div v-for="(item, index) in parentComments" :key="index">
+              <div v-for="(item, index) in comments" :key="index">
                 <div style="display: inline-block;">
                   <el-avatar :src="item.user.userAvatar"></el-avatar>
                   <span style="font-size: 19px;margin-left: 20px">{{ item.user.userName}}</span>
@@ -51,11 +51,13 @@
                 <p style="margin-left: 60px">
                   <span>{{ item.commentContent}}</span>
                 </p>
+
                 <!-- 点击显示回复框 -->
                 <div v-show="flag===index" style="margin: 20px">
                   <el-input v-model="replyContent" placeholder="请输入内容"></el-input>
-                  <el-button style="margin: 10px 0 0 85%" @click="submitComment(item.id);">确定</el-button>
+                  <el-button style="margin: 10px 0 0 85%" @click="addComment(item.id);">确定</el-button>
                 </div>
+
                 <blockquote class="child_comment">
                   <div style="margin: 20px" v-for="(child, child_index) in item.comments" :key="child_index">
                     <div style="display: inline-block;">
@@ -80,8 +82,8 @@
 
 <script>
 import { getById } from '@/api/article'
+import { getByArticleIdOrUserId, add } from '@/api/comment'
 import Clipboard from 'clipboard'
-
 // 引入默认样式
 import 'highlight.js/styles/atelier-cave-dark.css' // 样式文件
 
@@ -139,10 +141,10 @@ export default {
       loading2: false,
 
       // 评论区域相关信息
-      parentComments: [],
+      comments: [],
       currentArticleId: '',
+
       flag: '', // 显示回复框的标志位
-      isLogin: false,
 
       clipboard: '', // 添加复制功能
     }
@@ -157,55 +159,48 @@ export default {
         this.loading = false;
       })
     },
-    
     // 加载评论内容
-    // loadComments() {
-    //   getRequest(`/comment/articleId/${this.currentArticleId}`).then(resp => {
-    //     // console.log(resp);
-    //     this.parentComments = resp.data.data;
-    //   })
-    // },
+    loadComments() {
+      getByArticleIdOrUserId('articleId', this.currentArticleId).then(resp => {
+        // console.log(resp);
+        this.comments = resp.data;
+      })
+    },
     // 提交评论内容
-    // submitComment(val) {
-    //   var content = "";
-    //   if(val === 0){
-    //     if(this.commentContent === ''){
-    //       this.$message.warning('你评论了个寂寞 => `_`');
-    //       return;
-    //     }
-    //     content = this.commentContent;
-    //   } else {
-    //     if(this.replyContent === ''){
-    //       this.$message.warning('你评论了个寂寞 => `_`');
-    //       return;
-    //     }
-    //     content = this.replyContent
-    //   }
-      
-    //   this.loading2 = true;
-    //   postRequest('/comment/add', {
-    //     comment_content: content,
-    //     comment_time: Date.parse(new Date()),
-    //     article_id: this.currentArticleId,
-    //     parent_id: val
-    //   }).then(resp => {
-    //     // console.log(resp);
-    //     if(resp.data.code === "200"){
-    //       this.loadComments();
-    //       this.commentContent = '',
-    //       this.$message.success('评论成功 => ^_^');
-    //     } else {
-    //       this.$message.warning('服务器出错了 => -_-。');
-    //     }
-    //     this.loading2 = false;
-    //   })
-    // },
+    addComment(val) {
+      var content = "";
+      if(val === 0){
+        if(this.commentContent === ''){
+          this.$message.warning('你评论了个寂寞 => `_`');
+          return;
+        }
+        content = this.commentContent;
+      } else {
+        if(this.replyContent === ''){
+          this.$message.warning('你回复了个寂寞 => `_`');
+          return;
+        }
+        content = this.replyContent
+      }
+      let params = {
+        parentId: val,
+        commentContent: content,
+        articleId: this.currentArticleId
+      };
+      add(params).then(resp => {
+        console.log(resp);
+        if(resp.success) {
+          this.loadComments();
+        }
+        this.$message.success(resp.msg);
+      })
+    },
     
   },
   mounted() {
     this.currentArticleId = this.$route.params.articleId;
     this.loadArticleInfo();
-    // this.loadComments();
+    this.loadComments();
     // 添加代码块复制方法
     this.$nextTick(() => {
       this.clipboard = new Clipboard('.copy-btn')

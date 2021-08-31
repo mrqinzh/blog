@@ -20,6 +20,22 @@
         </association>
     </resultMap>
 
+    <insert id="add" parameterType="Comment">
+        INSERT INTO `comment` (
+            comment_content,
+            user_id,
+            article_id,
+            parent_id
+        )
+        VALUES
+            (
+                #{commentContent},
+                #{userId},
+                #{articleId},
+                #{parentId}
+            )
+    </insert>
+
     <select id="getById" resultMap="baseMap">
         SELECT
             *

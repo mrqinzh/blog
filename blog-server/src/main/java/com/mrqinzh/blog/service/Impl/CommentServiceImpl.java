@@ -33,21 +33,24 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public Resp add(Comment comment, String token) {
+        // Todo userId从redis中获取，articleId通过前端传入，parentId前端传入 0：父评论      !=0：表示对应commentId的值
         User user = (User) redisUtil.get(token);
         comment.setUserId(user.getId());
-        commentMapper.add(comment);
 
+        System.out.println("comment = " + comment);
+        commentMapper.add(comment);
         return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }
 
     @Override
     public Resp getById(String idType, Integer id) {
         List<Comment> comments = commentMapper.getById(idType, id);
-        for (Comment comment : comments) {
+        // 遍历comments，将子评论添加到对应的父评论下面
+        comments.stream().forEach(comment -> {
             if (comment.getParentId() == 0) {
                 comment.setComments(comments.stream().filter(c -> c.getParentId().equals(comment.getId())).collect(Collectors.toList()));
             }
-        }
+        });
         List<Comment> list = comments.stream().filter(c -> c.getParentId() == 0).collect(Collectors.toList());
         return DataResp.ok(list);
     }
@@ -61,7 +64,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public Resp deleteById(String idType, Integer id) {
-
         commentMapper.deleteById(idType, id);
         return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
     }

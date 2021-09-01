@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-@ApiModel
+@ApiModel(value = "分页数据返回类")
 public class PageResp<T> extends Resp {
 
     private T data;

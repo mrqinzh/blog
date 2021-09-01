@@ -11,11 +11,11 @@
         <result property="commentContent" column="comment_content" />
         <result property="commentTime" column="comment_time" />
         <result property="parentId" column="parent_id" />
-        <association property="user" javaType="com.mrqinzh.blog.model.entity.User">
+        <association property="user" javaType="User">
             <result property="userNickname" column="user_nickname" />
             <result property="userAvatar" column="user_avatar" />
         </association>
-        <association property="article" javaType="com.mrqinzh.blog.model.entity.Article">
+        <association property="article" javaType="Article">
             <result property="articleTitle" column="article_title" />
         </association>
     </resultMap>

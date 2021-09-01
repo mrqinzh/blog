@@ -34,8 +34,8 @@ public class UserController {
 
     @ApiOperation(value = "获取用户信息")
     @GetMapping("info")
-    public Resp info(@RequestParam String token, HttpServletRequest request) {
-        return userService.info(token, request);
+    public Resp info(@RequestParam String token) {
+        return userService.info(token);
     }
 
     @ApiOperation(value = "登录")

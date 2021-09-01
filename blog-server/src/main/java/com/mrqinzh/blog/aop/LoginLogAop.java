@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @Aspect
 @Component
-public class WebLogAop {
+public class LoginLogAop {
 
-    private static final Logger logger = LoggerFactory.getLogger(WebLogAop.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginLogAop.class);
 
     @Pointcut("execution(* com.mrqinzh.blog.controller.UserController.login(..))")
     public void loginLog() {

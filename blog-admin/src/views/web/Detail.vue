@@ -200,12 +200,24 @@ export default {
         this.flag = '';
       })
     },
+
+    // 给图片添加点击事件
+    initImgClick() {
+      var imgArr = document.getElementsByTagName('img');
+      for(let i=0;i<imgArr.length;i++) {
+        imgArr[i].setAttribute('onclick', 'clickEvent()')
+      }
+    },
+    clickEvent() {
+      console.log('img click');
+    }
     
   },
   mounted() {
     this.currentArticleId = this.$route.params.articleId;
     this.loadArticleInfo();
     this.loadComments();
+    this.initImgClick();
     // 添加代码块复制方法
     this.$nextTick(() => {
       this.clipboard = new Clipboard('.copy-btn')
@@ -217,7 +229,6 @@ export default {
         this.$message.error('复制成功失败')
       })
     });
-
   },
   destroyed () {
     this.clipboard.destroy();
@@ -296,6 +307,14 @@ export default {
     table th:last-child,
     table td:last-child {
       margin-bottom: 0;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      transition: all 0.5s linear;
+      &:hover {
+        transform: scale(1.5);
+      }
     }
 
   }

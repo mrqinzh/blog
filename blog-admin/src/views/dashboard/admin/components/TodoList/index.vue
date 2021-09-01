@@ -2,7 +2,7 @@
   <section class="todoapp">
     <!-- header -->
     <header class="header">
-      <input class="new-todo" autocomplete="off" placeholder="Todo List" @keyup.enter="addTodo">
+      <input class="new-todo" autocomplete="off" placeholder="添加日程 => 点击Enter" @keyup.enter="addTodo">
     </header>
     <!-- main section -->
     <section v-show="todos.length" class="main">
@@ -47,11 +47,11 @@ const filters = {
   completed: todos => todos.filter(todo => todo.done)
 }
 const defalutList = [
-  { text: 'star this repository', done: false },
-  { text: 'fork this repository', done: false },
+  { text: 'star this repository', done: true },
+  { text: 'fork this repository', done: true },
   { text: 'vue-element-admin', done: true },
-  { text: 'vue', done: true },
-  { text: 'element-ui', done: true },
+  { text: 'comment', done: false },
+  { text: 'tag', done: false },
 ]
 export default {
   components: { Todo },

@@ -107,6 +107,19 @@ export const constantRoutes = [
   },
 
   {
+    path: '/email',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/email/index'),
+        name: 'Email',
+        meta: { title: '邮件', icon: 'email', noCache: true }
+      }
+    ]
+  },
+
+  {
     path: '/icon',
     component: Layout,
     children: [

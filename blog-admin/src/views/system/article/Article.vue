@@ -102,21 +102,24 @@ export default {
         key: ''
       },
       dataList: [],
+
       currentPage: 1,
       pageSize: 10,
       totalCount: 0,
+      condition: '',
+
       dataListLoading: false,
       dataListSelections: [],
     }
   },
   mounted() {
-    this.getDataList('');
+    this.getDataList();
   },
   methods: {
     // 获取数据列表
-    getDataList(condition) {
+    getDataList() {
       this.dataListLoading = true;
-      list(this.currentPage, this.pageSize, condition).then(resp => {
+      list(this.currentPage, this.pageSize, this.condition).then(resp => {
         // console.log(resp);
         this.dataList = resp.data.rows;
         this.totalCount = resp.data.totalCount;
@@ -127,12 +130,12 @@ export default {
     sizeChangeHandle(val) {
       this.pageSize = val
       this.pageIndex = 1
-      this.getDataList('')
+      this.getDataList()
     },
     // 当前页
     currentChangeHandle(val) {
       this.currentPage = val
-      this.getDataList('')
+      this.getDataList()
     },
     // 多选
     selectionChangeHandle(val) {

@@ -74,7 +74,7 @@
                 <span style="float: right;margin: 0 20px 10px 0;color: red;">
                     <a-icon type="like" @click="$message.success('谢谢你de支持 -> ^_^')"/>
                     <a-icon type="eye" />
-                    <span>{{item.articleViews}}</span>
+                    <span>{{ item.articleViews }}</span>
                 </span>
               </div>
             </div>
@@ -169,6 +169,7 @@ import { list } from '@/api/article'
         totalCount: 0,
         currentPage: 1,
         pageSize: 10,
+        condition: '',
         // 抽屉
         drawer: false,
 
@@ -185,7 +186,7 @@ import { list } from '@/api/article'
     methods: {
       // 加载博客
       loadBlogs() {
-        list(this.currentPage, this.pageSize, '').then(resp => {
+        list(this.currentPage, this.pageSize, this.condition).then(resp => {
           this.articles = resp.data.rows;
           this.totalCount = resp.data.totalCount; //获取数据行数
           this.loading = false;

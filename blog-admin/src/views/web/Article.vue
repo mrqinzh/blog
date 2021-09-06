@@ -13,7 +13,7 @@
 
     <!-- 文章分类 -->
     <ul class="chooseType animate__animated animate__fadeInLeft">
-      <i class="el-icon-s-operation"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span @click="loadBlogs('')" style="cursor: pointer">所有文章</span>
+      <i class="el-icon-s-operation"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span @click="loadBlogs()" style="cursor: pointer">所有文章</span>
       <li v-for="(item, index) in linkTypes" :key="index" @click="findByType(item.val)">
         {{item.linkName}}
         <span><i class="el-icon-caret-right"></i></span>
@@ -87,6 +87,7 @@ export default {
       totalCount: 0,
       currentPage: 1,
       pageSize: 10,
+      condition: '',
       // 文章信息
       allBlogs: [],
       // 标签信息
@@ -135,11 +136,11 @@ export default {
     // 页码变更
     changePageNum(val) {
       this.currentPage = val;
-      this.loadBlogs('');
+      this.loadBlogs();
     },
     // 加载博客
-    loadBlogs(condition) {
-      list(this.currentPage, this.pageSize, condition).then( resp => {
+    loadBlogs() {
+      list(this.currentPage, this.pageSize, this.condition).then( resp => {
         // console.log(resp);
         this.allBlogs = resp.data.rows;
         this.totalCount = resp.data.totalCount; //获取数据行数
@@ -151,11 +152,12 @@ export default {
       // console.log(val);
       this.currentPage = 1;
       this.pageSize = 10;
-      this.loadBlogs(val)
+      this.condition = val;
+      this.loadBlogs()
     }
   },
   mounted() {
-    this.loadBlogs('');
+    this.loadBlogs();
   },
   
 }

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mrqinzh.blog.mapper.ArticleMapper">
 
-    <resultMap id="baseMap" type="com.mrqinzh.blog.model.entity.Article">
+    <resultMap id="baseMap" type="Article">
         <id property="id" column="id" />
         <result property="articleAuthor" column="article_author" />
         <result property="articleTitle" column="article_title" />
@@ -15,7 +15,7 @@
         <result property="articleTag" column="article_tag" />
         <result property="articleType" column="article_type" />
         <result property="articleViews" column="article_views" />
-        <association property="user" javaType="com.mrqinzh.blog.model.entity.User">
+        <association property="user" javaType="User">
             <id property="id" column="id" />
             <result property="userAvatar" column="user_avatar" />
             <result property="userNickname" column="nickname" />
@@ -94,7 +94,7 @@
     </insert>
 
     <!-- article_title = #{articleTitle}, article_summary = #{articleSummary}, article_update_time = #{articleUpdateTime}, article_content_md = #{articleContentMd}, article_tag = #{articleTag}, article_type = #{articleType} -->
-    <update id="update" parameterType="com.mrqinzh.blog.model.entity.Article">
+    <update id="update" parameterType="Article">
         UPDATE
             article
         <trim prefix="set" suffixOverrides=",">

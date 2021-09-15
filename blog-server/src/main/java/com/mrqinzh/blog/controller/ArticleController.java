@@ -3,7 +3,6 @@ package com.mrqinzh.blog.controller;
 import com.mrqinzh.blog.config.WebSocketServer;
 import com.mrqinzh.blog.model.dto.req.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
-import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.ArticleService;
 
 import com.mrqinzh.blog.model.dto.resp.Resp;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @Api(tags = "文章接口")
-@CrossOrigin
 @RestController
 @RequestMapping("/article")
 public class ArticleController {

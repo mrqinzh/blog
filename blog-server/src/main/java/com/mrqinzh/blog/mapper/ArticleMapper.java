@@ -4,9 +4,11 @@ import com.mrqinzh.blog.model.dto.req.PageDTO;
 import com.mrqinzh.blog.model.entity.Article;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+@Mapper
 @Repository
 public interface ArticleMapper {
 

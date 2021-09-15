@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
-    private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class.getSimpleName());
+    private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
     @Autowired
     private ArticleMapper articleMapper;

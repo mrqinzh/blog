@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
-@ApiModel
+@ApiModel(value = "返回数据类")
 public final class DataResp<T> extends Resp {
 
     private T data;

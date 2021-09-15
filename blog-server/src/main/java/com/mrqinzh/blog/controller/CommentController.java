@@ -28,7 +28,7 @@ public class CommentController {
      * @param idType id类型： userId、articleId
      * @param id id值
      */
-    @ApiOperation(value = "根据(*Id)查询评论")
+    @ApiOperation(value = "根据 userId、articleId 查询评论")
     @GetMapping("{idType}/{id}")
     public Resp getById(@PathVariable String idType, @PathVariable Integer id) {
         return commentService.getById(idType, id);

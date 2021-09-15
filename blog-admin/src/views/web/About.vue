@@ -33,10 +33,6 @@ export default {
       },
     }
   },
-  mounted() {
-
-  },
-  
 }
 </script>
 

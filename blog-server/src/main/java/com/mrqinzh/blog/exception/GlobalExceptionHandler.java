@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
     /**
      * 处理业务发生的异常
      * @param e
@@ -38,7 +36,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Resp exceptionHandler(NullPointerException e) {
         e.printStackTrace();
-        return Resp.sendMsg(AppStatus.UNKNOWN_SERVER_ERROR);
+        return Resp.sendMsg(AppStatus.NULL_PRINTER_EXCEPTION);
     }
 
     /**

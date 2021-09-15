@@ -2,12 +2,14 @@ package com.mrqinzh.blog.model.dto.resp;
 
 import com.google.common.base.Strings;
 import com.mrqinzh.blog.model.enums.AppStatus;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * 统一返回数据类型
  */
+@ApiModel(value = "返回消息类")
 @Data
 @NoArgsConstructor
 public class Resp {

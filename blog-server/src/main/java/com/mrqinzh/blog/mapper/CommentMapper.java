@@ -27,6 +27,4 @@ public interface CommentMapper {
      */
     Boolean deleteById(String idType, Integer id);
 
-
-
 }

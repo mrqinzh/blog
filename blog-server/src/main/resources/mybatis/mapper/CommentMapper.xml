@@ -4,21 +4,37 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mrqinzh.blog.mapper.CommentMapper">
 
-    <resultMap id="baseMap" type="com.mrqinzh.blog.model.entity.Comment">
+    <resultMap id="baseMap" type="Comment">
         <id property="id" column="id" />
         <result property="userId" column="user_id" />
         <result property="articleId" column="article_id" />
         <result property="commentContent" column="comment_content" />
         <result property="commentTime" column="comment_time" />
         <result property="parentId" column="parent_id" />
-        <association property="user" javaType="com.mrqinzh.blog.model.entity.User">
+        <association property="user" javaType="User">
             <result property="userNickname" column="user_nickname" />
             <result property="userAvatar" column="user_avatar" />
         </association>
-        <association property="article" javaType="com.mrqinzh.blog.model.entity.Article">
+        <association property="article" javaType="Article">
             <result property="articleTitle" column="article_title" />
         </association>
     </resultMap>
+
+    <insert id="add" parameterType="Comment">
+        INSERT INTO `comment` (
+            comment_content,
+            user_id,
+            article_id,
+            parent_id
+        )
+        VALUES
+            (
+                #{commentContent},
+                #{userId},
+                #{articleId},
+                #{parentId}
+            )
+    </insert>
 
     <select id="getById" resultMap="baseMap">
         SELECT

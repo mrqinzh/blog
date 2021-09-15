@@ -22,20 +22,14 @@ import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.dto.resp.Resp;
 import com.mrqinzh.blog.util.WebUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author mrqinzh
  */
 @Service
 public class UserServiceImpl implements UserService {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class.getSimpleName());
 
     @Autowired
     private UserMapper userMapper;
@@ -81,7 +75,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Resp loginByUsernameOrEmail(User user) {
-        logger.info("有用户进行了登录操作。。。user => " + user);
         User dbUser = userMapper.getByUsernameOrEmail(user.getUserName());
 
         if (null == dbUser || !dbUser.getUserPwd().equals(user.getUserPwd())){
@@ -113,10 +106,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Resp info(String token, HttpServletRequest request) {
+    public Resp info(String token) {
 
         User user = (User) redisUtil.get(token);
-        String clientIp = WebUtil.getClientIp(request);
+        String clientIp = WebUtil.getClientIp(WebUtil.getRequest());
 
         // 向 t_login_log 表中添加一条登录日志
         LoginLog loginLog = new LoginLog();

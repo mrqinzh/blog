@@ -39,7 +39,6 @@
             <id property="id" column="id" />
             <result property="userAvatar" column="user_avatar" />
             <result property="userNickname" column="user_nickname" />
-
         </association>
     </resultMap>
 
@@ -50,10 +49,10 @@
             article a
         LEFT JOIN `user` u ON a.user_id = u.id
         WHERE
-            1 = 1
+            status = 0
         <if test="condition != null">
             AND article_tag like '%${condition}%'
-            OR article_title like '$${condition}$'
+            OR article_title like '%${condition}%'
         </if>
         order by article_update_time DESC
     </select>
@@ -78,7 +77,6 @@
             article_content_md,
             article_tag,
             article_type,
-            article_views,
             user_id
         )
         VALUES
@@ -91,7 +89,6 @@
                 #{articleContentMd},
                 #{articleTag},
                 #{articleType},
-                #{articleViews},
                 #{userId}#
             )
     </insert>

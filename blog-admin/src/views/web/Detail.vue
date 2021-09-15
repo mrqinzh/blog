@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="6">
+      <el-col :span="7">
         <div class="grid-content bg-purple">
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item>首页</el-breadcrumb-item>
@@ -9,8 +9,8 @@
           </el-breadcrumb>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-        <div style="margin-top: 30px" v-loading="loading" class="animate__animated animate__fadeIn">
+      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="10">
+        <div v-loading="loading" class="animate__animated animate__fadeIn">
           <!-- 文章头区域 -->
           <div style="font-size: 15px;">
             <h1 style="text-align: center;font-size: 20px;">{{article.articleTitle}}</h1>
@@ -32,40 +32,46 @@
               placeholder="请输入内容"
               maxlength="100"
               show-word-limit
-              :rows="6"
+              :rows="5"
               v-model="commentContent"
               >
             </el-input>
-            <el-button style="margin: 20px 0 0 80%" @click="submitComment(0)" type="primary" icon="el-icon-edit" size="small">发表评论</el-button>
+            <el-button style="margin: 20px 0 0 80%" @click="addComment(0)" type="primary" icon="el-icon-edit" size="small">发表评论</el-button>
             <blockquote>
-              <h2 style="padding: 0 0 0 20px">所有评论</h2>
+              <h2>所有评论</h2>
             </blockquote>
-            <div style="line-height: 2em" v-loading="loading2">
-              <div v-for="(item, index) in parentComments" :key="index">
+            <div v-loading="loading2">
+              <div v-for="(item, index) in comments" :key="index">
                 <div style="display: inline-block;">
                   <el-avatar :src="item.user.userAvatar"></el-avatar>
-                  <span style="font-size: 19px;margin-left: 20px">{{ item.user.userName}}</span>
-                  <span style="font-size: 17px;margin-left: 50px">评论时间： {{ item.commentTime}}</span>
+                  <span class="name-text">{{ item.user.userNickname}}</span>
+                  <span style="font-size: 12px;margin-left: 50px;color: #909399">评论时间： {{ item.commentTime}}</span>
                 </div>
-                <el-button style="margin-left: 50px"  @click="flag=index" type="primary" icon="el-icon-edit" size="mini">回复</el-button>
-                <p style="margin-left: 60px">
-                  <span>{{ item.commentContent}}</span>
-                </p>
+                
+                <div style="color: #303133">
+                  <i class="el-icon-chat-dot-round"></i>：{{ item.commentContent}}. . .
+                  <el-link @click="flag=index" type="primary" icon="el-icon-edit" :underline="false">回复</el-link>
+                </div>
+
                 <!-- 点击显示回复框 -->
                 <div v-show="flag===index" style="margin: 20px">
                   <el-input v-model="replyContent" placeholder="请输入内容"></el-input>
-                  <el-button style="margin: 10px 0 0 85%" @click="submitComment(item.id);">确定</el-button>
+                  <el-button style="margin: 10px 0 0 85%" @click="addComment(item.id);">确定</el-button>
                 </div>
-                <blockquote class="child_comment">
-                  <div style="margin: 20px" v-for="(child, child_index) in item.comments" :key="child_index">
-                    <div style="display: inline-block;">
+
+                <!-- 子评论区域 -->
+                <div class="child-comment">
+                  <blockquote>
+                    <div style="margin: 20px" v-for="(child, child_index) in item.comments" :key="child_index">
                       <el-avatar :src="child.user.userAvatar"></el-avatar>
-                      <span style="font-size: 16px;margin-left: 20px">{{ child.user.nickname }}</span>
+                      <span class="name-text">{{ child.user.userNickname }}</span>
+                      <span style="font-size: 12px;margin-left: 50%;">评论时间： {{ child.commentTime }}</span>
+                      <p>
+                        <i class="el-icon-chat-dot-round"></i>：{{ child.commentContent }}
+                      </p>
                     </div>
-                    <span style="font-size: 13px;margin-left: 50%;">评论时间： {{ child.commentTime }}</span>
-                    <p>{{ child.commentContent }}</p>
-                  </div>
-                </blockquote>
+                  </blockquote>
+                </div>
               </div>
               
             </div>
@@ -80,8 +86,8 @@
 
 <script>
 import { getById } from '@/api/article'
+import { getByArticleIdOrUserId, add } from '@/api/comment'
 import Clipboard from 'clipboard'
-
 // 引入默认样式
 import 'highlight.js/styles/atelier-cave-dark.css' // 样式文件
 
@@ -139,10 +145,10 @@ export default {
       loading2: false,
 
       // 评论区域相关信息
-      parentComments: [],
+      comments: [],
       currentArticleId: '',
+
       flag: '', // 显示回复框的标志位
-      isLogin: false,
 
       clipboard: '', // 添加复制功能
     }
@@ -157,55 +163,61 @@ export default {
         this.loading = false;
       })
     },
-    
     // 加载评论内容
-    // loadComments() {
-    //   getRequest(`/comment/articleId/${this.currentArticleId}`).then(resp => {
-    //     // console.log(resp);
-    //     this.parentComments = resp.data.data;
-    //   })
-    // },
+    loadComments() {
+      getByArticleIdOrUserId('articleId', this.currentArticleId).then(resp => {
+        // console.log(resp);
+        this.comments = resp.data;
+      })
+    },
     // 提交评论内容
-    // submitComment(val) {
-    //   var content = "";
-    //   if(val === 0){
-    //     if(this.commentContent === ''){
-    //       this.$message.warning('你评论了个寂寞 => `_`');
-    //       return;
-    //     }
-    //     content = this.commentContent;
-    //   } else {
-    //     if(this.replyContent === ''){
-    //       this.$message.warning('你评论了个寂寞 => `_`');
-    //       return;
-    //     }
-    //     content = this.replyContent
-    //   }
-      
-    //   this.loading2 = true;
-    //   postRequest('/comment/add', {
-    //     comment_content: content,
-    //     comment_time: Date.parse(new Date()),
-    //     article_id: this.currentArticleId,
-    //     parent_id: val
-    //   }).then(resp => {
-    //     // console.log(resp);
-    //     if(resp.data.code === "200"){
-    //       this.loadComments();
-    //       this.commentContent = '',
-    //       this.$message.success('评论成功 => ^_^');
-    //     } else {
-    //       this.$message.warning('服务器出错了 => -_-。');
-    //     }
-    //     this.loading2 = false;
-    //   })
-    // },
+    addComment(val) {
+      var content = "";
+      if(val === 0){
+        if(this.commentContent === ''){
+          this.$message.warning('你评论了个寂寞 => `_`');
+          return;
+        }
+        content = this.commentContent;
+      } else {
+        if(this.replyContent === ''){
+          this.$message.warning('你回复了个寂寞 => `_`');
+          return;
+        }
+        content = this.replyContent
+      }
+      let params = {
+        parentId: val,
+        commentContent: content,
+        articleId: this.currentArticleId
+      };
+      add(params).then(resp => {
+        console.log(resp);
+        if(resp.success) {
+          this.loadComments();
+        }
+        this.$message.success(resp.msg);
+        this.flag = '';
+      })
+    },
+
+    // 给图片添加点击事件
+    initImgClick() {
+      var imgArr = document.getElementsByTagName('img');
+      for(let i=0;i<imgArr.length;i++) {
+        imgArr[i].setAttribute('onclick', 'clickEvent()')
+      }
+    },
+    clickEvent() {
+      console.log('img click');
+    }
     
   },
   mounted() {
     this.currentArticleId = this.$route.params.articleId;
     this.loadArticleInfo();
-    // this.loadComments();
+    this.loadComments();
+    this.initImgClick();
     // 添加代码块复制方法
     this.$nextTick(() => {
       this.clipboard = new Clipboard('.copy-btn')
@@ -217,7 +229,6 @@ export default {
         this.$message.error('复制成功失败')
       })
     });
-
   },
   destroyed () {
     this.clipboard.destroy();
@@ -230,7 +241,7 @@ export default {
     // border: 1px solid red;
     padding: 30px;
     font-size: 16px;
-    font-family: KaiTi;
+    // font-family: KaiTi;
     color: #303133;
     background-color: white;
     h1 {
@@ -297,6 +308,14 @@ export default {
     table td:last-child {
       margin-bottom: 0;
     }
+    img {
+      width: 100%;
+      height: 100%;
+      transition: all 0.5s linear;
+      &:hover {
+        transform: scale(1.5);
+      }
+    }
 
   }
   pre.hljs {
@@ -359,8 +378,23 @@ export default {
       width: 40px;
     }
   }
+
+  // 底部评论区域
   .page-comment {
     margin: 30px;
     line-height: 1.8em;
+    .child-comment {
+      margin-left: 10%;
+      blockquote {
+        border-left: 2px solid #409EFF;
+        background-color: #F2F6FC;
+      }
+      
+    }
+    .name-text{
+      font-size: 17px;
+      margin-left: 20px;
+      color: #303133;
+    }
   }
 </style>

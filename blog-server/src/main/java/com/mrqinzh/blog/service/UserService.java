@@ -16,7 +16,7 @@ public interface UserService {
 
     Resp logout(String token);
 
-    Resp info(String token, HttpServletRequest request);
+    Resp info(String token);
 
     Resp list(PageDTO pageDTO);
 }

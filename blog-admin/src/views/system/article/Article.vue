@@ -1,13 +1,12 @@
 <template>
   <div>
-    <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
+    <el-form :inline="true" :model="dataForm">
       <el-form-item>
         <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList(dataForm.key)">查询</el-button>
         <router-link to="./add" style="margin: 0px 10px;"><el-button type="primary">新增</el-button></router-link>
-        <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -77,8 +76,8 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <router-link :to="{name: 'ArticleAdd', params: {articleId: scope.row.id}}"><el-button type="primary" size="mini">编辑</el-button></router-link>   
-          <el-button type="danger" size="mini" @click="deleteHandle(scope.row.articleId)">删除</el-button>
+          <el-button type="primary" size="mini" @click="update(scope.row.id)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="deleteHandle(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -86,7 +85,7 @@
       @size-change="sizeChangeHandle"
       @current-change="currentChangeHandle"
       :current-page="currentPage"
-      :page-sizes="[10, 20, 50, 100]"
+      :page-sizes="[10, 20, 50]"
       :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="totalCount">
@@ -95,7 +94,7 @@
 </template>
 
 <script>
-import { list } from '@/api/article'
+import { list, del } from '@/api/article'
 export default {
   data() {
     return {
@@ -103,21 +102,24 @@ export default {
         key: ''
       },
       dataList: [],
+
       currentPage: 1,
       pageSize: 10,
       totalCount: 0,
+      condition: '',
+
       dataListLoading: false,
       dataListSelections: [],
     }
   },
   mounted() {
-    this.getDataList('');
+    this.getDataList();
   },
   methods: {
     // 获取数据列表
-    getDataList(condition) {
+    getDataList() {
       this.dataListLoading = true;
-      list(this.currentPage, this.pageSize, condition).then(resp => {
+      list(this.currentPage, this.pageSize, this.condition).then(resp => {
         // console.log(resp);
         this.dataList = resp.data.rows;
         this.totalCount = resp.data.totalCount;
@@ -128,12 +130,12 @@ export default {
     sizeChangeHandle(val) {
       this.pageSize = val
       this.pageIndex = 1
-      this.getDataList('')
+      this.getDataList()
     },
     // 当前页
     currentChangeHandle(val) {
       this.currentPage = val
-      this.getDataList('')
+      this.getDataList()
     },
     // 多选
     selectionChangeHandle(val) {
@@ -141,34 +143,32 @@ export default {
     },
     // 删除
     deleteHandle(id) {
-      var ids = id ? [id] : this.dataListSelections.map(item => {
-        return item.commentId
-      })
-      this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+      this.$confirm(`确定对文章[id=${id}]进行[删除]操作?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http({
-          url: this.$http.adornUrl('/movie/comment/delete'),
-          method: 'post',
-          data: this.$http.adornData(ids, false)
-        }).then(({data}) => {
-          if (data && data.code === 0) {
-            this.$message({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                this.getDataList()
-              }
-            })
-          } else {
-            this.$message.error(data.msg)
-          }
-        })
-      })
+        this.$prompt('请输入邮箱来确认身份信息', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+          inputErrorMessage: '邮箱格式不正确'
+        }).then(({ value }) => {
+          // Todo 这里可以对邮箱信息进行验证
+          this.$message.success('你的邮箱是: ' + value);
+          del(id).then(resp => {
+            // console.log(resp);
+            if (resp.success) {
+              this.$message.success(resp.msg);
+              this.getDataList('');
+            }
+          })
+        }).catch(() => {})
+      }).catch(() => {})
     },
+    update(id) {
+      this.$router.push({name: 'ArticleAdd', params: {articleId: id}})
+    }
   }
 }
 </script>

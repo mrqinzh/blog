@@ -39,7 +39,7 @@ export const constantRoutes = [
       { path: '/', name: 'home', component: () => import('@/views/web/home') },
       { path: '/category', name: 'Article', component: () => import('@/views/web/Article') },
       { path: '/about', name: 'About', component: () => import('@/views/web/About') },
-      { path: '/detail', name: 'Detail', component: () => import('@/views/web/Detail') },
+      { path: '/detail/:articleId', name: 'Detail', component: () => import('@/views/web/Detail') },
     ],
     hidden: true
   },
@@ -65,7 +65,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard', affix: true }
+      meta: { title: '控制台', icon: 'dashboard', affix: true }
     }]
   },
 
@@ -102,6 +102,19 @@ export const constantRoutes = [
         name: 'Tag',
         component: () => import('@/views/system/tag/index'),
         meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
+      }
+    ]
+  },
+
+  {
+    path: '/email',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/email/index'),
+        name: 'Email',
+        meta: { title: '邮件', icon: 'email', noCache: true }
       }
     ]
   },

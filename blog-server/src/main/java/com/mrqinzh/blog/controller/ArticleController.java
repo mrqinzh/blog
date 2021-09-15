@@ -47,17 +47,15 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "根据 articleId 更新文章")
-    @PostMapping("/update/{articleId}")
-    public Resp update(@PathVariable("articleId") Integer articleId , @RequestBody Article article){
-        article.setId(articleId);
+    @PostMapping("/update")
+    public Resp update(@RequestBody Article article){
         return articleService.update(article);
     }
 
     @ApiOperation(value = "根据 articleId 删除文章")
     @DeleteMapping("/{articleId}")
     public Resp delete(@PathVariable("articleId") Integer articleId){
-        articleService.delete(articleId);
-        return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
+        return articleService.delete(articleId);
     }
 
 }

@@ -12,6 +12,7 @@ import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.ArticleService;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.dto.resp.Resp;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Resp list(PageDTO pageDTO) {
+        // 如果前端传入的是 '' != null，则会导致mybatis动态sql执行失败
+        if (StringUtils.isBlank(pageDTO.getCondition())) {
+            pageDTO.setCondition(null);
+        }
         PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
         List<Article> articles = articleMapper.list(pageDTO);
 
@@ -58,15 +63,11 @@ public class ArticleServiceImpl implements ArticleService {
         article.setUserId(user.getId()).setArticleAuthor("秦志宏");
 
         // 获取文章摘要，截取内容的前100
-        String articleSummary = stripHtml(article.getArticleSummary());
-        if (articleSummary.length() > 100) {
-            article.setArticleSummary(articleSummary.substring(0, 100));
-        } else {
-            article.setArticleSummary(articleSummary);
-        }
+        article.setArticleSummary(subSummary(article.getArticleSummary()));
 
         // 初始化文章的固定信息
-        article.setArticleCreateTime(new Date()).setArticleUpdateTime(new Date()).setArticleViews(0);
+        Date date = new Date();
+        article.setArticleCreateTime(date).setArticleUpdateTime(date);
 
         if (!articleMapper.add(article)) {
             throw new BizException(AppStatus.INSERT_FAILED);
@@ -80,8 +81,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional(rollbackFor = Exception.class)
     public Resp update(Article article) {
 
+        // 判断传入文章的Id是否存在
+        if (article.getId() == null) {
+            throw new BizException(AppStatus.BAD_REQUEST);
+        }
+
+        // 设置文章的最后更新时间
         article.setArticleUpdateTime(new Date());
-        System.out.println(article);
+
+        // 获取文章摘要，截取内容的前100
+        article.setArticleSummary(subSummary(article.getArticleSummary()));
 
         if (!articleMapper.update(article)) {
             throw new BizException(AppStatus.UPDATE_FAILED);
@@ -90,13 +99,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * 此处执行删除文章时，需要删除文章对应的评论
+     * 此处执行删除文章时(逻辑删除)，需要删除文章对应的评论
      * @param articleId 文章ID
      */
     @Override
-    @Transactional
-    public void delete(Integer articleId) {
-//        articleMapper.delete(articleId);
+    public Resp delete(Integer articleId) {
+        articleMapper.delete(articleId);
+        return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
+    }
+
+
+    public String subSummary(String articleSummary) {
+        String summary = stripHtml(articleSummary);
+        return summary.length() > 100 ? summary.substring(0, 100) : summary;
     }
 
     /**

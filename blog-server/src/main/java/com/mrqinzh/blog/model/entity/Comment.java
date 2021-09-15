@@ -18,10 +18,9 @@ public class Comment implements Serializable {
 
     private String commentContent;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date commentTime;
 
-    private String commentType;
     private Integer status;
 
     private Integer userId;

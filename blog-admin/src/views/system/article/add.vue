@@ -54,15 +54,13 @@
 </template>
 
 <script>
-// import { isNotNullORBlank } from '@/utils/utils'
-import { base, postRequest, getRequest, deleteRequest } from '@/utils/api'
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import 'mavon-editor/dist/markdown/github-markdown.min.css'
 import '@/utils/hljs'
 
 import { uploadFileRequest } from '@/api/file'
-import { add, getById } from '@/api/article'
+import { add, getById, update } from '@/api/article'
 export default {
   name: 'ArticleAdd',
   components: {
@@ -70,12 +68,10 @@ export default {
   },
   data() {
     return {
-      imgName: '',
       content: '', // 输入的markdown
       html: '',    // 转成的html
       // 保存表单
       article: {
-        // article_id: '',
         articleTitle: '',
         articleType: '',
       },
@@ -99,28 +95,56 @@ export default {
       if (this.article.articleTitle === "" || this.content === "") {
         this.$message.warning('标题和内容均不能为空哦，不然还有什么保存的意义！ ！！');
         return;
-      };
-      let param = {
-        articleTitle: this.article.articleTitle,
-        articleContentMd: this.content,
-        articleSummary: this.html,
-        articleTag: this.dynamicTags.toString(),
-        articleType: this.article.articleType
       }
-      add(param).then(resp => {
-        // console.log(resp);
-        if (resp.success) {
-          this.$message.success('恭喜恭喜，保存成功了。 => ^_^');
-          this.$notify({
-            title: '通知',
-            dangerouslyUseHTMLString: true,
-            duration: 0,
-            message: '<strong>有新文章添加了，快去看看把<a href="/" target="_blank">点击前往</a></strong>'
-          });
-        } else {
-          this.$message.warning('保存失败');
+      if (this.aid) {
+        let param = {
+          id: this.aid,
+          articleTitle: this.article.articleTitle,
+          articleContentMd: this.content,
+          articleSummary: this.html,
+          articleTag: this.dynamicTags.toString(),
+          articleType: this.article.articleType
         }
-      })
+        console.log('update');
+        update(param).then(resp => {
+          // console.log(resp);
+          if (resp.success) {
+            this.$message.success('恭喜恭喜，保存成功了。 => ^_^');
+            this.$notify({
+              title: '通知',
+              dangerouslyUseHTMLString: true,
+              duration: 0,
+              message: '<strong>更新成功了，快去看看把<a href="/" target="_blank">点击前往</a></strong>'
+            });
+          } else {
+            this.$message.warning('保存失败');
+          }
+        })
+      } else {
+        let param = {
+          articleTitle: this.article.articleTitle,
+          articleContentMd: this.content,
+          articleSummary: this.html,
+          articleTag: this.dynamicTags.toString(),
+          articleType: this.article.articleType
+        }
+        console.log('add')
+        add(param).then(resp => {
+          // console.log(resp);
+          if (resp.success) {
+            this.$message.success('恭喜恭喜，保存成功了。 => ^_^');
+            this.$notify({
+              title: '通知',
+              dangerouslyUseHTMLString: true,
+              duration: 0,
+              message: '<strong>有新文章添加了，快去看看把<a href="/" target="_blank">点击前往</a></strong>'
+            });
+          } else {
+            this.$message.warning('保存失败');
+          }
+        })
+      }
+      
     },
     // markdown编辑器保存方法
     saveSubmit(value, render) {
@@ -141,9 +165,7 @@ export default {
     imgDel(pos){
       var imgPlace = pos[0].slice(37); // 截取文件名
       console.log(imgPlace);
-      deleteRequest().then(resp => {
-        // console.log(resp)
-      })
+      
     }, 
     // 添加标签相关方法
     handleClose(tag) {
@@ -169,17 +191,7 @@ export default {
       this.inputValue = '';
     },
     // 获取要更改的文章信息
-    getUpdatePageInfo(aid) {
-      getRequest(`/article/blog/${aid}`).then(resp => {
-        // console.log(resp);
-        this.content = resp.data.article_md;
-        this.articles.article_title = resp.data.article_title;
-        this.articles.article_author = resp.data.article_author;
-        this.dynamicTags = resp.data.article_tag.split(',');
-      });
-    },
-    // 更新文章
-    update() {
+    initUpdateData() {
       getById(this.aid).then(resp => {
         // console.log(resp);
         this.article.articleTitle = resp.data.articleTitle;
@@ -192,7 +204,7 @@ export default {
   mounted() {
     this.aid = this.$route.params.articleId;
     if (this.aid) {
-      this.update();
+      this.initUpdateData();
     }
   },
 }

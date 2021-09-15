@@ -22,8 +22,8 @@ public class UserController {
 
     @ApiOperation("修改用户信息")
     @PostMapping("update")
-    public Resp update(@RequestBody User user) {
-        return userService.update(user);
+    public Resp update(@RequestBody User user, @RequestHeader("token") String token) {
+        return userService.update(user, token);
     }
 
     @ApiOperation("添加一个用户")

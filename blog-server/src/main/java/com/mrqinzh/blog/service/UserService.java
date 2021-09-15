@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface UserService {
 
-    Resp update(User user);
+    Resp update(User user, String token);
 
     Resp add(User user, String token);
 

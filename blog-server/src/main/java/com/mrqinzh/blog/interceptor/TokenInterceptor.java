@@ -36,6 +36,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        // 这里只判断了 redis 中，是否含有该token
         if (redisUtil.hasKey(token)) {
             logger.info("token验证通过 => " + token);
             return true;

@@ -47,7 +47,16 @@ public class UserServiceImpl implements UserService {
     private LoginLogMapper loginLogMapper;
 
     @Override
-    public Resp update(User user) {
+    public Resp update(User user, String token) {
+
+        User sysUser = (User) redisUtil.get(token);
+        if (user.getUserPwd() == null) {
+
+        } else {
+            if (user.getUserPwd() != sysUser.getUserPwd()) {
+                throw new BizException(AppStatus.BAD_REQUEST, "原密码发生了错误。。。");
+            }
+        }
 
         // Todo ......
 //        userMapper.update(user);

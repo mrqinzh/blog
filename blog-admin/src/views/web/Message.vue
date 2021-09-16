@@ -22,7 +22,7 @@
         <el-button
             round
             type="info"
-            class="ml-3 animate__animated animate__backInRight"
+            class="ml-3 animate__animated animate__fadeInUp"
             @click="addToList"
             v-show="show"
         >
@@ -51,18 +51,17 @@
 </template>
 
 <script>
+import { list } from '@/api/my-message'
 import Vue from 'vue'
-import VueParticles from 'vue-particles' 
+// import VueParticles from 'vue-particles' 
 import { vueBaberrage } from 'vue-baberrage'
 
-Vue.use(VueParticles)  
+// Vue.use(VueParticles)  
 Vue.use(vueBaberrage)
 
 export default {
   name: "Message",
-  mounted() {
-    this.listMessage();
-  },
+  
   data() {
     return {
       show: false,
@@ -87,7 +86,7 @@ export default {
         //否则随机赋予头像(本地存放了30个头像)
       if (this.userVo != null){
         this.avatar = this.userVo.avatar
-      }else {
+      } else {
         this.avatar = "http://mrqinzh.info:9090/img/avatar.jpg"
         // this.avatar = "/images/commentAvatar/" + "avatar" +Math.floor((Math.random() * 30) + 1) + ".png"
       }
@@ -102,19 +101,21 @@ export default {
       this.barrageList.push(message);
       this.messageContent = "";
 
-      this.$axios.post('http://localhost:8181/tbMessage', message)
+      // this.$axios.post('http://localhost:8181/tbMessage', message)
     },
+
     // 加载弹幕消息
     listMessage() {
-      // this.$axios.get("http://localhost:8181/tbMessage").then(res => {
-      //   this.barrageList = res.data.data;
-
-      // });
+      list().then(resp => {
+        console.log(resp)
+        // this.barrageList = resp.data;
+        this.barrageList = JSON.parse(JSON.stringify(resp.data)) 
+      })
     }
   },
-  created() {
-
-  }
+  mounted() {
+    this.listMessage();
+  },
 };
 </script>
 

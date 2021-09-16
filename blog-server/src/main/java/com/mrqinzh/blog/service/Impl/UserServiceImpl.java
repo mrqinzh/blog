@@ -23,6 +23,7 @@ import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.vo.resp.Resp;
 import com.mrqinzh.blog.util.WebUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,21 +46,25 @@ public class UserServiceImpl implements UserService {
     public Resp update(UserVO userVO, String token) {
 
         User sysUser = (User) redisUtil.get(token);
-        if (userVO.getUserPwd() == null) {
-            // 更新信息操作
 
-        } else {
+        if (userVO.getUserPwd() != null && userVO.getNewPass() != null) {
             // 修改密码操作
             if (!userVO.getUserPwd().equals(sysUser.getUserPwd())) {
                 throw new BizException(AppStatus.BAD_REQUEST, "原密码发生了错误。。。");
             }
+            // Todo 此处可以对密码进行加密。。。
             sysUser.setUserPwd(userVO.getNewPass()); // 设置新密码
+        } else {
+            // 避免前端传入密码脏数据，导致BeanUtils.copyProperties 复制脏密码，导致修改了原密码
+            userVO.setUserPwd(null);
+
+            BeanUtils.copyProperties(userVO, sysUser); // 更改基础信息
         }
 
-        // Todo ......
         userMapper.update(sysUser);
-        // 更新缓存
-        redisUtil.set(token, sysUser);
+
+        // 删除缓存，需要前端重新登录
+        redisUtil.del(token);
 
         return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }
@@ -67,7 +72,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Resp add(User user, String token) {
 
-        // Todo 添加用户，先验证当前操作人的权限是否足够。。。
+        // 添加用户，先验证当前操作人的权限是否足够。。。
         User sysUser = (User) redisUtil.get(token);
         if (!sysUser.getRoleName().equals("super-admin")) {
             throw new BizException(AppStatus.AUTH_FAILED);
@@ -123,7 +128,7 @@ public class UserServiceImpl implements UserService {
         loginLog.setLoginTime(new Date());
         loginLog.setToken(token);
         loginLog.setUserId(user.getId());
-        // Todo 存在问题： 页面每次刷新时，也会添加
+        // 存在问题： 页面每次刷新时，也会添加。等到正式环境在使用
 //        loginLogMapper.add(loginLog);
 
         Map<String, Object> map = new HashMap<>(4);

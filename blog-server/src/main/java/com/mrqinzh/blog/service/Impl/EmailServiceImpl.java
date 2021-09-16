@@ -1,8 +1,8 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.model.dto.req.EmailDTO;
-import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.vo.req.EmailVO;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.EmailService;
 import com.mrqinzh.blog.util.RedisUtil;
@@ -37,9 +37,9 @@ public class EmailServiceImpl implements EmailService {
     private String from;
 
     @Override
-    public Resp sendSimpleMail(EmailDTO emailDTO) {
+    public Resp sendSimpleMail(EmailVO emailVO) {
         try {
-            send(emailDTO.getEmailTitle(), emailDTO.getEmailContent(), null, false, emailDTO.getTo());
+            send(emailVO.getEmailTitle(), emailVO.getEmailContent(), null, false, emailVO.getTo());
             return Resp.sendMsg(AppStatus.EMAIL_SEND_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,9 +48,9 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public Resp sendFileMail(EmailDTO emailDTO) {
+    public Resp sendFileMail(EmailVO emailVO) {
         try {
-            send(emailDTO.getEmailTitle(), emailDTO.getEmailContent(), emailDTO.getFilePath(), false, emailDTO.getTo());
+            send(emailVO.getEmailTitle(), emailVO.getEmailContent(), emailVO.getFilePath(), false, emailVO.getTo());
             logger.info("邮件加附件发送成功！");
             return Resp.sendMsg(AppStatus.EMAIL_SEND_SUCCESS);
         } catch (Exception e) {

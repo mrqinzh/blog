@@ -1,9 +1,9 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.vo.req.PageVO;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.service.TagService;
-import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,8 @@ public class TagController {
 
     @ApiOperation(value = "分页查询 tags")
     @GetMapping("page")
-    public Resp page(PageDTO pageDTO) {
-        return tagService.page(pageDTO);
+    public Resp page(PageVO pageVO) {
+        return tagService.page(pageVO);
     }
 
     @ApiOperation(value = "查询所有标签，limit 20")

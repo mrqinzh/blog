@@ -4,6 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mrqinzh.blog.mapper.ArticleMapper">
 
+    <cache />
+
     <resultMap id="baseMap" type="Article">
         <id property="id" column="id" />
         <result property="articleAuthor" column="article_author" />
@@ -93,8 +95,7 @@
             )
     </insert>
 
-    <!-- article_title = #{articleTitle}, article_summary = #{articleSummary}, article_update_time = #{articleUpdateTime}, article_content_md = #{articleContentMd}, article_tag = #{articleTag}, article_type = #{articleType} -->
-    <update id="update" parameterType="Article">
+    <update id="update" parameterType="Article" flushCache="true">
         UPDATE
             article
         <trim prefix="set" suffixOverrides=",">

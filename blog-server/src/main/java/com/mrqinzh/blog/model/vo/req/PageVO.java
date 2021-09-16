@@ -1,4 +1,4 @@
-package com.mrqinzh.blog.model.dto.req;
+package com.mrqinzh.blog.model.vo.req;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @ApiModel(value = "分页信息类", description = "前端传入的分页信息")
-public class PageDTO implements Serializable {
+public class PageVO implements Serializable {
 
     private Integer currentPage;
     private Integer pageSize;

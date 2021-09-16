@@ -1,6 +1,5 @@
-package com.mrqinzh.blog.model.dto.resp;
+package com.mrqinzh.blog.model.vo.resp;
 
-import com.google.common.base.Strings;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

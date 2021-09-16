@@ -2,13 +2,13 @@ package com.mrqinzh.blog.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.mapper.TagMapper;
-import com.mrqinzh.blog.model.dto.req.PageDTO;
-import com.mrqinzh.blog.model.dto.resp.DataResp;
-import com.mrqinzh.blog.model.dto.resp.PageResp;
+import com.mrqinzh.blog.model.vo.req.PageVO;
+import com.mrqinzh.blog.model.vo.resp.DataResp;
+import com.mrqinzh.blog.model.vo.resp.PageResp;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.TagService;
-import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +21,8 @@ public class TagServiceImpl implements TagService {
     private TagMapper tagMapper;
 
     @Override
-    public Resp page(PageDTO pageDTO) {
-        PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
+    public Resp page(PageVO pageVO) {
+        PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
         List<Tag> tags = tagMapper.page();
 
         return PageResp.ok(tags);

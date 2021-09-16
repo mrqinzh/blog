@@ -1,14 +1,13 @@
 package com.mrqinzh.blog.service;
 
-import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.vo.req.PageVO;
 import com.mrqinzh.blog.model.entity.User;
-import com.mrqinzh.blog.model.dto.resp.Resp;
-
-import javax.servlet.http.HttpServletRequest;
+import com.mrqinzh.blog.model.vo.req.UserVO;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 
 public interface UserService {
 
-    Resp update(User user, String token);
+    Resp update(UserVO userVO, String token);
 
     Resp add(User user, String token);
 
@@ -18,5 +17,5 @@ public interface UserService {
 
     Resp info(String token);
 
-    Resp list(PageDTO pageDTO);
+    Resp list(PageVO pageVO);
 }

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class WebUtil {
 
-
     /**
      * 获取request对象
      * @return

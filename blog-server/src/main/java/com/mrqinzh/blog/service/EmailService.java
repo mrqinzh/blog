@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.service;
 
-import com.mrqinzh.blog.model.dto.req.EmailDTO;
-import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.vo.req.EmailVO;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 
 /**
  *  company 中科大业
@@ -15,7 +15,7 @@ import com.mrqinzh.blog.model.dto.resp.Resp;
 public interface EmailService {
 
 
-    Resp sendSimpleMail(EmailDTO emailDTO);
+    Resp sendSimpleMail(EmailVO emailVO);
 
-    Resp sendFileMail(EmailDTO emailDTO);
+    Resp sendFileMail(EmailVO emailVO);
 }

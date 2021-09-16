@@ -3,15 +3,15 @@ package com.mrqinzh.blog.service.Impl;
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.ArticleMapper;
-import com.mrqinzh.blog.model.dto.req.PageDTO;
-import com.mrqinzh.blog.model.dto.resp.DataResp;
-import com.mrqinzh.blog.model.dto.resp.PageResp;
+import com.mrqinzh.blog.model.vo.req.PageVO;
+import com.mrqinzh.blog.model.vo.resp.DataResp;
+import com.mrqinzh.blog.model.vo.resp.PageResp;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.ArticleService;
 import com.mrqinzh.blog.util.RedisUtil;
-import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,13 +34,13 @@ public class ArticleServiceImpl implements ArticleService {
     private RedisUtil redisUtil;
 
     @Override
-    public Resp list(PageDTO pageDTO) {
+    public Resp list(PageVO pageVO) {
         // 如果前端传入的是 '' != null，则会导致mybatis动态sql执行失败
-        if (StringUtils.isBlank(pageDTO.getCondition())) {
-            pageDTO.setCondition(null);
+        if (StringUtils.isBlank(pageVO.getCondition())) {
+            pageVO.setCondition(null);
         }
-        PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
-        List<Article> articles = articleMapper.list(pageDTO);
+        PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
+        List<Article> articles = articleMapper.list(pageVO);
 
         return PageResp.ok(articles);
     }

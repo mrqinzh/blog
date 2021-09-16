@@ -6,7 +6,7 @@
 
     <cache />
 
-    <update id="update" parameterType="com.mrqinzh.blog.model.entity.User">
+    <update id="update" parameterType="com.mrqinzh.blog.model.entity.User" flushCache="true">
         UPDATE `user`
         <trim prefix="set" suffixOverrides=",">
             <if test="roleName != null">role_name = #{roleName}, </if>

@@ -1,4 +1,4 @@
-package com.mrqinzh.blog.model.dto.resp;
+package com.mrqinzh.blog.model.vo.resp;
 
 import com.github.pagehelper.PageInfo;
 import com.mrqinzh.blog.model.enums.AppStatus;

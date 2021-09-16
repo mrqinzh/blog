@@ -5,9 +5,10 @@ import com.mrqinzh.blog.constant.JwtConstant;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.LoginLogMapper;
 import com.mrqinzh.blog.mapper.UserMapper;
-import com.mrqinzh.blog.model.dto.req.PageDTO;
-import com.mrqinzh.blog.model.dto.resp.DataResp;
-import com.mrqinzh.blog.model.dto.resp.PageResp;
+import com.mrqinzh.blog.model.vo.req.PageVO;
+import com.mrqinzh.blog.model.vo.req.UserVO;
+import com.mrqinzh.blog.model.vo.resp.DataResp;
+import com.mrqinzh.blog.model.vo.resp.PageResp;
 import com.mrqinzh.blog.model.entity.LoginLog;
 import com.mrqinzh.blog.model.entity.User;
 
@@ -20,7 +21,7 @@ import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.UserService;
 import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.RedisUtil;
-import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 import com.mrqinzh.blog.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,19 +42,24 @@ public class UserServiceImpl implements UserService {
     private LoginLogMapper loginLogMapper;
 
     @Override
-    public Resp update(User user, String token) {
+    public Resp update(UserVO userVO, String token) {
 
         User sysUser = (User) redisUtil.get(token);
-        if (user.getUserPwd() == null) {
+        if (userVO.getUserPwd() == null) {
+            // 更新信息操作
 
         } else {
-            if (user.getUserPwd() != sysUser.getUserPwd()) {
+            // 修改密码操作
+            if (!userVO.getUserPwd().equals(sysUser.getUserPwd())) {
                 throw new BizException(AppStatus.BAD_REQUEST, "原密码发生了错误。。。");
             }
+            sysUser.setUserPwd(userVO.getNewPass()); // 设置新密码
         }
 
         // Todo ......
-//        userMapper.update(user);
+        userMapper.update(sysUser);
+        // 更新缓存
+        redisUtil.set(token, sysUser);
 
         return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }
@@ -130,8 +136,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Resp list(PageDTO pageDTO) {
-        PageHelper.startPage(pageDTO.getCurrentPage(), pageDTO.getPageSize());
+    public Resp list(PageVO pageVO) {
+        PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
         List<User> users = userMapper.list();
         return PageResp.ok(users);
     }

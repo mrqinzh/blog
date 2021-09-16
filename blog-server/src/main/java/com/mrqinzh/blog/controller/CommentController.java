@@ -2,7 +2,7 @@ package com.mrqinzh.blog.controller;
 
 import com.mrqinzh.blog.model.entity.Comment;
 import com.mrqinzh.blog.service.CommentService;
-import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.mrqinzh.blog.mapper;
 
-import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.vo.req.PageVO;
 import com.mrqinzh.blog.model.entity.Article;
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleMapper {
 
-    List<Article> list(PageDTO pageDTO); // 排序全部文章、以及分页
+    List<Article> list(PageVO pageVO); // 排序全部文章、以及分页
 
     Article getById(Integer articleId); // 根据文章id展示当前文章
 

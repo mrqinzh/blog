@@ -1,8 +1,8 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.model.dto.req.PageDTO;
+import com.mrqinzh.blog.model.vo.req.PageVO;
 import com.mrqinzh.blog.service.LoginLogService;
-import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ public class LoginLogController {
 
     @ApiOperation(value = "登录日志列表")
     @GetMapping("list")
-    public Resp list(PageDTO pageDTO) {
-        return loginLogService.list(pageDTO);
+    public Resp list(PageVO pageVO) {
+        return loginLogService.list(pageVO);
     }
 
 }

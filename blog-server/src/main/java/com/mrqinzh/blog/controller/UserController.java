@@ -1,7 +1,8 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.model.dto.req.PageDTO;
-import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.vo.req.PageVO;
+import com.mrqinzh.blog.model.vo.req.UserVO;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.service.UserService;
 import io.swagger.annotations.Api;
@@ -20,8 +21,8 @@ public class UserController {
 
     @ApiOperation("修改用户信息")
     @PostMapping("update")
-    public Resp update(@RequestBody User user, @RequestHeader("token") String token) {
-        return userService.update(user, token);
+    public Resp update(@RequestBody UserVO userVO, @RequestHeader("token") String token) {
+        return userService.update(userVO, token);
     }
 
     @ApiOperation("添加一个用户")
@@ -50,7 +51,7 @@ public class UserController {
 
     @ApiOperation(value = "获取所有用户信息")
     @GetMapping("list")
-    public Resp list(PageDTO pageDTO) {
-        return userService.list(pageDTO);
+    public Resp list(PageVO pageVO) {
+        return userService.list(pageVO);
     }
 }

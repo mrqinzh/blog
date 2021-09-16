@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.model.dto.req.EmailDTO;
-import com.mrqinzh.blog.model.dto.resp.Resp;
+import com.mrqinzh.blog.model.vo.req.EmailVO;
+import com.mrqinzh.blog.model.vo.resp.Resp;
 import com.mrqinzh.blog.service.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,14 +18,14 @@ public class EmailController {
 
     @ApiOperation(value = "发送一份简单邮件")
     @PostMapping("simple")
-    public Resp sendSimpleEmail(@RequestBody EmailDTO emailDTO) {
-        return emailService.sendSimpleMail(emailDTO);
+    public Resp sendSimpleEmail(@RequestBody EmailVO emailVO) {
+        return emailService.sendSimpleMail(emailVO);
     }
 
     @ApiOperation(value = "发送一份带附件的邮件")
     @PostMapping("file")
-    public Resp sendFileEmail(@RequestBody EmailDTO emailDTO) {
-        return emailService.sendFileMail(emailDTO);
+    public Resp sendFileEmail(@RequestBody EmailVO emailVO) {
+        return emailService.sendFileMail(emailVO);
     }
 
 }

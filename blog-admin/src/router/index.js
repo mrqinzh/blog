@@ -40,6 +40,7 @@ export const constantRoutes = [
       { path: '/category', name: 'Article', component: () => import('@/views/web/Article') },
       { path: '/about', name: 'About', component: () => import('@/views/web/About') },
       { path: '/detail/:articleId', name: 'Detail', component: () => import('@/views/web/Detail') },
+      { path: '/message', name: 'Message', component: () => import('@/views/web/Message') },
     ],
     hidden: true
   },

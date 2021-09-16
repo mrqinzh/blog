@@ -45,7 +45,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Resp update(UserVO userVO, String token) {
 
-        User sysUser = (User) redisUtil.get(token);
+        User sysUser = (User) redisUtil.get(token); // 当前登录的用户
+
+        User user = new User();
 
         if (userVO.getUserPwd() != null && userVO.getNewPass() != null) {
             // 修改密码操作
@@ -53,15 +55,14 @@ public class UserServiceImpl implements UserService {
                 throw new BizException(AppStatus.BAD_REQUEST, "原密码发生了错误。。。");
             }
             // Todo 此处可以对密码进行加密。。。
-            sysUser.setUserPwd(userVO.getNewPass()); // 设置新密码
+            user.setUserPwd(userVO.getNewPass()); // 设置新密码
         } else {
             // 避免前端传入密码脏数据，导致BeanUtils.copyProperties 复制脏密码，导致修改了原密码
             userVO.setUserPwd(null);
-
-            BeanUtils.copyProperties(userVO, sysUser); // 更改基础信息
+            BeanUtils.copyProperties(userVO, user); // 更改基础信息
         }
 
-        userMapper.update(sysUser);
+        userMapper.update(user);
 
         // 删除缓存，需要前端重新登录
         redisUtil.del(token);

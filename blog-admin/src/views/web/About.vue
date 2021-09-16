@@ -1,6 +1,5 @@
 <template>
   <div id="about" class="animate__animated animate__fadeIn">
-
     <div class="content">
       <el-avatar :src="user.avatar" :size="100" style="display: inline-block;"></el-avatar>
       <div>
@@ -38,6 +37,7 @@ export default {
 
 <style lang="scss" scoped>
   #about .content {
+    position: relative;
     width: 60%;
     height: 100%;
     margin: 30px auto;

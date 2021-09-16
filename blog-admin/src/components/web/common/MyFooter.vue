@@ -35,6 +35,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
   .myfooter {
     position: relative;
     width: 100%;

@@ -6,6 +6,7 @@
         <a-icon type="rocket" />
       </el-tooltip>
     </el-backtop>
+    
     <router-view />
   </div>
 </template>
@@ -17,6 +18,7 @@ export default {
 </script>
 
 <style>
+
   /* 侧边滚动栏 */
   ::-webkit-scrollbar {
     width: 10px;

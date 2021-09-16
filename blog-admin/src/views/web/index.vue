@@ -4,7 +4,7 @@
     <MyHeader></MyHeader>
     
     <!-- 页面主区域 -->
-    <el-main style="min-height: 700px">
+    <el-main class="web-main">
       <router-view />
     </el-main>
 
@@ -23,3 +23,9 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+  .web-main {
+    min-height: 700px;
+  }
+</style>

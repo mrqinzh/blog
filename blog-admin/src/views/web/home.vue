@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="web-home">
     <!-- 抽屉 -->
   <el-drawer
     :visible.sync="drawer"

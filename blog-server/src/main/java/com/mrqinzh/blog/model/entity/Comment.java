@@ -30,6 +30,8 @@ public class Comment implements Serializable {
     private Article article;
 
     private Integer parentId;
+
+
     private List<Comment> comments;
 
 }

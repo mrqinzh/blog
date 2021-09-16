@@ -37,7 +37,6 @@ public class CommentServiceImpl implements CommentService {
         User user = (User) redisUtil.get(token);
         comment.setUserId(user.getId());
 
-        System.out.println("comment = " + comment);
         commentMapper.add(comment);
         return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }

@@ -308,14 +308,7 @@ export default {
     table td:last-child {
       margin-bottom: 0;
     }
-    img {
-      width: 100%;
-      height: 100%;
-      transition: all 0.5s linear;
-      &:hover {
-        transform: scale(1.5);
-      }
-    }
+    
 
   }
   pre.hljs {

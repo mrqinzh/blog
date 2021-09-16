@@ -54,19 +54,22 @@
         <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="16">
           <div class="animate__animated animate__fadeInLeft">
             <div class="blog-card" v-for="(item, index) in articles" :key="index">
-              <blockquote class="boxchilde">
-                <a><router-link :to="{name: 'Detail', params: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a>
-              </blockquote>
-              <div style="margin-left: 20px;">
-                  <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
-                  <a-tag color="#f50" v-else>转载</a-tag>
-                  <i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.articleAuthor}}</a>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <i class="el-icon-date"></i>&nbsp;&nbsp;<a>{{item.articleUpdateTime}}</a>
+              <div class="article-content">
+                <blockquote class="boxchilde">
+                  <a><router-link :to="{name: 'Detail', params: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a>
+                </blockquote>
+                <div style="margin-left: 20px;">
+                    <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
+                    <a-tag color="#f50" v-else>转载</a-tag>
+                    <i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.articleAuthor}}</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="el-icon-date"></i>&nbsp;&nbsp;<a>{{item.articleUpdateTime}}</a>
+                </div>
+                <div class="summary">
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.articleSummary }}。。。</span>
+                </div>
               </div>
-              <div class="content">
-                &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.articleSummary }}。。。</span>
-              </div>
+              <img src="../../assets/img/hutao.jpg" alt="" class="artile-cover-img">
               <div class="foot">
                 <span v-for="(tag, index) in item.articleTag.split(',')" :key="index">
                   <a-icon type="tag" />&nbsp;&nbsp;&nbsp;&nbsp;<a>{{tag}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -225,19 +228,50 @@ import { list } from '@/api/article'
 </script>
 
 <style lang="scss" scoped>
+  
   /* 中间博客卡片 */
   .blog-card {
     margin: 30px auto;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in;
     background-color: white;
-    .content {
-      margin: 5px 20px;
-      font-size: 14px;
-      line-height: 1.7em;
-      height: 50px;
-      overflow: hidden;
+    .article-content {
+      display: inline-block;
+      width: 70%;
+      /* 中间文章内容的title动画 */
+      .boxchilde {
+        font-size: 20px;
+        margin: 10px 0 7px 20px;
+        display: inline-block;
+        a {
+          display: inline-block;
+          transition: all 0.4s ease-in;
+          &:hover {
+            cursor: pointer;
+            transform: translate(10px,0);
+          }
+        }
+      }
+      .summary {
+        margin: 5px 20px;
+        font-size: 14px;
+        line-height: 1.7em;
+        height: 70px;
+        overflow: hidden;
+        .article-content {
+          display: inline-block;
+          width: 80%;
+        }
+        
+      }
     }
+    .artile-cover-img {
+      float: right;
+      padding: 40px 10px 0 0;
+      width: 30%;
+      
+    }
+    
     .foot {
       padding: 0px 0px 5px 15px;
       font-size: 15px;
@@ -276,21 +310,6 @@ import { list } from '@/api/article'
     &:hover {
       transform: translate(0,-10px);
       box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
-    }
-  }
-
-  /* 中间文章内容的title动画 */
-  .boxchilde {
-    font-size: 20px;
-    margin: 10px 0 7px 20px;
-    display: inline-block;
-    a {
-      display: inline-block;
-      transition: all 0.4s ease-in;
-      &:hover {
-        cursor: pointer;
-        transform: translate(10px,0);
-      }
     }
   }
 

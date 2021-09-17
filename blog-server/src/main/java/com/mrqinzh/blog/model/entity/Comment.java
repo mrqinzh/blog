@@ -16,6 +16,10 @@ public class Comment implements Serializable {
 
     private Integer id;
 
+    private String avatar;
+
+    private String nickname;
+
     private String commentContent;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -24,9 +28,6 @@ public class Comment implements Serializable {
     private String ip;
 
     private Integer status;
-
-    private Integer userId;
-    private User user;
 
     private Integer articleId;
     private Article article;

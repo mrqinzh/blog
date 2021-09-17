@@ -6,16 +6,13 @@
 
     <resultMap id="baseMap" type="Comment">
         <id property="id" column="id" />
-        <result property="userId" column="user_id" />
+        <result property="avatar" column="avatar" />
+        <result property="nickname" column="nickname" />
         <result property="articleId" column="article_id" />
         <result property="commentContent" column="comment_content" />
         <result property="commentTime" column="comment_time" />
         <result property="parentId" column="parent_id" />
         <result property="ip" column="ip" />
-        <association property="user" javaType="User">
-            <result property="userNickname" column="user_nickname" />
-            <result property="userAvatar" column="user_avatar" />
-        </association>
         <association property="article" javaType="Article">
             <result property="articleTitle" column="article_title" />
         </association>
@@ -23,16 +20,18 @@
 
     <insert id="add" parameterType="Comment">
         INSERT INTO `comment` (
+            avatar,
+            nickname,
             comment_content,
-            user_id,
             article_id,
             parent_id,
             ip
         )
         VALUES
             (
+                #{avatar},
+                #{nickname},
                 #{commentContent},
-                #{userId},
                 #{articleId},
                 #{parentId},
                 #{ip}
@@ -44,15 +43,11 @@
             *
         FROM
             `comment` c
-        LEFT JOIN `user` u ON c.user_id = u.id
         LEFT JOIN article a ON a.id = c.article_id
         WHERE
             1 = 1
         <if test=" idType == 'commentId'">
             and id = #{id}
-        </if>
-        <if test=" idType == 'userId'">
-            and user_id = #{id}
         </if>
         <if test=" idType == 'articleId'">
             and article_id = #{id}
@@ -60,14 +55,11 @@
     </select>
 
     <delete id="deleteById">
-        DELETE FROM comment
+        DELETE FROM `comment`
         WHERE
             1 = 1
         <if test=" idType == 'commentId'">
             and id = #{id}
-        </if>
-        <if test=" idType == 'userId'">
-            and user_id = #{id}
         </if>
         <if test=" idType == 'articleId'">
             and article_id = #{id}

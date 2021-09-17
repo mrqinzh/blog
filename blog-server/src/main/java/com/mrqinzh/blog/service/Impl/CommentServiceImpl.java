@@ -31,7 +31,18 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public Resp add(Comment comment) {
-        comment.setIp(WebUtil.getClientIp(WebUtil.getRequest()));
+        String ip = WebUtil.getClientIp(WebUtil.getRequest());
+        // 先根据 ip || 昵称 查询当前用户是否已经评论过
+        List<Comment> commentsByIp = commentMapper.getByIpOrNickname(ip, comment.getNickname());
+        String avatar;
+        if (commentsByIp.size() > 0) {
+            avatar = commentsByIp.get(0).getAvatar();
+        } else {
+            avatar = "http://mrqinzh.info:9090/img/random-avatars/" + "avatar" + (int)Math.floor((Math.random() * 10) + 1) + ".png";
+        }
+
+        comment.setAvatar(avatar);
+        comment.setIp(ip);
 
         commentMapper.add(comment);
         return Resp.sendMsg(AppStatus.INSERT_SUCCESS);

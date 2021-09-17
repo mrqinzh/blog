@@ -16,6 +16,9 @@ public interface CommentMapper {
 
     Boolean add(Comment comment);
 
+    @Select("select * from comment where ip = #{ip} or nickname = #{nickname}")
+    List<Comment> getByIpOrNickname(String ip, String nickname);
+
     /**
      * 根据id 查询评论信息
      * @param idType id类型： userId、articleId、commentId

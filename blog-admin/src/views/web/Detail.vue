@@ -27,54 +27,55 @@
 
           <!-- 底部评论区域 -->
           <div class="page-comment">
-            <el-input
-              type="textarea"
-              placeholder="请输入内容"
-              maxlength="100"
-              show-word-limit
-              :rows="5"
-              v-model="commentContent"
-              >
-            </el-input>
-            <el-button style="margin: 20px 0 0 80%" @click="addComment(0)" type="primary" icon="el-icon-edit" size="small">发表评论</el-button>
+            <div class="write-comment">
+              <el-input
+                type="textarea"
+                placeholder="这里是要输入你的评论内容哦。^_^"
+                maxlength="100"
+                show-word-limit
+                :rows="5"
+                v-model="commentContent"
+                >
+              </el-input>
+              <el-input v-model="nickname" placeholder="请输入你霸气的昵称。。。>_>" suffix-icon="el-icon-user"></el-input>
+              <el-button @click="addComment(0)" type="primary" icon="el-icon-edit" size="small">发表评论</el-button>
+            </div>
             <blockquote>
               <h2>所有评论</h2>
             </blockquote>
-            <div v-loading="loading2">
-              <div v-for="(item, index) in comments" :key="index">
-                <div style="display: inline-block;">
-                  <el-avatar :src="item.user.userAvatar"></el-avatar>
-                  <span class="name-text">{{ item.user.userNickname}}</span>
-                  <span style="font-size: 12px;margin-left: 50px;color: #909399">评论时间： {{ item.commentTime}}</span>
-                </div>
-                
-                <div style="color: #303133">
-                  <i class="el-icon-chat-dot-round"></i>：{{ item.commentContent}}. . .
-                  <el-link @click="flag=index" type="primary" icon="el-icon-edit" :underline="false">回复</el-link>
-                </div>
-
-                <!-- 点击显示回复框 -->
-                <div v-show="flag===index" style="margin: 20px">
-                  <el-input v-model="replyContent" placeholder="请输入内容"></el-input>
-                  <el-button style="margin: 10px 0 0 85%" @click="addComment(item.id);">确定</el-button>
-                </div>
-
-                <!-- 子评论区域 -->
-                <div class="child-comment">
-                  <blockquote>
-                    <div style="margin: 20px" v-for="(child, child_index) in item.comments" :key="child_index">
-                      <el-avatar :src="child.user.userAvatar"></el-avatar>
-                      <span class="name-text">{{ child.user.userNickname }}</span>
-                      <span style="font-size: 12px;margin-left: 50%;">评论时间： {{ child.commentTime }}</span>
-                      <p>
-                        <i class="el-icon-chat-dot-round"></i>：{{ child.commentContent }}
-                      </p>
-                    </div>
-                  </blockquote>
-                </div>
+            <div v-for="(item, index) in comments" :key="index">
+              <div style="display: inline-block;">
+                <el-avatar :src="item.avatar"></el-avatar>
+                <span class="name-text">{{ item.nickname}}</span>
+                <span style="font-size: 12px;margin-left: 50px;color: #909399">评论时间： {{ item.commentTime}}</span>
               </div>
               
+              <div style="color: #303133">
+                <i class="el-icon-chat-dot-round"></i>：{{ item.commentContent}}. . .
+                <el-link @click="flag=index" type="primary" icon="el-icon-edit" :underline="false">回复</el-link>
+              </div>
+
+              <!-- 点击显示回复框 -->
+              <div v-show="flag===index" style="margin: 20px">
+                <el-input v-model="replyContent" placeholder="想想你要回复些啥。^_^"></el-input>
+                <el-button style="margin: 10px 0 0 85%" @click="addComment(item.id);">确定</el-button>
+              </div>
+
+              <!-- 子评论区域 -->
+              <div class="child-comment">
+                <blockquote>
+                  <div style="margin: 20px" v-for="(child, child_index) in item.comments" :key="child_index">
+                    <el-avatar :src="child.avatar"></el-avatar>
+                    <span class="name-text">{{ child.nickname }}</span>
+                    <span style="font-size: 12px;margin-left: 50%;">评论时间： {{ child.commentTime }}</span>
+                    <p>
+                      <i class="el-icon-chat-dot-round"></i>：{{ child.commentContent }}
+                    </p>
+                  </div>
+                </blockquote>
+              </div>
             </div>
+              
 
           </div>
         </div>
@@ -134,19 +135,18 @@ export default {
   name: 'Detail',
   data() {
     return {
-      // 评论内容和回复内容
-      commentContent: '',
-      replyContent: '',
-
       // 文章正文部分
       article: {},
       content: '',
       loading: true,
-      loading2: false,
 
       // 评论区域相关信息
+      nickname: '',
       comments: [],
       currentArticleId: '',
+      // 评论内容和回复内容
+      commentContent: '',
+      replyContent: '',
 
       flag: '', // 显示回复框的标志位
 
@@ -160,8 +160,8 @@ export default {
         // console.log(resp);
         this.content = md.render(resp.data.articleContentMd);
         this.article = resp.data;
-        this.loading = false;
       })
+        this.loading = false;
     },
     // 加载评论内容
     loadComments() {
@@ -173,6 +173,11 @@ export default {
     // 提交评论内容
     addComment(val) {
       var content = "";
+      if (this.nickname === '') {
+        this.$message.error('你还没有输入昵称哦 => `_`');
+        return;
+      }
+
       if(val === 0){
         if(this.commentContent === ''){
           this.$message.warning('你评论了个寂寞 => `_`');
@@ -187,6 +192,7 @@ export default {
         content = this.replyContent
       }
       let params = {
+        nickname: this.nickname,
         parentId: val,
         commentContent: content,
         articleId: this.currentArticleId
@@ -199,17 +205,6 @@ export default {
         this.$message.success(resp.msg);
         this.flag = '';
       })
-    },
-
-    // 给图片添加点击事件
-    initImgClick() {
-      var imgArr = document.getElementsByTagName('img');
-      for(let i=0;i<imgArr.length;i++) {
-        imgArr[i].setAttribute('onclick', 'clickEvent()')
-      }
-    },
-    clickEvent() {
-      console.log('img click');
     }
     
   },
@@ -217,7 +212,7 @@ export default {
     this.currentArticleId = this.$route.params.articleId;
     this.loadArticleInfo();
     this.loadComments();
-    this.initImgClick();
+    this.$notify({type: 'success', title: '善意的提醒', message: '在文章的下方可以进行评论哦。^_^'})
     // 添加代码块复制方法
     this.$nextTick(() => {
       this.clipboard = new Clipboard('.copy-btn')
@@ -230,6 +225,8 @@ export default {
       })
     });
   },
+
+
   destroyed () {
     this.clipboard.destroy();
   }
@@ -237,6 +234,35 @@ export default {
 </script>
 
 <style lang="scss">
+  // 底部评论区域
+  .page-comment {
+    margin: 30px;
+    line-height: 1.8em;
+    .write-comment {
+      margin: 0 auto;
+      width: 70%;
+      input {
+        margin: 10px 0;
+      }
+      button {
+        margin-left: 80%;
+      }
+    }
+    .child-comment {
+      margin-left: 10%;
+      blockquote {
+        border-left: 2px solid #409EFF;
+        background-color: #F2F6FC;
+      }
+      
+    }
+    .name-text{
+      font-size: 17px;
+      margin-left: 20px;
+      color: #303133;
+    }
+  }
+
   .article-content {
     // border: 1px solid red;
     padding: 30px;
@@ -369,25 +395,6 @@ export default {
       border: 0;
       border-radius: 2px;
       width: 40px;
-    }
-  }
-
-  // 底部评论区域
-  .page-comment {
-    margin: 30px;
-    line-height: 1.8em;
-    .child-comment {
-      margin-left: 10%;
-      blockquote {
-        border-left: 2px solid #409EFF;
-        background-color: #F2F6FC;
-      }
-      
-    }
-    .name-text{
-      font-size: 17px;
-      margin-left: 20px;
-      color: #303133;
     }
   }
 </style>

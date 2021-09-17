@@ -16,9 +16,13 @@ public class MyMessage {
 
     private Integer id;
 
+    private String avatar;
+
     private String nickname;
 
     private String content;
+
+    private String time;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;

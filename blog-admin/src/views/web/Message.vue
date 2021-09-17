@@ -5,7 +5,7 @@
     <div class="message-container">
       <h1 class="message-title">留言板</h1>
       <div class="animate__animated animate__fadeInUp message-input-wrapper">
-        <input v-if="userVo == null"
+        <input
             style="color: #1b1c1d; width: 20%"
             v-model="messageNickname"
             @click="show = true"
@@ -32,7 +32,9 @@
     </div>
     <!-- 弹幕列表 -->
     <div class="barrage-container">
-      <vue-baberrage :barrageList="barrageList">
+      <vue-baberrage 
+      :barrageList="barrageList"
+      :loop="true">
         <template v-slot:default="slotProps">
           <span class="barrage-items">
             <img
@@ -42,7 +44,7 @@
                 style="border-radius:50%"
             />
             <span class="ml-2">{{ slotProps.item.nickname }} :</span>
-            <span class="ml-2">{{ slotProps.item.messageContent }}</span>
+            <span class="ml-2">{{ slotProps.item.content }}</span>
           </span>
         </template>
       </vue-baberrage>
@@ -51,10 +53,10 @@
 </template>
 
 <script>
-import { list } from '@/api/my-message'
+import { list, add } from '@/api/my-message'
 import Vue from 'vue'
 // import VueParticles from 'vue-particles' 
-import { vueBaberrage } from 'vue-baberrage'
+import { vueBaberrage, MESSAGE_TYPE } from 'vue-baberrage'
 
 // Vue.use(VueParticles)  
 Vue.use(vueBaberrage)
@@ -69,7 +71,6 @@ export default {
       messageContent: "",
       barrageList: [],
       avatar: '',
-      userVo: null
     }
   },
   methods: {
@@ -82,34 +83,30 @@ export default {
         this.$message.error("留言不能为空")
         return false;
       }
-        //如果本地有用户数据则使用本地用户头像
-        //否则随机赋予头像(本地存放了30个头像)
-      if (this.userVo != null){
-        this.avatar = this.userVo.avatar
-      } else {
-        this.avatar = "http://mrqinzh.info:9090/img/avatar.jpg"
-        // this.avatar = "/images/commentAvatar/" + "avatar" +Math.floor((Math.random() * 30) + 1) + ".png"
-      }
+      //随机赋予头像(本地存放了30个头像)
+      this.avatar = "http://mrqinzh.info:9090/img/random-avatars/" + "avatar" +Math.floor((Math.random() * 10) + 1) + ".png"
 
       var message = {
           avatar: this.avatar,
           nickname: this.messageNickname,
-          messageContent: this.messageContent,
-          time: Math.floor(Math.random() * (10 - 7)) + 7,
-          userVo: this.userVo
+          content: this.messageContent,
+          time: Math.floor(Math.random() * (10 - 7)) + 8,
       };
       this.barrageList.push(message);
       this.messageContent = "";
 
-      // this.$axios.post('http://localhost:8181/tbMessage', message)
+      add(message).then(resp => {
+        // console.log(resp)        
+      })
+
     },
 
     // 加载弹幕消息
     listMessage() {
       list().then(resp => {
-        console.log(resp)
+        // console.log(resp)
         // this.barrageList = resp.data;
-        this.barrageList = JSON.parse(JSON.stringify(resp.data)) 
+        this.barrageList = JSON.parse(JSON.stringify(resp.data));
       })
     }
   },

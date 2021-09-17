@@ -11,7 +11,12 @@ import java.util.List;
 @Mapper
 public interface MyMessageMapper {
 
+    @Select("select count(*) from t_message")
+    Integer messageCount();
+
     @Select("select * from t_message")
     List<MyMessage> list();
+
+    Boolean add(MyMessage message);
 
 }

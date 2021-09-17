@@ -5,10 +5,12 @@ import lombok.Data;
 @Data
 public class MessageVO {
 
-    private String userName;
+    private String avatar;
 
-    private String userAvatar;
+    private String nickname;
 
     private String content;
+
+    private String ip;
 
 }

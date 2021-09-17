@@ -30,7 +30,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/user/logout", "/user/add", "/user/update", "/user/info")
                 .addPathPatterns("/file/**")
                 .addPathPatterns("/article/add", "/article/update")
-                .addPathPatterns("/comment/add")
                 .addPathPatterns("/tag/add");
     }
 }

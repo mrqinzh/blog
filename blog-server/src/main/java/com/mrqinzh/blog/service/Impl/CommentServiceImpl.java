@@ -8,6 +8,7 @@ import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.CommentService;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.vo.resp.Resp;
+import com.mrqinzh.blog.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +22,6 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private CommentMapper commentMapper;
 
-    @Autowired
-    private RedisUtil redisUtil;
-
     @Override
     public Resp list() {
         List<Comment> comments = commentMapper.list();
@@ -32,10 +30,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public Resp add(Comment comment, String token) {
-        // Todo userId从redis中获取，articleId通过前端传入，parentId前端传入 0：父评论      !=0：表示对应commentId的值
-        User user = (User) redisUtil.get(token);
-        comment.setUserId(user.getId());
+    public Resp add(Comment comment) {
+        comment.setIp(WebUtil.getClientIp(WebUtil.getRequest()));
 
         commentMapper.add(comment);
         return Resp.sendMsg(AppStatus.INSERT_SUCCESS);

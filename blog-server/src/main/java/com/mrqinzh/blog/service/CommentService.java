@@ -10,7 +10,7 @@ public interface CommentService {
 
     Resp list();
 
-    Resp add(Comment comment, String token);
+    Resp add(Comment comment);
 
     Resp getById(String idType, Integer id);
 

@@ -17,10 +17,10 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @ApiOperation(value = "添加一条评论")
+    @ApiOperation(value = "添加一条评论，任何人均可添加")
     @PostMapping("add")
-    public Resp add(@RequestBody Comment comment, @RequestHeader("token") String token) {
-        return commentService.add(comment, token);
+    public Resp add(@RequestBody Comment comment) {
+        return commentService.add(comment);
     }
 
     /**

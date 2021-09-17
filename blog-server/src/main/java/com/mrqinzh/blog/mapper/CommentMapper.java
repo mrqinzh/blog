@@ -18,7 +18,7 @@ public interface CommentMapper {
 
     /**
      * 根据id 查询评论信息
-     * @param idType id类型： userId、articleId
+     * @param idType id类型： userId、articleId、commentId
      * @param id id值
      */
     List<Comment> getById(String idType, Integer id);

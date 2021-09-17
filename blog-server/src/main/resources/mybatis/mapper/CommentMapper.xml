@@ -11,6 +11,7 @@
         <result property="commentContent" column="comment_content" />
         <result property="commentTime" column="comment_time" />
         <result property="parentId" column="parent_id" />
+        <result property="ip" column="ip" />
         <association property="user" javaType="User">
             <result property="userNickname" column="user_nickname" />
             <result property="userAvatar" column="user_avatar" />
@@ -25,14 +26,16 @@
             comment_content,
             user_id,
             article_id,
-            parent_id
+            parent_id,
+            ip
         )
         VALUES
             (
                 #{commentContent},
                 #{userId},
                 #{articleId},
-                #{parentId}
+                #{parentId},
+                #{ip}
             )
     </insert>
 
@@ -45,6 +48,9 @@
         LEFT JOIN article a ON a.id = c.article_id
         WHERE
             1 = 1
+        <if test=" idType == 'commentId'">
+            and id = #{id}
+        </if>
         <if test=" idType == 'userId'">
             and user_id = #{id}
         </if>

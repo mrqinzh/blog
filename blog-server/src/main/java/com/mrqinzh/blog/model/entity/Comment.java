@@ -21,6 +21,8 @@ public class Comment implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date commentTime;
 
+    private String ip;
+
     private Integer status;
 
     private Integer userId;

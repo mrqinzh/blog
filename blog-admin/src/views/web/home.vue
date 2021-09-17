@@ -54,29 +54,32 @@
         <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="16">
           <div class="animate__animated animate__fadeInLeft">
             <div class="blog-card" v-for="(item, index) in articles" :key="index">
-              <div class="article-content">
-                <blockquote class="boxchilde">
-                  <a><router-link :to="{name: 'Detail', params: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a>
-                </blockquote>
-                <div style="margin-left: 20px;">
-                    <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
-                    <a-tag color="#f50" v-else>转载</a-tag>
-                    <i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.articleAuthor}}</a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <i class="el-icon-date"></i>&nbsp;&nbsp;<a>{{item.articleUpdateTime}}</a>
+              <div style="height: 150px;">
+                <div class="article-content">
+                  <blockquote class="boxchilde">
+                    <a><router-link :to="{name: 'Detail', params: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a>
+                  </blockquote>
+                  <div style="margin-left: 20px;">
+                      <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
+                      <a-tag color="#f50" v-else>转载</a-tag>
+                      <i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.articleAuthor}}</a>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <i class="el-icon-date"></i>&nbsp;&nbsp;<a>{{item.articleUpdateTime}}</a>
+                  </div>
+                  <div class="summary">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.articleSummary }}。。。</span>
+                  </div>
                 </div>
-                <div class="summary">
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.articleSummary }}。。。</span>
-                </div>
+                <!-- <img src="../../assets/img/hutao.jpg" alt="" class="artile-cover-img"> -->
+                <img :src="item.articleCoverImg" alt="" class="artile-cover-img">
               </div>
-              <img src="../../assets/img/hutao.jpg" alt="" class="artile-cover-img">
               <div class="foot">
                 <span v-for="(tag, index) in item.articleTag.split(',')" :key="index">
                   <a-icon type="tag" />&nbsp;&nbsp;&nbsp;&nbsp;<a>{{tag}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                 </span>
                 <span style="float: right;margin: 0 20px 10px 0;color: red;">
                     <a-icon type="like" @click="$message.success('谢谢你de支持 -> ^_^')"/>
-                    <a-icon type="eye" />
+                    <a-icon type="eye" style="margin: 9px 3px 0 10px;" />
                     <span>{{ item.articleViews }}</span>
                 </span>
               </div>
@@ -147,13 +150,14 @@ import WebInfo from '@/components/web/index/WebInfo'
 import SearchBtn from '@/components/web/index/SearchBtn'
 
 import { list } from '@/api/article'
+
   export default {
     components: {
       'LinkCard': LinkCard,
       'SearchBtn': SearchBtn,
       'WebInfo': WebInfo,
       'Notice': Notice,
-      'Tag': Tag,
+      'Tag': Tag
     },
     data() {
       return {
@@ -190,6 +194,7 @@ import { list } from '@/api/article'
       // 加载博客
       loadBlogs() {
         list(this.currentPage, this.pageSize, this.condition).then(resp => {
+          // console.log(resp);
           this.articles = resp.data.rows;
           this.totalCount = resp.data.totalCount; //获取数据行数
           this.loading = false;
@@ -237,7 +242,7 @@ import { list } from '@/api/article'
     background-color: white;
     .article-content {
       display: inline-block;
-      width: 70%;
+      width: 80%;
       /* 中间文章内容的title动画 */
       .boxchilde {
         font-size: 20px;
@@ -260,16 +265,15 @@ import { list } from '@/api/article'
         overflow: hidden;
         .article-content {
           display: inline-block;
-          width: 80%;
         }
         
       }
     }
     .artile-cover-img {
       float: right;
-      padding: 40px 10px 0 0;
-      width: 30%;
-      
+      margin: 20px 20px 0 0;
+      width: 115px;
+      height: 130px;
     }
     
     .foot {

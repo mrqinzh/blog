@@ -14,6 +14,9 @@ public interface MyMessageMapper {
     @Select("select count(*) from t_message")
     Integer messageCount();
 
+    @Select("select * from t_message where ip = #{ip}")
+    List<MyMessage> getByIp(String ip);
+
     @Select("select * from t_message")
     List<MyMessage> list();
 

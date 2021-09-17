@@ -23,7 +23,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public Resp page(PageVO pageVO) {
         PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
-        List<Tag> tags = tagMapper.page();
+        List<Tag> tags = tagMapper.page(pageVO);
 
         return PageResp.ok(tags);
     }
@@ -44,5 +44,11 @@ public class TagServiceImpl implements TagService {
     public Resp delete(Integer id) {
         tagMapper.delete(id);
         return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
+    }
+
+    @Override
+    public Resp getById(Integer id) {
+        Tag tag = tagMapper.getById(id);
+        return DataResp.ok(tag);
     }
 }

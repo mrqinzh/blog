@@ -5,7 +5,7 @@
         <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList(dataForm.key)">查询</el-button>
+        <el-button @click="findByType(dataForm.key)">查询</el-button>
         <router-link to="./add" style="margin: 0px 10px;"><el-button type="primary">新增</el-button></router-link>
       </el-form-item>
     </el-form>
@@ -116,6 +116,14 @@ export default {
     this.getDataList();
   },
   methods: {
+    // 根据条件查找文章
+    findByType(val) {
+      // console.log(val);
+      this.currentPage = 1;
+      this.pageSize = 10;
+      this.condition = val;
+      this.getDataList()
+    },
     // 获取数据列表
     getDataList() {
       this.dataListLoading = true;

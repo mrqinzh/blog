@@ -11,6 +11,7 @@
         <result property="articleAuthor" column="article_author" />
         <result property="articleTitle" column="article_title" />
         <result property="articleSummary" column="article_summary" />
+        <result property="articleCoverImg" column="article_cover_img" />
         <result property="articleCreateTime" column="article_create_time" />
         <result property="articleUpdateTime" column="article_update_time" />
         <result property="articleContentMd" column="article_content_md" />
@@ -31,6 +32,7 @@
         <result property="articleAuthor" column="article_author" />
         <result property="articleTitle" column="article_title" />
         <result property="articleSummary" column="article_summary" />
+        <result property="articleCoverImg" column="article_cover_img" />
         <result property="articleCreateTime" column="article_create_time" />
         <result property="articleUpdateTime" column="article_update_time" />
 
@@ -74,8 +76,8 @@
             article_author,
             article_title,
             article_summary,
+            article_cover_img
             article_update_time,
-            article_create_time,
             article_content_md,
             article_tag,
             article_type,
@@ -86,8 +88,8 @@
                 #{articleAuthor},
                 #{articleTitle},
                 #{articleSummary},
+                #{articleCoverImg}
                 #{articleUpdateTime},
-                #{articleCreateTime},
                 #{articleContentMd},
                 #{articleTag},
                 #{articleType},
@@ -95,12 +97,13 @@
             )
     </insert>
 
-    <update id="update" parameterType="Article" flushCache="true">
+    <update id="update" parameterType="Article">
         UPDATE
             article
         <trim prefix="set" suffixOverrides=",">
             <if test="articleTitle != null">article_title = #{articleTitle}, </if>
             <if test="articleSummary != null">article_summary = #{articleSummary}, </if>
+            <if test="articleCoverImg != null">article_cover_img = #{articleCoverImg}, </if>
             <if test="articleUpdateTime != null">article_update_time = #{articleUpdateTime}, </if>
             <if test="articleContentMd != null">article_content_md = #{articleContentMd}, </if>
             <if test="articleViews != null">article_views = #{articleViews}, </if>

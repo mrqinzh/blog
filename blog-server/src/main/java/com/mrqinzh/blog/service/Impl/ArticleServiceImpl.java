@@ -60,18 +60,16 @@ public class ArticleServiceImpl implements ArticleService {
 
         User user = (User) redisUtil.get(token);
 
-        article.setUserId(user.getId()).setArticleAuthor("秦志宏");
-
         // 获取文章摘要，截取内容的前100
         article.setArticleSummary(subSummary(article.getArticleSummary()));
 
-        // 初始化文章的固定信息
         Date date = new Date();
-        article.setArticleCreateTime(date).setArticleUpdateTime(date);
+        // 初始化文章的固定信息
+        article.setUserId(user.getId())
+                .setArticleAuthor("秦志宏")
+                .setArticleUpdateTime(date);
 
-        if (!articleMapper.add(article)) {
-            throw new BizException(AppStatus.INSERT_FAILED);
-        }
+        articleMapper.add(article);
 
         logger.info("新增文章了。。。 => ");
         return DataResp.ok(article.getId());
@@ -92,9 +90,8 @@ public class ArticleServiceImpl implements ArticleService {
         // 获取文章摘要，截取内容的前100
         article.setArticleSummary(subSummary(article.getArticleSummary()));
 
-        if (!articleMapper.update(article)) {
-            throw new BizException(AppStatus.UPDATE_FAILED);
-        }
+        articleMapper.update(article);
+
         return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }
 
@@ -109,6 +106,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
+
+    /**
+     * 截取文章摘要
+     * @param articleSummary
+     * @return
+     */
     public String subSummary(String articleSummary) {
         String summary = stripHtml(articleSummary);
         return summary.length() > 100 ? summary.substring(0, 100) : summary;

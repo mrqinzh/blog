@@ -3,9 +3,18 @@
     :title="!dataForm.commentId ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible">
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-form :model="dataForm" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
     <el-form-item label="标签名称" prop="tagName">
       <el-input v-model="dataForm.tagName" placeholder="标签名称"></el-input>
+    </el-form-item>
+    <el-form-item label="标签图" prop="tagName">
+      <el-upload
+        class="tag-uploader"
+        action=""
+        :show-file-list="false">
+        <img v-if="dataForm.tagImg" :src="dataForm.tagImg" class="tag">
+        <i v-else class="el-icon-plus tag-uploader-icon"></i>
+      </el-upload>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -16,74 +25,66 @@
 </template>
 
 <script>
+import { getById } from '@/api/tag'
   export default {
     data () {
       return {
         visible: false,
         dataForm: {
           tagName: '',
-        },
-        dataRule: {
-          tagName: [
-            { required: true, message: '标签名称不能为空', trigger: 'blur' }
-          ],
+          tagImg: '',
         }
       }
     },
     methods: {
       init (id) {
-        this.dataForm.commentId = id || 0
+        this.dataForm.id = id || 0
         this.visible = true
         this.$nextTick(() => {
           this.$refs['dataForm'].resetFields()
-          if (this.dataForm.commentId) {
-            this.$http({
-              url: this.$http.adornUrl(`/movie/comment/info/${this.dataForm.commentId}`),
-              method: 'get',
-              params: this.$http.adornParams()
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.dataForm.userId = data.comment.userId
-                this.dataForm.commentContent = data.comment.commentContent
-                this.dataForm.movieId = data.comment.movieId
-                this.dataForm.commentTime = data.comment.commentTime
-              }
+          if (this.dataForm.id) {
+            getById(id).then(resp => {
+              // console.log(resp);
+              this.dataForm.tagName = resp.data.tagName;
+              this.dataForm.tagImg = resp.data.tagImg;
             })
           }
         })
       },
       // 表单提交
       dataFormSubmit () {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            this.$http({
-              url: this.$http.adornUrl(`/movie/comment/${!this.dataForm.commentId ? 'save' : 'update'}`),
-              method: 'post',
-              data: this.$http.adornData({
-                'commentId': this.dataForm.commentId || undefined,
-                'userId': this.dataForm.userId,
-                'commentContent': this.dataForm.commentContent,
-                'movieId': this.dataForm.movieId,
-                'commentTime': this.dataForm.commentTime
-              })
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.$message({
-                  message: '操作成功',
-                  type: 'success',
-                  duration: 1500,
-                  onClose: () => {
-                    this.visible = false
-                    this.$emit('refreshDataList')
-                  }
-                })
-              } else {
-                this.$message.error(data.msg)
-              }
-            })
-          }
-        })
+        
       }
     }
   }
 </script>
+
+<style lang="scss" scoped>
+
+.tag-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    border-color: #409EFF;
+  }
+}
+
+.tag-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+
+.tag {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
+</style>

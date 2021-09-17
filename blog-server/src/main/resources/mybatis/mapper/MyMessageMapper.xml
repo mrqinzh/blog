@@ -3,10 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mrqinzh.blog.mapper.MyMessageMapper">
+
     <cache />
 
     <insert id="add" parameterType="MyMessage">
-        insert into t_message(avatar, nickname, content, `time`,  ip) values (#{avatar}, #{nickname}, #{content}, #{time}, #{ip})
+        INSERT INTO t_message ( avatar, nickname, content, `time`, ip )
+        VALUES
+            (#{avatar}, #{nickname}, #{content}, #{time}, #{ip})
     </insert>
 
 </mapper>

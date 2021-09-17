@@ -20,4 +20,5 @@ public interface TagService {
 
     Resp delete(Integer id);
 
+    Resp getById(Integer id);
 }

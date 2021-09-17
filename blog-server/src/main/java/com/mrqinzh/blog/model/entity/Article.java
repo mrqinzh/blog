@@ -20,6 +20,8 @@ public class Article implements Serializable {
     private String articleTitle;
     private String articleSummary;
 
+    private String articleCoverImg;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date articleCreateTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")

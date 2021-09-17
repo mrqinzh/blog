@@ -17,6 +17,12 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
+    @ApiOperation(value = "根据id获取标签信息")
+    @GetMapping("{id}")
+    public Resp getById(@PathVariable Integer id) {
+        return tagService.getById(id);
+    }
+
     @ApiOperation(value = "添加标签")
     @PostMapping("add")
     public Resp add(@RequestBody Tag tag) {

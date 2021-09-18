@@ -1,8 +1,8 @@
 <template>
   <div class="animate__animated animate__fadeIn">
-    <el-container>
-      <el-header>
-        <el-input :maxlength="25" v-model="article.articleTitle" placeholder="请输入标题..." show-word-limit style="width: 400px;margin-left: 10px"></el-input>
+    <div>
+      <div>
+        <el-input :maxlength="30" v-model="article.articleTitle" placeholder="请输入标题..." show-word-limit style="width: 400px;"></el-input>
 
         <span style="margin-left: 10px;font-size: 17px">选择文章标签：</span>
         <el-tag
@@ -12,7 +12,7 @@
           :disable-transitions="false"
           @close="handleClose(tag)" style="margin-left: 10px">
           {{tag}}
-        </el-tag> 
+        </el-tag>
         <el-input
           class="input-new-tag"
           v-if="inputVisible"
@@ -30,26 +30,62 @@
           <el-option value="原创">原创</el-option>
           <el-option value="转载">转载</el-option>
         </el-select>
-        <div style="float: right;position: relative;">
+        <div style="float: right;">
           <el-button type="primary" @click="saveBlog()">保存发布</el-button>
+          <!-- <el-button type="primary" @click="showArticleForm = true">保存发布</el-button> -->
         </div>
-      </el-header>
+      </div>
 
-      <el-main>
-        <!-- markdown部分 -->
-        <div class="markdown_body">
-          <mavon-editor 
-          ref="md"
-          v-model="content"
-          @save="saveSubmit"
-          @change="change" 
-          @imgAdd="uploadImg"
-          @imgDel="imgDel"
-          :ishljs=true
-          style="min-height: 700px" />
+      <!-- markdown部分 -->
+      <div class="markdown_body">
+        <mavon-editor 
+        ref="md"
+        v-model="content"
+        @save="saveSubmit"
+        @change="change" 
+        @imgAdd="uploadImg"
+        @imgDel="imgDel"
+        :ishljs=true
+        style="min-height: 700px" />
+      </div>
+
+
+      <el-dialog title="文章发布" :visible.sync="showArticleForm">
+        <el-form :model="articleForm">
+          <el-form-item label="文章标签" label-width="120px">
+            <el-select v-model="articleForm.articleTag" multiple placeholder="请选择文章标签">
+              <el-option
+                v-for="(item, index) in tagList"
+                :key="index"
+                :label="item.tagName"
+                :value="item.tagName">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="文章类型" label-width="120px">
+            <el-radio-group v-model="articleForm.articleType">
+              <el-radio label="原创"></el-radio>
+              <el-radio label="转载"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <!-- <el-form-item label="文章封面图" label-width="120px">
+            <el-upload
+              class="avatar-uploader"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="articleForm.articleCoverImg" :src="articleForm.articleCoverImg" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item> -->
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="showArticleForm = false">取 消</el-button>
+          <el-button type="primary" @click="showArticleForm = false">确 定</el-button>
         </div>
-      </el-main>
-    </el-container>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -59,6 +95,7 @@ import 'mavon-editor/dist/css/index.css'
 import 'mavon-editor/dist/markdown/github-markdown.min.css'
 import '@/utils/hljs'
 
+import { list } from '@/api/tag'
 import { uploadFileRequest } from '@/api/file'
 import { add, getById, update } from '@/api/article'
 export default {
@@ -78,6 +115,15 @@ export default {
       dynamicTags: ['java'],
       inputVisible: false,
       inputValue: '',
+
+      // 新定义
+      tagList: [],
+      showArticleForm: false,
+      articleForm: {
+        articleTag: [],
+        articleType: '原创',
+        articleCoverImg: ''
+      },
 
       aid: '',  // 标志位，判断当前保存操作是 添加 还是修改
     }
@@ -190,6 +236,7 @@ export default {
       this.inputVisible = false;
       this.inputValue = '';
     },
+
     // 获取要更改的文章信息
     initUpdateData() {
       getById(this.aid).then(resp => {
@@ -199,10 +246,16 @@ export default {
         this.dynamicTags = resp.data.articleTag.split(",");
         this.content = resp.data.articleContentMd;
       })
+    },
+    initTags() {
+      list().then(resp => {
+        this.tagList = resp.data;
+      })
     }
   },
   mounted() {
     this.aid = this.$route.params.articleId;
+    this.initTags();
     if (this.aid) {
       this.initUpdateData();
     }
@@ -211,6 +264,9 @@ export default {
 </script>
 
 <style>
+  .markdown_body {
+    margin: 20px 0; 
+  }
   .el-tag + .el-tag {
     position: relative;
     margin-left: 10px;
@@ -229,4 +285,30 @@ export default {
     margin-left: 10px;
     vertical-align: bottom;
   } 
+
+
+
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 </style>

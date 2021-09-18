@@ -28,8 +28,8 @@ public class MyMessageServiceImpl implements MyMessageService {
     @Override
     public Resp add(MyMessage message) {
 
-        // 500,000,000
-        if (messageMapper.messageCount() > 500*1000*1000) {
+        // 5000
+        if (messageMapper.messageCount() > 5000) {
             throw new BizException(AppStatus.INSERT_FAILED, "留言数量好像超出上限了，快联系管理员处理吧。。。");
         }
 
@@ -37,7 +37,7 @@ public class MyMessageServiceImpl implements MyMessageService {
 
         // 查询从当前 ip 中的留言
         List<MyMessage> messagesByIp = messageMapper.getByIp(ip);
-        if (messagesByIp.size() > 100*1000) {
+        if (messagesByIp.size() > 1000) {
             throw new BizException(AppStatus.INSERT_FAILED, "hxd，你留言数量好像有点多啊，需要联系管理员充值一下了。。。-_-");
         }
 

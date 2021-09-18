@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CorsInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
         // 表示接受任意域名的请求,也可以指定域名
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("origin"));

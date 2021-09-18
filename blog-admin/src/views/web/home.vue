@@ -71,7 +71,7 @@
                   </div>
                 </div>
                 <!-- <img src="../../assets/img/hutao.jpg" alt="" class="artile-cover-img"> -->
-                <img :src="item.articleCoverImg" alt="" class="artile-cover-img">
+                <img :src="item.articleCoverImg" alt="" class="artile-cover-img" v-show="item.articleCoverImg">
               </div>
               <div class="foot">
                 <span v-for="(tag, index) in item.articleTag.split(',')" :key="index">
@@ -271,9 +271,9 @@ import { list } from '@/api/article'
     }
     .artile-cover-img {
       float: right;
-      margin: 20px 20px 0 0;
-      width: 115px;
-      height: 130px;
+      margin: 40px 10px 0 0;
+      width: 130px;
+      height: 100px;
     }
     
     .foot {

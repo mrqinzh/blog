@@ -19,13 +19,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation("修改用户信息")
+    @ApiOperation(value = "修改用户信息")
     @PostMapping("update")
     public Resp update(@RequestBody UserVO userVO, @RequestHeader("token") String token) {
         return userService.update(userVO, token);
     }
 
-    @ApiOperation("添加一个用户")
+    @ApiOperation(value = "添加一个用户")
     @PostMapping("add")
     public Resp add(@RequestBody User user, @RequestHeader("token") String token) {
         return userService.add(user, token);

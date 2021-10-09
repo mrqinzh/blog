@@ -1,6 +1,8 @@
 package com.mrqinzh.blog.controller;
 
 import com.mrqinzh.blog.config.WebSocketServer;
+import com.mrqinzh.blog.model.enums.AppStatus;
+import com.mrqinzh.blog.model.vo.ArticleVo;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.service.ArticleService;
@@ -11,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 @Api(tags = "文章接口")
@@ -40,8 +43,9 @@ public class ArticleController {
 
     @ApiOperation(value = "添加文章")
     @PostMapping("/add")
-    public Resp add(@RequestBody Article article, @RequestHeader("token") String token) {
-        return articleService.add(article, token);
+    public Resp add(@RequestBody @Valid ArticleVo articleVo, @RequestHeader("token") String token) {
+        articleService.add(articleVo, token);
+        return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }
 
     @ApiOperation(value = "根据 articleId 更新文章")
@@ -50,10 +54,11 @@ public class ArticleController {
         return articleService.update(article);
     }
 
-    @ApiOperation(value = "根据 articleId 删除文章")
+    @ApiOperation(value = "根据 id 删除文章")
     @DeleteMapping("/{articleId}")
     public Resp delete(@PathVariable("articleId") Integer articleId){
-        return articleService.delete(articleId);
+        articleService.delete(articleId);
+        return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
     }
 
 }

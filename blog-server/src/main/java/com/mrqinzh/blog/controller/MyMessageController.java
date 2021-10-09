@@ -1,6 +1,7 @@
 package com.mrqinzh.blog.controller;
 
 import com.mrqinzh.blog.model.entity.MyMessage;
+import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.service.MyMessageService;
@@ -29,7 +30,8 @@ public class MyMessageController {
     @ApiOperation(value = "增加留言")
     @PostMapping("add")
     public Resp add(@RequestBody MyMessage message) {
-        return messageService.add(message);
+        messageService.add(message);
+        return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }
 
 }

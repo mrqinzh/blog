@@ -1,5 +1,8 @@
 package com.mrqinzh.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,12 +12,14 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.util.Date;
 
+@TableName("article")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Accessors(chain = true) // 开启链式编程
 public class Article implements Serializable {
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     private String articleAuthor;
     private String articleTitle;

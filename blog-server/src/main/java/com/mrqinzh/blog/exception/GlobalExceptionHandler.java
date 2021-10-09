@@ -1,10 +1,15 @@
 package com.mrqinzh.blog.exception;
 
+import cn.hutool.core.util.StrUtil;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.resp.Resp;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * @author mrqinzh
@@ -23,6 +28,21 @@ public class GlobalExceptionHandler {
     public Resp bizExceptionHandler(BizException e) {
         e.printStackTrace();
         return e.sendExceptionMsg();
+    }
+
+    /**
+     * 处理参数 valid 校验异常
+     */
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public Resp handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<FieldError> fieldErrorList = e.getBindingResult().getFieldErrors();
+        for (FieldError error : fieldErrorList) {
+            stringBuilder.append(error.getField()).append("(").append(error.getDefaultMessage()).append("); ");
+        }
+        String errMsg = StrUtil.removeSuffix(stringBuilder.toString(), ";");
+        e.printStackTrace();
+        return Resp.sendMsg(AppStatus.BAD_REQUEST, errMsg);
     }
 
     /**

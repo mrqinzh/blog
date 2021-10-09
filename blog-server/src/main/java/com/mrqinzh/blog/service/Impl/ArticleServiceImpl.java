@@ -3,6 +3,8 @@ package com.mrqinzh.blog.service.Impl;
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.ArticleMapper;
+import com.mrqinzh.blog.mapper.CommentMapper;
+import com.mrqinzh.blog.model.vo.ArticleVo;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.resp.PageResp;
@@ -14,6 +16,7 @@ import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.resp.Resp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -51,23 +57,25 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Resp add(Article article, String token) {
+    public void add(ArticleVo articleVo, String token) {
 
         User user = (User) redisUtil.get(token);
 
-        // 获取文章摘要，截取内容的前100
-        article.setArticleSummary(subSummary(article.getArticleSummary()));
+        Article article = new Article();
+        BeanUtils.copyProperties(articleVo, article);
 
-        Date date = new Date();
+        Date now = new Date();
         // 初始化文章的固定信息
-        article.setUserId(user.getId())
+        article.setArticleViews(0)
+                .setUserId(user.getId())
                 .setArticleAuthor("秦志宏")
-                .setArticleUpdateTime(date);
+                .setArticleCreateTime(now)
+                .setArticleUpdateTime(now)
+                .setStatus(0);
 
-        articleMapper.add(article);
+        articleMapper.insert(article);
 
         logger.info("新增文章了。。。 => ");
-        return DataResp.ok(article.getId());
     }
 
     @Override
@@ -95,9 +103,10 @@ public class ArticleServiceImpl implements ArticleService {
      * @param articleId 文章ID
      */
     @Override
-    public Resp delete(Integer articleId) {
+    @Transactional
+    public void delete(Integer articleId) {
         articleMapper.delete(articleId);
-        return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
+        commentMapper.deleteById("articleId", articleId);
     }
 
 

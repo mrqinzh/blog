@@ -20,7 +20,7 @@ public class MyMessageServiceImpl extends ServiceImpl<MyMessageMapper, MyMessage
     private MyMessageMapper messageMapper;
 
     @Override
-    public Resp add(MyMessage message) {
+    public void add(MyMessage message) {
 
         // 5000
         if (messageMapper.messageCount() > 5000) {
@@ -39,7 +39,6 @@ public class MyMessageServiceImpl extends ServiceImpl<MyMessageMapper, MyMessage
 
         messageMapper.insert(message);
 
-        return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }
 
 

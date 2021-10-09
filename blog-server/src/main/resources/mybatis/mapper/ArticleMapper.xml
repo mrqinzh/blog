@@ -71,32 +71,6 @@
             a.id = #{articleId}
     </select>
 
-    <insert id="add" parameterType="Article" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO article (
-            article_author,
-            article_title,
-            article_summary,
-            article_cover_img
-            article_update_time,
-            article_content_md,
-            article_tag,
-            article_type,
-            user_id
-        )
-        VALUES
-            (
-                #{articleAuthor},
-                #{articleTitle},
-                #{articleSummary},
-                #{articleCoverImg}
-                #{articleUpdateTime},
-                #{articleContentMd},
-                #{articleTag},
-                #{articleType},
-                #{userId}#
-            )
-    </insert>
-
     <update id="update" parameterType="Article">
         UPDATE
             article
@@ -113,6 +87,5 @@
         WHERE
             id = #{id}
     </update>
-
 
 </mapper>

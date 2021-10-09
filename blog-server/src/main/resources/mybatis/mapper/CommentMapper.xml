@@ -54,8 +54,9 @@
         </if>
     </select>
 
-    <delete id="deleteById">
-        DELETE FROM `comment`
+    <update id="deleteById">
+        UPDATE `comment`
+        SET status = 1
         WHERE
             1 = 1
         <if test=" idType == 'commentId'">
@@ -64,6 +65,6 @@
         <if test=" idType == 'articleId'">
             and article_id = #{id}
         </if>
-    </delete>
+    </update>
 
 </mapper>

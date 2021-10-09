@@ -1,4 +1,4 @@
-package com.mrqinzh.blog.model.vo.resp;
+package com.mrqinzh.blog.model.resp;
 
 import com.mrqinzh.blog.model.enums.AppStatus;
 import io.swagger.annotations.ApiModel;

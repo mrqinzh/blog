@@ -1,11 +1,11 @@
 package com.mrqinzh.blog.service.Impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.MyMessageMapper;
 import com.mrqinzh.blog.model.entity.MyMessage;
 import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.vo.resp.DataResp;
-import com.mrqinzh.blog.model.vo.resp.Resp;
+import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.service.MyMessageService;
 import com.mrqinzh.blog.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MyMessageServiceImpl implements MyMessageService {
+public class MyMessageServiceImpl extends ServiceImpl<MyMessageMapper, MyMessage> implements MyMessageService {
 
     @Autowired
     private MyMessageMapper messageMapper;
-
-    @Override
-    public Resp list() {
-        List<MyMessage> messages = messageMapper.list();
-        return DataResp.ok(messages);
-    }
 
     @Override
     public Resp add(MyMessage message) {
@@ -43,7 +37,7 @@ public class MyMessageServiceImpl implements MyMessageService {
 
         message.setIp(ip);
 
-        messageMapper.add(message);
+        messageMapper.insert(message);
 
         return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }

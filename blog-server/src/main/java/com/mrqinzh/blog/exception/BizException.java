@@ -2,7 +2,7 @@ package com.mrqinzh.blog.exception;
 
 import com.google.common.base.Strings;
 import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.vo.resp.Resp;
+import com.mrqinzh.blog.model.resp.Resp;
 import lombok.Data;
 
 /**

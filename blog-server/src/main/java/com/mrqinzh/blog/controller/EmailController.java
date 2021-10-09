@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.model.vo.req.EmailVO;
-import com.mrqinzh.blog.model.vo.resp.Resp;
+import com.mrqinzh.blog.model.vo.EmailVO;
+import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.service.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

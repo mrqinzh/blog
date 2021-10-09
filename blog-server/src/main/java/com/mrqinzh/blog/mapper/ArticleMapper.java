@@ -1,6 +1,7 @@
 package com.mrqinzh.blog.mapper;
 
-import com.mrqinzh.blog.model.vo.req.PageVO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.entity.Article;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
-public interface ArticleMapper {
+public interface ArticleMapper extends BaseMapper<Article> {
 
     List<Article> list(PageVO pageVO); // 排序全部文章、以及分页
 

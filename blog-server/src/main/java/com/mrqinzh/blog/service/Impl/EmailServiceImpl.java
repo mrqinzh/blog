@@ -1,8 +1,8 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.model.vo.req.EmailVO;
-import com.mrqinzh.blog.model.vo.resp.Resp;
+import com.mrqinzh.blog.model.vo.EmailVO;
+import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.EmailService;
 import com.mrqinzh.blog.util.RedisUtil;

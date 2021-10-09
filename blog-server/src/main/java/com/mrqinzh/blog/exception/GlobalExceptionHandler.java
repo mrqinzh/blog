@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.exception;
 
 import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.vo.resp.Resp;
+import com.mrqinzh.blog.model.resp.Resp;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

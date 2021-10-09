@@ -1,5 +1,8 @@
 package com.mrqinzh.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -8,12 +11,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+@TableName("t_message")
 @ApiModel(value = "留言信息实体类")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class MyMessage {
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private String avatar;

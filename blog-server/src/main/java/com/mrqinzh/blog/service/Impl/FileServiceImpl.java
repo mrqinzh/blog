@@ -3,12 +3,12 @@ package com.mrqinzh.blog.service.Impl;
 import com.alibaba.fastjson.JSONObject;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.FileMapper;
-import com.mrqinzh.blog.model.vo.resp.DataResp;
+import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.entity.MyFile;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.FileService;
 import com.mrqinzh.blog.util.FileUtil;
-import com.mrqinzh.blog.model.vo.resp.Resp;
+import com.mrqinzh.blog.model.resp.Resp;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.Region;
@@ -86,7 +86,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Resp uploadToQiNiu(MultipartFile uploadFile) {
+    public String uploadToQiNiu(MultipartFile uploadFile) {
         try {
             Configuration cfg = new Configuration(Region.huadong());
             UploadManager uploadManager = new UploadManager(cfg);
@@ -114,7 +114,7 @@ public class FileServiceImpl implements FileService {
             myFile.setFilePath(url);
             fileMapper.add(myFile);
 
-            return DataResp.ok(url);
+            return url;
         } catch (Exception e) {
             throw new BizException(AppStatus.IMAGE_UPLOAD_ERROR);
         }

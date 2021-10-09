@@ -1,9 +1,9 @@
 package com.mrqinzh.blog.service;
 
-import com.mrqinzh.blog.model.vo.req.PageVO;
+import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.entity.User;
-import com.mrqinzh.blog.model.vo.req.UserVO;
-import com.mrqinzh.blog.model.vo.resp.Resp;
+import com.mrqinzh.blog.model.vo.UserVO;
+import com.mrqinzh.blog.model.resp.Resp;
 
 public interface UserService {
 

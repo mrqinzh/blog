@@ -1,4 +1,4 @@
-package com.mrqinzh.blog.model.vo.req;
+package com.mrqinzh.blog.model.vo;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

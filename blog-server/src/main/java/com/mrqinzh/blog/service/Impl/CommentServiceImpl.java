@@ -1,11 +1,11 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.mrqinzh.blog.mapper.CommentMapper;
-import com.mrqinzh.blog.model.vo.resp.DataResp;
+import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.entity.Comment;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.CommentService;
-import com.mrqinzh.blog.model.vo.resp.Resp;
+import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Resp add(Comment comment) {
         String ip = WebUtil.getClientIp(WebUtil.getRequest());
-        // 先根据 ip || 昵称 查询当前用户是否已经评论过
+        // 先根据 ip/昵称 查询当前用户是否已经进行过评论
         List<Comment> commentsByIp = commentMapper.getByIpOrNickname(ip, comment.getNickname());
         String avatar;
         if (commentsByIp.size() > 0) {

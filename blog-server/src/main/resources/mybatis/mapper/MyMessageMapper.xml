@@ -6,10 +6,4 @@
 
     <cache />
 
-    <insert id="add" parameterType="MyMessage">
-        INSERT INTO t_message ( avatar, nickname, content, `time`, ip )
-        VALUES
-            (#{avatar}, #{nickname}, #{content}, #{time}, #{ip})
-    </insert>
-
 </mapper>

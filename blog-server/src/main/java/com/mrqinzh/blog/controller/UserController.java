@@ -1,8 +1,8 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.model.vo.req.PageVO;
-import com.mrqinzh.blog.model.vo.req.UserVO;
-import com.mrqinzh.blog.model.vo.resp.Resp;
+import com.mrqinzh.blog.model.vo.PageVO;
+import com.mrqinzh.blog.model.vo.UserVO;
+import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.service.UserService;
 import io.swagger.annotations.Api;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "用户接口")
-@CrossOrigin
 @RestController
 @RequestMapping("user")
 public class UserController {

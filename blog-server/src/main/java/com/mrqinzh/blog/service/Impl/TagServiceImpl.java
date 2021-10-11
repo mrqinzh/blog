@@ -48,9 +48,4 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
     }
 
-    @Override
-    public Resp getById(Integer id) {
-        Tag tag = tagMapper.getById(id);
-        return DataResp.ok(tag);
-    }
 }

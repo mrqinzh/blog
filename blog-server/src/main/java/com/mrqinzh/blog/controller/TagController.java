@@ -24,7 +24,8 @@ public class TagController {
     @ApiOperation(value = "根据id获取标签信息")
     @GetMapping("{id}")
     public Resp getById(@PathVariable Integer id) {
-        return tagService.getById(id);
+        Tag tag = tagService.getById(id);
+        return DataResp.ok(tag);
     }
 
     @ApiOperation(value = "添加标签")

@@ -23,5 +23,4 @@ public interface TagService extends IService<Tag> {
 
     Resp delete(Integer id);
 
-    Resp getById(Integer id);
 }

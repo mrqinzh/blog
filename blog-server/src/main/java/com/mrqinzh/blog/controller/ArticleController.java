@@ -2,6 +2,7 @@ package com.mrqinzh.blog.controller;
 
 import com.mrqinzh.blog.config.WebSocketServer;
 import com.mrqinzh.blog.model.enums.AppStatus;
+import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.vo.ArticleVo;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.entity.Article;
@@ -27,7 +28,9 @@ public class ArticleController {
     @ApiOperation(value = "根据 articleId 查询文章具体信息")
     @GetMapping("/{articleId}")
     public Resp getById(@PathVariable("articleId") Integer articleId){
-        return articleService.getById(articleId);
+        Article article = articleService.getById(articleId);
+        return DataResp.ok(article);
+
     }
 
     @ApiOperation(value = "分页加载文章列表")
@@ -51,7 +54,8 @@ public class ArticleController {
     @ApiOperation(value = "根据 articleId 更新文章")
     @PostMapping("/update")
     public Resp update(@RequestBody Article article){
-        return articleService.update(article);
+        articleService.update(article);
+        return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }
 
     @ApiOperation(value = "根据 id 删除文章")

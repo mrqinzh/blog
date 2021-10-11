@@ -1,5 +1,7 @@
 package com.mrqinzh.blog.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.mapper.TagMapper;
 import com.mrqinzh.blog.model.vo.PageVO;
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TagServiceImpl implements TagService {
+public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
 
     @Autowired
     private TagMapper tagMapper;
@@ -29,15 +31,15 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Resp list() {
-        List<Tag> tags = tagMapper.list();
-        return DataResp.ok(tags);
+    public List<Tag> getByLimit() {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.last("limit 20");
+        return tagMapper.selectList(queryWrapper);
     }
 
     @Override
-    public Resp add(Tag tag) {
-        tagMapper.add(tag);
-        return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
+    public void add(Tag tag) {
+        tagMapper.insert(tag);
     }
 
     @Override

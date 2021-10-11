@@ -1,5 +1,7 @@
 package com.mrqinzh.blog.controller;
 
+import com.mrqinzh.blog.model.enums.AppStatus;
+import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.service.TagService;
@@ -8,6 +10,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(tags = "标签接口")
 @RestController
@@ -26,7 +30,9 @@ public class TagController {
     @ApiOperation(value = "添加标签")
     @PostMapping("add")
     public Resp add(@RequestBody Tag tag) {
-        return tagService.add(tag);
+        tagService.add(tag);
+        return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
+
     }
 
     @ApiOperation(value = "分页查询 tags")
@@ -38,7 +44,8 @@ public class TagController {
     @ApiOperation(value = "查询所有标签，limit 20")
     @GetMapping("list")
     public Resp list() {
-        return tagService.list();
+        List<Tag> tags = tagService.getByLimit();
+        return DataResp.ok(tags);
     }
 
     @ApiOperation(value = "根据 tagId 删除标签")

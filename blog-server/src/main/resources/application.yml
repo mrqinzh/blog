@@ -33,6 +33,7 @@ spring:
 mybatis-plus:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.mrqinzh.blog.model.entity
 
 # 七牛云配置
 oos:

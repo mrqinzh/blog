@@ -64,13 +64,13 @@ public class AesUtil {
     }
 
     public static void main(String[] args) {
-        String content = "123456";
+        String content = "1";
         System.out.println("加密前：" + content);
 
         String encrypt = encrypt(content);
         System.out.println("加密后：" + encrypt);
 
-        String decrypt = decrypt("/m1zZ7AJeYA1LgkvQSafxQ==");
+        String decrypt = decrypt("XxAZlFaazdLOIOqjWiwPQg==");
         System.out.println("解密后：" + decrypt);
     }
 }

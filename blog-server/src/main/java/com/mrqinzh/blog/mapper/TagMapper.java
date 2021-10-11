@@ -1,5 +1,6 @@
 package com.mrqinzh.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.model.vo.PageVO;
 import org.apache.ibatis.annotations.Delete;
@@ -12,15 +13,9 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface TagMapper {
+public interface TagMapper extends BaseMapper<Tag> {
 
     List<Tag> page(PageVO pageVO);
-
-    @Select("select * from tag limit 20")
-    List<Tag> list();
-
-    @Insert("insert into tag(tag_name, tag_img) values (#{tagName}, #{tagImg})")
-    Boolean add(Tag tag);
 
     @Delete("delete from tag where id = #{id}")
     Boolean delete(Integer id);

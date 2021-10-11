@@ -1,5 +1,6 @@
 package com.mrqinzh.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mrqinzh.blog.model.entity.MyFile;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
-public interface FileMapper {
+public interface FileMapper extends BaseMapper<MyFile> {
 
     Boolean add(MyFile myFile);
 

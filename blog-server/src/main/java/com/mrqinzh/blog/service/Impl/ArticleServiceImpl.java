@@ -1,12 +1,13 @@
 package com.mrqinzh.blog.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.ArticleMapper;
 import com.mrqinzh.blog.mapper.CommentMapper;
 import com.mrqinzh.blog.model.vo.ArticleVo;
 import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.resp.PageResp;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.model.entity.User;
@@ -25,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ArticleServiceImpl implements ArticleService {
+public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
@@ -47,12 +48,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Resp getById(Integer articleId) {
+    public Article getById(Integer articleId) {
         Article article = articleMapper.getById(articleId);
         // 更新浏览量
         article.setArticleViews(article.getArticleViews() + 1);
-        articleMapper.update(article);
-        return DataResp.ok(article);
+        articleMapper.updateById(article);
+
+        return article;
     }
 
     @Override
@@ -80,11 +82,16 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Resp update(Article article) {
+    public void update(Article article) {
 
         // 判断传入文章的Id是否存在
         if (article.getId() == null) {
             throw new BizException(AppStatus.BAD_REQUEST);
+        }
+
+        // 判断数据库中是否 存在
+        if (articleMapper.getById(article.getId()) == null) {
+            throw new BizException(AppStatus.BAD_REQUEST, "当前文章不存在数据库中");
         }
 
         // 设置文章的最后更新时间
@@ -93,9 +100,7 @@ public class ArticleServiceImpl implements ArticleService {
         // 获取文章摘要，截取内容的前100
         article.setArticleSummary(subSummary(article.getArticleSummary()));
 
-        articleMapper.update(article);
-
-        return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
+        articleMapper.updateById(article);
     }
 
     /**

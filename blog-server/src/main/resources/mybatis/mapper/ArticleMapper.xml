@@ -21,9 +21,9 @@
         <association property="user" javaType="User">
             <id property="id" column="id" />
             <result property="userAvatar" column="user_avatar" />
-            <result property="userNickname" column="nickname" />
+            <result property="userNickname" column="user_nickname" />
             <result property="userEmail" column="user_email" />
-            <result property="userName" column="user_nickname" />
+            <result property="userName" column="user_name" />
         </association>
     </resultMap>
 
@@ -70,22 +70,5 @@
         WHERE
             a.id = #{articleId}
     </select>
-
-    <update id="update" parameterType="Article">
-        UPDATE
-            article
-        <trim prefix="set" suffixOverrides=",">
-            <if test="articleTitle != null">article_title = #{articleTitle}, </if>
-            <if test="articleSummary != null">article_summary = #{articleSummary}, </if>
-            <if test="articleCoverImg != null">article_cover_img = #{articleCoverImg}, </if>
-            <if test="articleUpdateTime != null">article_update_time = #{articleUpdateTime}, </if>
-            <if test="articleContentMd != null">article_content_md = #{articleContentMd}, </if>
-            <if test="articleViews != null">article_views = #{articleViews}, </if>
-            <if test="articleTag != null">article_tag = #{articleTag}, </if>
-            <if test="articleType != null">article_type = #{articleType}, </if>
-        </trim>
-        WHERE
-            id = #{id}
-    </update>
 
 </mapper>

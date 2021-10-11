@@ -1,6 +1,7 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.FileMapper;
 import com.mrqinzh.blog.model.resp.DataResp;
@@ -27,7 +28,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class FileServiceImpl implements FileService {
+public class FileServiceImpl extends ServiceImpl<FileMapper, MyFile> implements FileService {
 
     @Value("${oos.qiniu.domain}")
     private String domain;

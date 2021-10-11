@@ -6,6 +6,7 @@ import com.mrqinzh.blog.model.entity.Article;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +16,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     List<Article> list(PageVO pageVO); // 排序全部文章、以及分页
 
-    Article getById(Integer articleId); // 根据文章id展示当前文章
+    Article getById(@Param("articleId") Integer articleId); // 根据文章id展示当前文章
 
     Boolean update(Article article); // 修改文章内容
 

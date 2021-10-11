@@ -41,7 +41,7 @@
         <mavon-editor 
         ref="md"
         v-model="content"
-        @save="saveSubmit"
+        @save="saveBlog"
         @change="change" 
         @imgAdd="uploadImg"
         @imgDel="imgDel"
@@ -98,6 +98,8 @@ import '@/utils/hljs'
 import { list } from '@/api/tag'
 import { uploadFileRequest } from '@/api/file'
 import { add, getById, update } from '@/api/article'
+
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'ArticleAdd',
   components: {
@@ -133,8 +135,10 @@ export default {
     change(value, render) {    // value => markdown语句   render => html 语句
       this.html = render;
       this.content = value;
-//       console.log(this.html);
-      //console.log(this.content);
+      // console.log(this.html);
+      // console.log(this.content);
+
+      this.$store.commit('SET_CONTENT', value);
     },
     //真正的保存方法
     saveBlog() {
@@ -191,10 +195,6 @@ export default {
         })
       }
       
-    },
-    // markdown编辑器保存方法
-    saveSubmit(value, render) {
-      this.saveBlog();
     },
     // 将图片上传到服务器，返回地址替换到md中
     uploadImg (pos, $file) {
@@ -258,8 +258,16 @@ export default {
     this.initTags();
     if (this.aid) {
       this.initUpdateData();
+    } else {
+      this.content = this.$store.state.article.content;
+      console.log(this.content);
     }
+
   },
+
+  destroyed() {
+    // this.$store.commit('SET_CONTENT', '');
+  }
 }
 </script>
 

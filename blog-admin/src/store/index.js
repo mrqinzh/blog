@@ -6,6 +6,8 @@ import settings from './modules/settings'
 import user from './modules/user'
 import tagsView from './modules/tagsView'
 
+import article from './modules/article'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -13,7 +15,9 @@ const store = new Vuex.Store({
     app,
     settings,
     tagsView,
-    user
+    user,
+    // ===
+    article
   },
   getters
 })

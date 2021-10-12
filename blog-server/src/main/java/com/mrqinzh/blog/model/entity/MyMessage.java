@@ -14,8 +14,6 @@ import java.util.Date;
 @TableName("t_message")
 @ApiModel(value = "留言信息实体类")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class MyMessage {
 
     @TableId(value = "id", type = IdType.AUTO)

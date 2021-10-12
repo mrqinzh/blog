@@ -12,8 +12,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 @TableName("user")
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class User implements Serializable {
 

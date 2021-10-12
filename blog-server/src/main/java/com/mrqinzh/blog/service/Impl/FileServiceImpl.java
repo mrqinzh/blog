@@ -65,9 +65,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, MyFile> implements 
         dbFile.setFileType(fileType);
         dbFile.setFilePlace("本地");
 
-        if (!fileMapper.add(dbFile)) {
-            throw new BizException(AppStatus.INSERT_FAILED);
-        }
+        fileMapper.insert(dbFile);
         return DataResp.ok(fileData.get("resultUrl").toString());
     }
 
@@ -101,22 +99,22 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, MyFile> implements 
             fileName = uuid + suffix;
 
             Response response = uploadManager.put(uploadFile.getBytes(), fileName, upToken);
-//        System.out.println("res.bodyString() = " + response.bodyString());
             JSONObject res = JSONObject.parseObject(response.bodyString());
 
             String url = "http://" + domain + "/" + res.getString("key");
 
             // 将添加的图片信息保存至数据库
             MyFile myFile = new MyFile();
-            myFile.setFilePlace("七牛云");
-            myFile.setFileName(fileName);
-            myFile.setFileCreateTime(new Date());
-            myFile.setFileType(suffix);
-            myFile.setFilePath(url);
-            fileMapper.add(myFile);
+            myFile.setFilePlace("七牛云")
+                    .setFileName(fileName)
+                    .setFileCreateTime(new Date())
+                    .setFileType(suffix)
+                    .setFilePath(url);
 
+            fileMapper.insert(myFile);
             return url;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new BizException(AppStatus.IMAGE_UPLOAD_ERROR);
         }
 

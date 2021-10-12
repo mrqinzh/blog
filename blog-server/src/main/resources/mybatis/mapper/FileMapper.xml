@@ -4,19 +4,4 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mrqinzh.blog.mapper.FileMapper">
 
-    <insert id="add" parameterType="com.mrqinzh.blog.model.entity.MyFile">
-        INSERT INTO file (
-            file_name,
-            file_path,
-            file_type,
-            file_create_time,
-            file_size,
-            file_place
-        )
-        VALUES
-        (
-            #{fileName}, #{filePath}, #{fileType}, #{fileCreateTime}, #{fileSize}, #{filePlace}
-        )
-    </insert>
-
 </mapper>

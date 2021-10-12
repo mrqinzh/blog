@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FileMapper extends BaseMapper<MyFile> {
 
-    Boolean add(MyFile myFile);
-
     @Update("update file set status = 1 where file_name = #{fileName}")
     Boolean delete(String fileName);
 

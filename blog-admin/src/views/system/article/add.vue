@@ -99,7 +99,6 @@ import { list } from '@/api/tag'
 import { uploadFileRequest } from '@/api/file'
 import { add, getById, update } from '@/api/article'
 
-import { mapState, mapActions } from 'vuex'
 export default {
   name: 'ArticleAdd',
   components: {

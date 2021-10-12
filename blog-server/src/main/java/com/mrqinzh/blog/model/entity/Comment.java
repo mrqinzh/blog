@@ -1,5 +1,6 @@
 package com.mrqinzh.blog.model.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,11 +31,12 @@ public class Comment implements Serializable {
     private Integer status;
 
     private Integer articleId;
+    @TableField(exist = false)
     private Article article;
 
     private Integer parentId;
 
-
+    @TableField(exist = false)
     private List<Comment> comments;
 
 }

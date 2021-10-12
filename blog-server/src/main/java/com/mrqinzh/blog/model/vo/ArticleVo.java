@@ -6,7 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
-@ApiModel(value = "添加/修改文章请求实体")
+@ApiModel(description = "添加/修改文章请求实体")
 @Data
 public class ArticleVo {
 

@@ -43,5 +43,6 @@ public class Article implements Serializable {
     private Integer status;
 
     private Integer userId;
+    @TableField(exist = false)
     private User user;
 }

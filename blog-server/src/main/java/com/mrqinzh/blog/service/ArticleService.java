@@ -14,7 +14,7 @@ public interface ArticleService extends IService<Article> {
 
     void add(ArticleVo articleVo, String token);
 
-    void update(Article article); // 修改文章内容
+    void update(ArticleVo articleVo); // 修改文章内容
 
     void delete(Integer articleId); // 删除一篇文章
 

@@ -30,7 +30,6 @@ public class ArticleController {
     public Resp getById(@PathVariable("articleId") Integer articleId){
         Article article = articleService.getById(articleId);
         return DataResp.ok(article);
-
     }
 
     @ApiOperation(value = "分页加载文章列表")
@@ -53,8 +52,8 @@ public class ArticleController {
 
     @ApiOperation(value = "根据 articleId 更新文章")
     @PostMapping("/update")
-    public Resp update(@RequestBody Article article){
-        articleService.update(article);
+    public Resp update(@RequestBody ArticleVo articleVo){
+        articleService.update(articleVo);
         return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }
 

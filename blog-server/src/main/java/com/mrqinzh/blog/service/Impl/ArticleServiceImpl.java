@@ -1,6 +1,5 @@
 package com.mrqinzh.blog.service.Impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.exception.BizException;
@@ -81,24 +80,24 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void update(Article article) {
+    public void update(ArticleVo articleVo) {
 
         // 判断传入文章的Id是否存在
-        if (article.getId() == null) {
+        if (articleVo.getId() == null) {
             throw new BizException(AppStatus.BAD_REQUEST);
         }
 
         // 判断数据库中是否 存在
-        if (articleMapper.getById(article.getId()) == null) {
+        Article article = articleMapper.getById(articleVo.getId());
+        if (article == null) {
             throw new BizException(AppStatus.BAD_REQUEST, "当前文章不存在数据库中");
         }
 
-        // 设置文章的最后更新时间
-        article.setArticleUpdateTime(new Date());
-
         // 获取文章摘要，截取内容的前100
         article.setArticleSummary(subSummary(article.getArticleSummary()));
+
+        // 设置更新时间
+        article.setArticleUpdateTime(new Date());
 
         articleMapper.updateById(article);
     }
@@ -108,7 +107,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @param articleId 文章ID
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Integer articleId) {
         articleMapper.delete(articleId);
         commentMapper.deleteById("articleId", articleId);

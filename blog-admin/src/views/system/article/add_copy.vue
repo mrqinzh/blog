@@ -4,7 +4,7 @@
       文章标题：<el-input :maxlength="40" v-model="articleForm.articleTitle" placeholder="请输入标题..." show-word-limit style="width: 500px;"></el-input>
 
       <div style="float: right;">
-        <el-button type="primary" @click="showArticleForm = true">保存发布</el-button>
+        <el-button type="primary" @click="articleForm.articleTitle != '' && articleForm.articleContentMd != '' ? showArticleForm = true : $message.warning('标题和内容均不能为空哦，不然还有什么保存的意义！ ！！')">保存发布</el-button>
       </div>
     </div>
 
@@ -103,10 +103,6 @@ export default {
     },
     //真正的保存方法
     saveBlog() {
-      if (this.articleForm.articleTitle == '' || this.articleForm.articleContentMd == '') {
-        this.$message.warning('标题和内容均不能为空哦，不然还有什么保存的意义！ ！！');
-        return;
-      }
       let param = {
         id: this.articleForm.id,
         articleTitle: this.articleForm.articleTitle,

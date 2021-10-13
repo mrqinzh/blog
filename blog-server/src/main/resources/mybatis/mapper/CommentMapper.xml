@@ -45,7 +45,8 @@
             `comment` c
         LEFT JOIN article a ON a.id = c.article_id
         WHERE
-            1 = 1
+            c.status = 0
+            AND c.type = 1
         <if test=" idType == 'commentId'">
             and id = #{id}
         </if>

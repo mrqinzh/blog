@@ -195,6 +195,11 @@ import { list } from '@/api/article'
       loadBlogs() {
         list(this.currentPage, this.pageSize, this.condition).then(resp => {
           // console.log(resp);
+          resp.data.rows.forEach(e => {
+            if (!e.articleCoverImg) {
+              e.articleCoverImg = 'http://img.mrqinzh.info/null.jpg'
+            }
+          });
           this.articles = resp.data.rows;
           this.totalCount = resp.data.totalCount; //获取数据行数
           this.loading = false;

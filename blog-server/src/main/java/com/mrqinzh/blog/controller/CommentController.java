@@ -1,12 +1,18 @@
 package com.mrqinzh.blog.controller;
 
 import com.mrqinzh.blog.model.entity.Comment;
+import com.mrqinzh.blog.model.enums.AppStatus;
+import com.mrqinzh.blog.model.resp.DataResp;
+import com.mrqinzh.blog.model.vo.CommentVo;
 import com.mrqinzh.blog.service.CommentService;
 import com.mrqinzh.blog.model.resp.Resp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = "评论接口")
 @RestController
@@ -16,10 +22,11 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @ApiOperation(value = "添加一条评论，任何人均可添加")
+    @ApiOperation(value = "添加一条评论/留言，任何人均可添加")
     @PostMapping("add")
-    public Resp add(@RequestBody Comment comment) {
-        return commentService.add(comment);
+    public Resp add(@RequestBody @Valid CommentVo commentVo) {
+        commentService.add(commentVo);
+        return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }
 
     /**
@@ -39,10 +46,12 @@ public class CommentController {
         return commentService.deleteById(idType, id);
     }
 
-    @ApiOperation(value = "查询 list limit 5")
-    @GetMapping("list")
-    public Resp list() {
-        return commentService.list();
+    @ApiOperation(value = "获取留言信息")
+    @GetMapping("message-list")
+    public Resp getMessageList() {
+        List<Comment> comments = commentService.getMessageList();
+        return DataResp.ok(comments);
+
     }
 
 

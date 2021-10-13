@@ -4,55 +4,71 @@
     <div class="write-comment">
       <el-input
         type="textarea"
-        placeholder="这里是要输入你的评论内容哦。^_^"
+        placeholder="有什么想说的尽管说吧。^_^"
         maxlength="100"
         show-word-limit
         :rows="5"
-        v-model="commentContent"
-        >
+        v-model="commentForm.commentContent">
       </el-input>
-      <el-input v-model="nickname" placeholder="请输入你霸气的昵称。。。>_>" suffix-icon="el-icon-user"></el-input>
-      <el-button @click="addComment(0)" type="primary" icon="el-icon-edit" size="small">发表评论</el-button>
+      <el-input v-model="commentForm.nickname" placeholder="请输入你霸气的昵称。。。>_>" suffix-icon="el-icon-user" style="margin: 10px 0;"></el-input>
+      <el-button @click="addMessage" type="primary" icon="el-icon-edit" size="small" style="float: right">留言</el-button>
     </div>
 
-    <a-timeline mode="alternate">
-      <a-timeline-item>Create a services site 2015-09-01</a-timeline-item>
-      <a-timeline-item color="green">
-        Solve initial network problems 2015-09-01
-      </a-timeline-item>
-      <a-timeline-item>
-        <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px;" />
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-        laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-        beatae vitae dicta sunt explicabo.
-      </a-timeline-item>
-      <a-timeline-item color="red">
-        Network problems being solved 2015-09-01
-      </a-timeline-item>
-      <a-timeline-item>Create a services site 2015-09-01</a-timeline-item>
-      <a-timeline-item>
-        <a-icon slot="dot" type="clock-circle-o" style="font-size: 16px;" />
-        Technical testing 2015-09-01
-      </a-timeline-item>
-    </a-timeline>
+    <div class="time-line">
+      <a-timeline mode="alternate">
+        <a-timeline-item v-for="(item, index) in messageList" :key="index" >
+          <img slot="dot" :src="item.avatar" style="width: 20px;height: 20px">
+          <span style="font-size: 14px">{{ item.commentTime }}</span>
+          <span style="font-weight: bold ">{{ item.nickname }}</span> ：
+          <span style="font-size: 14px">{{ item.commentContent }}</span>
+        </a-timeline-item>
+      </a-timeline>
+    </div>
   </div>
 </template>
 
 <script>
-import { list, add } from '@/api/my-message'
+import { add, getMessageList } from '@/api/comment'
 
 export default {
   name: "Message",
   data() {
     return {
-      messageList: []
+      messageList: [],
+
+      commentForm: {
+        nickname: '',
+        commentContent: '',
+      }
     }
   },
   methods: {
     loadData() {
-      list().then(resp => {
+      getMessageList().then(resp => {
         // console.log(resp)
         this.messageList = resp.data;
+      })
+    },
+    addMessage() {
+      if (this.commentForm.nickname == '') {
+        this.$message.warning('你还没有输入昵称哦 => `_`');
+        return;
+      }
+      if (this.commentForm.commentContent == '') {
+        this.$message.warning('写点东西了来吧 => `_`');
+        return;
+      }
+      let param = {
+        nickname: this.commentForm.nickname,
+        commentContent: this.commentForm.commentContent,
+        type: 2
+      }
+      add(param).then(resp => {
+        // console.log(resp);
+        this.loadData();
+        this.commentForm.nickname = '';
+        this.commentForm.commentContent;
+
       })
     }
   },
@@ -64,10 +80,17 @@ export default {
 
 <style lang="scss" scoped>
 .message-container {
-  margin: 0 auto;
+  margin: 30px auto;
   width: 30%;
   .write-comment {
     
+  }
+  .time-line {
+    margin-top: 70px;
+    span {
+      font-size: 17px;
+      margin: 0 2px;
+    }
   }
 }
 </style>

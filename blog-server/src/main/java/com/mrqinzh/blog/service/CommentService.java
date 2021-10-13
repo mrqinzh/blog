@@ -2,15 +2,18 @@ package com.mrqinzh.blog.service;
 
 import com.mrqinzh.blog.model.entity.Comment;
 import com.mrqinzh.blog.model.resp.Resp;
+import com.mrqinzh.blog.model.vo.CommentVo;
+
+import java.util.List;
 
 /**
  * @author mrqinzh
  */
 public interface CommentService {
 
-    Resp list();
+    List<Comment> getMessageList();
 
-    Resp add(Comment comment);
+    void add(CommentVo commentVo);
 
     Resp getById(String idType, Integer id);
 

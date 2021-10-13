@@ -31,6 +31,12 @@ public class Comment implements Serializable {
 
     private String ip;
 
+    /**
+     * 类型：
+     * 1： 评论    2：留言
+     */
+    private Integer type;
+
     private Integer status;
 
     private Integer articleId;

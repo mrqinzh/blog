@@ -15,3 +15,10 @@ export function add(data) {
     data
   })
 }
+
+export function getMessageList() {
+  return request({
+    url: '/comment/message-list',
+    method: 'get',
+  })
+}

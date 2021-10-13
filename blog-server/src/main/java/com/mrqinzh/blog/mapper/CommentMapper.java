@@ -1,5 +1,6 @@
 package com.mrqinzh.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mrqinzh.blog.model.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -9,10 +10,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface CommentMapper {
-
-    @Select("select * from comment limit 5")
-    List<Comment> list();
+public interface CommentMapper extends BaseMapper<Comment> {
 
     Boolean add(Comment comment);
 

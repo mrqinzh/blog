@@ -41,7 +41,7 @@
               <el-button @click="addComment(0)" type="primary" icon="el-icon-edit" size="small">发表评论</el-button>
             </div>
             <blockquote>
-              <h2>所有评论</h2>
+              <h2 style="font-family: 楷体">所有评论</h2>
             </blockquote>
             <div v-for="(item, index) in comments" :key="index">
               <div style="display: inline-block;">
@@ -195,10 +195,11 @@ export default {
         nickname: this.nickname,
         parentId: val,
         commentContent: content,
-        articleId: this.currentArticleId
+        articleId: this.currentArticleId,
+        type: 1,
       };
       add(params).then(resp => {
-        console.log(resp);
+        // console.log(resp);
         if(resp.success) {
           this.loadComments();
         }

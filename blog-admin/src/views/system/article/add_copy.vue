@@ -52,6 +52,11 @@
             <img v-if="articleForm.articleCoverImg" :src="articleForm.articleCoverImg" class="article-img">
             <i v-else class="el-icon-plus article-img-upload-icon"></i>
           </el-upload>
+          <el-alert
+            title="如果不上传图片的话，系统会随机再你选择的标签中，生成一张对应的图片哦。^_^"
+            type="success"
+            :closable="false">
+          </el-alert>
         </el-form-item>
 
       </el-form>
@@ -81,6 +86,7 @@ export default {
   data() {
     return {
       // 新定义
+      articleHtml: '',
       tagList: [],
       showArticleForm: false,
       articleForm: {
@@ -99,6 +105,7 @@ export default {
     //实时获取转成html的数据
     change(value, render) {    // value => markdown语句   render => html 语句
       this.articleForm.articleContentMd = value;
+      this.articleHtml = render;
       this.$store.commit('SET_CONTENT', value);
     },
     //真正的保存方法
@@ -106,7 +113,7 @@ export default {
       let param = {
         id: this.articleForm.id,
         articleTitle: this.articleForm.articleTitle,
-        articleSummary: this.articleForm.articleContentMd.substring(0, 200),
+        articleSummary: this.articleHtml.substring(0, 200),
         articleCoverImg: this.articleForm.articleCoverImg,
         articleContentMd: this.articleForm.articleContentMd,
         articleTag: this.articleForm.articleTag.toString(),

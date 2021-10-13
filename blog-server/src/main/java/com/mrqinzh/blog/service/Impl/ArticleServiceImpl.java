@@ -18,6 +18,7 @@ import com.mrqinzh.blog.service.ArticleService;
 import com.mrqinzh.blog.util.MyUtil;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.resp.Resp;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -27,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
@@ -66,6 +66,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public void add(ArticleVo articleVo, String token) {
+        articleVo.setArticleSummary(MyUtil.stripHtml(articleVo.getArticleSummary()));
         if (!redisUtil.hasKey(token)) {
             throw new BizException(AppStatus.AUTH_FAILED, "对不起，权限不足，请先登录");
         }
@@ -74,22 +75,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
 
-        if (article.getArticleCoverImg() == null) {
+        // 如果添加文章时，没有上传文章的封面图，系统将从选择的标签中，随机选择一个标签所对应的图片为其设置为封面。
+        if (StringUtils.isBlank(article.getArticleCoverImg())) {
             String[] tags = article.getArticleTag().split(",");
-            int threshold = 0; // 定义阈值
-            // 如果添加文章时，没有上传文章的封面图，系统将从选择的标签中，随机选择一个标签所对应的图片为其设置为封面。
+            int threshold = 0; // 定义随机阈值
             while (true) {
                 int i = MyUtil.randomInt(tags.length);
                 String currTag = tags[i];
                 QueryWrapper<Tag> queryWrapper = new QueryWrapper<>();
                 queryWrapper.eq("tag_name", currTag);
                 List<Tag> tagList = tagMapper.selectList(queryWrapper);
-                if (tagList.size() > 0) {
+                if (tagList.size() > 0 && StringUtils.isNotBlank(tagList.get(0).getTagImg())) {
                     article.setArticleCoverImg(tagList.get(0).getTagImg());
                     break;
                 }
                 if (threshold++ > 4) {
-                    throw new BizException(AppStatus.BAD_REQUEST, "请选择与文章相关的标签，或上传你的封面图！！！");
+                    throw new BizException(AppStatus.BAD_REQUEST, "对不起，系统识别不了你所选择的标签，请重新选择，或上传封面图！！！");
                 }
             }
         }
@@ -123,7 +124,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
 
         // 获取文章摘要，截取内容的前100
-        article.setArticleSummary(subSummary(article.getArticleSummary()));
+        article.setArticleSummary(MyUtil.stripHtml(article.getArticleSummary()));
 
         // 设置更新时间
         article.setArticleUpdateTime(new Date());
@@ -144,27 +145,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
 
 
-    /**
-     * 截取文章摘要
-     * @param articleSummary
-     * @return
-     */
-    public String subSummary(String articleSummary) {
-        String summary = stripHtml(articleSummary);
-        return summary.length() > 100 ? summary.substring(0, 100) : summary;
-    }
 
-    /**
-     * 将 content 中的 HTML 标签过滤
-     * @param content HTML
-     * @return java.lang.String
-     */
-    public String stripHtml(String content) {
-        content = content.replaceAll("<p .*?>", "");
-        content = content.replaceAll("<br\\s*/?>", "");
-        content = content.replaceAll("\\<.*?>", "");
-        return content;
-    }
 
 
 }

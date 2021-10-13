@@ -1,10 +1,13 @@
 package com.mrqinzh.blog.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.ArticleMapper;
 import com.mrqinzh.blog.mapper.CommentMapper;
+import com.mrqinzh.blog.mapper.TagMapper;
+import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.model.vo.ArticleVo;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.resp.PageResp;
@@ -12,6 +15,7 @@ import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.ArticleService;
+import com.mrqinzh.blog.util.MyUtil;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.resp.Resp;
 import org.slf4j.Logger;
@@ -23,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
@@ -34,6 +39,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private TagMapper tagMapper;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -57,13 +65,34 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void add(ArticleVo articleVo, String token) {
-
+        if (!redisUtil.hasKey(token)) {
+            throw new BizException(AppStatus.AUTH_FAILED, "对不起，权限不足，请先登录");
+        }
         User user = (User) redisUtil.get(token);
 
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
+
+        if (article.getArticleCoverImg() == null) {
+            String[] tags = article.getArticleTag().split(",");
+            int threshold = 0; // 定义阈值
+            // 如果添加文章时，没有上传文章的封面图，系统将从选择的标签中，随机选择一个标签所对应的图片为其设置为封面。
+            while (true) {
+                int i = MyUtil.randomInt(tags.length);
+                String currTag = tags[i];
+                QueryWrapper<Tag> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("tag_name", currTag);
+                List<Tag> tagList = tagMapper.selectList(queryWrapper);
+                if (tagList.size() > 0) {
+                    article.setArticleCoverImg(tagList.get(0).getTagImg());
+                    break;
+                }
+                if (threshold++ > 4) {
+                    throw new BizException(AppStatus.BAD_REQUEST, "请选择与文章相关的标签，或上传你的封面图！！！");
+                }
+            }
+        }
 
         Date now = new Date();
         // 初始化文章的固定信息

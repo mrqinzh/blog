@@ -33,7 +33,6 @@ public class TagController {
     public Resp add(@RequestBody Tag tag) {
         tagService.add(tag);
         return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
-
     }
 
     @ApiOperation(value = "分页查询 tags")

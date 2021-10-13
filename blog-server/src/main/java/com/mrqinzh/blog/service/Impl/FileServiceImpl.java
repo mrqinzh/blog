@@ -2,6 +2,7 @@ package com.mrqinzh.blog.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mrqinzh.blog.constant.MyConstant;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.FileMapper;
 import com.mrqinzh.blog.model.resp.DataResp;
@@ -101,7 +102,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, MyFile> implements 
             Response response = uploadManager.put(uploadFile.getBytes(), fileName, upToken);
             JSONObject res = JSONObject.parseObject(response.bodyString());
 
-            String url = "http://" + domain + "/" + res.getString("key");
+            String url = MyConstant.MY_HTTP + domain + "/" + res.getString("key");
 
             // 将添加的图片信息保存至数据库
             MyFile myFile = new MyFile();
@@ -112,6 +113,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, MyFile> implements 
                     .setFilePath(url);
 
             fileMapper.insert(myFile);
+
             return url;
         } catch (Exception e) {
             e.printStackTrace();

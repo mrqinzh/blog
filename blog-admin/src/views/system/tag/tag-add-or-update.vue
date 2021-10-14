@@ -8,7 +8,9 @@
       <el-input v-model="dataForm.tagName" placeholder="标签名称"></el-input>
     </el-form-item>
     <el-form-item label="标签图" prop="tagName">
+
       <img-upload :img="dataForm.tagImg" @uploadimg="tagImgUpload" />
+      
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -19,7 +21,7 @@
 </template>
 
 <script>
-import { getById } from '@/api/tag'
+import { getById, add, update } from '@/api/tag'
 import ImgUpload from '@/components/web/upload/ImgUpload.vue'
   export default {
   components: { ImgUpload },
@@ -27,6 +29,7 @@ import ImgUpload from '@/components/web/upload/ImgUpload.vue'
       return {
         visible: false,
         dataForm: {
+          id: '',
           tagName: '',
           tagImg: '',
         }
@@ -42,17 +45,44 @@ import ImgUpload from '@/components/web/upload/ImgUpload.vue'
         this.$nextTick(() => {
           this.$refs['dataForm'].resetFields()
           if (this.dataForm.id) {
-            getById(id).then(resp => {
+            getById(this.dataForm.id).then(resp => {
               // console.log(resp);
-              this.dataForm.tagName = resp.data.tagName;
-              this.dataForm.tagImg = resp.data.tagImg;
+              this.dataForm = resp.data;
             })
           }
         })
       },
       // 表单提交
       dataFormSubmit () {
+        if (this.dataForm.tagImg == '') {
+          this.$message.warning("标签图，必须上传");
+          return;
+        }
         
+        if (this.dataForm.id) {
+          let param = {
+            id: this.dataForm.id,
+            tagName: this.dataForm.tagName,
+            tagImg: this.dataForm.tagImg,
+          }
+          update(param).then(resp => {
+            // console.log(resp);
+            if (resp.success) {
+              this.$message.success("操作成功");
+            }
+          })
+        } else {
+          let param = {
+            tagName: this.dataForm.tagName,
+            tagImg: this.dataForm.tagImg,
+          }
+          add(param).then(resp => {
+            // console.log(resp);
+            if (resp.success) {
+              this.$message.success("操作成功");
+            }
+          })
+        }
       }
     }
   }

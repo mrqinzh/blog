@@ -23,4 +23,5 @@ public interface TagService extends IService<Tag> {
 
     Resp delete(Integer id);
 
+    void update(Tag tag);
 }

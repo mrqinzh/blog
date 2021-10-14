@@ -54,4 +54,11 @@ public class TagController {
         return tagService.delete(id);
     }
 
+    @ApiOperation(value = "修改标签信息")
+    @PostMapping("update")
+    public Resp update(@RequestBody Tag tag) {
+        tagService.update(tag);
+        return Resp.sendMsg(AppStatus.SUCCESS);
+    }
+
 }

@@ -6,12 +6,12 @@ import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.TagMapper;
 import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.resp.PageResp;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.TagService;
 import com.mrqinzh.blog.model.resp.Resp;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +40,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Override
     public void add(Tag tag) {
-        if (tag.getTagImg() == null) {
+        if (StringUtils.isBlank(tag.getTagImg())) {
             throw new BizException(AppStatus.BAD_REQUEST, "必须上传标签对应图片！");
         }
         tagMapper.insert(tag);
@@ -50,6 +50,14 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     public Resp delete(Integer id) {
         tagMapper.delete(id);
         return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
+    }
+
+    @Override
+    public void update(Tag tag) {
+        if (tag.getId() == null || StringUtils.isBlank(tag.getTagImg())) {
+            throw new BizException(AppStatus.BAD_REQUEST);
+        }
+        tagMapper.updateById(tag);
     }
 
 }

@@ -107,7 +107,7 @@ export default {
     getDataList() {
       this.dataListLoading = true
       page(this.currentPage, this.pageSize, this.condition).then(resp => {
-        console.log(resp);
+        // console.log(resp);
         this.dataList = resp.data.rows;
         this.totalCount = resp.data.totalCount;
         this.dataListLoading = false

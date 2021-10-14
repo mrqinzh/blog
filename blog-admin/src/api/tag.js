@@ -22,3 +22,21 @@ export function getById(tagId) {
     method: 'get'
   })
 }
+
+export function add(data) {
+  return request({
+    url: '/tag/add',
+    method: 'post',
+    data
+  })
+}
+
+export function update(data) {
+  return request({
+    url: '/tag/update',
+    method: 'post',
+    data
+  })
+}
+
+

@@ -58,7 +58,6 @@ import ImgUpload from '@/components/web/upload/ImgUpload.vue'
           this.$message.warning("标签图，必须上传");
           return;
         }
-        
         if (this.dataForm.id) {
           let param = {
             id: this.dataForm.id,
@@ -69,6 +68,8 @@ import ImgUpload from '@/components/web/upload/ImgUpload.vue'
             // console.log(resp);
             if (resp.success) {
               this.$message.success("操作成功");
+              this.$emit('refreshDataList');
+              this.visible = false;
             }
           })
         } else {
@@ -80,9 +81,12 @@ import ImgUpload from '@/components/web/upload/ImgUpload.vue'
             // console.log(resp);
             if (resp.success) {
               this.$message.success("操作成功");
+              this.$emit('refreshDataList');
+              this.visible = false;
             }
           })
         }
+        
       }
     }
   }

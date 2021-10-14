@@ -7,14 +7,12 @@
       <el-form-item>
         <el-button @click="findByType(dataForm.key)">查询</el-button>
         <el-button type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
       :data="dataList"
       border
       v-loading="dataListLoading"
-      @selection-change="selectionChangeHandle"
       style="width: 100%;">
       <el-table-column
         prop="id"
@@ -70,7 +68,7 @@ import { page } from '@/api/tag'
 import AddOrUpdate from './tag-add-or-update'
 export default {
   components: {
-    AddOrUpdate
+    AddOrUpdate,
   },
   data() {
     return {
@@ -107,7 +105,7 @@ export default {
     getDataList() {
       this.dataListLoading = true
       page(this.currentPage, this.pageSize, this.condition).then(resp => {
-        // console.log(resp);
+        console.log(resp);
         this.dataList = resp.data.rows;
         this.totalCount = resp.data.totalCount;
         this.dataListLoading = false
@@ -123,10 +121,6 @@ export default {
     currentChangeHandle(val) {
       this.currentPage = val
       this.getDataList()
-    },
-    // 多选
-    selectionChangeHandle(val) {
-      this.dataListSelections = val
     },
 
     // 新增 / 修改

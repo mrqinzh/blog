@@ -4,12 +4,12 @@ import com.mrqinzh.blog.model.entity.LoginLog;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Mapper
-@Repository
+@Component
 public interface LoginLogMapper {
 
     @Select("select * from t_login_log")

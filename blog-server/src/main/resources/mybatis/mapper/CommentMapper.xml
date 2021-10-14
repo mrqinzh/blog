@@ -55,7 +55,7 @@
         </if>
     </select>
 
-    <update id="deleteById">
+    <update id="deleteByTypeId">
         UPDATE `comment`
         SET status = 1
         WHERE

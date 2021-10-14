@@ -5,10 +5,10 @@ import com.mrqinzh.blog.model.entity.MyFile;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 @Mapper
-@Repository
+@Component
 public interface FileMapper extends BaseMapper<MyFile> {
 
     @Update("update file set status = 1 where file_name = #{fileName}")

@@ -78,7 +78,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public Resp deleteById(String idType, Integer id) {
-        commentMapper.deleteById(idType, id);
+        commentMapper.deleteByTypeId(idType, id);
         return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
     }
 

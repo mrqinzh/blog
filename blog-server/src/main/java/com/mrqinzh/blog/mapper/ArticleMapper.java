@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 @Mapper
-@Repository
+@Component
 public interface ArticleMapper extends BaseMapper<Article> {
 
     List<Article> list(PageVO pageVO); // 排序全部文章、以及分页

@@ -140,7 +140,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Transactional(rollbackFor = Exception.class)
     public void delete(Integer articleId) {
         articleMapper.delete(articleId);
-        commentMapper.deleteById("articleId", articleId);
+        commentMapper.deleteByTypeId("articleId", articleId);
     }
 
 

@@ -82,9 +82,6 @@ export default {
 .message-container {
   margin: 30px auto;
   width: 30%;
-  .write-comment {
-    
-  }
   .time-line {
     margin-top: 70px;
     span {

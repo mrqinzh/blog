@@ -8,13 +8,7 @@
       <el-input v-model="dataForm.tagName" placeholder="标签名称"></el-input>
     </el-form-item>
     <el-form-item label="标签图" prop="tagName">
-      <el-upload
-        class="tag-uploader"
-        action=""
-        :show-file-list="false">
-        <img v-if="dataForm.tagImg" :src="dataForm.tagImg" class="tag">
-        <i v-else class="el-icon-plus tag-uploader-icon"></i>
-      </el-upload>
+      <img-upload :img="dataForm.tagImg" @uploadimg="tagImgUpload" />
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -26,7 +20,9 @@
 
 <script>
 import { getById } from '@/api/tag'
+import ImgUpload from '@/components/web/upload/ImgUpload.vue'
   export default {
+  components: { ImgUpload },
     data () {
       return {
         visible: false,
@@ -37,6 +33,9 @@ import { getById } from '@/api/tag'
       }
     },
     methods: {
+      tagImgUpload(resp) {
+        this.dataForm.tagImg = resp.data;
+      },
       init (id) {
         this.dataForm.id = id || 0
         this.visible = true
@@ -60,31 +59,5 @@ import { getById } from '@/api/tag'
 </script>
 
 <style lang="scss" scoped>
-
-.tag-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  &:hover {
-    border-color: #409EFF;
-  }
-}
-
-.tag-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-
-.tag {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
 
 </style>

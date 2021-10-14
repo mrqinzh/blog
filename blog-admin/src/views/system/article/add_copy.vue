@@ -42,16 +42,9 @@
         </el-form-item>
 
         <el-form-item label="文章封面图" label-width="120px">
-          <el-upload
-            class="article-img-upload"
-            action="#"
-            :show-file-list="false"
-            :on-success="handleSuccess"
-            :before-upload="beforeUpload"
-            :http-request="imgUpload">
-            <img v-if="articleForm.articleCoverImg" :src="articleForm.articleCoverImg" class="article-img">
-            <i v-else class="el-icon-plus article-img-upload-icon"></i>
-          </el-upload>
+          <!-- 图片上传组件 -->
+          <img-upload :img="articleForm.articleCoverImg" @uploadimg="coverImgUpload"></img-upload>
+
           <el-alert
             title="如果不上传图片的话，系统会随机再你选择的标签中，生成一张对应的图片哦。^_^"
             type="success"
@@ -69,6 +62,8 @@
 </template>
 
 <script>
+import ImgUpload from '@/components/web/upload/ImgUpload'
+
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import 'mavon-editor/dist/markdown/github-markdown.min.css'
@@ -81,7 +76,8 @@ import { add, getById, update } from '@/api/article'
 export default {
   name: 'ArticleAdd',
   components: {
-    mavonEditor, //mavon-editor组件
+    ImgUpload,
+    mavonEditor //mavon-editor组件
   },
   data() {
     return {
@@ -193,25 +189,8 @@ export default {
     },
 
     // 上传封面图方法
-    handleSuccess(res, file) {
-      this.articleForm.articleCoverImg = URL.createObjectURL(file.raw);
-    },
-    beforeUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isLt2M;
-    },
-    imgUpload(item) {
-      // 定义FormData对象 存储文件
-      let formData = new FormData();
-      // 将图片文件放入mf
-      formData.append('file', item.file);
-      uploadFileRequest(formData).then(resp => {
-        // console.log(resp);
-        this.articleForm.articleCoverImg = resp.data;
-      })
+    coverImgUpload(resp) {
+      this.articleForm.articleCoverImg = resp.data;
     }
   },
   mounted() {
@@ -232,30 +211,5 @@ export default {
 <style>
   .markdown_body {
     margin: 20px 0; 
-  }
-
-
-  .article-img-upload .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .article-img-upload .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .article-img-upload-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .article-img {
-    width: 178px;
-    height: 178px;
-    display: block;
   }
 </style>

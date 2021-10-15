@@ -1,5 +1,6 @@
 package com.mrqinzh.blog.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mrqinzh.blog.model.entity.User;
 import java.util.List;
 
@@ -9,9 +10,9 @@ import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
 
-    Boolean update(User user);
+//    Boolean update(User user);
 
     Boolean add(User user);
 

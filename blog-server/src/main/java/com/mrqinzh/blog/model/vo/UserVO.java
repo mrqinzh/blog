@@ -12,6 +12,8 @@ public class UserVO {
 
     private String roleName;
 
+    private String telephone;
+
     /**
      * 用户最后登录时间
      */
@@ -23,6 +25,8 @@ public class UserVO {
     private String userNickname;
 
     private String userEmail;
+
+    private String userRealName;
 
     private String userName;
 

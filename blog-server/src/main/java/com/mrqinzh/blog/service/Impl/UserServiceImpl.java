@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
             BeanUtils.copyProperties(userVO, user); // 更改基础信息
         }
 
-        userMapper.update(user);
+        userMapper.updateById(user);
 
         // 删除缓存，需要前端重新登录
         redisUtil.del(token);
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // Todo 这里可以对用户密码 进行加密 再入库
-        userMapper.add(user);
+        userMapper.insert(user);
 
         return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
         User user = (User) redisUtil.get(token);
         // 修改用户的最后登录时间
         user.setLoginLastTime(new Date());
-        userMapper.update(user);
+        userMapper.updateById(user);
         redisUtil.del(token);
         return Resp.sendMsg(AppStatus.SUCCESS);
     }

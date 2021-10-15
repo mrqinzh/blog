@@ -20,6 +20,8 @@ public class User implements Serializable {
 
     private String roleName;
 
+    private String telephone;
+
     /**
      * 用户最后登录时间
      */

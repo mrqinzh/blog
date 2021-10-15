@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
+public class ArticleServiceImpl implements ArticleService {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
@@ -75,6 +75,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
 
+        // 设置文章作者，优先为realname
+        if (StringUtils.isNotBlank(user.getUserRealName())) {
+            article.setArticleAuthor(user.getUserRealName());
+        } else {
+            article.setArticleAuthor(user.getUserNickname());
+        }
+
         // 如果添加文章时，没有上传文章的封面图，系统将从选择的标签中，随机选择一个标签所对应的图片为其设置为封面。
         if (StringUtils.isBlank(article.getArticleCoverImg())) {
             String[] tags = article.getArticleTag().split(",");
@@ -99,7 +106,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 初始化文章的固定信息
         article.setArticleViews(0)
                 .setUserId(user.getId())
-                .setArticleAuthor("秦志宏")
                 .setArticleCreateTime(now)
                 .setArticleUpdateTime(now)
                 .setStatus(0);

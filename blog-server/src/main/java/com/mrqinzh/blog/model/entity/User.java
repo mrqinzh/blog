@@ -38,6 +38,8 @@ public class User implements Serializable {
      */
     private String userEmail;
 
+    private String userRealName;
+
     /**
      * 用户名
      */

@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class FileServiceImpl extends ServiceImpl<FileMapper, MyFile> implements FileService {
+public class FileServiceImpl implements FileService {
 
     @Value("${oos.qiniu.domain}")
     private String domain;

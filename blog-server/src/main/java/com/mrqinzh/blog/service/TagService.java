@@ -1,13 +1,12 @@
 package com.mrqinzh.blog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.model.resp.Resp;
 
 import java.util.List;
 
-public interface TagService extends IService<Tag> {
+public interface TagService {
 
     /**
      * 分页查询 tag
@@ -24,4 +23,6 @@ public interface TagService extends IService<Tag> {
     Resp delete(Integer id);
 
     void update(Tag tag);
+
+    Tag getById(Integer id);
 }

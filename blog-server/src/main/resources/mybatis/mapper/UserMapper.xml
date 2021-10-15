@@ -14,6 +14,7 @@
             <if test="userAvatar != null">user_avatar = #{userAvatar}, </if>
             <if test="userNickname != null">user_nickname = #{userNickname}, </if>
             <if test="userEmail != null">user_email = #{userEmail}, </if>
+            <if test="userRealName != null">user_real_name = #{userRealName}, </if>
             <if test="userName != null">user_name = #{userName}, </if>
             <if test="userPwd != null">user_pwd = #{userPwd}, </if>
         </trim>
@@ -28,18 +29,19 @@
             user_avatar,
             user_nickname,
             user_email,
+            user_real_name,
             user_name,
             user_pwd
         )
         VALUES
         (
-            #{roleName}, #{loginLastTime}, #{userAvatar}, #{userNickname}, #{userEmail}, #{userName}, #{userPwd}
+            #{roleName}, #{loginLastTime}, #{userAvatar}, #{userNickname}, #{userEmail}, #{userRealName}, #{userName}, #{userPwd}
         )
     </insert>
 
     <select id="list" resultType="com.mrqinzh.blog.model.entity.User">
         SELECT
-            id, role_name, login_last_time, user_avatar, user_nickname, user_email, user_name
+            *
         FROM
             `user`
     </select>

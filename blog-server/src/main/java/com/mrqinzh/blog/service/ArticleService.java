@@ -1,12 +1,11 @@
 package com.mrqinzh.blog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.mrqinzh.blog.model.vo.ArticleVo;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.model.resp.Resp;
 
-public interface ArticleService extends IService<Article> {
+public interface ArticleService {
 
     Resp list(PageVO pageVO); // 排序全部文章、以及分页
 

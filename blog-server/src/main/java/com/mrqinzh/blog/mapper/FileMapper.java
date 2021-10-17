@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public interface FileMapper extends BaseMapper<MyFile> {
 
     @Update("update file set status = 1 where file_name = #{fileName}")
-    Boolean delete(String fileName);
+    Boolean deleteStatus(String fileName);
 
     @Select("select * from file where file_name = #{fileName}")
     MyFile getByFileName(String fileName);

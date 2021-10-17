@@ -5,56 +5,40 @@
         <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
-        <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button icon="el-icon-search" @click="getDataList()">查询</el-button>
       </el-form-item>
     </el-form>
     <el-table
+      style="margin: 10px 0px;"
       :data="dataList"
-      border
       v-loading="dataListLoading"
-      @selection-change="selectionChangeHandle"
-      style="width: 100%;">
+      @selection-change="selectionChangeHandle">
       <el-table-column
         type="selection"
-        header-align="center"
-        align="center"
         width="50">
       </el-table-column>
       <el-table-column
-        prop="commentId"
-        header-align="center"
-        align="center"
+        prop="id"
         label="评论编号">
       </el-table-column>
       <el-table-column
         prop="userId"
-        header-align="center"
-        align="center"
         label="所属用户编号">
       </el-table-column>
       <el-table-column
         prop="commentContent"
-        header-align="center"
-        align="center"
         label="评论内容">
       </el-table-column>
       <el-table-column
         prop="articleId"
-        header-align="center"
-        align="center"
         label="所属文章编号">
       </el-table-column>
       <el-table-column
         prop="commentTime"
-        header-align="center"
-        align="center"
         label="评论时间">
       </el-table-column>
       <el-table-column
         fixed="right"
-        header-align="center"
-        align="center"
         width="150"
         label="操作">
         <template slot-scope="scope">
@@ -97,24 +81,6 @@ export default {
     // 获取数据列表
     getDataList() {
       this.dataListLoading = true
-      this.$http({
-        url: this.$http.adornUrl('/movie/comment/list'),
-        method: 'get',
-        params: this.$http.adornParams({
-          'page': this.pageIndex,
-          'limit': this.pageSize,
-          'key': this.dataForm.key
-        })
-      }).then(({ data }) => {
-        if (data && data.code === 0) {
-          this.dataList = data.page.list
-          this.totalPage = data.page.totalCount
-        } else {
-          this.dataList = []
-          this.totalPage = 0
-        }
-        this.dataListLoading = false
-      })
     },
     // 每页数
     sizeChangeHandle(val) {
@@ -126,10 +92,6 @@ export default {
     currentChangeHandle(val) {
       this.pageIndex = val
       this.getDataList()
-    },
-    // 多选
-    selectionChangeHandle(val) {
-      this.dataListSelections = val
     },
     // 删除
     deleteHandle(id) {

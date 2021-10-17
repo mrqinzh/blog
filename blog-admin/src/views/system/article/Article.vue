@@ -1,83 +1,72 @@
 <template>
   <div>
-    <el-form :inline="true" :model="dataForm">
+    <el-form :model="dataForm" :inline="true" class="search-form">
       <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input v-model="dataForm.key" placeholder="文章标题或标签"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="findByType(dataForm.key)">查询</el-button>
-        <router-link to="./add" style="margin: 0px 10px;"><el-button type="primary">新增</el-button></router-link>
+        <el-button icon="el-icon-search" @click="findByType(dataForm.key)">搜索</el-button>
+        <el-button icon="el-icon-refresh-left" @click="resetList" type="warning">重置</el-button>
+      </el-form-item>
+      <el-form-item>
+        <router-link to="./add"><el-button type="primary" icon="el-icon-plus">新增</el-button></router-link>
       </el-form-item>
     </el-form>
     <el-table
+      style="margin: 10px 0px;"
       :data="dataList"
-      border
-      v-loading="dataListLoading"
-      @selection-change="selectionChangeHandle"
-      style="width: 100%;">
-      <el-table-column
+      v-loading="dataListLoading">
+      <!-- <el-table-column
         type="selection"
-        header-align="center"
-        align="center"
-        width="50">
-      </el-table-column>
+        width="55">
+      </el-table-column> -->
       <el-table-column
         prop="articleTitle"
-        header-align="center"
-        align="center"
         label="文章题目"
         width="250">
       </el-table-column>
       <el-table-column
         prop="articleAuthor"
-        header-align="center"
-        align="center"
         label="作者名"
         width="100">
       </el-table-column>
       <el-table-column
         prop="articleSummary"
-        header-align="center"
-        align="center"
-        label="文章内容">
+        label="文章摘要">
       </el-table-column>
       <el-table-column
         prop="articleUpdateTime"
-        header-align="center"
-        align="center"
         label="最后修改时间"
         width="170">
       </el-table-column>
       <el-table-column
         prop="articleCreateTime"
-        header-align="center"
-        align="center"
         label="发布时间"
         width="170">
       </el-table-column>
       <el-table-column
+        prop="articleType"
+        label="是否原创"
+        width="100">
+      </el-table-column>
+      <el-table-column
         prop="articleTag"
-        header-align="center"
-        align="center"
-        label="发布时间"
+        label="文章标签"
         width="150">
       </el-table-column>
       <el-table-column
         prop="articleViews"
-        header-align="center"
-        align="center"
         label="浏览量"
         width="70">
       </el-table-column>
       <el-table-column
         fixed="right"
-        header-align="center"
         align="center"
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="update(scope.row.id)">编辑</el-button>
-          <el-button type="danger" size="mini" @click="deleteHandle(scope.row.id)">删除</el-button>
+          <el-button type="text" size="mini" @click="update(scope.row.id)">编辑</el-button>
+          <el-button type="text" size="mini" @click="deleteHandle(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -98,6 +87,7 @@ import { list, del } from '@/api/article'
 export default {
   data() {
     return {
+      coverImgDialog: false,
       dataForm: {
         key: ''
       },
@@ -124,12 +114,23 @@ export default {
       this.condition = val;
       this.getDataList()
     },
+    resetList() {
+      this.dataForm.key = '';
+      this.currentPage = 1; 
+      this.pageSize = 10;
+      this.condition = '';
+      this.getDataList();
+    },
     // 获取数据列表
     getDataList() {
       this.dataListLoading = true;
       list(this.currentPage, this.pageSize, this.condition).then(resp => {
         // console.log(resp);
         this.dataList = resp.data.rows;
+        this.dataList.forEach(e => {
+          e.articleTitle = e.articleTitle.substring(0, 20);
+          e.articleSummary = e.articleSummary.substring(0, 35) + '......';
+        })
         this.totalCount = resp.data.totalCount;
         this.dataListLoading = false;
       })
@@ -144,10 +145,6 @@ export default {
     currentChangeHandle(val) {
       this.currentPage = val
       this.getDataList()
-    },
-    // 多选
-    selectionChangeHandle(val) {
-      this.dataListSelections = val
     },
     // 删除
     deleteHandle(id) {
@@ -180,4 +177,3 @@ export default {
   }
 }
 </script>
-

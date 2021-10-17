@@ -1,7 +1,7 @@
 package com.mrqinzh.bean;
 
 import com.mrqinzh.blog.model.entity.User;
-import com.mrqinzh.blog.model.vo.UserVO;
+import com.mrqinzh.blog.model.vo.user.UserVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 

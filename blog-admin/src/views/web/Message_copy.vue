@@ -10,7 +10,7 @@
         :rows="5"
         v-model="commentForm.commentContent">
       </el-input>
-      <el-input v-model="commentForm.nickname" placeholder="请输入你霸气的昵称。。。>_>" suffix-icon="el-icon-user" style="margin: 10px 0;"></el-input>
+      <el-input v-model="commentForm.nickname" placeholder="请输入你霸气的昵称。。。>_>" suffix-icon="el-icon-user" style="margin: 10px 0;width: 100%"></el-input>
       <el-button @click="addMessage" type="primary" icon="el-icon-edit" size="small" style="float: right">留言</el-button>
     </div>
 

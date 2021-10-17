@@ -18,6 +18,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
     Article getById(Integer articleId); // 根据文章id展示当前文章
 
     @Update("update article set status = 1 where id = #{articleId}")
-    Boolean delete(Integer articleId); // 删除一篇文章
+    Boolean deleteStatus(Integer articleId); // 删除一篇文章
 
 }

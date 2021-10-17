@@ -2,57 +2,50 @@
   <div class="user-container">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input v-model="dataForm.key" placeholder="参数名"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
-        <el-button type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button icon="el-icon-search" @click="getDataList()">查询</el-button>
+        <el-button icon="el-icon-plus" type="primary" @click="addOrUpdateHandle()">新增</el-button>
       </el-form-item>
     </el-form>
     <el-table
+      style="margin: 10px 0px;"
       :data="dataList"
-      border
-      v-loading="dataListLoading"
-      @selection-change="selectionChangeHandle"
-      style="width: 100%;">
+      v-loading="dataListLoading">
       <el-table-column
         prop="id"
-        header-align="center"
-        align="center"
         label="用户编号">
       </el-table-column>
       <el-table-column
+        prop="userRealName"
+        label="用户姓名">
+      </el-table-column>
+      <el-table-column
         prop="userNickname"
-        header-align="center"
-        align="center"
         label="用户昵称">
       </el-table-column>
       <el-table-column
-        header-align="center"
         ref="userAvatar"
-        align="center"
         label="用户头像">
         <template slot-scope="scope">
           <el-avatar :src="scope.row.userAvatar"></el-avatar>
         </template>
       </el-table-column>
       <el-table-column
+        prop="telephone"
+        label="联系电话">
+      </el-table-column>
+      <el-table-column
         prop="userEmail"
-        header-align="center"
-        align="center"
         label="用户邮箱">
       </el-table-column>
       <el-table-column
         prop="roleName"
-        header-align="center"
-        align="center"
         label="用户角色">
       </el-table-column>
       <el-table-column
         fixed="right"
-        header-align="center"
-        align="center"
         width="150"
         label="操作">
         <template slot-scope="scope">
@@ -123,10 +116,6 @@ export default {
       this.currentPage = val
       this.getDataList()
     },
-    // 多选
-    selectionChangeHandle(val) {
-      this.dataListSelections = val
-    },
     // 新增 / 修改
     addOrUpdateHandle (id) {
       this.addOrUpdateVisible = true
@@ -145,4 +134,10 @@ export default {
     margin: 30px;
   }
 }
+</style>
+
+<style lang="scss">
+ .el-input__inner {
+   height: 35px;
+ }
 </style>

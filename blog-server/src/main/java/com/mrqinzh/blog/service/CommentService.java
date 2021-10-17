@@ -2,7 +2,8 @@ package com.mrqinzh.blog.service;
 
 import com.mrqinzh.blog.model.entity.Comment;
 import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.CommentVo;
+import com.mrqinzh.blog.model.vo.comment.CommentVo;
+import com.mrqinzh.blog.model.vo.PageVO;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ import java.util.List;
  * @author mrqinzh
  */
 public interface CommentService {
+
+    List<Comment> list(PageVO pageVO);
 
     List<Comment> getMessageList();
 

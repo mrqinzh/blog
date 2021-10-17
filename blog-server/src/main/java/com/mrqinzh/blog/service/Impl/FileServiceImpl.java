@@ -44,7 +44,6 @@ public class FileServiceImpl implements FileService {
     private FileMapper fileMapper;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public Resp add(HttpServletRequest request, MultipartFile file) {
 
         // 将文件保存至磁盘，并返回相关参数
@@ -71,7 +70,6 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public Resp delete(String fileName) {
         MyFile dbFile = fileMapper.getByFileName(fileName);
         if (dbFile.getFilePlace().equals("本地")) {
@@ -81,7 +79,7 @@ public class FileServiceImpl implements FileService {
                 file.delete();
             }
         }
-        fileMapper.delete(fileName);
+        fileMapper.deleteStatus(fileName);
         return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
     }
 

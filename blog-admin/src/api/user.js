@@ -8,6 +8,14 @@ export function add(data) {
   })
 }
 
+export function getUserById(id) {
+  let url = `/user/${id}`
+  return request({
+    url: url,
+    method: 'get',
+  })
+}
+
 export function list(currentPage, pageSize, condition) {
   let url = `/user/list?currentPage=${currentPage}&pageSize=${pageSize}&condition=${condition}`;
   return request({

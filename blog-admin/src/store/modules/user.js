@@ -56,7 +56,7 @@ const actions = {
         const data = response.data
         // console.log(data)
         if (!data) {
-          return reject('Verification failed, please Login again.')
+          return reject('认证失败，请重新登录。-_-')
         }
 
         const { userId, name, avatar } = data

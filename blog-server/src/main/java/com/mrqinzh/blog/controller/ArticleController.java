@@ -3,7 +3,7 @@ package com.mrqinzh.blog.controller;
 import com.mrqinzh.blog.config.WebSocketServer;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.resp.DataResp;
-import com.mrqinzh.blog.model.vo.ArticleVo;
+import com.mrqinzh.blog.model.vo.article.ArticleVo;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.service.ArticleService;

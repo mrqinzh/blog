@@ -1,7 +1,8 @@
 package com.mrqinzh.blog.controller;
 
+import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.model.vo.UserVO;
+import com.mrqinzh.blog.model.vo.user.UserVO;
 import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.model.entity.User;
 import com.mrqinzh.blog.service.UserService;
@@ -18,16 +19,29 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "修改用户信息")
-    @PostMapping("update")
-    public Resp update(@RequestBody UserVO userVO, @RequestHeader("token") String token) {
-        return userService.update(userVO, token);
+    @ApiOperation(value = "获取所有用户信息")
+    @GetMapping("list")
+    public Resp list(PageVO pageVO) {
+        return userService.list(pageVO);
+    }
+
+    @ApiOperation(value = "根据id获取指定用户")
+    @GetMapping("{id}")
+    public Resp getById(@PathVariable Integer id) {
+        User user = userService.getById(id);
+        return DataResp.ok(user);
     }
 
     @ApiOperation(value = "添加一个用户")
     @PostMapping("add")
     public Resp add(@RequestBody User user, @RequestHeader("token") String token) {
         return userService.add(user, token);
+    }
+
+    @ApiOperation(value = "修改用户信息")
+    @PostMapping("update")
+    public Resp update(@RequestBody UserVO userVO, @RequestHeader("token") String token) {
+        return userService.update(userVO, token);
     }
 
     @ApiOperation(value = "获取用户信息")
@@ -48,9 +62,5 @@ public class UserController {
         return userService.logout(token);
     }
 
-    @ApiOperation(value = "获取所有用户信息")
-    @GetMapping("list")
-    public Resp list(PageVO pageVO) {
-        return userService.list(pageVO);
-    }
+
 }

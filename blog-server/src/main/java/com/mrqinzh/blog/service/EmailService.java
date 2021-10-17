@@ -1,6 +1,6 @@
 package com.mrqinzh.blog.service;
 
-import com.mrqinzh.blog.model.vo.EmailVO;
+import com.mrqinzh.blog.model.vo.email.EmailVO;
 import com.mrqinzh.blog.model.resp.Resp;
 
 /**

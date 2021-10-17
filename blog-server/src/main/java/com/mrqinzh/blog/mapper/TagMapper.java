@@ -16,9 +16,6 @@ public interface TagMapper extends BaseMapper<Tag> {
 
     List<Tag> page(PageVO pageVO);
 
-    @Delete("delete from tag where id = #{id}")
-    Boolean delete(Integer id);
-
     @Select("select * from tag where id = #{id}")
     Tag getById(Integer id);
 }

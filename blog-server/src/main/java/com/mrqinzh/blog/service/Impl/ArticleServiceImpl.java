@@ -1,14 +1,13 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.ArticleMapper;
 import com.mrqinzh.blog.mapper.CommentMapper;
 import com.mrqinzh.blog.mapper.TagMapper;
 import com.mrqinzh.blog.model.entity.Tag;
-import com.mrqinzh.blog.model.vo.ArticleVo;
+import com.mrqinzh.blog.model.vo.article.ArticleVo;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.resp.PageResp;
 import com.mrqinzh.blog.model.entity.Article;
@@ -145,7 +144,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Integer articleId) {
-        articleMapper.delete(articleId);
+        articleMapper.deleteStatus(articleId);
         commentMapper.deleteByTypeId("articleId", articleId);
     }
 

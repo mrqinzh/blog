@@ -3,7 +3,9 @@ package com.mrqinzh.blog.controller;
 import com.mrqinzh.blog.model.entity.Comment;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.resp.DataResp;
-import com.mrqinzh.blog.model.vo.CommentVo;
+import com.mrqinzh.blog.model.resp.PageResp;
+import com.mrqinzh.blog.model.vo.comment.CommentVo;
+import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.service.CommentService;
 import com.mrqinzh.blog.model.resp.Resp;
 import io.swagger.annotations.Api;
@@ -21,6 +23,13 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
+
+    @ApiOperation(value = "分页获取所有评论信息")
+    @GetMapping("list")
+    public Resp list(PageVO pageVO) {
+        List<Comment> comments = commentService.list(pageVO);
+        return PageResp.ok(comments);
+    }
 
     @ApiOperation(value = "添加一条评论/留言，任何人均可添加")
     @PostMapping("add")
@@ -51,7 +60,6 @@ public class CommentController {
     public Resp getMessageList() {
         List<Comment> comments = commentService.getMessageList();
         return DataResp.ok(comments);
-
     }
 
 

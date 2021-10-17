@@ -2,6 +2,7 @@ package com.mrqinzh.blog.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mrqinzh.blog.model.enums.AppStatus;
+import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.resp.Resp;
 import org.slf4j.Logger;
@@ -36,10 +37,11 @@ public class TokenInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        // 这里只判断了 redis 中，是否含有该token
+        // 这里判断 redis 中是否含有该token
         if (redisUtil.hasKey(token)) {
             logger.info("token验证通过 => " + token);
-            return true;
+            return JwtUtil.verifyToken(token); // 返回token是否有效
+//            return true;
         }
 
         resp.setContentType("text/json; charset=utf-8");

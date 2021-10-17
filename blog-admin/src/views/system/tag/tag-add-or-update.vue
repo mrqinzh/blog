@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :title="!dataForm.commentId ? '新增' : '修改'"
+    :title="dataForm.id == 0 ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form :model="dataForm" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
@@ -91,7 +91,3 @@ import ImgUpload from '@/components/web/upload/ImgUpload.vue'
     }
   }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

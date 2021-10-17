@@ -2,35 +2,28 @@
   <div class="tag-container">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input v-model="dataForm.key" placeholder="输入标签名" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="findByType(dataForm.key)">查询</el-button>
-        <el-button type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button icon="el-icon-search" @click="findByType(dataForm.key)">搜索</el-button>
+        <el-button icon="el-icon-plus" type="primary" @click="addOrUpdateHandle()">新增</el-button>
       </el-form-item>
     </el-form>
     <el-table
+      style="margin: 10px 0px;"
       :data="dataList"
-      border
-      v-loading="dataListLoading"
-      style="width: 100%;">
+      v-loading="dataListLoading">
       <el-table-column
         prop="id"
-        header-align="center"
-        align="center"
         label="标签编号"
         width="250">
       </el-table-column>
       <el-table-column
         prop="tagName"
-        header-align="center"
-        align="center"
         label="标签名称">
       </el-table-column>
       <el-table-column
         prop="tagImg"
-        header-align="center"
-        align="center"
         label="标签图">
         <template slot-scope="scope">
           <el-image :src="scope.row.tagImg" style="width: 50px;"></el-image>
@@ -38,8 +31,6 @@
       </el-table-column>
       <el-table-column
         fixed="right"
-        header-align="center"
-        align="center"
         width="150"
         label="操作">
         <template slot-scope="scope">
@@ -105,7 +96,7 @@ export default {
     getDataList() {
       this.dataListLoading = true
       page(this.currentPage, this.pageSize, this.condition).then(resp => {
-        console.log(resp);
+        // console.log(resp);
         this.dataList = resp.data.rows;
         this.totalCount = resp.data.totalCount;
         this.dataListLoading = false

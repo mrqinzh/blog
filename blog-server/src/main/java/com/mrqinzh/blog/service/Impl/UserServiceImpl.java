@@ -6,7 +6,7 @@ import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.LoginLogMapper;
 import com.mrqinzh.blog.mapper.UserMapper;
 import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.model.vo.UserVO;
+import com.mrqinzh.blog.model.vo.user.UserVO;
 import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.resp.PageResp;
 import com.mrqinzh.blog.model.entity.LoginLog;
@@ -146,6 +146,11 @@ public class UserServiceImpl implements UserService {
         PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
         List<User> users = userMapper.list();
         return PageResp.ok(users);
+    }
+
+    @Override
+    public User getById(Integer id) {
+        return userMapper.selectById(id);
     }
 
 }

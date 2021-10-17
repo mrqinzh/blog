@@ -1,4 +1,4 @@
-package com.mrqinzh.blog.model.vo;
+package com.mrqinzh.blog.model.vo.comment;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

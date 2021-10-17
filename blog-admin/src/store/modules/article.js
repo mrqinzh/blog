@@ -9,12 +9,13 @@ const mutations = {
 }
 
 const actions = {
-  cacheContent: ({ commit }, content) => {
+  setContent: ({ commit }, content) => {
     commit('SET_CONTENT', content);
   }
 }
 
 export default {
+  namespaced: true,
   state, 
   mutations,
   actions

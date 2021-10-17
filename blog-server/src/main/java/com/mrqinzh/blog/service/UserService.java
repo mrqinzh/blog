@@ -2,7 +2,7 @@ package com.mrqinzh.blog.service;
 
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.entity.User;
-import com.mrqinzh.blog.model.vo.UserVO;
+import com.mrqinzh.blog.model.vo.user.UserVO;
 import com.mrqinzh.blog.model.resp.Resp;
 
 public interface UserService {
@@ -18,4 +18,6 @@ public interface UserService {
     Resp info(String token);
 
     Resp list(PageVO pageVO);
+
+    User getById(Integer id);
 }

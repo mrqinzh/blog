@@ -1,7 +1,7 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.model.vo.EmailVO;
+import com.mrqinzh.blog.model.vo.email.EmailVO;
 import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.EmailService;
@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
         MimeMessageHelper messageHelper = new MimeMessageHelper(message,true);
         messageHelper.setFrom(from);
         messageHelper.setTo(to);
-        messageHelper.setSubject(title);
+        messageHelper.setSubject(title); // 邮件主题
         messageHelper.setText(content, isHtml);
         if (filePath != null) {
             // 携带附件

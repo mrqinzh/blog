@@ -1,4 +1,4 @@
-package com.mrqinzh.blog.model.vo;
+package com.mrqinzh.blog.model.vo.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

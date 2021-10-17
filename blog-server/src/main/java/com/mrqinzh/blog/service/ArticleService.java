@@ -1,6 +1,6 @@
 package com.mrqinzh.blog.service;
 
-import com.mrqinzh.blog.model.vo.ArticleVo;
+import com.mrqinzh.blog.model.vo.article.ArticleVo;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.entity.Article;
 import com.mrqinzh.blog.model.resp.Resp;

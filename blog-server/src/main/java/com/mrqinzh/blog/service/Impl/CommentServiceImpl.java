@@ -1,11 +1,14 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.PageHelper;
+import com.mrqinzh.blog.constant.MyConstant;
 import com.mrqinzh.blog.mapper.CommentMapper;
 import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.entity.Comment;
 import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.vo.CommentVo;
+import com.mrqinzh.blog.model.vo.comment.CommentVo;
+import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.service.CommentService;
 import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.util.WebUtil;
@@ -13,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -24,6 +26,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Override
+    public List<Comment> list(PageVO pageVO) {
+        PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
+        List<Comment> comments = commentMapper.list();
+        return comments;
+    }
 
     @Override
     public List<Comment> getMessageList() {
@@ -46,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
         if (commentsByIp.size() > 0 && StringUtils.isNotBlank(commentsByIp.get(0).getAvatar())) {
             avatar = commentsByIp.get(0).getAvatar();
         } else {
-            avatar = "http://mrqinzh.info:9090/img/random-avatars/" + "avatar" + (int)Math.floor((Math.random() * 10) + 1) + ".png";
+            avatar = MyConstant.MY_HTTP + MyConstant.DOMAIN_IMG + "/avatar" + (int)Math.floor((Math.random() * 10) + 1) + ".png";
         }
 
         comment.setAvatar(avatar);
@@ -76,7 +85,6 @@ public class CommentServiceImpl implements CommentService {
      * @return
      */
     @Override
-    @Transactional
     public Resp deleteById(String idType, Integer id) {
         commentMapper.deleteByTypeId(idType, id);
         return Resp.sendMsg(AppStatus.DELETE_SUCCESS);

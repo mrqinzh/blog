@@ -30,4 +30,6 @@ public interface CommentMapper extends BaseMapper<Comment> {
      */
     Boolean deleteByTypeId(String idType, Integer id);
 
+    @Select("select * from comment where status = 0")
+    List<Comment> list();
 }

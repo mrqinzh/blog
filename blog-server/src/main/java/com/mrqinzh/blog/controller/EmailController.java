@@ -1,12 +1,14 @@
 package com.mrqinzh.blog.controller;
 
-import com.mrqinzh.blog.model.vo.EmailVO;
+import com.mrqinzh.blog.model.vo.email.EmailVO;
 import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.service.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Api(tags = "邮件接口")
 @RestController
@@ -18,7 +20,7 @@ public class EmailController {
 
     @ApiOperation(value = "发送一份简单邮件")
     @PostMapping("simple")
-    public Resp sendSimpleEmail(@RequestBody EmailVO emailVO) {
+    public Resp sendSimpleEmail(@RequestBody @Valid EmailVO emailVO) {
         return emailService.sendSimpleMail(emailVO);
     }
 

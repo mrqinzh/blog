@@ -21,7 +21,7 @@
       style="min-height: 700px" />
     </div>
 
-    <el-dialog title="文章发布" :visible.sync="showArticleForm">
+    <el-dialog title="文章发布" :visible.sync="showArticleForm" :modal-append-to-body="false">
       <el-form :model="articleForm">
         <el-form-item label="文章标签" label-width="120px" >
           <el-select v-model="articleForm.articleTag" multiple :multiple-limit="4" placeholder="请选择文章标签">
@@ -102,7 +102,7 @@ export default {
     change(value, render) {    // value => markdown语句   render => html 语句
       this.articleForm.articleContentMd = value;
       this.articleHtml = render;
-      this.$store.commit('SET_CONTENT', value);
+      this.$store.dispatch('article/setContent', value);
     },
     //真正的保存方法
     saveBlog() {
@@ -199,7 +199,7 @@ export default {
     if (this.articleForm.id) {
       this.initUpdateData();
     } else {
-      this.content = this.$store.state.article.content;
+      this.articleForm.articleContentMd = this.$store.state.article.content;
       // console.log(this.content);
     }
 

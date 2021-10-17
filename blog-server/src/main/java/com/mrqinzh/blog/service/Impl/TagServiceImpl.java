@@ -47,7 +47,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Resp delete(Integer id) {
-        tagMapper.delete(id);
+        tagMapper.deleteById(id);
         return Resp.sendMsg(AppStatus.DELETE_SUCCESS);
     }
 

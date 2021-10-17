@@ -1,29 +1,57 @@
 <template>
   <div class="comment-container">
-    <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
+    <el-form :inline="true" :model="searchForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input v-model="searchForm.nickname" placeholder="昵称" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button icon="el-icon-search" @click="getDataList()">查询</el-button>
+        <el-input v-model="searchForm.ip" placeholder="ip地址" clearable></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-select v-model="searchForm.type" placeholder="评论/留言" clearable>
+          <el-option value="1" label="评论"></el-option>
+          <el-option value="2" label="留言"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-date-picker
+          v-model="searchForm.time"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          align="right">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button icon="el-icon-search" @click="search()">查询</el-button>
+        <el-button icon="el-icon-refresh-left" @click="resetSearch" type="warning">重置</el-button>
       </el-form-item>
     </el-form>
     <el-table
       style="margin: 10px 0px;"
       :data="dataList"
-      v-loading="dataListLoading"
-      @selection-change="selectionChangeHandle">
-      <el-table-column
-        type="selection"
-        width="50">
-      </el-table-column>
+      v-loading="dataListLoading">
       <el-table-column
         prop="id"
         label="评论编号">
       </el-table-column>
       <el-table-column
-        prop="userId"
-        label="所属用户编号">
+        ref="avatar"
+        label="用户头像">
+        <template slot-scope="scope">
+          <el-avatar :src="scope.row.avatar"></el-avatar>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="nickname"
+        label="用户昵称">
+      </el-table-column>
+      <el-table-column
+        prop="ip"
+        label="用户ip">
       </el-table-column>
       <el-table-column
         prop="commentContent"
@@ -38,89 +66,109 @@
         label="评论时间">
       </el-table-column>
       <el-table-column
+        prop="type"
+        label="评论/留言">
+      </el-table-column>
+      <el-table-column
         fixed="right"
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.commentId)">修改</el-button>
-          <el-button type="text" size="small" @click="deleteHandle(scope.row.commentId)">删除</el-button>
+          <el-button type="text" size="mini" @click="deleteHandle(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       @size-change="sizeChangeHandle"
       @current-change="currentChangeHandle"
-      :current-page="pageIndex"
+      :current-page="currentPage"
       :page-sizes="[10, 20, 50, 100]"
       :page-size="pageSize"
-      :total="totalPage"
+      :total="totalCount"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
   </div>
 </template>
 
 <script>
+import { getAllList } from '@/api/comment';
 export default {
   data() {
     return {
-      dataForm: {
-        key: ''
+      searchForm: {
+        nickname: '',
+        ip: '',
+        type: '',
+        time: '',
       },
       dataList: [],
-      pageIndex: 1,
+      currentPage: 1,
       pageSize: 10,
-      totalPage: 0,
+      totalCount: 0,
       dataListLoading: false,
-      dataListSelections: [],
+
     }
   },
-  activated() {
+  mounted() {
     this.getDataList()
   },
   methods: {
+    resetSearch() {
+      this.searchForm = {
+        nickname: '',
+        ip: '',
+        type: '',
+        time: '',
+      }
+      this.getDataList();
+    },
+    search() {
+      this.currentPage = 1;
+      this.pageSize = 10;
+      this.getDataList();
+    },
     // 获取数据列表
     getDataList() {
       this.dataListLoading = true
+      let param = {
+        currentPage: this.currentPage,
+        pageSize: this.pageSize,
+        nickname: this.searchForm.nickname,
+        ip: this.searchForm.ip,
+        type: this.searchForm.type,
+        startTime: this.searchForm.time[0],
+        endTime: this.searchForm.time[1],
+      }
+      // console.log(param);
+      getAllList(param).then(resp => {
+        // console.log(resp)
+        this.dataList = resp.data.rows;
+        this.dataList.forEach(e => {
+          e.type = e.type == 1 ? '评论' : '留言'
+        })
+        this.totalCount = resp.data.totalCount;
+        this.dataListLoading = false;
+      })
     },
     // 每页数
     sizeChangeHandle(val) {
       this.pageSize = val
-      this.pageIndex = 1
+      this.currentPage = 1
       this.getDataList()
     },
     // 当前页
     currentChangeHandle(val) {
-      this.pageIndex = val
+      this.currentPage = val
       this.getDataList()
     },
     // 删除
     deleteHandle(id) {
-      var ids = id ? [id] : this.dataListSelections.map(item => {
-        return item.commentId
-      })
-      this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+      this.$confirm(`确定对[id=${id}]进行删除操作？`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http({
-          url: this.$http.adornUrl('/movie/comment/delete'),
-          method: 'post',
-          data: this.$http.adornData(ids, false)
-        }).then(({data}) => {
-          if (data && data.code === 0) {
-            this.$message({
-              message: '操作成功',
-              type: 'success',
-              duration: 1500,
-              onClose: () => {
-                this.getDataList()
-              }
-            })
-          } else {
-            this.$message.error(data.msg)
-          }
-        })
+        // Todo axios
       })
     }
   }

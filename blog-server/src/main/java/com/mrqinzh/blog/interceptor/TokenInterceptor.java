@@ -44,7 +44,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 //            return true;
         }
 
-        resp.setContentType("text/json; charset=utf-8");
+        resp.setContentType("application/json; charset=utf-8");
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(Resp.sendMsg(AppStatus.AUTH_FAILED));
         resp.getWriter().write(json);

@@ -7,6 +7,7 @@ import com.mrqinzh.blog.mapper.CommentMapper;
 import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.entity.Comment;
 import com.mrqinzh.blog.model.enums.AppStatus;
+import com.mrqinzh.blog.model.vo.comment.CommentPageVo;
 import com.mrqinzh.blog.model.vo.comment.CommentVo;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.service.CommentService;
@@ -28,9 +29,9 @@ public class CommentServiceImpl implements CommentService {
     private CommentMapper commentMapper;
 
     @Override
-    public List<Comment> list(PageVO pageVO) {
-        PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
-        List<Comment> comments = commentMapper.list();
+    public List<Comment> list(CommentPageVo commentPageVo) {
+        PageHelper.startPage(commentPageVo.getCurrentPage(), commentPageVo.getPageSize());
+        List<Comment> comments = commentMapper.list(commentPageVo);
         return comments;
     }
 

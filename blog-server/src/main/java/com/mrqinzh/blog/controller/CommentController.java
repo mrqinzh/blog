@@ -4,6 +4,7 @@ import com.mrqinzh.blog.model.entity.Comment;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.resp.PageResp;
+import com.mrqinzh.blog.model.vo.comment.CommentPageVo;
 import com.mrqinzh.blog.model.vo.comment.CommentVo;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.service.CommentService;
@@ -26,8 +27,8 @@ public class CommentController {
 
     @ApiOperation(value = "分页获取所有评论信息")
     @GetMapping("list")
-    public Resp list(PageVO pageVO) {
-        List<Comment> comments = commentService.list(pageVO);
+    public Resp list(CommentPageVo commentPageVo) {
+        List<Comment> comments = commentService.list(commentPageVo);
         return PageResp.ok(comments);
     }
 

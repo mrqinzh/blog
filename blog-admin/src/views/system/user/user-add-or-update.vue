@@ -56,14 +56,14 @@ export default {
     },
     init (id) {
       this.dataForm.id = id || 0
-      console.log(this.dataForm.id)
+      // console.log(this.dataForm.id)
       this.visible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.id != 0) {
           // Todo axios
           getUserById(this.dataForm.id).then(resp => {
-            console.log(resp);
+            // console.log(resp);
             this.dataForm = resp.data;
           })
         }

@@ -124,11 +124,11 @@ public class UserServiceImpl implements UserService {
         String clientIp = WebUtil.getClientIp(WebUtil.getRequest());
 
         // 向 t_login_log 表中添加一条登录日志
-        LoginLog loginLog = new LoginLog();
-        loginLog.setIp(clientIp);
-        loginLog.setLoginTime(new Date());
-        loginLog.setToken(token);
-        loginLog.setUserId(user.getId());
+//        LoginLog loginLog = new LoginLog();
+//        loginLog.setIp(clientIp);
+//        loginLog.setLoginTime(new Date());
+//        loginLog.setToken(token);
+//        loginLog.setUserId(user.getId());
         // 存在问题： 页面每次刷新时，也会添加。等到正式环境在使用
 //        loginLogMapper.add(loginLog);
 

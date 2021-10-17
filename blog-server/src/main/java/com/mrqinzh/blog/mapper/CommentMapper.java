@@ -2,6 +2,7 @@ package com.mrqinzh.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.mrqinzh.blog.model.entity.Comment;
+import com.mrqinzh.blog.model.vo.comment.CommentPageVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,5 @@ public interface CommentMapper extends BaseMapper<Comment> {
      */
     Boolean deleteByTypeId(String idType, Integer id);
 
-    @Select("select * from comment where status = 0")
-    List<Comment> list();
+    List<Comment> list(CommentPageVo commentPageVo);
 }

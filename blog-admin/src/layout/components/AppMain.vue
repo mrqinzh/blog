@@ -41,10 +41,10 @@ export default {
       this.websock.onclose = this.websocketclose;
     },
     websocketonopen: function () {
-        console.log("WebSocket连接成功");
+      console.log("WebSocket连接成功");
     },
     websocketonerror: function (e) {
-        console.log("WebSocket连接发生错误");
+      console.log("WebSocket连接发生错误");
     },
     // 接受数据
     websocketonmessage: function (e) {
@@ -53,10 +53,10 @@ export default {
     },
     // 数据发送
     websocketsend(Data) {
-        this.websock.send(Data)
+      this.websock.send(Data)
     },
     websocketclose: function (e) {
-        console.log("connection closed (" + e + ")");
+      console.log("connection closed (" + e + ")");
     }
   },
   mounted() {

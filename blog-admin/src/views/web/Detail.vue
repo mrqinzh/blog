@@ -23,7 +23,7 @@
           </div>
           
           <!-- 文章内容 -->
-          <div class="article-content" v-html="content"></div>
+          <div class="article-main-content" v-html="content"></div>
 
           <!-- 底部评论区域 -->
           <div class="page-comment">
@@ -264,7 +264,7 @@ export default {
     }
   }
 
-  .article-content {
+  .article-main-content {
     // border: 1px solid red;
     padding: 30px;
     font-size: 16px;

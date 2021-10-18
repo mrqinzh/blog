@@ -71,16 +71,16 @@
                   </div>
                 </div>
                 <!-- <img src="../../assets/img/hutao.jpg" alt="" class="artile-cover-img"> -->
-                <img :src="item.articleCoverImg" alt="" class="artile-cover-img" v-show="item.articleCoverImg">
+                <img :src="item.articleCoverImg" class="artile-cover-img" v-show="item.articleCoverImg">
               </div>
               <div class="foot">
                 <span v-for="(tag, index) in item.articleTag.split(',')" :key="index">
                   <a-icon type="tag" />&nbsp;&nbsp;&nbsp;&nbsp;<a>{{tag}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                 </span>
-                <span style="float: right;margin: 0 20px 10px 0;color: red;">
-                    <a-icon type="like" @click="$message.success('谢谢你de支持 -> ^_^')"/>
-                    <a-icon type="eye" style="margin: 9px 3px 0 10px;" />
-                    <span>{{ item.articleViews }}</span>
+                <span style="float: right;margin: 0 20px 10px 0;">
+                    <a-icon type="like" @click="$message.success('谢谢你de支持 -> ^_^')" style="color: red"/>
+                    <a-icon type="eye" style="margin: 9px 2px 0 10px;" />
+                    阅读<span style="color: red">({{ item.articleViews }})</span>
                 </span>
               </div>
             </div>
@@ -247,7 +247,7 @@ import { list } from '@/api/article'
     background-color: white;
     .article-content {
       display: inline-block;
-      width: 80%;
+      width: 71%;
       /* 中间文章内容的title动画 */
       .boxchilde {
         font-size: 20px;
@@ -268,17 +268,15 @@ import { list } from '@/api/article'
         line-height: 1.7em;
         height: 70px;
         overflow: hidden;
-        .article-content {
-          display: inline-block;
-        }
-        
       }
     }
     .artile-cover-img {
       float: right;
-      margin: 40px 10px 0 0;
-      width: 130px;
-      height: 100px;
+      margin: 20px 10px 0 0;
+      width: 190px;
+      height: 130px;
+      border: 1px solid #EBEEF5;
+      border-radius: 15px;
     }
     
     .foot {

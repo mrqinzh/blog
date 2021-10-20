@@ -6,7 +6,6 @@ import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.resp.PageResp;
 import com.mrqinzh.blog.model.vo.comment.CommentPageVo;
 import com.mrqinzh.blog.model.vo.comment.CommentVo;
-import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.service.CommentService;
 import com.mrqinzh.blog.model.resp.Resp;
 import io.swagger.annotations.Api;
@@ -62,6 +61,5 @@ public class CommentController {
         List<Comment> comments = commentService.getMessageList();
         return DataResp.ok(comments);
     }
-
 
 }

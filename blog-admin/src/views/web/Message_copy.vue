@@ -18,8 +18,9 @@
       <a-timeline mode="alternate">
         <a-timeline-item v-for="(item, index) in messageList" :key="index" >
           <img slot="dot" :src="item.avatar" style="width: 20px;height: 20px">
-          <span style="font-size: 14px">{{ item.commentTime }}</span>
-          <span style="font-weight: bold ">{{ item.nickname }}</span> ：
+          <span style="font-size: 14px;">{{ item.commentTime }}</span>
+          <span style="font-weight: bold ">{{ item.nickname }}</span>
+          <br>
           <span style="font-size: 14px">{{ item.commentContent }}</span>
         </a-timeline-item>
       </a-timeline>

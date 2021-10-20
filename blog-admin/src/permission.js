@@ -8,7 +8,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login', '/', '/category', '/about', '/message'] // 白名单，不需要登录信息就可以直接访问
+const whiteList = ['/login', '/', '/category', '/about', '/message', '/article/list'] // 白名单，不需要登录信息就可以直接访问
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar

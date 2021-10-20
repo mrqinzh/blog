@@ -44,16 +44,17 @@
               <h2 style="font-family: 楷体">所有评论</h2>
             </blockquote>
             <div v-for="(item, index) in comments" :key="index">
-              <div style="display: inline-block;">
+              <a-space size="large">
                 <el-avatar :src="item.avatar"></el-avatar>
                 <span class="name-text">{{ item.nickname}}</span>
-                <span style="font-size: 12px;margin-left: 50px;color: #909399">评论时间： {{ item.commentTime}}</span>
-              </div>
+                <span style="font-size: 12px;color: #909399">{{ item.commentTime}}</span>
+              </a-space>
               
-              <div style="color: #303133">
+              <p style="color: #303133">
                 <i class="el-icon-chat-dot-round"></i>：{{ item.commentContent}}. . .
+                <br>
                 <el-link @click="flag=index" type="primary" icon="el-icon-edit" :underline="false">回复</el-link>
-              </div>
+              </p>
 
               <!-- 点击显示回复框 -->
               <div v-show="flag===index" style="margin: 20px">
@@ -65,9 +66,11 @@
               <div class="child-comment">
                 <blockquote>
                   <div style="margin: 20px" v-for="(child, child_index) in item.comments" :key="child_index">
-                    <el-avatar :src="child.avatar"></el-avatar>
-                    <span class="name-text">{{ child.nickname }}</span>
-                    <span style="font-size: 12px;margin-left: 50%;">评论时间： {{ child.commentTime }}</span>
+                    <a-space size="large">
+                      <el-avatar :src="child.avatar"></el-avatar>
+                      <span class="name-text">{{ child.nickname }}</span>
+                      <span style="font-size: 12px;">{{ child.commentTime }}</span>
+                    </a-space>
                     <p>
                       <i class="el-icon-chat-dot-round"></i>：{{ child.commentContent }}
                     </p>
@@ -253,13 +256,13 @@ export default {
       margin-left: 10%;
       blockquote {
         border-left: 2px solid #409EFF;
-        background-color: #F2F6FC;
+        // background-color: #F2F6FC;
       }
       
     }
     .name-text{
       font-size: 17px;
-      margin-left: 20px;
+      margin: 0 0 0 -10px;
       color: #303133;
     }
   }

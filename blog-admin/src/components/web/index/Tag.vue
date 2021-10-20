@@ -49,9 +49,9 @@ export default {
        margin: 5px 0px;
      }
    }
- }
- .tag-card:hover {
-   transform: translate(0, -10px);
-   box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
+   &:hover {
+      transform: translate(0, -10px);
+      box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
+   }
  }
 </style>

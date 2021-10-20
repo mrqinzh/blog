@@ -13,7 +13,7 @@
 
     <!-- 文章分类 -->
     <ul class="chooseType animate__animated animate__fadeInLeft">
-      <i class="el-icon-s-operation"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span @click="loadBlogs()" style="cursor: pointer">所有文章</span>
+      <i class="el-icon-s-operation"></i>&nbsp;<span @click="loadBlogs()" style="cursor: pointer">所有文章</span>
       <li v-for="(item, index) in linkTypes" :key="index" @click="findByType(item.val)">
         {{item.linkName}}
         <span><i class="el-icon-caret-right"></i></span>
@@ -50,10 +50,10 @@
                     <a-tag color="#f50" v-else>转载</a-tag>
                     <i class="el-icon-s-custom"></i>
                     <span><a style="color: #898d92">{{ item.articleAuthor }}</a></span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;
                     <a-icon type="tags" />
                     <span><a style="color: #898d92">{{ item.articleTag }}</a></span>
-                    <span style="float: right;margin: 0px 15px;">
+                    <span style="float: right;margin: 3px 15px;">
                       <a-icon type="eye" />
                       {{item.articleViews}}
                     </span>

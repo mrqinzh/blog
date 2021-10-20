@@ -54,7 +54,7 @@
         <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="16">
           <div class="animate__animated animate__fadeInLeft">
             <div class="blog-card" v-for="(item, index) in articles" :key="index">
-              <div style="height: 150px;">
+              <div>
                 <div class="article-content">
                   <blockquote class="boxchilde">
                     <a><router-link :to="{name: 'Detail', params: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a>
@@ -63,7 +63,7 @@
                       <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
                       <a-tag color="#f50" v-else>转载</a-tag>
                       <i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.articleAuthor}}</a>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <a-divider type="vertical" />
                       <i class="el-icon-date"></i>&nbsp;&nbsp;<a>{{item.articleUpdateTime}}</a>
                   </div>
                   <div class="summary">
@@ -80,9 +80,12 @@
                   <a-divider type="vertical" v-show="index < item.articleTag.split(',').length-1" />
                 </span>
                 <span style="float: right;margin: 0 20px 10px 0;">
-                    <a-icon type="like" @click="$message.success('谢谢你de支持 -> ^_^')" style="color: red"/>
-                    <a-icon type="eye" style="margin: 9px 2px 0 10px;" />
-                    阅读<span style="color: red">({{ item.articleViews }})</span>
+                    <a-space>
+                      <a-icon type="like" @click="$message.success('谢谢你de支持 -> ^_^')" style="color: red"/>
+                      <a-icon type="eye" />
+                      阅读<span style="color: red">({{ item.articleViews }})</span>
+                    </a-space>
+                    
                 </span>
               </div>
             </div>
@@ -104,15 +107,16 @@
         <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="8">
           <div class="animate__animated animate__fadeInRight">
             <!-- 搜索文章按钮 -->
-            <SearchBtn style="margin-top: 30px;"></SearchBtn>
+            <search-btn style="margin-top: 30px;"></search-btn>
             <!-- 左边个人信息简介 -->
             <div class="user-card">
               <!-- 头像 -->
               <el-avatar class="avatar" :src="user.avatar" :size="100"></el-avatar>  
               <!-- 姓名、座右铭 -->
-              <div style="font-size: 20px;">
+              <div>
+                <!-- <mallki :text="user.name"></mallki> -->
                 <span>{{user.name}}</span><br>
-                <span style="font-size: 15px;line-height: 2em">{{user.motto}}</span>
+                <span style="font-size: 15px;line-height: 2em;color: #909399">{{user.motto}}</span>
               </div>
               <el-button @click="drawer = true" type="primary" round size="medium" style="margin: 10px 0;">
                 Click Me
@@ -121,17 +125,20 @@
                 <el-tooltip class="item" effect="dark" :content="user.vx" placement="bottom-start">
                   <a-icon type="wechat" />
                 </el-tooltip>
-                <el-tooltip class="item" effect="dark" :content="user.qq" placement="bottom-start">
-                  <a-icon type="qq" />
-                </el-tooltip>
+                <a-divider type="vertical" />
                 <el-tooltip class="item" effect="dark" :content="user.tel" placement="bottom-start">
                   <a-icon type="mobile" />
+                </el-tooltip>
+                <a-divider type="vertical" />
+                <el-tooltip class="item" effect="dark" :content="user.qq" placement="bottom-start">
+                  <a-icon type="qq" />
                 </el-tooltip>
               </div>
             </div>
             <!-- <LinkCard></LinkCard> -->
             <!-- <WebInfo></WebInfo> -->
-            <Tag></Tag>
+            <tag></tag>
+            <recent-comment></recent-comment>
           </div>
         </el-col>
         
@@ -145,8 +152,10 @@
 </template>
 
 <script>
+import Mallki from '@/components/TextHoverEffect/Mallki'
 import Notice from '@/components/web/index/Notice'
 import Tag from '@/components/web/index/Tag'
+import RecentComment from '@/components/web/index/RecentComment'
 import LinkCard from '@/components/web/index/LinkCard';
 import WebInfo from '@/components/web/index/WebInfo'
 import SearchBtn from '@/components/web/index/SearchBtn'
@@ -156,10 +165,12 @@ import { list } from '@/api/article'
   export default {
     components: {
       'LinkCard': LinkCard,
-      'SearchBtn': SearchBtn,
+      SearchBtn,
       'WebInfo': WebInfo,
       'Notice': Notice,
-      'Tag': Tag
+      Tag,
+      Mallki,
+      RecentComment
     },
     data() {
       return {
@@ -322,6 +333,10 @@ import { list } from '@/api/article'
     &:hover {
       transform: translate(0,-10px);
       box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
+    }
+    > div {
+      color: #303133;
+      font-size: 20px;
     }
   }
 

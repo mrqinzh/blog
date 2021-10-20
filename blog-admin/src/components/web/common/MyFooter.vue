@@ -13,7 +13,7 @@
       <br>
       <a style="color: white;" href="https://beian.miit.gov.cn" target="_blank">渝ICP备2021004455号</a>
       <br>
-      <span>Copyright - 作者->Mr.QinZH @ 2021-05-06</span><br>
+      <span>@Copyright - Author -> Mr.QinZH in 2021-05-06</span><br>
       <span >QQ: 1552589784</span>
       <span>
         <a style="color: inherit;margin: 0px 8px;" href="https://github.com/mrqinzh" target="_blank"><a-icon type="github" /></a>
@@ -37,7 +37,7 @@ export default {
 <style lang="scss" scoped>
 
   .myfooter {
-    position: relative;
+    position: absolute;
     width: 100%;
     margin-top: 100px;
     font-family: 楷体;
@@ -46,6 +46,7 @@ export default {
     color: white;
     background-color: #606266;
     height: 200px;
+    z-index: 1;
     .foot-left {
       position: relative;
       display: inline-block;

@@ -37,7 +37,8 @@ export const constantRoutes = [
     component: () => import('@/views/web/index'),
     children: [
       { path: '/', name: 'home', component: () => import('@/views/web/home') },
-      { path: '/category', name: 'Article', component: () => import('@/views/web/Article') },
+      { path: '/article/list', name: 'Article', component: () => import('@/views/web/Article') },
+      { path: '/category', name: 'Category', component: () => import('@/views/web/Category') },
       { path: '/about', name: 'About', component: () => import('@/views/web/About') },
       { path: '/detail/:articleId', name: 'Detail', component: () => import('@/views/web/Detail') },
       { path: '/message', name: 'Message', component: () => import('@/views/web/Message_copy') },

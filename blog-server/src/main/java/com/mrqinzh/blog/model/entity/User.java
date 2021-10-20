@@ -25,7 +25,7 @@ public class User implements Serializable {
     /**
      * 用户最后登录时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date loginLastTime;
 
     private String userAvatar;

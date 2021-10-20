@@ -23,6 +23,10 @@ public class Resp {
         this.msg = status.getMsg();
     }
 
+    public static Resp success() {
+        return Resp.sendMsg(AppStatus.SUCCESS);
+    }
+
     public static Resp sendMsg(AppStatus status, String msg) {
         Resp resp = new Resp();
         resp.setCode(status.getCode());

@@ -1,6 +1,6 @@
 <template>
   <div class="myhead">
-    <el-menu  mode="horizontal" @select="handleSelect">
+    <el-menu  mode="horizontal" @select="handleSelect" :default-active="$route.path">
       <el-menu-item style="width: 20%;cursor: auto" :disabled="true"></el-menu-item>
       <el-menu-item>
         <template slot="title">
@@ -23,6 +23,9 @@ export default {
     return {
       isLogin: false,
     }
+  },
+  computed: {
+    
   },
   methods: {
     //输出点击的导航栏 号

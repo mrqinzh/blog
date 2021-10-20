@@ -157,6 +157,10 @@ export default {
     }
   },
   mounted() {
+    if (this.$route.params.condition) {
+      this.condition = this.$route.params.condition;
+    }
+    // console.log(this.condition);
     this.loadBlogs();
   },
   

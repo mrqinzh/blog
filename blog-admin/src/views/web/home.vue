@@ -74,8 +74,10 @@
                 <img :src="item.articleCoverImg" class="artile-cover-img" v-show="item.articleCoverImg">
               </div>
               <div class="foot">
+                <a-icon type="tag" />
                 <span v-for="(tag, index) in item.articleTag.split(',')" :key="index">
-                  <a-icon type="tag" />&nbsp;&nbsp;&nbsp;&nbsp;<a>{{tag}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a>{{tag}}</a>
+                  <a-divider type="vertical" v-show="index < item.articleTag.split(',').length-1" />
                 </span>
                 <span style="float: right;margin: 0 20px 10px 0;">
                     <a-icon type="like" @click="$message.success('谢谢你de支持 -> ^_^')" style="color: red"/>
@@ -282,8 +284,11 @@ import { list } from '@/api/article'
     .foot {
       padding: 0px 0px 5px 15px;
       font-size: 15px;
-      span {
-        margin-right: 5px;
+      > span {
+        margin-left: 5px;
+      }
+      .ant-divider, .ant-divider-vertical {
+        margin: 0 2px;
       }
     }
     &:hover {

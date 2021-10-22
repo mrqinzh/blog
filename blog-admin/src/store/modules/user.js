@@ -7,7 +7,9 @@ const getDefaultState = () => {
     userId: '',
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+
+    roles: []
   }
 }
 
@@ -28,6 +30,9 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
   }
 }
 
@@ -59,10 +64,11 @@ const actions = {
           return reject('认证失败，请重新登录。-_-')
         }
 
-        const { userId, name, avatar } = data
+        const { userId, name, avatar, roles } = data
         commit('SET_USERID', userId)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_ROLES', roles)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -77,6 +83,7 @@ const actions = {
         removeToken() // must remove  token  first
         resetRouter()
         commit('SET_TOKEN', '')
+        commit('SET_ROLES', [])
         resolve()
       }).catch(error => {
         reject(error)
@@ -89,6 +96,7 @@ const actions = {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
+      commit('SET_ROLES', [])
       resolve()
     })
   }

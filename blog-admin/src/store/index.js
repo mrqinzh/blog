@@ -8,6 +8,9 @@ import tagsView from './modules/tagsView'
 
 import article from './modules/article'
 
+//添加permission
+import permission from './modules/permission'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -17,7 +20,8 @@ const store = new Vuex.Store({
     tagsView,
     user,
     // ===
-    article
+    article, 
+    permission
   },
   getters
 })

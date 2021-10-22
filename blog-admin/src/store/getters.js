@@ -8,6 +8,11 @@ const getters = {
   visitedViews: state => state.tagsView.visitedViews,
   cachedViews: state => state.tagsView.cachedViews,
   // ===
-  articleContent: state => state.article.content
+  articleContent: state => state.article.content,
+
+  //添加roles
+  roles: state => state.user.roles,
+  //动态路由
+  permission_routes: state => state.permission.routes,
 }
 export default getters

@@ -15,7 +15,7 @@ Vue.use(Antd);
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI, { size: 'small', zIndex: 3000 })
+Vue.use(ElementUI, { size: 'mini', zIndex: 3000 })
 // 使用ant-design的消息message组件覆盖elementui的
 import { message } from 'ant-design-vue';
 Vue.prototype.$message = message;

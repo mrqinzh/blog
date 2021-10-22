@@ -12,10 +12,7 @@ import com.mrqinzh.blog.model.resp.PageResp;
 import com.mrqinzh.blog.model.entity.LoginLog;
 import com.mrqinzh.blog.model.entity.User;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.UserService;
@@ -136,7 +133,11 @@ public class UserServiceImpl implements UserService {
         map.put("userId", user.getId());
         map.put("name", user.getUserNickname());
         map.put("avatar", user.getUserAvatar());
-        map.put("role", user.getRoleName());
+        // 当前写死，等待后期做动态权限
+        List list = new ArrayList();
+        list.add("admin");
+        list.add("super-admin");
+        map.put("roles", list);
 
         return DataResp.ok(map);
     }

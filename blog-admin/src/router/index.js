@@ -75,7 +75,8 @@ export const constantRoutes = [
     path: '/admin/system',
     component: Layout,
     name: 'System',
-    meta: { title: '系统', icon: 'el-icon-milk-tea' },
+    meta: { title: '系统管理', icon: 'el-icon-milk-tea' },
+    redirect: 'noRedirect',
     children: [
       {
         path: 'user',
@@ -88,6 +89,7 @@ export const constantRoutes = [
         name: 'Article',
         component: () => import('@/views/system/article/index'),
         meta: { title: '文章管理', icon: 'el-icon-reading' },
+        redirect: 'noRedirect',
         children: [
           { path: 'list', name: 'ArticleList', component: () => import('@/views/system/article/Article'), meta: { title: '文章列表', icon: 'el-icon-data-board' }},
           { path: 'add', name: 'ArticleAdd', component: () => import('@/views/system/article/add_copy'), meta: { title: '写文章', icon: 'el-icon-edit' }}
@@ -104,6 +106,28 @@ export const constantRoutes = [
         name: 'Tag',
         component: () => import('@/views/system/tag/index'),
         meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
+      }
+    ]
+  },
+
+  {
+    path: '/admin/authority',
+    component: Layout,
+    name: 'Authority',
+    meta: { title: '权限管理', icon: 'el-icon-medal' },
+    redirect: 'noRedirect',
+    children: [
+      {
+        path: 'menu',
+        name: 'Menu',
+        component: () => import('@/views/authority/menu'),
+        meta: { title: '菜单管理', icon: 'el-icon-menu' }
+      },
+      {
+        path: 'role',
+        name: 'Role',
+        component: () => import('@/views/authority/role'),
+        meta: { title: '角色管理', icon: 'el-icon-key' }
       }
     ]
   },

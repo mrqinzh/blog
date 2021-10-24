@@ -62,9 +62,9 @@
                   <div style="margin-left: 20px;">
                       <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
                       <a-tag color="#f50" v-else>转载</a-tag>
-                      <i class="el-icon-user"></i>&nbsp;&nbsp;<a>{{item.articleAuthor}}</a>
+                      <i class="el-icon-user"></i>&nbsp;&nbsp;{{item.articleAuthor}}
                       <a-divider type="vertical" />
-                      <i class="el-icon-date"></i>&nbsp;&nbsp;<a>{{item.articleUpdateTime}}</a>
+                      <i class="el-icon-date"></i>&nbsp;&nbsp;{{item.articleUpdateTime}}
                   </div>
                   <div class="summary">
                     &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.articleSummary }}。。。</span>

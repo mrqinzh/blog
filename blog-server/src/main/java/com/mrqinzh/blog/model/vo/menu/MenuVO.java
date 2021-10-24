@@ -25,7 +25,6 @@ public class MenuVO {
     private String menuPath;
 
     @ApiModelProperty(value = "组件名")
-    @NotNull
     private String componentName;
 
     @ApiModelProperty(value = "组件路径")

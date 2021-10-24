@@ -40,47 +40,47 @@
           width="200"
           trigger="click"
           v-model="parentDirVisible">
-          <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+          <el-tree :data="menuListData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
           <el-input slot="reference" v-model="menuForm.parentDir" clearable style="width: 177px;"></el-input>
         </el-popover>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="visible = false">取 消</el-button>
-      <el-button type="primary" @click="visible = false">确 定</el-button>
+      <el-button type="primary" @click="menuFormSubmit">确 定</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
+import { menuList, addMenu } from '@/api/authority/menu'
 export default {
   data() {
     return {
-      data: [{
-        id: 1,
-        label: '一级 1',
-        children: [{
-          id: 4,
-          label: '二级 1-1',
-          children: [{
-            id: 9,
-            label: '三级 1-1-1'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
-        }]
-      }],
+      // menuListData: [{
+      //   id: 1,
+      //   label: '一级 1',
+      //   children: [{
+      //     id: 4,
+      //     label: '二级 1-1',
+      //     children: [{
+      //       id: 9,
+      //       label: '三级 1-1-1'
+      //     }]
+      //   }]
+      // }, {
+      //   id: 2,
+      //   label: '一级 2',
+      //   children: [{
+      //     id: 5,
+      //     label: '二级 2-1'
+      //   }]
+      // }],
+      menuListData: [],
       defaultProps: {
         children: 'children',
         label: 'label'
       },
-
-
       parentDirVisible: false,
       visible: false,
       menuForm: {
@@ -98,6 +98,12 @@ export default {
     }
   },
   methods: {
+    loadMenuList() {
+      menuList().then(resp => {
+        console.log(resp)
+        this.menuListData = resp.data;
+      })
+    },
     handleNodeClick(data) {
       this.parentDirVisible = false;
       this.menuForm.parentDir = data.label;
@@ -106,6 +112,7 @@ export default {
     init (id) {
       this.menuForm.id = id || 0;
       this.visible = true;
+      this.loadMenuList();
       this.$nextTick(() => {
         this.$refs['menuForm'].resetFields();
         if (this.menuForm.id != 0) {
@@ -113,6 +120,23 @@ export default {
         }
       })
     },
+    menuFormSubmit() {
+      let param = {
+        cache: this.menuForm.cache ? 1 : 0,
+        componentName: this.menuForm.componentName,
+        componentPath: this.menuForm.componentPath,
+        hidden: this.menuForm.hidden ? 1 : 0,
+        icon: this.menuForm.icon,
+        menuPath: this.menuForm.menuPath,
+        menuTitle: this.menuForm.menuTitle,
+      }
+      addMenu(param).then(resp => {
+        console.log(resp);
+        if (resp.success) {
+          this.$message.success("添加成功");
+        }
+      })
+    }
   }
 }
 </script>

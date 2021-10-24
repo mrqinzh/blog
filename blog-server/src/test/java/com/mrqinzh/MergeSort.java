@@ -2,7 +2,13 @@ package com.mrqinzh;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 public class MergeSort {
+
+    public List<Integer> list;
+
+
 
     public void mergeSort(int[] arr, int start, int end) {
         if (start < end) {

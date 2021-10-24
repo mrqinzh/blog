@@ -120,7 +120,7 @@ export const constantRoutes = [
       {
         path: 'menu',
         name: 'Menu',
-        component: () => import('@/views/authority/menu'),
+        component: () => import('@/views/authority/menu/index_copy'),
         meta: { title: '菜单管理', icon: 'el-icon-menu' }
       },
       {
@@ -177,44 +177,44 @@ export const constantRoutes = [
  * 动态路由
  */
 export const asyncRoutes = [
-  {
-    path: '/admin/system',
-    component: Layout,
-    name: 'System',
-    meta: { title: '系统管理', icon: 'el-icon-milk-tea' },
-    redirect: 'noRedirect',
-    children: [
-      {
-        path: 'user',
-        name: 'User',
-        component: () => import('@/views/system/user/User'),
-        meta: { title: '用户管理', icon: 'user' }
-      },
-      {
-        path: 'article',
-        name: 'Article',
-        component: () => import('@/views/system/article/index'),
-        meta: { title: '文章管理', icon: 'el-icon-reading', roles: ['admin'] },
-        redirect: 'noRedirect',
-        children: [
-          { path: 'list', name: 'ArticleList', component: () => import('@/views/system/article/Article'), meta: { title: '文章列表', icon: 'el-icon-data-board' }},
-          { path: 'add', name: 'ArticleAdd', component: () => import('@/views/system/article/add_copy'), meta: { title: '写文章', icon: 'el-icon-edit' }}
-        ]
-      },
-      {
-        path: 'comment',
-        name: 'Comment',
-        component: () => import('@/views/system/comment/Comment'),
-        meta: { title: '评论管理', icon: 'el-icon-chat-line-round' }
-      },
-      {
-        path: 'tag',
-        name: 'Tag',
-        component: () => import('@/views/system/tag/index'),
-        meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
-      }
-    ]
-  },
+  // {
+  //   path: '/admin/system',
+  //   component: Layout,
+  //   name: 'System',
+  //   meta: { title: '系统管理', icon: 'el-icon-milk-tea' },
+  //   redirect: 'noRedirect',
+  //   children: [
+  //     {
+  //       path: 'user',
+  //       name: 'User',
+  //       component: () => import('@/views/system/user/User'),
+  //       meta: { title: '用户管理', icon: 'user' }
+  //     },
+  //     {
+  //       path: 'article',
+  //       name: 'Article',
+  //       component: () => import('@/views/system/article/index'),
+  //       meta: { title: '文章管理', icon: 'el-icon-reading', roles: ['admin'] },
+  //       redirect: 'noRedirect',
+  //       children: [
+  //         { path: 'list', name: 'ArticleList', component: () => import('@/views/system/article/Article'), meta: { title: '文章列表', icon: 'el-icon-data-board' }},
+  //         { path: 'add', name: 'ArticleAdd', component: () => import('@/views/system/article/add_copy'), meta: { title: '写文章', icon: 'el-icon-edit' }}
+  //       ]
+  //     },
+  //     {
+  //       path: 'comment',
+  //       name: 'Comment',
+  //       component: () => import('@/views/system/comment/Comment'),
+  //       meta: { title: '评论管理', icon: 'el-icon-chat-line-round' }
+  //     },
+  //     {
+  //       path: 'tag',
+  //       name: 'Tag',
+  //       component: () => import('@/views/system/tag/index'),
+  //       meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
+  //     }
+  //   ]
+  // },
 ]
 
 const createRouter = () => new Router({

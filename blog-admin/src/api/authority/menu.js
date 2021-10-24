@@ -6,3 +6,11 @@ export function menuList() {
     method: 'get',
   })
 }
+
+export function addMenu(data) {
+  return request({
+    url: '/menu/add',
+    method: 'post',
+    data
+  })
+}

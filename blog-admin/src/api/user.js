@@ -26,7 +26,7 @@ export function list(currentPage, pageSize, condition) {
 
 export function login(data) {
   return request({
-    url: '/user/login',
+    url: '/login',
     method: 'post',
     data
   })
@@ -42,7 +42,7 @@ export function getInfo(token) {
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/logout',
     method: 'post',
     params:{
       methodName:'logout'

@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { menuList } from '@/api/authority/menu'
+import { getMenuList } from '@/api/authority/menu'
 import MenuAddOrUpdate from './MenuAddOrUpdate'
 export default {
   components: {
@@ -65,7 +65,7 @@ export default {
       })
     },
     loadData() {
-      menuList().then(resp => {
+      getMenuList().then(resp => {
         console.log(resp);
         this.menuListData = resp.data;
       })

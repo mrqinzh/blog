@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.mrqinzh.blog.constant.JwtConstant;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.LoginLogMapper;
+import com.mrqinzh.blog.mapper.MenuMapper;
 import com.mrqinzh.blog.mapper.UserMapper;
 import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.vo.user.UserVO;
@@ -32,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private MenuMapper menuMapper;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -109,8 +113,8 @@ public class UserServiceImpl implements UserService {
         User user = (User) redisUtil.get(token);
         // 修改用户的最后登录时间
         user.setLoginLastTime(new Date());
-        userMapper.updateById(user);
         redisUtil.del(token);
+        userMapper.updateById(user);
         return Resp.sendMsg(AppStatus.SUCCESS);
     }
 
@@ -133,11 +137,10 @@ public class UserServiceImpl implements UserService {
         map.put("userId", user.getId());
         map.put("name", user.getUserNickname());
         map.put("avatar", user.getUserAvatar());
-        // 当前写死，等待后期做动态权限
-        List list = new ArrayList();
-        list.add("admin");
-        list.add("super-admin");
-        map.put("roles", list);
+
+        map.put("roles", user.getRole().getRoleName());
+
+        map.put("menus", menuMapper.getByRoleId(user.getRole().getId()));
 
         return DataResp.ok(map);
     }

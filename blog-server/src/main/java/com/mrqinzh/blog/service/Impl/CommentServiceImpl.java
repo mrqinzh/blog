@@ -39,8 +39,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> getMessageList() {
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("type", 2);
-        queryWrapper.eq("status", 0);
+        queryWrapper.lambda()
+                .eq(Comment::getType, 2)
+                .eq(Comment::getStatus, 0);
         List<Comment> comments = commentMapper.selectList(queryWrapper);
         return comments;
     }

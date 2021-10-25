@@ -120,7 +120,8 @@ export const constantRoutes = [
       {
         path: 'menu',
         name: 'Menu',
-        component: () => import('@/views/authority/menu/index_copy'),
+        component: () => import('@/views/authority/menu/'),
+        // component: () => import('@/views/authority/menu/index_copy'),
         meta: { title: '菜单管理', icon: 'el-icon-menu' }
       },
       {

@@ -50,17 +50,4 @@ public class UserController {
         return userService.info(token);
     }
 
-    @ApiOperation(value = "登录")
-    @PostMapping("login")
-    public Resp login(@RequestBody User user) {
-        return userService.loginByUsernameOrEmail(user);
-    }
-
-    @ApiOperation(value = "退出")
-    @PostMapping("/logout")
-    public Resp exit(@RequestHeader("token") String token){
-        return userService.logout(token);
-    }
-
-
 }

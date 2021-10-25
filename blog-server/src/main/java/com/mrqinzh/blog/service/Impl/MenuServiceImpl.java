@@ -22,14 +22,14 @@ public class MenuServiceImpl implements MenuService {
 
     public List<Menu> findAll() {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("status", 0);
+        queryWrapper.lambda().eq(Menu::getStatus, 0);
         return menuMapper.selectList(queryWrapper);
     }
 
     @Override
     public List<Menu> findPage(PageVO pageVO) {
         PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
-        List<Menu> menus = menuMapper.selectList(new QueryWrapper<Menu>().eq("status", 0));
+        List<Menu> menus = menuMapper.selectList(new QueryWrapper<Menu>().lambda().eq(Menu::getStatus, 0));
         return menus;
     }
 

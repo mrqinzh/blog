@@ -24,7 +24,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findAll() {
         QueryWrapper<Role> queryWrapper = new QueryWrapper();
-        queryWrapper.eq("status", 0);
+        queryWrapper.lambda().eq(Role::getStatus, 0);
         List<Role> roles = roleMapper.selectList(queryWrapper);
         return roles;
     }
@@ -32,7 +32,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findPage(PageVO pageVO) {
         PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
-        List<Role> roles = roleMapper.selectList(new QueryWrapper<Role>().eq("status", 0));
+        List<Role> roles = roleMapper.selectList(new QueryWrapper<Role>().lambda().eq(Role::getStatus, 0));
         return roles;
     }
 

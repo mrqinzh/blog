@@ -112,6 +112,7 @@
               <select-icon ref="iconSelect" @selected="selected" />
             </el-popover>
           </el-form-item>
+
           <el-form-item label="上级菜单" prop="pid">
             <treeselect
               v-model="form.pid"
@@ -121,6 +122,7 @@
               placeholder="选择上级菜单"
             />
           </el-form-item>
+          
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="doCancel">取消</el-button>
@@ -131,88 +133,84 @@
           >确认</el-button>
         </div>
       </el-dialog>
-      <el-tabs v-model="activeName" type="border-card">
-        <el-tab-pane label="菜单列表" name="menuList">
-          <el-table
-            ref="table"
-            v-loading="loading"
-            :data="menuTree"
-            row-key="id"
-            :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-            style="width: 100%; font-size: 12px"
-            @selection-change="selectionChangeHandler"
-            @select="selectChange"
-            @select-all="selectAllChange"
-          >
-            <el-table-column type="selection" width="55" />
-            <el-table-column
-              :show-overflow-tooltip="true"
-              width="150"
-              prop="name"
-              label="菜单名称"
+      <el-table
+        ref="table"
+        v-loading="loading"
+        :data="menuTree"
+        row-key="id"
+        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+        style="width: 100%; font-size: 12px"
+        @selection-change="selectionChangeHandler"
+        @select="selectChange"
+        @select-all="selectAllChange"
+      >
+        <el-table-column type="selection" width="55" />
+        <el-table-column
+          :show-overflow-tooltip="true"
+          width="150"
+          prop="name"
+          label="菜单名称"
+        />
+        <el-table-column
+          :show-overflow-tooltip="true"
+          width="150"
+          prop="path"
+          label="路由地址"
+        />
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="component"
+          width="150"
+          label="组件路径"
+        />
+        <el-table-column
+          prop="icon"
+          label="菜单图标"
+          align="center"
+          width="80px"
+        >
+          <template slot-scope="scope">
+            <i
+              v-if="scope.row.icon.includes('el-icon')"
+              :class="scope.row.icon ? scope.row.icon : ''"
             />
-            <el-table-column
-              :show-overflow-tooltip="true"
-              width="150"
-              prop="path"
-              label="路由地址"
+            <svg-icon
+              v-else
+              :icon-class="scope.row.icon ? scope.row.icon : ''"
             />
-            <el-table-column
-              :show-overflow-tooltip="true"
-              prop="component"
-              width="150"
-              label="组件路径"
-            />
-            <el-table-column
-              prop="icon"
-              label="菜单图标"
-              align="center"
-              width="80px"
-            >
-              <template slot-scope="scope">
-                <i
-                  v-if="scope.row.icon.includes('el-icon')"
-                  :class="scope.row.icon ? scope.row.icon : ''"
-                />
-                <svg-icon
-                  v-else
-                  :icon-class="scope.row.icon ? scope.row.icon : ''"
-                />
-              </template>
-            </el-table-column>
-            <el-table-column prop="sort" align="center" label="菜单排序">
-              <template slot-scope="scope">
-                {{ scope.row.sort }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              :show-overflow-tooltip="true"
-              prop="createTime"
-              width="155"
-              label="创建日期"
-            >
-              <template slot-scope="scope">
-                <span>{{ parseTime(scope.row.createTime) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="操作"
-              width="160"
-              align="center"
-              fixed="right"
-            >
-              <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  type="text"
-                  round
-                  @click="doEdit(scope.row.id)"
-                >编辑菜单</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-tab-pane>
-      </el-tabs>
+          </template>
+        </el-table-column>
+        <el-table-column prop="sort" align="center" label="菜单排序">
+          <template slot-scope="scope">
+            {{ scope.row.sort }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          :show-overflow-tooltip="true"
+          prop="createTime"
+          width="155"
+          label="创建日期"
+        >
+          <template slot-scope="scope">
+            <span>{{ parseTime(scope.row.createTime) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          width="160"
+          align="center"
+          fixed="right"
+        >
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="text"
+              round
+              @click="doEdit(scope.row.id)"
+            >编辑菜单</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-row>
   </div>
 </template>
@@ -222,6 +220,7 @@ import SelectIcon from '@/components/SelectIcon'
 import { mapGetters } from 'vuex'
 import { parseTime } from '@/utils/index'
 // import { getMenuList, getMenuById, saveMenu, deleteMenu } from '@/api/menu'
+import { getMenuList } from '@/api/authority/menu'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
@@ -229,7 +228,6 @@ export default {
   components: { SelectIcon, Treeselect },
   data() {
     return {
-      activeName: 'menuList',
       showDialog: false,
       loading: false,
       formLoading: false,
@@ -258,27 +256,17 @@ export default {
     ])
   },
   created() {
-    var param = { name: '' }
-    getMenuList(param).then(res => {
-      if (res) {
-        this.menuTree = this.ArrayToTreeData(res)
-      }
+    getMenuList().then(resp => {
+      this.menuTree = this.ArrayToTreeData(resp.data)
     })
   },
   methods: {
     parseTime,
     doQuery() {
       this.menus = []
-      var param = { name: this.name }
-      if (this.createTime != null) {
-        param.createTimeStart = Date.parse(this.createTime[0])
-        param.createTimeEnd = Date.parse(this.createTime[1])
-      }
-      getMenuList(param).then(res => {
-        if (res) {
-          this.menus = res
-          this.menuTree = this.ArrayToTreeData(res)
-        }
+      getMenuList().then(resp => {
+        this.menus = resp.data
+        this.menuTree = this.ArrayToTreeData(resp.data)
       })
     },
     doAdd() {
@@ -405,8 +393,8 @@ export default {
       this.showDialog = true
       this.formLoading = true
       this.form = {}
-      getMenuById(id).then(res => {
-        this.form = res
+      getMenuById(id).then(resp => {
+        this.form = resp
         this.formLoading = false
       })
     },

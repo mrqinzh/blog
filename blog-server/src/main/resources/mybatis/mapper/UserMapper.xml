@@ -6,6 +6,21 @@
 
     <cache />
 
+    <resultMap id="userInfoMap" type="User">
+        <id column="id" property="id" />
+        <result column="telephone" property="telephone" />
+        <result column="user_avatar" property="userAvatar" />
+        <result column="user_nickname" property="userNickname" />
+        <result column="user_email" property="userEmail" />
+        <result column="user_real_name" property="userRealName" />
+        <result column="user_name" property="userName" />
+        <result column="user_pwd" property="userPwd" />
+        <association property="role" javaType="Role">
+            <result column="role_id" property="id" />
+            <result column="role_name" property="roleName" />
+        </association>
+    </resultMap>
+
     <!--<update id="update" parameterType="com.mrqinzh.blog.model.entity.User" flushCache="true">-->
         <!--UPDATE `user`-->
         <!--<trim prefix="set" suffixOverrides=",">-->
@@ -21,6 +36,16 @@
         <!--WHERE-->
             <!--id = #{id}-->
     <!--</update>-->
+
+    <select id="getByUsernameOrEmail" resultMap="userInfoMap">
+        SELECT
+            *
+        FROM
+            `user` u
+        LEFT JOIN sys_user_role sur ON u.id = sur.user_id
+        LEFT JOIN sys_role sr ON sur.role_id = sr.id
+        WHERE u.user_name = #{usernameOrEmail} or u.user_email = #{usernameOrEmail}
+    </select>
 
     <insert id="add" parameterType="com.mrqinzh.blog.model.entity.User">
         INSERT INTO `user` (

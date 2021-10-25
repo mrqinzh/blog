@@ -22,8 +22,29 @@
         </el-switch>
       </el-form-item>
       <el-form-item label="菜单图标">
-        <el-select v-model="menuForm.icon" style="width: 177px;">
-        </el-select>
+        <el-popover
+          placement="bottom-start"
+          width="450"
+          trigger="click"
+          @show="$refs['iconSelect'].reset()"
+        >
+          <el-input
+            slot="reference"
+            v-model="menuForm.icon"
+            placeholder="请选择菜单图标"
+            readonly
+            style="cursor: pointer; width: 460px"
+          >
+            <template slot="prepend">
+              <i
+                v-if="menuForm.icon && menuForm.icon.includes('el-icon')"
+                :class="menuForm.icon"
+              />
+              <svg-icon v-else :icon-class="menuForm.icon ? menuForm.icon : ''" />
+            </template>
+          </el-input>
+          <select-icon ref="iconSelect" @selected="selected" />
+        </el-popover>
       </el-form-item>
       <el-form-item label="菜单排序">
         <el-input-number v-model="menuForm.menuSort" :min="1" :max="10"></el-input-number>
@@ -34,15 +55,14 @@
       <el-form-item label="组件路径">
         <el-input v-model="menuForm.componentPath"></el-input>
       </el-form-item>
-      <el-form-item label="上级目录">
-        <el-popover
-          placement="bottom"
-          width="200"
-          trigger="click"
-          v-model="parentDirVisible">
-          <el-tree :data="menuListData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-          <el-input slot="reference" v-model="menuForm.parentDir" clearable style="width: 177px;"></el-input>
-        </el-popover>
+      <el-form-item label="上级菜单">
+        <treeselect
+          v-model="menuForm.parentDir"
+          :options="menuTree"
+          :show-count="true"
+          style="width: 460px"
+          placeholder="选择上级菜单"
+        />
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -53,8 +73,15 @@
 </template>
 
 <script>
-import { menuList, addMenu } from '@/api/authority/menu'
+import SelectIcon from '@/components/SelectIcon'
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import { getMenuList, addMenu } from '@/api/authority/menu'
 export default {
+  components: {
+    SelectIcon,
+    Treeselect
+  },
   data() {
     return {
       // menuListData: [{
@@ -76,7 +103,7 @@ export default {
       //     label: '二级 2-1'
       //   }]
       // }],
-      menuListData: [],
+      menuTree: [],
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -99,9 +126,9 @@ export default {
   },
   methods: {
     loadMenuList() {
-      menuList().then(resp => {
+      getMenuList().then(resp => {
         console.log(resp)
-        this.menuListData = resp.data;
+        this.menuTree = resp.data;
       })
     },
     handleNodeClick(data) {
@@ -136,6 +163,10 @@ export default {
           this.$message.success("添加成功");
         }
       })
+    },
+    // 选中图标
+    selected(name) {
+      this.menuForm.icon = name
     }
   }
 }

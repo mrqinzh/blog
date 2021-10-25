@@ -89,7 +89,7 @@ public class ArticleServiceImpl implements ArticleService {
                 int i = MyUtil.randomInt(tags.length);
                 String currTag = tags[i];
                 QueryWrapper<Tag> queryWrapper = new QueryWrapper<>();
-                queryWrapper.eq("tag_name", currTag);
+                queryWrapper.lambda().eq(Tag::getTagName, currTag);
                 List<Tag> tagList = tagMapper.selectList(queryWrapper);
                 if (tagList.size() > 0 && StringUtils.isNotBlank(tagList.get(0).getTagImg())) {
                     article.setArticleCoverImg(tagList.get(0).getTagImg());

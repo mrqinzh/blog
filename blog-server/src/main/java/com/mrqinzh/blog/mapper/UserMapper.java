@@ -18,7 +18,6 @@ public interface UserMapper extends BaseMapper<User> {
 
     List<User> list(); // 查询所有用户
 
-    @Select("select * from user where user_name = #{usernameOrEmail} or user_email = #{usernameOrEmail} limit 1")
     User getByUsernameOrEmail(String usernameOrEmail); // 登录方法
 
 }

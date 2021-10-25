@@ -17,7 +17,7 @@ public class LoginLogAop {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginLogAop.class);
 
-    @Pointcut("execution(* com.mrqinzh.blog.controller.UserController.login(..))")
+    @Pointcut("execution(* com.mrqinzh.blog.controller.LoginController.login(..))")
     public void loginLog() {
 
     }

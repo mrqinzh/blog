@@ -26,8 +26,8 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button icon="el-icon-search" @click="search()">查询</el-button>
-        <el-button icon="el-icon-refresh-left" @click="resetSearch" type="warning">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>
+        <el-button icon="el-icon-refresh-left" @click="resetSearch" type="info">重置</el-button>
       </el-form-item>
     </el-form>
     <el-table

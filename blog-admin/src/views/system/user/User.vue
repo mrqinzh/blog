@@ -5,8 +5,8 @@
         <el-input v-model="dataForm.key" placeholder="参数名"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button icon="el-icon-search" @click="getDataList()">查询</el-button>
-        <el-button icon="el-icon-plus" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="getDataList()">搜索</el-button>
+        <el-button icon="el-icon-plus" type="success" @click="addOrUpdateHandle()">添加</el-button>
       </el-form-item>
     </el-form>
     <el-table

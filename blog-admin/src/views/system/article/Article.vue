@@ -5,11 +5,11 @@
         <el-input v-model="dataForm.key" placeholder="文章标题或标签"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button icon="el-icon-search" @click="findByType(dataForm.key)">搜索</el-button>
-        <el-button icon="el-icon-refresh-left" @click="resetList" type="warning">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="findByType(dataForm.key)">搜索</el-button>
+        <el-button icon="el-icon-refresh-left" @click="resetList" type="info">重置</el-button>
       </el-form-item>
       <el-form-item>
-        <router-link to="./add"><el-button type="primary" icon="el-icon-plus">新增</el-button></router-link>
+        <router-link to="./add"><el-button type="success" icon="el-icon-plus">添加</el-button></router-link>
       </el-form-item>
     </el-form>
     <el-table

@@ -5,8 +5,8 @@
         <el-input v-model="dataForm.key" placeholder="输入标签名" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button icon="el-icon-search" @click="findByType(dataForm.key)">搜索</el-button>
-        <el-button icon="el-icon-plus" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="findByType(dataForm.key)">搜索</el-button>
+        <el-button icon="el-icon-plus" type="success" @click="addOrUpdateHandle()">添加</el-button>
       </el-form-item>
     </el-form>
     <el-table

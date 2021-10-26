@@ -12,12 +12,12 @@
         start-placeholder="开始日期"
         end-placeholder="结束日期">
       </el-date-picker>
-      <el-button type="success" icon="el-icon-search">搜索</el-button>
-      <el-button type="warning" icon="el-icon-refresh-left">重置</el-button>
+      <el-button type="primary" icon="el-icon-search">搜索</el-button>
+      <el-button type="info" icon="el-icon-refresh-left">重置</el-button>
       <br>
       <div style="margin: 10px 0;">
-        <el-button type="primary" icon="el-icon-plus" @click="addOrUpdateHandle('')">添加</el-button>
-        <el-button type="success" icon="el-icon-edit">修改</el-button>
+        <el-button type="success" icon="el-icon-plus" @click="addOrUpdateHandle('')">添加</el-button>
+        <el-button type="warning" icon="el-icon-edit">修改</el-button>
       </div>
     </div>
     <div>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -23,7 +24,14 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> findAll() {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(Menu::getStatus, 0);
-        return menuMapper.selectList(queryWrapper);
+        List<Menu> menus = menuMapper.selectList(queryWrapper);
+        menus.stream().forEach(menu -> {
+            if (menu.getParentId() == 0) {
+                menu.setMenuChildren(menus.stream().filter(m -> m.getParentId() == menu.getId()).collect(Collectors.toList()));
+            }
+        });
+        List<Menu> menuList = menus.stream().filter(m -> m.getParentId() == 0).collect(Collectors.toList());
+        return menuList;
     }
 
     @Override

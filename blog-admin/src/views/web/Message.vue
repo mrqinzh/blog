@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import { list, add } from '@/api/my-message'
 import Vue from 'vue'
 // import VueParticles from 'vue-particles' 
 import { vueBaberrage, MESSAGE_TYPE } from 'vue-baberrage'

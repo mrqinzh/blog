@@ -1,6 +1,6 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
+import router from '@/router'
 
 const getDefaultState = () => {
   return {
@@ -38,14 +38,17 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
+  login({ commit, dispatch }, userInfo) {
     const { userName, userPwd } = userInfo
     return new Promise((resolve, reject) => {
       login({ userName: userName.trim(), userPwd: userPwd }).then(response => {
-
         const token = response.data.token;
         commit('SET_TOKEN', token)
         setToken(token)
+        // 获取菜单,调用其他文件中actions时必须加 { root: true }
+        dispatch('permission/generateRoutes', {}, { root: true }).then((accessRoutes) => {
+          router.addRoutes(accessRoutes)
+        })
         resolve()
       }).catch(error => {
         reject(error)
@@ -81,7 +84,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         removeToken() // must remove  token  first
-        resetRouter()
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
         resolve()

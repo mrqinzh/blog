@@ -31,7 +31,6 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
-
   {
     path: '/',
     component: () => import('@/views/web/index'),
@@ -50,12 +49,6 @@ export const constantRoutes = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/index'),
-    hidden: true
-  },
-
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
     hidden: true
   },
 
@@ -110,28 +103,28 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/admin/authority',
-    component: Layout,
-    name: 'Authority',
-    meta: { title: '权限管理', icon: 'el-icon-medal' },
-    redirect: 'noRedirect',
-    children: [
-      {
-        path: 'menu',
-        name: 'Menu',
-        component: () => import('@/views/authority/menu/'),
-        // component: () => import('@/views/authority/menu/index_copy'),
-        meta: { title: '菜单管理', icon: 'el-icon-menu' }
-      },
-      {
-        path: 'role',
-        name: 'Role',
-        component: () => import('@/views/authority/role'),
-        meta: { title: '角色管理', icon: 'el-icon-key' }
-      }
-    ]
-  },
+  // {
+  //   path: '/admin/authority',
+  //   component: Layout,
+  //   name: 'Authority',
+  //   meta: { title: '权限管理', icon: 'el-icon-medal' },
+  //   redirect: 'noRedirect',
+  //   children: [
+  //     {
+  //       path: 'menu',
+  //       name: 'Menu',
+  //       component: () => import('@/views/authority/menu/'),
+  //       // component: () => import('@/views/authority/menu/index_copy'),
+  //       meta: { title: '菜单管理', icon: 'el-icon-menu' }
+  //     },
+  //     {
+  //       path: 'role',
+  //       name: 'Role',
+  //       component: () => import('@/views/authority/role'),
+  //       meta: { title: '角色管理', icon: 'el-icon-key' }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/email',
@@ -170,52 +163,21 @@ export const constantRoutes = [
     ]
   },
 
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
+  
 ]
 
 /**
  * 动态路由
  */
 export const asyncRoutes = [
-  // {
-  //   path: '/admin/system',
-  //   component: Layout,
-  //   name: 'System',
-  //   meta: { title: '系统管理', icon: 'el-icon-milk-tea' },
-  //   redirect: 'noRedirect',
-  //   children: [
-  //     {
-  //       path: 'user',
-  //       name: 'User',
-  //       component: () => import('@/views/system/user/User'),
-  //       meta: { title: '用户管理', icon: 'user' }
-  //     },
-  //     {
-  //       path: 'article',
-  //       name: 'Article',
-  //       component: () => import('@/views/system/article/index'),
-  //       meta: { title: '文章管理', icon: 'el-icon-reading', roles: ['admin'] },
-  //       redirect: 'noRedirect',
-  //       children: [
-  //         { path: 'list', name: 'ArticleList', component: () => import('@/views/system/article/Article'), meta: { title: '文章列表', icon: 'el-icon-data-board' }},
-  //         { path: 'add', name: 'ArticleAdd', component: () => import('@/views/system/article/add_copy'), meta: { title: '写文章', icon: 'el-icon-edit' }}
-  //       ]
-  //     },
-  //     {
-  //       path: 'comment',
-  //       name: 'Comment',
-  //       component: () => import('@/views/system/comment/Comment'),
-  //       meta: { title: '评论管理', icon: 'el-icon-chat-line-round' }
-  //     },
-  //     {
-  //       path: 'tag',
-  //       name: 'Tag',
-  //       component: () => import('@/views/system/tag/index'),
-  //       meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
-  //     }
-  //   ]
-  // },
+  
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({

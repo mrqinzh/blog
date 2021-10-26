@@ -4,12 +4,11 @@
       <el-form-item label="菜单Title">
         <el-input v-model="menuForm.menuTitle" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="菜单可见">
-        <el-switch
-          v-model="menuForm.hidden"
-          active-color="#13ce66"
-          inactive-color="#ff4949">
-        </el-switch>
+      <el-form-item label="是否隐藏">
+        <el-radio-group v-model="menuForm.hidden">
+          <el-radio :label="0">隐藏</el-radio>
+          <el-radio :label="1">显示</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="菜单路径">
         <el-input v-model="menuForm.menuPath" autocomplete="off"></el-input>
@@ -40,7 +39,7 @@
                 v-if="menuForm.icon && menuForm.icon.includes('el-icon')"
                 :class="menuForm.icon"
               />
-              <svg-icon v-else :icon-class="menuForm.icon ? menuForm.icon : ''" />
+              <svg-icon v-else :icon-class="menuForm.icon ? menuForm.icon : 'el-icon-search'" />
             </template>
           </el-input>
           <select-icon ref="iconSelect" @selected="selected" />
@@ -57,8 +56,9 @@
       </el-form-item>
       <el-form-item label="上级菜单">
         <treeselect
-          v-model="menuForm.parentDir"
+          v-model="menuForm.parentId"
           :options="menuTree"
+          :normalizer="normalizer"
           :show-count="true"
           style="width: 460px"
           placeholder="选择上级菜单"
@@ -76,7 +76,7 @@
 import SelectIcon from '@/components/SelectIcon'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import { getMenuList, addMenu } from '@/api/authority/menu'
+import { getMenuList, addMenu, getMenuById, updateMenu } from '@/api/authority/menu'
 export default {
   components: {
     SelectIcon,
@@ -84,43 +84,26 @@ export default {
   },
   data() {
     return {
-      // menuListData: [{
-      //   id: 1,
-      //   label: '一级 1',
-      //   children: [{
-      //     id: 4,
-      //     label: '二级 1-1',
-      //     children: [{
-      //       id: 9,
-      //       label: '三级 1-1-1'
-      //     }]
-      //   }]
-      // }, {
-      //   id: 2,
-      //   label: '一级 2',
-      //   children: [{
-      //     id: 5,
-      //     label: '二级 2-1'
-      //   }]
-      // }],
       menuTree: [],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
+      normalizer(node) {
+        return {
+          id: node.id,
+          label: node.menuTitle,
+          children: node.menuChildren && node.menuChildren.length > 0 ? node.menuChildren: 0,	 // 自定义下级chidlren字段
+        }
       },
-      parentDirVisible: false,
       visible: false,
       menuForm: {
         id: '',
         menuTitle: '',
         menuPath: '',
         icon: '',
-        hidden: false,
+        hidden: 1,
         cache: true,
         menuSort: '',
         componentName: '',
         componentPath: '',
-        parentDir: '',
+        parentId: null,
       }
     }
   },
@@ -131,11 +114,6 @@ export default {
         this.menuTree = resp.data;
       })
     },
-    handleNodeClick(data) {
-      this.parentDirVisible = false;
-      this.menuForm.parentDir = data.label;
-      console.log(data);
-    },
     init (id) {
       this.menuForm.id = id || 0;
       this.visible = true;
@@ -144,30 +122,66 @@ export default {
         this.$refs['menuForm'].resetFields();
         if (this.menuForm.id != 0) {
           // Todo axios
+          getMenuById(this.menuForm.id).then(resp => {
+            console.log(resp)
+            this.menuForm = resp.data;
+          })
         }
       })
     },
     menuFormSubmit() {
-      let param = {
-        cache: this.menuForm.cache ? 1 : 0,
-        componentName: this.menuForm.componentName,
-        componentPath: this.menuForm.componentPath,
-        hidden: this.menuForm.hidden ? 1 : 0,
-        icon: this.menuForm.icon,
-        menuPath: this.menuForm.menuPath,
-        menuTitle: this.menuForm.menuTitle,
+      if (this.menuForm.menuTitle == '') {
+        this.$message.error('请输入菜单标题')
+        return;
       }
-      addMenu(param).then(resp => {
-        console.log(resp);
-        if (resp.success) {
-          this.$message.success("添加成功");
+      if (this.menuForm.id != 0) {
+        let param = {
+          id: this.menuForm.id,
+          cache: this.menuForm.cache ? 1 : 0,
+          componentName: this.menuForm.componentName,
+          componentPath: this.menuForm.componentPath,
+          hidden: this.menuForm.hidden,
+          icon: this.menuForm.icon,
+          menuPath: this.menuForm.menuPath,
+          menuTitle: this.menuForm.menuTitle,
+          parentId: this.menuForm.parentId,
+          menuSort: this.menuForm.menuSort
         }
-      })
+        updateMenu(param).then(resp => {
+          console.log(resp);
+          if (resp.success) {
+            this.$emit('refreshDataList');
+            this.visible = false;
+            this.$message.success("修改成功");
+          }
+        })
+      } else {
+        let param = {
+          cache: this.menuForm.cache ? 1 : 0,
+          componentName: this.menuForm.componentName,
+          componentPath: this.menuForm.componentPath,
+          hidden: this.menuForm.hidden,
+          icon: this.menuForm.icon,
+          menuPath: this.menuForm.menuPath,
+          menuTitle: this.menuForm.menuTitle,
+          parentId: this.menuForm.parentId,
+          menuSort: this.menuForm.menuSort
+        }
+        addMenu(param).then(resp => {
+          console.log(resp);
+          if (resp.success) {
+            this.$emit('refreshDataList');
+            this.visible = false;
+            this.$message.success("添加成功");
+          }
+        })
+      }
+      
     },
     // 选中图标
     selected(name) {
       this.menuForm.icon = name
-    }
+    },
   }
 }
 </script>
@@ -177,9 +191,6 @@ export default {
     width: 60%;
     margin: 0 auto;
     overflow: hidden;
-    .menuForm {
-      
-    }
   }
   
 

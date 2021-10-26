@@ -13,6 +13,6 @@ const getters = {
   //添加roles
   roles: state => state.user.roles,
   //动态路由
-  permission_routes: state => state.permission.routes,
+  menusRoutes: state => state.permission.routes
 }
 export default getters

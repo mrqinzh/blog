@@ -34,6 +34,8 @@ public class Menu implements Serializable {
      */
     private String componentPath;
 
+    private String redirect;
+
     private String icon;
 
     private String menuPath;

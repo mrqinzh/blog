@@ -16,6 +16,7 @@ import com.mrqinzh.blog.model.entity.User;
 import java.util.*;
 
 import com.mrqinzh.blog.model.enums.AppStatus;
+import com.mrqinzh.blog.service.MenuService;
 import com.mrqinzh.blog.service.UserService;
 import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.RedisUtil;
@@ -30,6 +31,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private MenuService menuService;
 
     @Autowired
     private UserMapper userMapper;
@@ -140,8 +144,8 @@ public class UserServiceImpl implements UserService {
 
         map.put("roles", user.getRole().getRoleName());
 
-        map.put("menus", menuMapper.getByRoleId(user.getRole().getId()));
-
+//        map.put("menus", menuMapper.getByRoleId(user.getRole().getId()));
+        map.put("menus", menuService.findAll()); // 暂时使用全部，用于前端调试
         return DataResp.ok(map);
     }
 

@@ -103,28 +103,28 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: '/admin/authority',
-    component: Layout,
-    name: 'Authority',
-    meta: { title: '权限管理', icon: 'el-icon-medal' },
-    redirect: 'noRedirect',
-    children: [
-      {
-        path: 'menu',
-        name: 'Menu',
-        component: () => import('@/views/authority/menu/'),
-        // component: () => import('@/views/authority/menu/index_copy'),
-        meta: { title: '菜单管理', icon: 'el-icon-menu' }
-      },
-      {
-        path: 'role',
-        name: 'Role',
-        component: () => import('@/views/authority/role'),
-        meta: { title: '角色管理', icon: 'el-icon-key' }
-      }
-    ]
-  },
+  // {
+  //   path: '/admin/authority',
+  //   component: Layout,
+  //   name: 'Authority',
+  //   meta: { title: '权限管理', icon: 'el-icon-medal' },
+  //   redirect: 'noRedirect',
+  //   children: [
+  //     {
+  //       path: 'menu',
+  //       name: 'Menu',
+  //       component: () => import('@/views/authority/menu/'),
+  //       // component: () => import('@/views/authority/menu/index_copy'),
+  //       meta: { title: '菜单管理', icon: 'el-icon-menu' }
+  //     },
+  //     {
+  //       path: 'role',
+  //       name: 'Role',
+  //       component: () => import('@/views/authority/role'),
+  //       meta: { title: '角色管理', icon: 'el-icon-key' }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/email',

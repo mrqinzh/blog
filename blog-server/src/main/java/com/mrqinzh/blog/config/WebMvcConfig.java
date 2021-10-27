@@ -4,6 +4,7 @@ import com.mrqinzh.blog.interceptor.CorsInterceptor;
 import com.mrqinzh.blog.interceptor.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -23,7 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 
         // 跨域拦截器
-        registry.addInterceptor(new CorsInterceptor()).addPathPatterns("/**");
+//        registry.addInterceptor(new CorsInterceptor()).addPathPatterns("/**");
 
         // token 验证拦截器
         registry.addInterceptor(tokenInterceptor)
@@ -31,5 +32,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/file/**")
                 .addPathPatterns("/article/add", "/article/update")
                 .addPathPatterns("/tag/add");
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .allowedOrigins("*");
     }
 }

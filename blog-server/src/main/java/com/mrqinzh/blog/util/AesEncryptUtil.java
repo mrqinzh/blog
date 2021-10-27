@@ -1,15 +1,12 @@
 package com.mrqinzh.blog.util;
 
-import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.model.enums.AppStatus;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-public class AesUtil {
+public class AesEncryptUtil {
 
     // 密匙
     private static final String KEY = "23d$%Q#kjwgsl@@$";
@@ -31,13 +28,13 @@ public class AesUtil {
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             SecretKeySpec spec = new SecretKeySpec(KEY.getBytes(StandardCharsets.UTF_8), ALGORITHM);
-            IvParameterSpec iv = new IvParameterSpec(OFFSET.getBytes()); // 使用CBC模式，需要一个向量iv，可增加加密算法的强度
+            IvParameterSpec iv = new IvParameterSpec(OFFSET.getBytes());//使用CBC模式，需要一个向量iv，可增加加密算法的强度
             cipher.init(Cipher.ENCRYPT_MODE, spec, iv);
             byte[] encrypted = cipher.doFinal(data.getBytes(ENCODING));
-            return new String(Base64.getEncoder().encode(encrypted)); // 此处使用BASE64做转码。
-        } catch (Exception e) {
+            return new String(Base64.getEncoder().encode(encrypted));//此处使用BASE64做转码。
+        }catch (Exception e){
             e.printStackTrace();
-            throw new BizException(AppStatus.UNKNOWN_SERVER_ERROR, "加密失败");
+            throw new RuntimeException("加密失败");
         }
 
     }
@@ -45,21 +42,22 @@ public class AesUtil {
     /**
      * 解密AES加密过的字符串
      *
-     * @param data AES加密过过的内容
+     * @param data
+     *            AES加密过过的内容
      * @return 明文
      */
     public static String decrypt(String data) {
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             SecretKeySpec spec = new SecretKeySpec(KEY.getBytes(StandardCharsets.UTF_8), ALGORITHM);
-            IvParameterSpec iv = new IvParameterSpec(OFFSET.getBytes()); // 使用CBC模式，需要一个向量iv，可增加加密算法的强度
+            IvParameterSpec iv = new IvParameterSpec(OFFSET.getBytes());//使用CBC模式，需要一个向量iv，可增加加密算法的强度
             cipher.init(Cipher.DECRYPT_MODE, spec, iv);
             byte[] buffer = Base64.getDecoder().decode(data);
             byte[] encrypted = cipher.doFinal(buffer);
-            return new String(encrypted, ENCODING); // 此处使用BASE64做转码。
-        } catch (Exception e) {
+            return new String(encrypted, ENCODING);//此处使用BASE64做转码。
+        }catch (Exception e){
             e.printStackTrace();
-            throw new BizException(AppStatus.UNKNOWN_SERVER_ERROR, "解密失败！");
+            throw new RuntimeException("解密失败！");
         }
     }
 

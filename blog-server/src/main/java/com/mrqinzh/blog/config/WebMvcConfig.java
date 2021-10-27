@@ -1,6 +1,5 @@
 package com.mrqinzh.blog.config;
 
-import com.mrqinzh.blog.interceptor.CorsInterceptor;
 import com.mrqinzh.blog.interceptor.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -23,15 +22,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        // 跨域拦截器
-//        registry.addInterceptor(new CorsInterceptor()).addPathPatterns("/**");
-
-        // token 验证拦截器
-        registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/user/logout", "/user/add", "/user/update", "/user/info")
-                .addPathPatterns("/file/**")
-                .addPathPatterns("/article/add", "/article/update")
-                .addPathPatterns("/tag/add");
     }
 
     @Override
@@ -39,6 +29,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedHeaders("*")
                 .allowedMethods("*")
-                .allowedOrigins("*");
+                .allowedOriginPatterns("*")
+                .allowCredentials(true);
     }
 }

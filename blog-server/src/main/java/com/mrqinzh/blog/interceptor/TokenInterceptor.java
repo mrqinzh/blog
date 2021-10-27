@@ -33,9 +33,9 @@ public class TokenInterceptor implements HandlerInterceptor {
         String token = req.getHeader("token");
 
         // 浏览器会先发送options类型请求，该请求头中不包含token，直接返回。
-        if (token == null) {
-            return false;
-        }
+//        if (token == null) {
+//            return false;
+//        }
 
         // 这里判断 redis 中是否含有该token
         if (redisUtil.hasKey(token)) {

@@ -1,6 +1,7 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.github.pagehelper.PageHelper;
+import com.mrqinzh.blog.auth.SecurityUser;
 import com.mrqinzh.blog.constant.JwtConstant;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.LoginLogMapper;
@@ -24,6 +25,7 @@ import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.util.WebUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 /**
@@ -125,24 +127,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public Resp info(String token) {
 
-        User user = (User) redisUtil.get(token);
+        // Todo 等待更改
+        User user = userMapper.selectById(1);
+//        User user = (User) redisUtil.get(token);
         String clientIp = WebUtil.getClientIp(WebUtil.getRequest());
-
-        // 向 t_login_log 表中添加一条登录日志
-//        LoginLog loginLog = new LoginLog();
-//        loginLog.setIp(clientIp);
-//        loginLog.setLoginTime(new Date());
-//        loginLog.setToken(token);
-//        loginLog.setUserId(user.getId());
-        // 存在问题： 页面每次刷新时，也会添加。等到正式环境在使用
-//        loginLogMapper.add(loginLog);
 
         Map<String, Object> map = new HashMap<>(4);
         map.put("userId", user.getId());
         map.put("name", user.getUserNickname());
         map.put("avatar", user.getUserAvatar());
 
-        map.put("roles", user.getRole().getRoleName());
+//        map.put("roles", user.getRole().getRoleName());
+        map.put("roles", user.getRoleName());
 
 //        map.put("menus", menuMapper.getByRoleId(user.getRole().getId()));
         map.put("menus", menuService.findAll()); // 暂时使用全部，用于前端调试

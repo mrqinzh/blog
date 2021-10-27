@@ -4,13 +4,16 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
 @Data
-public class SecurityUser implements UserDetails {
+public class SecurityUser implements UserDetails, Serializable {
 
     private Integer id;
+
+    private String roleName;
 
     private String userName;
 

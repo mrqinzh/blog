@@ -1,9 +1,13 @@
 package com.mrqinzh.blog.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mrqinzh.blog.constant.JwtConstant;
+import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.util.JwtUtil;
+import com.mrqinzh.blog.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -17,10 +21,16 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 认证成功处理
+ */
 @Component
 public class DefaultAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private static Logger logger = LoggerFactory.getLogger(DefaultAuthenticationSuccessHandler.class);
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
@@ -29,13 +39,18 @@ public class DefaultAuthenticationSuccessHandler implements AuthenticationSucces
         if (o instanceof UserDetails) {
             userDetails = (UserDetails) o;
         }
-        logger.info("登录用户名：", userDetails.getUsername());
-        Map<String, Object> map = new HashMap<>();
-        map.put("token", JwtUtil.getToken());
+        logger.info("登录用户名：{} 认证通过", userDetails.getUsername());
+        // Todo 生成 token
+        Map<String, Object> claim = new HashMap<>();
+
+        String token = JwtUtil.getToken();
 
         response.setContentType("application/json;charset=utf-8");
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("token", token);
         PrintWriter out = response.getWriter();
-        out.write(new ObjectMapper().writeValueAsString(map));
+        out.write(new ObjectMapper().writeValueAsString(DataResp.ok(result)));
 
         out.flush();
         out.close();

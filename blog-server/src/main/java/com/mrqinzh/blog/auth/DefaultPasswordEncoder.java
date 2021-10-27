@@ -12,12 +12,18 @@ public class DefaultPasswordEncoder implements PasswordEncoder {
 
     @Override
     public String encode(CharSequence rawPassword) {
-        return AesEncryptUtil.encrypt(rawPassword.toString());
+        return rawPassword.toString();
     }
 
+    /**
+     * 比较密码
+     * @param rawPassword 前端传入
+     * @param encodedPassword 数据库查询
+     * @return
+     */
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return rawPassword.equals(AesEncryptUtil.decrypt(encodedPassword));
+        return rawPassword.equals(encodedPassword);
     }
 
 }

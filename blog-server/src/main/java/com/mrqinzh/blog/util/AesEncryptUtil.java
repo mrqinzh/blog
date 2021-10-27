@@ -54,7 +54,7 @@ public class AesEncryptUtil {
             cipher.init(Cipher.DECRYPT_MODE, spec, iv);
             byte[] buffer = Base64.getDecoder().decode(data);
             byte[] encrypted = cipher.doFinal(buffer);
-            return new String(encrypted, ENCODING);//此处使用BASE64做转码。
+            return new String(encrypted, ENCODING); //此处使用BASE64做转码。
         }catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException("解密失败！");
@@ -62,13 +62,13 @@ public class AesEncryptUtil {
     }
 
     public static void main(String[] args) {
-        String content = "1";
+        String content = "123456";
         System.out.println("加密前：" + content);
 
         String encrypt = encrypt(content);
         System.out.println("加密后：" + encrypt);
 
-        String decrypt = decrypt("XxAZlFaazdLOIOqjWiwPQg==");
+        String decrypt = decrypt("/m1zZ7AJeYA1LgkvQSafxQ==");
         System.out.println("解密后：" + decrypt);
     }
 }

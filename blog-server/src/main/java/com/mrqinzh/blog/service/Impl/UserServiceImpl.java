@@ -1,8 +1,6 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.github.pagehelper.PageHelper;
-import com.mrqinzh.blog.auth.SecurityUser;
-import com.mrqinzh.blog.constant.JwtConstant;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.LoginLogMapper;
 import com.mrqinzh.blog.mapper.MenuMapper;
@@ -11,7 +9,6 @@ import com.mrqinzh.blog.model.vo.PageVO;
 import com.mrqinzh.blog.model.vo.user.UserVO;
 import com.mrqinzh.blog.model.resp.DataResp;
 import com.mrqinzh.blog.model.resp.PageResp;
-import com.mrqinzh.blog.model.entity.LoginLog;
 import com.mrqinzh.blog.model.entity.User;
 
 import java.util.*;
@@ -19,13 +16,11 @@ import java.util.*;
 import com.mrqinzh.blog.model.enums.AppStatus;
 import com.mrqinzh.blog.service.MenuService;
 import com.mrqinzh.blog.service.UserService;
-import com.mrqinzh.blog.util.JwtUtil;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.util.WebUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 /**
@@ -90,38 +85,6 @@ public class UserServiceImpl implements UserService {
         userMapper.insert(user);
 
         return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
-    }
-
-    @Override
-    public Resp loginByUsernameOrEmail(User user) {
-        User dbUser = userMapper.getByUsernameOrEmail(user.getUserName());
-
-        if (null == dbUser || !dbUser.getUserPwd().equals(user.getUserPwd())){
-            throw new BizException(AppStatus.USERNAME_PASSWORD_ERROR);
-        }
-
-        // 添加到 jwt 的 body 中
-        Map<String,String> claim = new HashMap<>(8);
-        claim.put("username", dbUser.getUserName());
-        claim.put("password", dbUser.getUserPwd());
-        claim.put("avatar", dbUser.getUserAvatar());
-        String token = JwtUtil.getTokenWithClaim(claim);
-
-        redisUtil.set(token, dbUser, JwtConstant.TOKEN_EXPIRE_TIME);
-
-        HashMap<Object, Object> resultMap = new HashMap<>(2);
-        resultMap.put("token", token);
-        return DataResp.ok(resultMap);
-    }
-
-    @Override
-    public Resp logout(String token) {
-        User user = (User) redisUtil.get(token);
-        // 修改用户的最后登录时间
-        user.setLoginLastTime(new Date());
-        redisUtil.del(token);
-        userMapper.updateById(user);
-        return Resp.sendMsg(AppStatus.SUCCESS);
     }
 
     @Override

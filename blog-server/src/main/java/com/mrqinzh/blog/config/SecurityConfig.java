@@ -1,9 +1,8 @@
 package com.mrqinzh.blog.config;
 
-import com.mrqinzh.blog.auth.handler.DefaultAccessDeniedHandler;
-import com.mrqinzh.blog.auth.handler.DefaultAuthenticationEntryPoint;
-import com.mrqinzh.blog.auth.handler.DefaultAuthenticationFailureHandler;
-import com.mrqinzh.blog.auth.handler.DefaultAuthenticationSuccessHandler;
+import com.mrqinzh.blog.auth.filter.CustomFrontAuthorizationFilter;
+import com.mrqinzh.blog.auth.filter.JwtAuthenticationTokenFilter;
+import com.mrqinzh.blog.auth.handler.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
 @Configuration
@@ -29,10 +28,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private DefaultAuthenticationSuccessHandler defaultAuthenticationSuccessHandler;
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     @Autowired
+    private CustomFrontAuthorizationFilter customFrontAuthorizationFilter;
+
+    /**
+     * 登录认证成功处理器
+     */
+    @Autowired
+    private DefaultAuthenticationSuccessHandler defaultAuthenticationSuccessHandler;
+
+    /**
+     * 登录认证失败处理器
+     */
+    @Autowired
     private DefaultAuthenticationFailureHandler defaultAuthenticationFailureHandler;
+
+    /**
+     * 登出处理器
+     */
+    @Autowired
+    private DefaultLogoutHandler defaultLogoutHandler;
+
+    @Autowired
+    private DefaultLogoutSuccessHandler defaultLogoutSuccessHandler;
 
     @Autowired
     private DefaultAuthenticationEntryPoint defaultAuthenticationEntryPoint;
@@ -57,20 +77,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll();
 
         http.authorizeRequests()
+//                .antMatchers("/article/list").hasRole("admin")
+                .antMatchers("/*/list").permitAll()
+                .antMatchers("/comment/**").permitAll()
+
                 .anyRequest().permitAll()
                 ;
 
-        // 处理异常情况：认证失败/权限不足
+        // 鉴权
+//        http.addFilter(customFrontAuthorizationFilter);
+
+        // 4.拦截token,并检测,在UsernamePasswordAuthenticationFilter之前添加 JwtAuthenticationTokenFilter
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // 5.处理异常情况：认证失败/权限不足
         http.exceptionHandling()
                 .authenticationEntryPoint(defaultAuthenticationEntryPoint)
                 .accessDeniedHandler(defaultAccessDeniedHandler);
 
-        // 设置登录成功处理器
+        // 6.设置登录成功处理器
         http.formLogin()
+                .loginProcessingUrl("/login")
                 .usernameParameter("userName")
                 .passwordParameter("userPwd")
                 .successHandler(defaultAuthenticationSuccessHandler)
                 .failureHandler(defaultAuthenticationFailureHandler);
+
+        // last.退出
+        http.logout()
+                .logoutUrl("/logout")
+                .addLogoutHandler(defaultLogoutHandler)
+                .logoutSuccessHandler(defaultLogoutSuccessHandler);
     }
 
     @Override

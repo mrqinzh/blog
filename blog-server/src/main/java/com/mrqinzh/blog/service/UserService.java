@@ -11,10 +11,6 @@ public interface UserService {
 
     Resp add(User user, String token);
 
-    Resp loginByUsernameOrEmail(User user); // 登录方法
-
-    Resp logout(String token);
-
     Resp info(String token);
 
     Resp list(PageVO pageVO);

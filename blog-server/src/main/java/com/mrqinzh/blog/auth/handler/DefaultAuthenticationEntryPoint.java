@@ -23,7 +23,7 @@ public class DefaultAuthenticationEntryPoint implements AuthenticationEntryPoint
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        out.write(new ObjectMapper().writeValueAsString(Resp.success()));
+        out.write(new ObjectMapper().writeValueAsString(Resp.sendMsg(AppStatus.AUTH_FAILED)));
         out.flush();
         out.close();
     }

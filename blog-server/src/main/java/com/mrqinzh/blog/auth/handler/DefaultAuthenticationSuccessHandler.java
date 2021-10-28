@@ -1,10 +1,8 @@
 package com.mrqinzh.blog.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mrqinzh.blog.constant.JwtConstant;
 import com.mrqinzh.blog.model.resp.DataResp;
-import com.mrqinzh.blog.util.JwtUtil;
-import com.mrqinzh.blog.util.RedisUtil;
+import com.mrqinzh.blog.util.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ public class DefaultAuthenticationSuccessHandler implements AuthenticationSucces
     private static Logger logger = LoggerFactory.getLogger(DefaultAuthenticationSuccessHandler.class);
 
     @Autowired
-    private RedisUtil redisUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
@@ -40,15 +38,13 @@ public class DefaultAuthenticationSuccessHandler implements AuthenticationSucces
             userDetails = (UserDetails) o;
         }
         logger.info("登录用户名：{} 认证通过", userDetails.getUsername());
+
         // Todo 生成 token
-        Map<String, Object> claim = new HashMap<>();
-
-        String token = JwtUtil.getToken();
-
-        response.setContentType("application/json;charset=utf-8");
-
+        String token = jwtTokenUtil.generateToken(userDetails);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
+
+        response.setContentType("application/json;charset=utf-8");
         PrintWriter out = response.getWriter();
         out.write(new ObjectMapper().writeValueAsString(DataResp.ok(result)));
 

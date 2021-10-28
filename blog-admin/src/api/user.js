@@ -60,8 +60,5 @@ export function logout() {
   return request({
     url: '/logout',
     method: 'post',
-    params:{
-      methodName:'logout'
-    }
   })
 }

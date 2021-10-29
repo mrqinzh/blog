@@ -64,44 +64,44 @@ export const constantRoutes = [
     }]
   },
 
-  {
-    path: '/admin/system',
-    component: Layout,
-    name: 'System',
-    meta: { title: '系统管理', icon: 'el-icon-milk-tea' },
-    redirect: 'noRedirect',
-    children: [
-      {
-        path: 'user',
-        name: 'User',
-        component: () => import('@/views/system/user/User'),
-        meta: { title: '用户管理', icon: 'user' }
-      },
-      {
-        path: 'article',
-        name: 'Article',
-        component: () => import('@/views/system/article/index'),
-        meta: { title: '文章管理', icon: 'el-icon-reading' },
-        redirect: 'noRedirect',
-        children: [
-          { path: 'list', name: 'ArticleList', component: () => import('@/views/system/article/Article'), meta: { title: '文章列表', icon: 'el-icon-data-board' }},
-          { path: 'add', name: 'ArticleAdd', component: () => import('@/views/system/article/add_copy'), meta: { title: '写文章', icon: 'el-icon-edit' }}
-        ]
-      },
-      {
-        path: 'comment',
-        name: 'Comment',
-        component: () => import('@/views/system/comment/Comment'),
-        meta: { title: '评论管理', icon: 'el-icon-chat-line-round' }
-      },
-      {
-        path: 'tag',
-        name: 'Tag',
-        component: () => import('@/views/system/tag/index'),
-        meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
-      }
-    ]
-  },
+  // {
+  //   path: '/admin/system',
+  //   component: Layout,
+  //   name: 'System',
+  //   meta: { title: '系统管理', icon: 'el-icon-milk-tea' },
+  //   redirect: 'noRedirect',
+  //   children: [
+  //     {
+  //       path: 'user',
+  //       name: 'User',
+  //       component: () => import('@/views/system/user/User'),
+  //       meta: { title: '用户管理', icon: 'user' }
+  //     },
+  //     {
+  //       path: 'article',
+  //       name: 'Article',
+  //       component: () => import('@/views/system/article/index'),
+  //       meta: { title: '文章管理', icon: 'el-icon-reading' },
+  //       redirect: 'noRedirect',
+  //       children: [
+  //         { path: 'list', name: 'ArticleList', component: () => import('@/views/system/article/Article'), meta: { title: '文章列表', icon: 'el-icon-data-board' }},
+  //         { path: 'add', name: 'ArticleAdd', component: () => import('@/views/system/article/add_copy'), meta: { title: '写文章', icon: 'el-icon-edit' }}
+  //       ]
+  //     },
+  //     {
+  //       path: 'comment',
+  //       name: 'Comment',
+  //       component: () => import('@/views/system/comment/Comment'),
+  //       meta: { title: '评论管理', icon: 'el-icon-chat-line-round' }
+  //     },
+  //     {
+  //       path: 'tag',
+  //       name: 'Tag',
+  //       component: () => import('@/views/system/tag/index'),
+  //       meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
+  //     }
+  //   ]
+  // },
 
   // {
   //   path: '/admin/authority',
@@ -142,6 +142,7 @@ export const constantRoutes = [
   {
     path: '/icon',
     component: Layout,
+    redirect: '/icon/index',
     children: [
       {
         path: 'index',
@@ -152,16 +153,16 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'http://mrqinzh.info/',
-        meta: { title: '网站前台', icon: 'link' }
-      }
-    ]
-  },
+  // {
+  //   path: 'external-link',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'http://mrqinzh.info/',
+  //       meta: { title: '网站前台', icon: 'link' }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/404',

@@ -99,7 +99,7 @@ export default {
         menuPath: '',
         icon: '',
         hidden: 1,
-        cache: true,
+        cache: false,
         menuSort: '',
         componentName: '',
         componentPath: '',
@@ -108,6 +108,20 @@ export default {
     }
   },
   methods: {
+    refreshMenuForm() {
+      this.menuForm = {
+        id: '',
+        menuTitle: '',
+        menuPath: '',
+        icon: '',
+        hidden: 1,
+        cache: false,
+        menuSort: '',
+        componentName: '',
+        componentPath: '',
+        parentId: null,
+      }
+    },
     loadMenuList() {
       getMenuList().then(resp => {
         console.log(resp)
@@ -152,10 +166,12 @@ export default {
           if (resp.success) {
             this.$emit('refreshDataList');
             this.visible = false;
+            this.refreshMenuForm();
             this.$message.success("修改成功");
           }
         })
       } else {
+        // 添加
         let param = {
           cache: this.menuForm.cache ? 1 : 0,
           componentName: this.menuForm.componentName,
@@ -172,6 +188,7 @@ export default {
           if (resp.success) {
             this.$emit('refreshDataList');
             this.visible = false;
+            this.refreshMenuForm();
             this.$message.success("添加成功");
           }
         })

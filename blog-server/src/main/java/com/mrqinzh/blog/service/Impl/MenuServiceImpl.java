@@ -15,6 +15,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,16 +29,23 @@ public class MenuServiceImpl implements MenuService {
 
     public List<Menu> findAll() {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(Menu::getStatus, 0);
+        queryWrapper.lambda().eq(Menu::getStatus, 0).orderByAsc(Menu::getMenuSort);
         List<Menu> menus = menuMapper.selectList(queryWrapper);
         if (menus == null) return null;
-        menus.stream().forEach(menu -> {
+
+        // 将查询出来的菜单进行处理，将子菜单们添加到对应的父菜单下
+        List<Menu> rootMenu = new ArrayList<>();
+        for (Menu menu : menus) {
             if (menu.getParentId() == 0) {
-                menu.setMenuChildren(menus.stream().filter(m -> m.getParentId() == menu.getId()).collect(Collectors.toList()));
+                rootMenu.add(menu);
             }
-        });
-        List<Menu> menuList = menus.stream().filter(m -> m.getParentId() == 0).collect(Collectors.toList());
-        return menuList;
+        }
+        for (Menu entry : rootMenu) {
+            List<Menu> childList = getChildren(entry.getId(), menus);
+            entry.setMenuChildren(childList);
+        }
+
+        return rootMenu;
     }
 
     @Override
@@ -84,6 +93,24 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void delete(Integer id) {
         menuMapper.deleteById(id);
+    }
+
+
+    public List<Menu> getChildren(Integer id, List<Menu> allMenu) {
+        List<Menu> childList = new ArrayList<>();
+        for (Menu entry : allMenu) {
+            if (entry.getParentId() == id) {
+                childList.add(entry);
+            }
+        }
+        // 递归
+        for (Menu entry : childList) {
+            entry.setMenuChildren(getChildren(entry.getId(), allMenu));
+        }
+        if (childList.size() == 0) {
+            return new ArrayList<>();
+        }
+        return childList;
     }
 
 }

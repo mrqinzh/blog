@@ -16,6 +16,9 @@ public class MenuVO {
     @ApiModelProperty(value = "图标")
     private String icon;
 
+    @ApiModelProperty(value = "排序等级")
+    private Integer menuSort;
+
     @ApiModelProperty(value = "菜单名")
     @NotNull
     private String menuTitle;

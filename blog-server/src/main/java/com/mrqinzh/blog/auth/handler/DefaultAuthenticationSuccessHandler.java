@@ -32,17 +32,15 @@ public class DefaultAuthenticationSuccessHandler implements AuthenticationSucces
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
-        Object o = auth.getPrincipal();
-        UserDetails userDetails = null;
-        if (o instanceof UserDetails) {
-            userDetails = (UserDetails) o;
-        }
-        logger.info("登录用户名：{} 认证通过", userDetails.getUsername());
+
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
 
         // Todo 生成 token
         String token = jwtTokenUtil.generateToken(userDetails);
         Map<String, Object> result = new HashMap<>();
         result.put("token", token);
+
+        logger.info("登录用户名：{} 认证通过", userDetails.getUsername());
 
         response.setContentType("application/json;charset=utf-8");
         PrintWriter out = response.getWriter();

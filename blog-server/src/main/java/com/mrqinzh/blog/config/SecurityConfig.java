@@ -1,11 +1,13 @@
 package com.mrqinzh.blog.config;
 
+import com.mrqinzh.blog.auth.component.AccessDecisionProcessor;
 import com.mrqinzh.blog.auth.filter.CustomFrontAuthorizationFilter;
 import com.mrqinzh.blog.auth.filter.JwtAuthenticationTokenFilter;
 import com.mrqinzh.blog.auth.handler.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
@@ -77,7 +80,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll();
 
         http.authorizeRequests()
-//                .antMatchers("/article/list").hasRole("admin")
                 .antMatchers("/*/list").permitAll()
                 .antMatchers("/comment/**").permitAll()
 
@@ -125,6 +127,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
 
         return daoAuthenticationProvider;
+    }
+
+    @Bean
+    public AccessDecisionVoter<FilterInvocation> accessDecisionVoter() {
+        return new AccessDecisionProcessor();
     }
 
 }

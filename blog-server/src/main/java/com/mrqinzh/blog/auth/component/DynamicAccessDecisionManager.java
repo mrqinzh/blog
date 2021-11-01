@@ -1,5 +1,6 @@
 package com.mrqinzh.blog.auth.component;
 
+import cn.hutool.core.collection.CollUtil;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -14,17 +15,20 @@ public class DynamicAccessDecisionManager implements AccessDecisionManager {
 
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-
+        // 当接口未配置时，直接放行
+        if (CollUtil.isEmpty(configAttributes)) {
+            return;
+        }
     }
 
     @Override
     public boolean supports(ConfigAttribute attribute) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return false;
+        return true;
     }
 
 }

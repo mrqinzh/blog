@@ -1,24 +1,19 @@
 <template>
   <div class="recent-comment">
     <span style="font-size: 18px;">
-      <i class="el-icon-hot-water"></i>
+      <i class="el-icon-hot-water" style="color: #409EFF"></i>
       最新评论
     </span>
     <div class="recent-comment-body">
-      <li v-for="(item, index) in commentList" :key="index">
+      <li v-for="(item, index) in commentList" :key="index" style="margin: 4px 0 3px 0;">
         <a-space>
           <el-avatar size="small" :src="item.avatar"></el-avatar>
           <span style="font-size: 16px;color: #303133">{{ item.nickname }}</span>
           <span>{{ item.commentTime }}</span>
         </a-space>
         <br>
-        <p>
-          <span>：{{ item.commentContent }}</span>
-        </p>
+        <span><i class="el-icon-chat-dot-square"></i> {{ item.commentContent }}</span>
         <a-divider dashed v-show="index < commentList.length-1" />
-        <!-- <span v-if="item.articleId">
-          {{ item.nickname }}在{{ item.commentTime }} 对 <router-link :to="{name: 'Detail', params: {articleId: item.articleId}}" target="_blank">文章</router-link> 进行了评论。
-        </span> -->
       </li>
     </div>
   </div>

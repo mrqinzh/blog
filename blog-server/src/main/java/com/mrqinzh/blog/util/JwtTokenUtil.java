@@ -63,7 +63,7 @@ public class JwtTokenUtil {
         String username = null;
         try {
             Claims claims = getClaimsFromToken(token);
-            System.out.println("claims = " + claims.toString());
+//            System.out.println("claims = " + claims.toString()); // claims = {exp=1636426100, sub=admin, iat=1635821300965}
             username = claims.getSubject();
         } catch (Exception e) {
             System.out.println("e = " + e.getMessage());

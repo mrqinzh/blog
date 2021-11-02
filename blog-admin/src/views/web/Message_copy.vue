@@ -66,9 +66,10 @@ export default {
       }
       add(param).then(resp => {
         // console.log(resp);
+        this.$message.success('留言成功');
         this.loadData();
         this.commentForm.nickname = '';
-        this.commentForm.commentContent;
+        this.commentForm.commentContent = '';
 
       })
     }

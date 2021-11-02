@@ -34,6 +34,7 @@ public class GlobalExceptionHandler {
      * 处理参数 valid 校验异常
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ResponseBody
     public Resp handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         StringBuilder stringBuilder = new StringBuilder();
         List<FieldError> fieldErrorList = e.getBindingResult().getFieldErrors();

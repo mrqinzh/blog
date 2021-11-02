@@ -163,8 +163,8 @@ export default {
         // console.log(resp);
         this.content = md.render(resp.data.articleContentMd);
         this.article = resp.data;
-      })
         this.loading = false;
+      })
     },
     // 加载评论内容
     loadComments() {
@@ -175,12 +175,11 @@ export default {
     },
     // 提交评论内容
     addComment(val) {
-      var content = "";
       if (this.nickname === '') {
         this.$message.error('你还没有输入昵称哦 => `_`');
         return;
       }
-
+      var content = "";
       if(val === 0){
         if(this.commentContent === ''){
           this.$message.warning('你评论了个寂寞 => `_`');
@@ -205,9 +204,9 @@ export default {
         // console.log(resp);
         if(resp.success) {
           this.loadComments();
+          this.$message.success('评论成功。');
+          this.flag = '';
         }
-        this.$message.success(resp.msg);
-        this.flag = '';
       })
     }
     
@@ -229,7 +228,6 @@ export default {
       })
     });
   },
-
 
   destroyed () {
     this.clipboard.destroy();

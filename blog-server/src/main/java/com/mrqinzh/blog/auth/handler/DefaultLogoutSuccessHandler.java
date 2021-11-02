@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * 退出成功后执行的逻辑
+ */
 @Component
 public class DefaultLogoutSuccessHandler implements LogoutSuccessHandler {
 

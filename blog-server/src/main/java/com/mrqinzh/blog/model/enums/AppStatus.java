@@ -14,7 +14,7 @@ public enum AppStatus {
 
 
     BAD_REQUEST(400, false, "参数校验失败"),
-    USERNAME_PASSWORD_ERROR(4003 , false, "账号或密码错误！"),
+    USERNAME_PASSWORD_ERROR(4000 , false, "账号或密码错误！"),
     AUTH_FAILED(403, false, "对不起，你的权限不足，请充值。。.>_>"),
     /**
      * 内部错误

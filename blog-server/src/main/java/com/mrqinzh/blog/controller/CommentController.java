@@ -41,7 +41,6 @@ public class CommentController {
     /**
      * 根据对用的 id 类型， 对评论信息进行筛选
      * @param idType id类型： userId、articleId
-     * @param id id值
      */
     @ApiOperation(value = "根据 userId、articleId 查询评论")
     @GetMapping("{idType}/{id}")

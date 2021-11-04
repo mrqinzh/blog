@@ -1,3 +1,22 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 127.0.0.1
+ Source Server Type    : MariaDB
+ Source Server Version : 100307
+ Source Host           : localhost:3306
+ Source Schema         : blog
+
+ Target Server Type    : MariaDB
+ Target Server Version : 100307
+ File Encoding         : 65001
+
+ Date: 03/11/2021 15:32:26
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
 -- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
@@ -20,7 +39,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP,
   `status` int(2) NOT NULL DEFAULT 0 COMMENT '0：未删 1：已删',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -35,7 +54,9 @@ INSERT INTO `sys_menu` VALUES (11, 8, '文章管理', 'Article', 'system/article
 INSERT INTO `sys_menu` VALUES (12, 11, '文章列表', 'ArticleList', 'system/article/Article', NULL, 'el-icon-menu', '/admin/system/article/list', 1, 1, 1, NULL, NULL, '2021-10-29 13:40:33', '2021-10-29 15:41:36', 0);
 INSERT INTO `sys_menu` VALUES (13, 8, '标签管理', 'Tag', 'system/tag/index', NULL, 'el-icon-collection-tag', '/admin/system/tag', 0, 1, 3, NULL, NULL, '2021-10-29 14:05:21', '2021-10-29 14:05:21', 0);
 INSERT INTO `sys_menu` VALUES (14, 11, '写文章', 'ArticleAdd', 'system/article/add_copy', NULL, 'el-icon-edit', '/admin/system/article/add', 0, 1, 2, NULL, NULL, '2021-10-29 15:42:52', '2021-10-29 15:44:21', 0);
-INSERT INTO `sys_menu` VALUES (15, 0, '图标库', 'Icons', 'Layout', '', 'el-icon-star-on', '/icon/index', 0, 1, 3, NULL, NULL, '2021-10-29 15:55:46', '2021-10-29 15:55:46', 0);
-INSERT INTO `sys_menu` VALUES (17, 0, '邮件', 'Email', 'Layout', NULL, 'el-icon-s-promotion', '/email/index', 0, 1, 3, NULL, NULL, '2021-10-29 15:58:36', '2021-10-29 15:58:36', 0);
+INSERT INTO `sys_menu` VALUES (15, 0, '图标库', 'Icons', 'Layout', '', 'el-icon-star-on', '/icon/index', 0, 1, 3, NULL, NULL, '2021-10-29 16:32:45', '2021-10-29 16:32:45', 1);
+INSERT INTO `sys_menu` VALUES (17, 0, '邮件', 'Email', 'Layout', NULL, 'el-icon-s-promotion', '/email/index', 0, 1, 4, NULL, NULL, '2021-10-29 16:32:46', '2021-10-29 16:32:46', 1);
+INSERT INTO `sys_menu` VALUES (18, 0, '个人中心', 'Account', 'Layout', NULL, 'el-icon-s-custom', '/account', 0, 0, 5, NULL, NULL, '2021-11-03 15:26:59', '2021-11-03 15:31:24', 0);
+INSERT INTO `sys_menu` VALUES (19, 18, '个人页', 'Center', 'account/center/', NULL, 'el-icon-s-custom', '/account/center', 0, 1, 5, NULL, NULL, '2021-11-03 15:28:16', '2021-11-03 15:28:16', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

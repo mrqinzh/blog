@@ -17,7 +17,7 @@
       <br>
       <div style="margin: 10px 0;">
         <el-button type="success" icon="el-icon-plus" @click="addOrUpdateHandle('')">添加</el-button>
-        <el-button type="warning" icon="el-icon-edit">修改</el-button>
+        <el-button type="warning" icon="el-icon-edit" :disabled="multipleSelection.length != 1">修改</el-button>
       </div>
     </div>
     <div>
@@ -120,7 +120,7 @@ export default {
     },
     loadData() {
       getMenuList().then(resp => {
-        console.log(resp);
+        // console.log(resp);
         this.menuListData = resp.data;
       })
     },

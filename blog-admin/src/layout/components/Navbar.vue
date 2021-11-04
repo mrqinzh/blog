@@ -11,9 +11,9 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/" target="_blank">
+          <router-link to="/account/center">
             <el-dropdown-item>
-              主页
+              个人中心
             </el-dropdown-item>
           </router-link>
           <a href="https://github.com/mrqinzh" target="_blank">

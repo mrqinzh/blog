@@ -59,7 +59,7 @@ export default {
         pageSize: 10
       }
       getRoleList(param).then(resp => {
-        console.log(resp);
+        // console.log(resp);
         this.roleDataList = resp.data.rows;
       })
     }

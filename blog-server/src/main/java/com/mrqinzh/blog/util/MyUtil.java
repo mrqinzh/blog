@@ -1,8 +1,17 @@
 package com.mrqinzh.blog.util;
 
+import com.mrqinzh.blog.constant.MyConstant;
+
 import java.util.Random;
 
 public class MyUtil {
+
+    /**
+     * 获取系统中的随机头像
+     */
+    public static String getRandomAvatarUrl() {
+        return MyConstant.MY_HTTP + MyConstant.DOMAIN_IMG + "/avatar" + (int)Math.floor((Math.random() * 10) + 1) + ".png";
+    }
 
     /**
      * 将 content 中的 HTML 标签过滤

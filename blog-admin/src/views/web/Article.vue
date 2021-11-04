@@ -43,11 +43,10 @@
                 <div class="card">
                   <i class="el-icon-caret-left" style="float: left;margin: 10px 0 0 -15px;font-size: 20px;color: #dedede;"></i>
                   <div class="card-head">
-                    <span><a><router-link :to="{name: 'Detail', params: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a></span>
+                    <a><router-link :to="{name: 'Detail', params: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a>
                   </div>
                   <div class="card-foot">
-                    <a-tag color="#87d068" v-if="item.articleType === '原创'">原创</a-tag>
-                    <a-tag color="#f50" v-else>转载</a-tag>
+                    <a-tag color="#87d068">笔记</a-tag>
                     <i class="el-icon-s-custom"></i>
                     <span><a style="color: #898d92">{{ item.articleAuthor }}</a></span>
                     &nbsp;

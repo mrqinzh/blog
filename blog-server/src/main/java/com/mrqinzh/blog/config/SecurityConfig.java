@@ -95,6 +95,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/role/**").hasAuthority("super-admin")
                 .antMatchers("/menu/**").hasAuthority("super-admin")
 
+                .antMatchers("/api/websocket/**").permitAll()
+
                 .anyRequest().authenticated()
 
                 .accessDecisionManager(accessDecisionManager()) // 添加投票管理器

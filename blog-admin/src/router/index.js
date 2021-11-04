@@ -153,17 +153,6 @@ export const constantRoutes = [
     ]
   },
 
-  // {
-  //   path: 'external-link',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'http://mrqinzh.info/',
-  //       meta: { title: '网站前台', icon: 'link' }
-  //     }
-  //   ]
-  // },
-
   {
     path: '/404',
     component: () => import('@/views/404'),

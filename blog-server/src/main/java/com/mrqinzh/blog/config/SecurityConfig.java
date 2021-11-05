@@ -127,7 +127,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/public/**", "/static/**");
+        // 放行vue打包的文件
+        web.ignoring().antMatchers(
+                "/*.html",
+                "*.ico",
+                "/static/**",
+                "/img/**");
         // 放行swagger
         web.ignoring().antMatchers(
                 "/swagger-ui.html",

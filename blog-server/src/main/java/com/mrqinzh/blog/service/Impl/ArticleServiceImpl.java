@@ -6,6 +6,7 @@ import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.ArticleMapper;
 import com.mrqinzh.blog.mapper.CommentMapper;
 import com.mrqinzh.blog.mapper.TagMapper;
+import com.mrqinzh.blog.mapper.UserMapper;
 import com.mrqinzh.blog.model.entity.Tag;
 import com.mrqinzh.blog.model.vo.article.ArticleVo;
 import com.mrqinzh.blog.model.vo.PageVO;
@@ -17,11 +18,15 @@ import com.mrqinzh.blog.service.ArticleService;
 import com.mrqinzh.blog.util.MyUtil;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.resp.Resp;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +37,9 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -64,12 +72,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void add(ArticleVo articleVo, String token) {
+    public void add(ArticleVo articleVo) {
         articleVo.setArticleSummary(MyUtil.stripHtml(articleVo.getArticleSummary()));
-        if (!redisUtil.hasKey(token)) {
-            throw new BizException(AppStatus.AUTH_FAILED, "对不起，权限不足，请先登录");
-        }
-        User user = (User) redisUtil.get(token);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userMapper.getByUsernameOrEmail(userDetails.getUsername());
+
 
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);

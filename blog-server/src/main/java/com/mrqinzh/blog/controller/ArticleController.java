@@ -45,8 +45,8 @@ public class ArticleController {
 
     @ApiOperation(value = "添加文章")
     @PostMapping("/add")
-    public Resp add(@RequestBody @Valid ArticleVo articleVo, @RequestHeader("token") String token) {
-        articleService.add(articleVo, token);
+    public Resp add(@RequestBody @Valid ArticleVo articleVo) {
+        articleService.add(articleVo);
         return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
     }
 

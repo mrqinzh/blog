@@ -11,7 +11,7 @@ public interface ArticleService {
 
     Article getById(Integer articleId); // 根据文章id展示当前文章
 
-    void add(ArticleVo articleVo, String token);
+    void add(ArticleVo articleVo);
 
     void update(ArticleVo articleVo); // 修改文章内容
 

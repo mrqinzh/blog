@@ -1,6 +1,7 @@
 package com.mrqinzh.blog.service.Impl;
 
 import com.github.pagehelper.PageHelper;
+import com.mrqinzh.blog.auth.SecurityUser;
 import com.mrqinzh.blog.exception.BizException;
 import com.mrqinzh.blog.mapper.LoginLogMapper;
 import com.mrqinzh.blog.mapper.MenuMapper;
@@ -21,6 +22,8 @@ import com.mrqinzh.blog.model.resp.Resp;
 import com.mrqinzh.blog.util.WebUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -45,15 +48,15 @@ public class UserServiceImpl implements UserService {
     private LoginLogMapper loginLogMapper;
 
     @Override
-    public Resp update(UserVO userVO, String token) {
+    public Resp update(UserVO userVO) {
 
-        User sysUser = (User) redisUtil.get(token); // 当前登录的用户
+        SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // 当前登录的用户
 
         User user = new User();
 
         if (userVO.getUserPwd() != null && userVO.getNewPass() != null) {
             // 修改密码操作
-            if (!userVO.getUserPwd().equals(sysUser.getUserPwd())) {
+            if (!userVO.getUserPwd().equals(securityUser.getUserPwd())) {
                 throw new BizException(AppStatus.BAD_REQUEST, "原密码发生了错误。。。");
             }
             // Todo 此处可以对密码进行加密。。。
@@ -66,21 +69,13 @@ public class UserServiceImpl implements UserService {
 
         userMapper.updateById(user);
 
-        // 删除缓存，需要前端重新登录
-        redisUtil.del(token);
-
         return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }
 
     @Override
-    public Resp add(User user, String token) {
-
-        // 添加用户，先验证当前操作人的权限是否足够。。。
-        User sysUser = (User) redisUtil.get(token);
-        if (!sysUser.getRoleName().equals("super-admin")) {
-            throw new BizException(AppStatus.AUTH_FAILED);
-        }
-
+    public Resp add(UserVO userVO) {
+        User user = new User();
+        BeanUtils.copyProperties(userVO, user);
         // Todo 这里可以对用户密码 进行加密 再入库
         userMapper.insert(user);
 
@@ -90,21 +85,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public Resp info(String token) {
 
-        // Todo 等待更改
-        User user = userMapper.selectById(1);
-//        User user = (User) redisUtil.get(token);
-        String clientIp = WebUtil.getClientIp(WebUtil.getRequest());
+        SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userMapper.selectById(securityUser.getId());
 
-        Map<String, Object> map = new HashMap<>(4);
+        // 返回用户信息
+        Map<String, Object> map = new HashMap<>();
         map.put("userId", user.getId());
         map.put("name", user.getUserNickname());
         map.put("avatar", user.getUserAvatar());
 
-//        map.put("roles", user.getRole().getRoleName());
         map.put("roles", user.getRoleName());
+//        map.put("roles", user.getRole().getRoleName());
 
+        // Todo 暂时使用全部，用于前端调试
+        map.put("menus", menuService.findAll());
 //        map.put("menus", menuMapper.getByRoleId(user.getRole().getId()));
-        map.put("menus", menuService.findAll()); // 暂时使用全部，用于前端调试
         return DataResp.ok(map);
     }
 

@@ -1,8 +1,5 @@
 package com.mrqinzh.blog.auth.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.resp.Resp;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;

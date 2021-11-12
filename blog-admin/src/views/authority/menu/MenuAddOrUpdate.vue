@@ -124,7 +124,7 @@ export default {
     },
     loadMenuList() {
       getMenuList().then(resp => {
-        console.log(resp)
+        // console.log(resp)
         this.menuTree = resp.data;
       })
     },
@@ -137,7 +137,7 @@ export default {
         if (this.menuForm.id != 0) {
           // Todo axios
           getMenuById(this.menuForm.id).then(resp => {
-            console.log(resp)
+            // console.log(resp)
             this.menuForm = resp.data;
           })
         }

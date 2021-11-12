@@ -19,17 +19,14 @@ import java.util.Map;
 @Component
 public class JwtTokenUtil {
 
-
     //私钥
     private static final String SECRET_KEY = "zhkskdxt";
 
-
     // 过期时间 毫秒,设置默认1周的时间过期
-    private static final long EXPIRATION_TIME = 3600000L * 24 * 7;
+    private static final long EXPIRATION_TIME = 3600000L * 24;
 
     /**
      * 生成令牌
-     *
      * @param userDetails 用户
      * @return 令牌
      */
@@ -43,7 +40,6 @@ public class JwtTokenUtil {
 
     /**
      * 从数据声明生成令牌
-     *
      * @param claims 数据声明
      * @return 令牌
      */
@@ -55,7 +51,6 @@ public class JwtTokenUtil {
 
     /**
      * 从令牌中获取用户名
-     *
      * @param token 令牌
      * @return 用户名
      */
@@ -74,7 +69,6 @@ public class JwtTokenUtil {
 
     /**
      * 从令牌中获取数据声明
-     *
      * @param token 令牌
      * @return 数据声明
      */
@@ -91,7 +85,6 @@ public class JwtTokenUtil {
 
     /**
      * 判断令牌是否过期
-     *
      * @param token 令牌
      * @return 是否过期
      */
@@ -109,7 +102,6 @@ public class JwtTokenUtil {
 
     /**
      * 刷新令牌
-     *
      * @param token 原令牌
      * @return 新令牌
      */
@@ -128,7 +120,6 @@ public class JwtTokenUtil {
 
     /**
      * 验证令牌
-     *
      * @param token       令牌
      * @param userDetails 用户
      * @return 是否有效

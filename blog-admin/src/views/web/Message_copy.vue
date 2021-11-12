@@ -1,7 +1,7 @@
 <template>
   <!-- banner -->
   <div class="message-container">
-    <div class="write-comment">
+    <div class="write-comment animate__animated animate__fadeIn">
       <el-input
         type="textarea"
         placeholder="有什么想说的尽管说吧。^_^"
@@ -16,7 +16,7 @@
 
     <div class="time-line">
       <a-timeline mode="alternate">
-        <a-timeline-item v-for="(item, index) in messageList" :key="index" >
+        <a-timeline-item v-for="(item, index) in messageList" :key="index"  :class="index % 2 == 0 ? 'animate__animated animate__fadeInRight' : 'animate__animated animate__fadeInLeft'">
           <img slot="dot" :src="item.avatar" style="width: 20px;height: 20px">
           <span style="font-size: 14px;">{{ item.commentTime }}</span>
           <span style="font-weight: bold ">{{ item.nickname }}</span>

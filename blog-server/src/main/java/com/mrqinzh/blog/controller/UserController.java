@@ -34,14 +34,14 @@ public class UserController {
 
     @ApiOperation(value = "添加一个用户")
     @PostMapping("add")
-    public Resp add(@RequestBody User user, @RequestHeader("token") String token) {
-        return userService.add(user, token);
+    public Resp add(@RequestBody UserVO userVO) {
+        return userService.add(userVO);
     }
 
     @ApiOperation(value = "修改用户信息")
     @PostMapping("update")
-    public Resp update(@RequestBody UserVO userVO, @RequestHeader("token") String token) {
-        return userService.update(userVO, token);
+    public Resp update(@RequestBody UserVO userVO) {
+        return userService.update(userVO);
     }
 
     @ApiOperation(value = "获取用户信息")

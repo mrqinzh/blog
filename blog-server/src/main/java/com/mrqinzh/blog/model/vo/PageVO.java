@@ -10,11 +10,14 @@ import java.io.Serializable;
 public class PageVO implements Serializable {
 
     private Integer currentPage;
+
     private Integer pageSize;
+
     /**
      * 条件属性
      */
     private String condition;
+
     /**
      * 排序
      */

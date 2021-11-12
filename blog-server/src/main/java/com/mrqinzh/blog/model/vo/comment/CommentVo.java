@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @ApiModel(description = "添加评论请求实体")
@@ -11,11 +12,11 @@ import javax.validation.constraints.NotNull;
 public class CommentVo {
 
     @ApiModelProperty(value = "昵称")
-    @NotNull
+    @NotBlank
     private String nickname;
 
     @ApiModelProperty(value = "评论内容")
-    @NotNull
+    @NotBlank
     private String commentContent;
 
     @ApiModelProperty(value = "类型---1：评论  2：留言")

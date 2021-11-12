@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { MessageBox } from 'element-ui'
+import { message } from 'ant-design-vue'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
@@ -47,11 +48,7 @@ service.interceptors.response.use(
 
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 200) {
-      Message({
-        message: res.msg || `error code: ${res.code}`,
-        type: 'error',
-        duration: 5 * 1000
-      })
+      message.error(res.msg || `error code: ${res.code}`)
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
@@ -73,11 +70,7 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    message.error(error.message)
     return Promise.reject(error)
   }
 )

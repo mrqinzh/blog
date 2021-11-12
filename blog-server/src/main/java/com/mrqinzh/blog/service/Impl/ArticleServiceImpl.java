@@ -50,9 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private TagMapper tagMapper;
 
-    @Autowired
-    private RedisUtil redisUtil;
-
     @Override
     public Resp list(PageVO pageVO) {
         PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
@@ -83,7 +80,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
 
-        // 设置文章作者，优先为realname
+        // 设置文章作者，优先为realName
         if (StringUtils.isNotBlank(user.getUserRealName())) {
             article.setArticleAuthor(user.getUserRealName());
         } else {
@@ -105,7 +102,7 @@ public class ArticleServiceImpl implements ArticleService {
                     break;
                 }
                 if (threshold++ > 4) {
-                    throw new BizException(AppStatus.BAD_REQUEST, "对不起，系统识别不了你所选择的标签，请重新选择，或上传封面图！！！");
+                    throw new BizException(AppStatus.BAD_REQUEST, "对不起，系统里好像没有选择标签的相关图片，请重新选择标签，或者上传自己的封面图！！！");
                 }
             }
         }

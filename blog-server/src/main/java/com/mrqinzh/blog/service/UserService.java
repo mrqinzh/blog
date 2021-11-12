@@ -7,9 +7,9 @@ import com.mrqinzh.blog.model.resp.Resp;
 
 public interface UserService {
 
-    Resp update(UserVO userVO, String token);
+    Resp update(UserVO userVO);
 
-    Resp add(User user, String token);
+    Resp add(UserVO userVO);
 
     Resp info(String token);
 

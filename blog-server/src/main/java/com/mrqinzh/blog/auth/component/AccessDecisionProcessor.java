@@ -36,13 +36,13 @@ public class AccessDecisionProcessor implements AccessDecisionVoter<FilterInvoca
     public int vote(Authentication authentication, FilterInvocation object, Collection<ConfigAttribute> attributes) {
         String requestUrl = object.getRequestUrl();
         String method = object.getRequest().getMethod();
-        log.info("请求进入自定义投票器，URI：{}，method：{}", requestUrl, method);
+        log.info("请求进入自定义投票器，URI：{}   method：{}", requestUrl, method);
 
         if (authentication == null) {
             return ACCESS_ABSTAIN;
         }
-        Object principal = authentication.getPrincipal();
 
+        Object principal = authentication.getPrincipal();
         UserDetails userDetails = null;
         if (principal instanceof UserDetails) {
             userDetails = (UserDetails) authentication.getPrincipal();

@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @ApiModel(description = "添加/修改文章请求实体")
@@ -14,7 +15,7 @@ public class ArticleVo {
     private Integer id;
 
     @ApiModelProperty(value = "文章标题")
-    @NotNull
+    @NotBlank
     private String articleTitle;
 
     @ApiModelProperty(value = "文章摘要")
@@ -24,15 +25,15 @@ public class ArticleVo {
     private String articleCoverImg;
 
     @ApiModelProperty(value = "文章markdown内容")
-    @NotNull
+    @NotBlank
     private String articleContentMd;
 
     @ApiModelProperty(value = "文章标签")
-    @NotNull
+    @NotBlank
     private String articleTag;
 
     @ApiModelProperty(value = "文章类型： 原创 --- 转载")
-    @NotNull
+    @NotBlank
     private String articleType;
 
 }

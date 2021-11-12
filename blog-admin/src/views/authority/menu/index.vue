@@ -1,7 +1,7 @@
 <template>
   <div class="menu-admin-manage">
     <div>
-      <el-input v-model="searchCondition.menuTitle" placeholder="菜单标题" style="width: 10%;"></el-input>
+      <el-input v-model="searchCondition.menuTitle" placeholder="菜单名称" style="width: 10%;"></el-input>
       <el-date-picker
         style="margin: 0 20px;"
         v-model="searchCondition.time"
@@ -14,11 +14,7 @@
       </el-date-picker>
       <el-button type="primary" icon="el-icon-search">搜索</el-button>
       <el-button type="info" icon="el-icon-refresh-left">重置</el-button>
-      <br>
-      <div style="margin: 10px 0;">
-        <el-button type="success" icon="el-icon-plus" @click="addOrUpdateHandle('')">添加</el-button>
-        <el-button type="warning" icon="el-icon-edit" :disabled="multipleSelection.length != 1">修改</el-button>
-      </div>
+      <el-button type="success" icon="el-icon-plus" @click="addOrUpdateHandle('')">添加</el-button>
     </div>
     <div>
       <el-table
@@ -26,12 +22,7 @@
         :data="menuListData"
         style="width: 100%"
         row-key="id"
-        :tree-props="{ children: 'menuChildren', hasChildren: 'menuChildren.length > 0' }"
-        @selection-change="handleSelectionChange">
-        <el-table-column
-          type="selection"
-          width="55">
-        </el-table-column>
+        :tree-props="{ children: 'menuChildren', hasChildren: 'menuChildren.length > 0' }">
         <el-table-column
           prop="menuTitle"
           label="菜单名称"
@@ -105,7 +96,6 @@ export default {
       },
       menuListData: [],
 
-      multipleSelection: [],
     }
   },
   mounted() {
@@ -125,10 +115,6 @@ export default {
       })
     },
 
-    // 表格选择
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-    },
   }
 }
 </script>
@@ -136,6 +122,9 @@ export default {
 <style lang="scss" scoped>
  .menu-admin-manage {
    margin: 30px;
+   >div {
+     margin: 20px 0;
+   }
  }
 </style>
 

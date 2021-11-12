@@ -51,7 +51,7 @@
         <Notice></Notice>
 
         <!-- 中间左侧文章列表部分 -->
-        <el-col :xs="24" :sm="24" :md="18" :lg="18" :xl="16">
+        <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
           <div class="animate__animated animate__fadeInLeft">
             <div class="blog-card" v-for="(item, index) in articles" :key="index">
               <div>
@@ -60,10 +60,10 @@
                     <a><router-link :to="{name: 'Detail', params: {articleId: item.id}}" target="_blank">{{ item.articleTitle }}</router-link></a>
                   </blockquote>
                   <div style="margin-left: 20px;">
-                      <a-tag color="#87d068">笔记</a-tag>
-                      <i class="el-icon-user"></i>&nbsp;&nbsp;{{item.articleAuthor}}
-                      <a-divider type="vertical" />
-                      <i class="el-icon-date"></i>&nbsp;&nbsp;{{item.articleUpdateTime}}
+                    <a-tag color="#87d068">笔记</a-tag>
+                    <i class="el-icon-user"></i>&nbsp;&nbsp;{{item.articleAuthor}}
+                    <a-divider type="vertical" />
+                    <i class="el-icon-date"></i>&nbsp;&nbsp;{{item.articleUpdateTime}}
                   </div>
                   <div class="summary">
                     &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.articleSummary }}。。。</span>
@@ -103,7 +103,7 @@
         </el-col>
         
         <!-- 中间右侧个人信息部分 -->
-        <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="8">
+        <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <div class="animate__animated animate__fadeInRight">
             <!-- 搜索文章按钮 -->
             <search-btn style="margin-top: 30px;"></search-btn>
@@ -259,7 +259,7 @@ import { list } from '@/api/article'
     background-color: white;
     .article-content {
       display: inline-block;
-      width: 71%;
+      width: 70%;
       /* 中间文章内容的title动画 */
       .boxchilde {
         font-size: 20px;
@@ -279,13 +279,14 @@ import { list } from '@/api/article'
         font-size: 14px;
         line-height: 1.7em;
         height: 70px;
+        width: 100%;
         overflow: hidden;
       }
     }
     .artile-cover-img {
       float: right;
       margin: 20px 10px 0 0;
-      width: 190px;
+      width: 27%;
       height: 130px;
       border: 1px solid #EBEEF5;
       border-radius: 15px;
@@ -313,6 +314,13 @@ import { list } from '@/api/article'
   }
 
   .user-card {
+    text-align: center;
+    font-family: STKaiti;
+    margin: 30px 0;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    background-color: white;
+    transition: all 0.3s ease-in;
     .avatar {
       width: 100%;
       height: 100%;
@@ -322,13 +330,6 @@ import { list } from '@/api/article'
         filter: contrast(120%);
       }
     }
-    text-align: center;
-    font-family: STKaiti;
-    margin: 30px 0;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-    background-color: white;
-    transition: all 0.3s ease-in;
     &:hover {
       transform: translate(0,-10px);
       box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);

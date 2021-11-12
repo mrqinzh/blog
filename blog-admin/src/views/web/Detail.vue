@@ -9,16 +9,18 @@
           </el-breadcrumb>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="10">
+      <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10">
         <div v-loading="loading" class="animate__animated animate__fadeIn">
           <!-- 文章头区域 -->
           <div style="font-size: 15px;">
             <h1 style="text-align: center;font-size: 20px;">{{article.articleTitle}}</h1>
             
-            <div style="margin: 20px;text-align: right;">
-              <a-tag :color="article.articleType === '原创' ? '#87d068' : 'f50'">{{ article.articleType}}</a-tag>
-              <i class="el-icon-user"></i>&nbsp;&nbsp;<span>{{article.articleAuthor}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <i class="el-icon-date"></i>&nbsp;&nbsp;<span>{{article.articleUpdateTime}}</span>
+            <div style="margin-top: 20px;text-align: right;">
+              <a-space>
+                  <a-tag color="#87d068"> 笔记 </a-tag>
+                  <i class="el-icon-user"></i>&nbsp;&nbsp;<span>{{article.articleAuthor}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <i class="el-icon-date"></i>&nbsp;&nbsp;<span>{{article.articleUpdateTime}}</span>
+              </a-space>
             </div>
           </div>
           
@@ -280,6 +282,15 @@ export default {
     }
     h3 {
       color: #67C23A;
+    }
+    h4 {
+      color: #1EE0EE;
+    }
+    h5 {
+      color: #E41DD3;
+    }
+    h6 {
+      color: #145FEA;
     }
     img {
       width: 100%;

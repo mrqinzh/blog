@@ -1,7 +1,10 @@
 <template>
   <div>
     <!-- 页面头部区域 -->
-    <MyHeader></MyHeader>
+    <el-header>
+      <MyHeader></MyHeader>
+    </el-header>
+    
     
     <!-- 页面主区域 -->
     <el-main class="web-main">
@@ -9,7 +12,9 @@
     </el-main>
 
     <!-- 页面脚步区域 -->
-    <MyFooter></MyFooter>
+    <el-footer>
+      <MyFooter></MyFooter>
+    </el-footer>
   </div>
 </template>
 
@@ -23,6 +28,15 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+  .el-header {
+    padding: 0;
+  }
+  .el-footer {
+    padding: 0;
+  }
+</style>
 
 <style lang="scss" scoped>
   .web-main {

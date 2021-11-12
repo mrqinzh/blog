@@ -13,7 +13,7 @@
       <br>
       <a style="color: white;" href="https://beian.miit.gov.cn" target="_blank">渝ICP备2021004455号</a>
       <br>
-      <span>@Copyright - Author -> Mr.QinZH in 2021-05-06</span><br>
+      <span>@Copyright - Author -> Mr.QinZH at 2021-05-06</span><br>
       <span >QQ: 1552589784</span>
       <span>
         <a style="color: inherit;margin: 0px 8px;" href="https://github.com/mrqinzh" target="_blank"><a-icon type="github" /></a>

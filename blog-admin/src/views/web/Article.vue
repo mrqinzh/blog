@@ -187,8 +187,8 @@ export default {
   
   .chooseType {
     position: fixed;
-    top: 60px;
-    left: 28%;
+    top: 100px;
+    left: 25%;
     width: 200px;
     font-size: 15px;
     margin: 150px auto;

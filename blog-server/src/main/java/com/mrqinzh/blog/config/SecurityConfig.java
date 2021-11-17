@@ -1,7 +1,6 @@
 package com.mrqinzh.blog.config;
 
 import com.mrqinzh.blog.auth.component.AccessDecisionProcessor;
-import com.mrqinzh.blog.auth.filter.CustomFrontAuthorizationFilter;
 import com.mrqinzh.blog.auth.filter.JwtAuthenticationTokenFilter;
 import com.mrqinzh.blog.auth.handler.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-
-    @Autowired
-    private CustomFrontAuthorizationFilter customFrontAuthorizationFilter;
 
     /**
      * 登录认证成功处理器
@@ -87,7 +83,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 添加时，需要考虑先后顺序问题
         http.authorizeRequests()
-
                 .antMatchers(HttpMethod.GET, "/article/{articleId}").permitAll()
                 .antMatchers("/*/list").permitAll()
                 .antMatchers("/comment/**").permitAll()
@@ -98,7 +93,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/websocket/**").permitAll()
 
                 .anyRequest().authenticated()
-
                 .accessDecisionManager(accessDecisionManager()) // 添加投票管理器
                 ;
 

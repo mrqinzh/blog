@@ -29,6 +29,9 @@ public enum AppStatus {
     DELETE_FAILED(50001, false,"删除失败"),
 
     INTERNET_ERROR(50002, false, "网络好像出现了问题，稍后再试试吧。。。"),
+
+    TOKEN_ILLEGAL(50008, false, "token不合法"),
+    TOKEN_EXPIRED(50014, false, "token过期"),
     ;
 
     private int code;

@@ -44,7 +44,7 @@
             `user` u
         LEFT JOIN sys_user_role sur ON u.id = sur.user_id
         LEFT JOIN sys_role sr ON sur.role_id = sr.id
-        WHERE u.user_name = #{usernameOrEmail} or u.user_email = #{usernameOrEmail}
+        WHERE u.user_name = #{usernameOrEmail} OR u.user_email = #{usernameOrEmail}
     </select>
 
     <insert id="add" parameterType="com.mrqinzh.blog.model.entity.User">

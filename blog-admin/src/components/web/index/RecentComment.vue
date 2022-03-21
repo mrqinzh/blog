@@ -5,7 +5,7 @@
       最新评论
     </span>
     <div class="recent-comment-body">
-      <li v-for="(item, index) in commentList" :key="index" style="margin: 4px 0 3px 0;">
+      <li v-for="(item, index) in commentList" :key="index" style="margin: 5px 0;">
         <a-space>
           <el-avatar size="small" :src="item.avatar"></el-avatar>
           <span style="font-size: 16px;color: #303133">{{ item.nickname }}</span>
@@ -52,14 +52,9 @@ export default {
     margin: 30px 0px;
     padding: 15px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in;
-    &:hover {
-      transform: translate(0, -10px);
-      box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
-    }
     .recent-comment-body {
       padding: 0 5px;
-      margin-top: 5px;
+      margin-top: 10px;
       .ant-divider {
         margin: 0;
       }

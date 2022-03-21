@@ -1,5 +1,5 @@
 <template>
-  <div class="web-home">
+  <div>
     <!-- 抽屉 -->
   <el-drawer
     :visible.sync="drawer"
@@ -54,7 +54,7 @@
         <!-- 中间左侧文章列表部分 -->
         <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
           <div class="animate__animated animate__fadeInLeft">
-            <div class="blog-card" v-for="(item, index) in articles" :key="index">
+            <div class="blog-card transition-card" v-for="(item, index) in articles" :key="index">
               <div>
                 <div class="article-content">
                   <blockquote class="boxchilde">
@@ -107,13 +107,12 @@
             <!-- 搜索文章按钮 -->
             <search-btn style="margin-top: 30px;"></search-btn>
             <!-- 左边个人信息简介 -->
-            <div class="user-card">
+            <div class="user-card transition-card">
               <!-- 头像 -->
               <el-avatar :src="user.avatar" :size="100"></el-avatar>  
               <!-- 姓名、座右铭 -->
               <div>
-                <!-- <mallki :text="user.name"></mallki> -->
-                <span>{{user.name}}</span><br>
+                <mallki :text="user.name" style="font-family: STKaiti;"></mallki><br>
                 <span style="font-size: 15px;line-height: 2em;color: #909399">{{user.motto}}</span>
               </div>
               <el-button @click="drawer = true" type="primary" round size="medium" style="margin: 10px 0;">
@@ -133,8 +132,8 @@
                 </el-tooltip>
               </div>
             </div>
-            <tag></tag>
-            <recent-comment></recent-comment>
+            <tag class="transition-card"></tag>
+            <recent-comment class="transition-card"></recent-comment>
           </div>
         </el-col>
         
@@ -169,6 +168,8 @@ import { list } from '@/api/article'
     data() {
       return {
         loading: true,
+        // 抽屉
+        drawer: false,
         
         // 用户信息
         user: {
@@ -185,8 +186,6 @@ import { list } from '@/api/article'
         currentPage: 1,
         pageSize: 10,
         condition: '',
-        // 抽屉
-        drawer: false,
 
         // 中间博客文章部分
         articles: [],
@@ -194,8 +193,6 @@ import { list } from '@/api/article'
         start_time: '2021-4-10 14:10:00',
         count_time: '00:00:00',
         start_use_time: '2021-04-17 16:30:00',
-
-        log: false, // 判断是否登录
       }
     },
     methods: {
@@ -251,7 +248,6 @@ import { list } from '@/api/article'
   .blog-card {
     margin: 30px auto;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in;
     background-color: white;
     .article-content {
       display: inline-block;
@@ -260,7 +256,6 @@ import { list } from '@/api/article'
       .boxchilde {
         font-size: 20px;
         margin: 10px 0 7px 20px;
-        display: inline-block;
         a {
           display: inline-block;
           transition: all 0.4s ease-in;
@@ -299,10 +294,6 @@ import { list } from '@/api/article'
         margin: 0 2px;
       }
     }
-    &:hover {
-      transform: translate(0, -5px);
-      box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
-    }
     a:hover {
       cursor: pointer;
       color: #318fb5;
@@ -314,17 +305,20 @@ import { list } from '@/api/article'
     text-align: center;
     font-family: STKaiti;
     margin: 30px 0;
-    width: 100%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     background-color: white;
+    > div {
+      color: #303133;
+      font-size: 20px;
+    }
+  }
+
+  // 给卡片添加浮动动画
+  .transition-card {
     transition: all 0.3s ease-in;
     &:hover {
       transform: translate(0,-10px);
       box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
-    }
-    > div {
-      color: #303133;
-      font-size: 20px;
     }
   }
 

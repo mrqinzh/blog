@@ -48,16 +48,11 @@ export default {
    margin: 30px 0px;
    padding: 15px;
    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-   transition: all 0.3s ease-in;
    .card-body {
      margin: 10px 0px;
      span {
        margin: 5px 0px;
      }
-   }
-   &:hover {
-      transform: translate(0, -10px);
-      box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);
    }
  }
 </style>

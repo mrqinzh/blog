@@ -19,12 +19,13 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-//    @ApiOperation(value = "添加一个文件")
+    @ApiOperation(value = "添加一个文件到系统中")
     @PostMapping("add")
     public Resp add(HttpServletRequest request, MultipartFile file) {
         return fileService.add(request, file);
     }
 
+    @ApiOperation(value = "根据文件名删除文件")
     @DeleteMapping("delete/{fileName}")
     public Resp delete(@PathVariable String fileName) {
         return fileService.delete(fileName);

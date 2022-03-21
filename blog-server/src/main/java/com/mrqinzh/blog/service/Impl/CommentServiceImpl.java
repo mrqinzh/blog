@@ -35,7 +35,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> list(CommentPageVo commentPageVo) {
-        PageHelper.startPage(commentPageVo.getCurrentPage(), commentPageVo.getPageSize());
+        PageHelper.startPage(commentPageVo.getCurrentPage(), commentPageVo.getPageSize(), commentPageVo.getOrderBy());
         List<Comment> comments = commentMapper.list(commentPageVo);
         return comments;
     }

@@ -6,27 +6,28 @@
     size="20%"
     direction="ltr">
     <template slot="title">
-      <h2>感谢你的访问&nbsp;&nbsp;<a-icon type="smile" /></h2>
+      <h2>感谢你的访问&nbsp;<a-icon type="smile" /></h2>
     </template>
+    <WebInfo></WebInfo>
     <div class="left_drawer">
       <div>
-        <p>感谢你的访问</p>
-        <p>如果可以，交个朋友，一起掉头发</p>
-        <p>
+        <span>感谢你的访问</span><br>
+        <span>如果可以，交个朋友，一起掉头发</span><br>
+        <span>
           <i class="el-icon-caret-bottom"></i>
           &nbsp;
           <i class="el-icon-caret-bottom"></i>
           &nbsp;
           <i class="el-icon-caret-bottom"></i>
-        </p>
+        </span>
         <hr>
-        <p style="margin-top: 30px">
+        <p style="margin: 15px 0;">
           微信 <br>
-          <img src="@/assets/img/vx.jpg" style="width: 150px; height: 150px">
+          <img src="@/assets/img/vx.jpg" style="width: 120px; height: 120px">
         </p>
-        <p style="margin-top: 30px">
+        <p>
           QQ <br>
-          <img src="@/assets/img/qq.jpg" style="width: 150px; height: 150px">
+          <img src="@/assets/img/qq.jpg" style="width: 120px; height: 120px">
         </p>
       </div>
       <div style="margin-top: 20px">
@@ -69,8 +70,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ item.articleSummary }}。。。</span>
                   </div>
                 </div>
-                <!-- <img src="../../assets/img/hutao.jpg" alt="" class="artile-cover-img"> -->
-                <img :src="item.articleCoverImg" class="artile-cover-img" v-show="item.articleCoverImg">
+                <img :src="item.articleCoverImg" class="artile-cover-img">
               </div>
               <div class="foot">
                 <a-icon type="tag" />
@@ -84,7 +84,6 @@
                       <a-icon type="eye" />
                       阅读<span style="color: red">({{ item.articleViews }})</span>
                     </a-space>
-                    
                 </span>
               </div>
             </div>
@@ -97,7 +96,7 @@
               :total="totalCount"
               :current-page="currentPage"
               @current-change="changePageNum"
-              style="text-align: center;margin-top: 20px">
+              style="text-align: center;">
             </el-pagination>
           </div>
         </el-col>
@@ -110,7 +109,7 @@
             <!-- 左边个人信息简介 -->
             <div class="user-card">
               <!-- 头像 -->
-              <el-avatar class="avatar" :src="user.avatar" :size="100"></el-avatar>  
+              <el-avatar :src="user.avatar" :size="100"></el-avatar>  
               <!-- 姓名、座右铭 -->
               <div>
                 <!-- <mallki :text="user.name"></mallki> -->
@@ -134,8 +133,6 @@
                 </el-tooltip>
               </div>
             </div>
-            <!-- <LinkCard></LinkCard> -->
-            <!-- <WebInfo></WebInfo> -->
             <tag></tag>
             <recent-comment></recent-comment>
           </div>
@@ -155,7 +152,6 @@ import Mallki from '@/components/TextHoverEffect/Mallki'
 import Notice from '@/components/web/index/Notice'
 import Tag from '@/components/web/index/Tag'
 import RecentComment from '@/components/web/index/RecentComment'
-import LinkCard from '@/components/web/index/LinkCard';
 import WebInfo from '@/components/web/index/WebInfo'
 import SearchBtn from '@/components/web/index/SearchBtn'
 
@@ -163,7 +159,6 @@ import { list } from '@/api/article'
 
   export default {
     components: {
-      'LinkCard': LinkCard,
       SearchBtn,
       'WebInfo': WebInfo,
       'Notice': Notice,
@@ -178,6 +173,7 @@ import { list } from '@/api/article'
         // 用户信息
         user: {
           name: '秦志宏',
+          nickname: 'mrqinzh',
           avatar: 'http://mrqinzh.info:9090/img/avatar.jpg',
           vx: 'qzh09010',
           qq: '1552589784',
@@ -279,12 +275,13 @@ import { list } from '@/api/article'
         font-size: 14px;
         line-height: 1.7em;
         height: 70px;
-        width: 100%;
+        width: 90%;
         overflow: hidden;
       }
     }
     .artile-cover-img {
-      float: right;
+      display: inline-block;
+      position: absolute;
       margin: 20px 10px 0 0;
       width: 27%;
       height: 130px;
@@ -321,15 +318,6 @@ import { list } from '@/api/article'
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     background-color: white;
     transition: all 0.3s ease-in;
-    .avatar {
-      width: 100%;
-      height: 100%;
-      transition: all 0.3s linear;
-      &:hover {
-        transform: scale(1.1, 1.1);
-        filter: contrast(120%);
-      }
-    }
     &:hover {
       transform: translate(0,-10px);
       box-shadow: 0 2px 12px 0 rgba(189, 102, 197, 0.6);

@@ -34,7 +34,8 @@ export default {
     loadData() {
       let param = {
         currentPage: 1,
-        pageSize: 5
+        pageSize: 5,
+        orderBy: 'comment_time desc'
       }
       getAllList(param).then(resp => {
         // console.log(resp);

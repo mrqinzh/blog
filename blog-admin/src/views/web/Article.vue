@@ -13,7 +13,7 @@
 
     <!-- 文章分类 -->
     <ul class="chooseType animate__animated animate__fadeInLeft">
-      <i class="el-icon-s-operation"></i>&nbsp;<span @click="loadBlogs()" style="cursor: pointer">所有文章</span>
+      <i class="el-icon-s-operation"></i>&nbsp;<span @click="condition = '';loadBlogs()" style="cursor: pointer">所有文章</span>
       <li v-for="(item, index) in linkTypes" :key="index" @click="findByType(item.val)">
         {{item.linkName}}
         <span><i class="el-icon-caret-right"></i></span>

@@ -175,7 +175,7 @@ import { list } from '@/api/article'
         user: {
           name: '秦志宏',
           nickname: 'mrqinzh',
-          avatar: 'http://mrqinzh.info:9090/img/avatar.jpg',
+          avatar: 'http://mrqinzh.com:9090/img/avatar.jpg',
           vx: 'qzh09010',
           qq: '1552589784',
           tel: '157-3056-7860',
@@ -202,7 +202,7 @@ import { list } from '@/api/article'
           // console.log(resp);
           resp.data.rows.forEach(e => {
             if (!e.articleCoverImg) {
-              e.articleCoverImg = 'http://img.mrqinzh.info/null.jpg'
+              e.articleCoverImg = 'http://img.mrqinzh.com/null.jpg'
             }
           });
           this.articles = resp.data.rows;

@@ -1,8 +1,8 @@
 package com.mrqinzh.api.controller;
 
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.email.EmailVO;
-import com.mrqinzh.blog.service.EmailService;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.email.EmailVO;
+import com.mrqinzh.server.service.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

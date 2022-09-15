@@ -1,7 +1,7 @@
 package com.mrqinzh.server.auth.filter;
 
-import com.mrqinzh.blog.auth.SecurityUser;
-import com.mrqinzh.blog.util.JwtTokenUtil;
+import com.mrqinzh.common.security.SecurityUser;
+import com.mrqinzh.common.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

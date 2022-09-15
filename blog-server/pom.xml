@@ -6,9 +6,6 @@
     <modules>
         <module>blog-common</module>
         <module>blog-api</module>
-        <module>server-user</module>
-        <module>server-article</module>
-        <module>server-file</module>
         <module>blog-service</module>
     </modules>
     <parent>

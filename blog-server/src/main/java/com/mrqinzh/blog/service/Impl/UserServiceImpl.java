@@ -19,10 +19,8 @@ import com.mrqinzh.blog.service.MenuService;
 import com.mrqinzh.blog.service.UserService;
 import com.mrqinzh.blog.util.RedisUtil;
 import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.util.WebUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 

@@ -2,12 +2,12 @@ package com.mrqinzh.server.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
-import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.mapper.RoleMapper;
-import com.mrqinzh.blog.model.entity.Role;
-import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.service.RoleService;
+import com.mrqinzh.common.exception.BizException;
+import com.mrqinzh.common.model.entity.Role;
+import com.mrqinzh.common.model.enums.AppStatus;
+import com.mrqinzh.common.model.vo.PageVO;
+import com.mrqinzh.server.mapper.RoleMapper;
+import com.mrqinzh.server.service.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,11 +1,11 @@
 package com.mrqinzh.api.controller;
 
-import com.mrqinzh.blog.model.entity.Role;
-import com.mrqinzh.blog.model.resp.DataResp;
-import com.mrqinzh.blog.model.resp.PageResp;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.service.RoleService;
+import com.mrqinzh.common.model.entity.Role;
+import com.mrqinzh.common.model.resp.DataResp;
+import com.mrqinzh.common.model.resp.PageResp;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.PageVO;
+import com.mrqinzh.server.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

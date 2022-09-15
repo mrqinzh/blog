@@ -1,7 +1,7 @@
 package com.mrqinzh.server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mrqinzh.blog.model.entity.SysConfig;
+import com.mrqinzh.common.model.entity.SysConfig;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.mrqinzh.server.service;
 
-import com.mrqinzh.blog.model.resp.Resp;
+import com.mrqinzh.common.model.resp.Resp;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;

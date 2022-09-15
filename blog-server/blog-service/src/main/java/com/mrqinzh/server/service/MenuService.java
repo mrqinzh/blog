@@ -1,8 +1,8 @@
 package com.mrqinzh.server.service;
 
-import com.mrqinzh.blog.model.entity.Menu;
-import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.model.vo.menu.MenuVO;
+import com.mrqinzh.common.model.entity.Menu;
+import com.mrqinzh.common.model.vo.PageVO;
+import com.mrqinzh.common.model.vo.menu.MenuVO;
 
 import java.util.List;
 

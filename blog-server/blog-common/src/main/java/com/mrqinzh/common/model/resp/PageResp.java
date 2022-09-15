@@ -1,7 +1,7 @@
 package com.mrqinzh.common.model.resp;
 
 import com.github.pagehelper.PageInfo;
-import com.mrqinzh.blog.model.enums.AppStatus;
+import com.mrqinzh.common.model.enums.AppStatus;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 

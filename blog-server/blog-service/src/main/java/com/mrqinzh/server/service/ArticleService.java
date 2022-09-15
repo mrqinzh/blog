@@ -1,9 +1,9 @@
 package com.mrqinzh.server.service;
 
-import com.mrqinzh.blog.model.entity.Article;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.model.vo.article.ArticleVo;
+import com.mrqinzh.common.model.entity.Article;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.PageVO;
+import com.mrqinzh.common.model.vo.article.ArticleVo;
 
 public interface ArticleService {
 

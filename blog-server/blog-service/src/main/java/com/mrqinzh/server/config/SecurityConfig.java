@@ -1,7 +1,8 @@
 package com.mrqinzh.server.config;
 
-import com.mrqinzh.blog.auth.component.AccessDecisionProcessor;
-import com.mrqinzh.blog.auth.filter.JwtAuthenticationTokenFilter;
+import com.mrqinzh.server.auth.component.AccessDecisionProcessor;
+import com.mrqinzh.server.auth.filter.JwtAuthenticationTokenFilter;
+import com.mrqinzh.server.auth.handler.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

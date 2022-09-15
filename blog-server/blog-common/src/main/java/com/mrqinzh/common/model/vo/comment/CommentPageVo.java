@@ -1,6 +1,6 @@
 package com.mrqinzh.common.model.vo.comment;
 
-import com.mrqinzh.blog.model.vo.PageVO;
+import com.mrqinzh.common.model.vo.PageVO;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

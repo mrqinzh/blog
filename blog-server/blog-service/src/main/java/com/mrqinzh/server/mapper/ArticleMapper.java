@@ -1,8 +1,8 @@
 package com.mrqinzh.server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mrqinzh.blog.model.entity.Article;
-import com.mrqinzh.blog.model.vo.PageVO;
+import com.mrqinzh.common.model.entity.Article;
+import com.mrqinzh.common.model.vo.PageVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;

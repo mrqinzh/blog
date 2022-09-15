@@ -1,7 +1,7 @@
 package com.mrqinzh.server.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mrqinzh.blog.model.resp.Resp;
+import com.mrqinzh.common.model.resp.Resp;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;

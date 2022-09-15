@@ -1,12 +1,12 @@
 package com.mrqinzh.server.service.Impl;
 
-import com.mrqinzh.blog.auth.SecurityUser;
-import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.mapper.RoleMapper;
-import com.mrqinzh.blog.mapper.UserMapper;
-import com.mrqinzh.blog.model.entity.Role;
-import com.mrqinzh.blog.model.entity.User;
-import com.mrqinzh.blog.model.enums.AppStatus;
+import com.mrqinzh.common.exception.BizException;
+import com.mrqinzh.common.model.entity.Role;
+import com.mrqinzh.common.model.entity.User;
+import com.mrqinzh.common.model.enums.AppStatus;
+import com.mrqinzh.server.auth.SecurityUser;
+import com.mrqinzh.server.mapper.RoleMapper;
+import com.mrqinzh.server.mapper.UserMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

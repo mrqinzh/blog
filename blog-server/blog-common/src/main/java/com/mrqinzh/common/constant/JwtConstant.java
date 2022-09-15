@@ -1,4 +1,4 @@
-package com.mrqinzh.server.constant;
+package com.mrqinzh.common.constant;
 
 public class JwtConstant {
 

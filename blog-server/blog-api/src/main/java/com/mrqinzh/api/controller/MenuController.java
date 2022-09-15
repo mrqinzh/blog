@@ -1,12 +1,12 @@
 package com.mrqinzh.api.controller;
 
-import com.mrqinzh.blog.model.entity.Menu;
-import com.mrqinzh.blog.model.resp.DataResp;
-import com.mrqinzh.blog.model.resp.PageResp;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.model.vo.menu.MenuVO;
-import com.mrqinzh.blog.service.MenuService;
+import com.mrqinzh.common.model.entity.Menu;
+import com.mrqinzh.common.model.resp.DataResp;
+import com.mrqinzh.common.model.resp.PageResp;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.PageVO;
+import com.mrqinzh.common.model.vo.menu.MenuVO;
+import com.mrqinzh.server.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

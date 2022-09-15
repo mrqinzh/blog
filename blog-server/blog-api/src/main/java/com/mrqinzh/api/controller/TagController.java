@@ -1,11 +1,11 @@
 package com.mrqinzh.api.controller;
 
-import com.mrqinzh.blog.model.entity.Tag;
-import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.resp.DataResp;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.service.TagService;
+import com.mrqinzh.common.model.entity.Tag;
+import com.mrqinzh.common.model.enums.AppStatus;
+import com.mrqinzh.common.model.resp.DataResp;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.PageVO;
+import com.mrqinzh.server.service.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

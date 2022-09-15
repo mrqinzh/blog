@@ -1,11 +1,11 @@
 package com.mrqinzh.server.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mrqinzh.blog.auth.SecurityUser;
-import com.mrqinzh.blog.constant.JwtConstant;
-import com.mrqinzh.blog.model.resp.DataResp;
-import com.mrqinzh.blog.util.JwtTokenUtil;
-import com.mrqinzh.blog.util.RedisUtil;
+import com.mrqinzh.common.constant.JwtConstant;
+import com.mrqinzh.common.model.resp.DataResp;
+import com.mrqinzh.common.security.SecurityUser;
+import com.mrqinzh.common.util.JwtTokenUtil;
+import com.mrqinzh.common.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,11 +1,11 @@
 package com.mrqinzh.server.service.Impl;
 
-import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.email.EmailVO;
-import com.mrqinzh.blog.service.EmailService;
-import com.mrqinzh.blog.util.RedisUtil;
+import com.mrqinzh.common.exception.BizException;
+import com.mrqinzh.common.model.enums.AppStatus;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.email.EmailVO;
+import com.mrqinzh.common.util.RedisUtil;
+import com.mrqinzh.server.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

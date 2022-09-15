@@ -1,15 +1,15 @@
 package com.mrqinzh.server.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mrqinzh.blog.constant.MyConstant;
-import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.mapper.FileMapper;
-import com.mrqinzh.blog.model.entity.MyFile;
-import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.resp.DataResp;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.service.FileService;
-import com.mrqinzh.blog.util.FileUtil;
+import com.mrqinzh.common.exception.BizException;
+import com.mrqinzh.common.model.entity.MyFile;
+import com.mrqinzh.common.model.enums.AppStatus;
+import com.mrqinzh.common.model.resp.DataResp;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.util.FileUtil;
+import com.mrqinzh.common.constant.MyConstant;
+import com.mrqinzh.server.mapper.FileMapper;
+import com.mrqinzh.server.service.FileService;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.Region;

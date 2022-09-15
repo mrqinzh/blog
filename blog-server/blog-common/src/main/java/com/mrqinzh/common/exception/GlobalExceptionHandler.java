@@ -1,8 +1,8 @@
 package com.mrqinzh.common.exception;
 
 import cn.hutool.core.util.StrUtil;
-import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.resp.Resp;
+import com.mrqinzh.common.model.enums.AppStatus;
+import com.mrqinzh.common.model.resp.Resp;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

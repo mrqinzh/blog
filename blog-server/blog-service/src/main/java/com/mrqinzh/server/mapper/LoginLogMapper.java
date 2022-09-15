@@ -1,6 +1,6 @@
 package com.mrqinzh.server.mapper;
 
-import com.mrqinzh.blog.model.entity.LoginLog;
+import com.mrqinzh.common.model.entity.LoginLog;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

@@ -1,12 +1,12 @@
 package com.mrqinzh.server.service.Impl;
 
 import com.github.pagehelper.PageHelper;
-import com.mrqinzh.blog.mapper.LoginLogMapper;
-import com.mrqinzh.blog.model.entity.LoginLog;
-import com.mrqinzh.blog.model.resp.PageResp;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.service.LoginLogService;
+import com.mrqinzh.common.model.entity.LoginLog;
+import com.mrqinzh.common.model.resp.PageResp;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.PageVO;
+import com.mrqinzh.server.mapper.LoginLogMapper;
+import com.mrqinzh.server.service.LoginLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

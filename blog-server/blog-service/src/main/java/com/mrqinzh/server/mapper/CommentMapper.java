@@ -1,8 +1,8 @@
 package com.mrqinzh.server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mrqinzh.blog.model.entity.Comment;
-import com.mrqinzh.blog.model.vo.comment.CommentPageVo;
+import com.mrqinzh.common.model.entity.Comment;
+import com.mrqinzh.common.model.vo.comment.CommentPageVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;

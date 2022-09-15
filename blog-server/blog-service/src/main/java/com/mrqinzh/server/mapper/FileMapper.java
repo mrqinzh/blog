@@ -1,7 +1,7 @@
 package com.mrqinzh.server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mrqinzh.blog.model.entity.MyFile;
+import com.mrqinzh.common.model.entity.MyFile;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

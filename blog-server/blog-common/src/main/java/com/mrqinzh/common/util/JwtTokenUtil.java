@@ -1,7 +1,6 @@
-package com.mrqinzh.blog.util;
+package com.mrqinzh.common.util;
 
-
-import com.mrqinzh.blog.auth.SecurityUser;
+import com.mrqinzh.common.security.SecurityUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

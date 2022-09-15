@@ -1,13 +1,13 @@
 package com.mrqinzh.api.controller;
 
-import com.mrqinzh.blog.model.entity.Comment;
-import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.resp.DataResp;
-import com.mrqinzh.blog.model.resp.PageResp;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.comment.CommentPageVo;
-import com.mrqinzh.blog.model.vo.comment.CommentVo;
-import com.mrqinzh.blog.service.CommentService;
+import com.mrqinzh.common.model.entity.Comment;
+import com.mrqinzh.common.model.enums.AppStatus;
+import com.mrqinzh.common.model.resp.DataResp;
+import com.mrqinzh.common.model.resp.PageResp;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.comment.CommentPageVo;
+import com.mrqinzh.common.model.vo.comment.CommentVo;
+import com.mrqinzh.server.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

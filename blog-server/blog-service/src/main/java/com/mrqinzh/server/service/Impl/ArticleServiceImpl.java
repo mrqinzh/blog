@@ -2,21 +2,21 @@ package com.mrqinzh.server.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
-import com.mrqinzh.blog.exception.BizException;
-import com.mrqinzh.blog.mapper.ArticleMapper;
-import com.mrqinzh.blog.mapper.CommentMapper;
-import com.mrqinzh.blog.mapper.TagMapper;
-import com.mrqinzh.blog.mapper.UserMapper;
-import com.mrqinzh.blog.model.entity.Article;
-import com.mrqinzh.blog.model.entity.Tag;
-import com.mrqinzh.blog.model.entity.User;
-import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.resp.PageResp;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.PageVO;
-import com.mrqinzh.blog.model.vo.article.ArticleVo;
-import com.mrqinzh.blog.service.ArticleService;
-import com.mrqinzh.blog.util.MyUtil;
+import com.mrqinzh.common.exception.BizException;
+import com.mrqinzh.common.model.entity.Article;
+import com.mrqinzh.common.model.entity.Tag;
+import com.mrqinzh.common.model.entity.User;
+import com.mrqinzh.common.model.enums.AppStatus;
+import com.mrqinzh.common.model.resp.PageResp;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.PageVO;
+import com.mrqinzh.common.model.vo.article.ArticleVo;
+import com.mrqinzh.common.util.MyUtil;
+import com.mrqinzh.server.mapper.ArticleMapper;
+import com.mrqinzh.server.mapper.CommentMapper;
+import com.mrqinzh.server.mapper.TagMapper;
+import com.mrqinzh.server.mapper.UserMapper;
+import com.mrqinzh.server.service.ArticleService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +73,6 @@ public class ArticleServiceImpl implements ArticleService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userMapper.getByUsernameOrEmail(userDetails.getUsername());
-
 
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);

@@ -1,8 +1,8 @@
 package com.mrqinzh.server.service;
 
-import com.mrqinzh.blog.model.entity.Tag;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.PageVO;
+import com.mrqinzh.common.model.entity.Tag;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.PageVO;
 
 import java.util.List;
 

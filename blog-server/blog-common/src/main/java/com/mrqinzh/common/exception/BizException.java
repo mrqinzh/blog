@@ -1,8 +1,8 @@
 package com.mrqinzh.common.exception;
 
 import com.google.common.base.Strings;
-import com.mrqinzh.blog.model.enums.AppStatus;
-import com.mrqinzh.blog.model.resp.Resp;
+import com.mrqinzh.common.model.enums.AppStatus;
+import com.mrqinzh.common.model.resp.Resp;
 import lombok.Data;
 
 /**

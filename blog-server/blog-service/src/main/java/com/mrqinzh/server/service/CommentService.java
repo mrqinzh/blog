@@ -1,9 +1,9 @@
 package com.mrqinzh.server.service;
 
-import com.mrqinzh.blog.model.entity.Comment;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.comment.CommentPageVo;
-import com.mrqinzh.blog.model.vo.comment.CommentVo;
+import com.mrqinzh.common.model.entity.Comment;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.comment.CommentPageVo;
+import com.mrqinzh.common.model.vo.comment.CommentVo;
 
 import java.util.List;
 

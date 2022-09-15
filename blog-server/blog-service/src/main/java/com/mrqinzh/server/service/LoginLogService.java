@@ -1,7 +1,7 @@
 package com.mrqinzh.server.service;
 
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.model.vo.PageVO;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.common.model.vo.PageVO;
 
 public interface LoginLogService {
 

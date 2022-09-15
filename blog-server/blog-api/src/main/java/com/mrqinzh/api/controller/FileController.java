@@ -1,8 +1,8 @@
 package com.mrqinzh.api.controller;
 
-import com.mrqinzh.blog.model.resp.DataResp;
-import com.mrqinzh.blog.model.resp.Resp;
-import com.mrqinzh.blog.service.FileService;
+import com.mrqinzh.common.model.resp.DataResp;
+import com.mrqinzh.common.model.resp.Resp;
+import com.mrqinzh.server.service.FileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

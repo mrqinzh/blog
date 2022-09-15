@@ -4,7 +4,7 @@ import com.mrqinzh.common.exception.BizException;
 import com.mrqinzh.common.model.entity.Role;
 import com.mrqinzh.common.model.entity.User;
 import com.mrqinzh.common.model.enums.AppStatus;
-import com.mrqinzh.server.auth.SecurityUser;
+import com.mrqinzh.common.auth.SecurityUser;
 import com.mrqinzh.server.mapper.RoleMapper;
 import com.mrqinzh.server.mapper.UserMapper;
 import org.apache.commons.lang3.StringUtils;

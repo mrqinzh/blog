@@ -1,4 +1,4 @@
-package com.mrqinzh.server.config;
+package com.mrqinzh.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

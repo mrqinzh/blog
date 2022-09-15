@@ -10,7 +10,7 @@ import com.mrqinzh.common.model.vo.comment.CommentPageVo;
 import com.mrqinzh.common.model.vo.comment.CommentVo;
 import com.mrqinzh.common.util.MyUtil;
 import com.mrqinzh.common.util.WebUtil;
-import com.mrqinzh.server.config.WebSocketServer;
+import com.mrqinzh.common.config.WebSocketServer;
 import com.mrqinzh.server.mapper.CommentMapper;
 import com.mrqinzh.server.mapper.UserMapper;
 import com.mrqinzh.server.service.CommentService;

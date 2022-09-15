@@ -1,4 +1,4 @@
-package com.mrqinzh.server.auth;
+package com.mrqinzh.common.auth;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

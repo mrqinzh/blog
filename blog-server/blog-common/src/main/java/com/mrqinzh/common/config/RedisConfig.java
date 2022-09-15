@@ -1,4 +1,4 @@
-package com.mrqinzh.server.config;
+package com.mrqinzh.common.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

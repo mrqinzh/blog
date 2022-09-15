@@ -1,4 +1,4 @@
-package com.mrqinzh.server.auth.filter;
+package com.mrqinzh.common.auth.filter;
 
 import com.mrqinzh.common.security.SecurityUser;
 import com.mrqinzh.common.util.JwtTokenUtil;

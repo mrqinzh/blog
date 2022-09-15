@@ -1,4 +1,4 @@
-package com.mrqinzh.server.auth;
+package com.mrqinzh.common.auth;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

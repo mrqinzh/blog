@@ -10,7 +10,7 @@ import com.mrqinzh.common.model.resp.Resp;
 import com.mrqinzh.common.model.vo.PageVO;
 import com.mrqinzh.common.model.vo.user.UserVO;
 import com.mrqinzh.common.util.RedisUtil;
-import com.mrqinzh.server.auth.SecurityUser;
+import com.mrqinzh.common.auth.SecurityUser;
 import com.mrqinzh.server.mapper.LoginLogMapper;
 import com.mrqinzh.server.mapper.MenuMapper;
 import com.mrqinzh.server.mapper.UserMapper;

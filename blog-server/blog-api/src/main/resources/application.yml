@@ -30,7 +30,6 @@ spring:
     username: 1552589784@qq.com # 设置用户名
     password: pfhogftiaugdbafg # 设置密码，开启SMTP的授权码
 
-
 mybatis-plus:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
@@ -39,6 +38,8 @@ mybatis-plus:
     db-config:
       logic-delete-value: 1
       logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
 
 # 七牛云配置
 oos:

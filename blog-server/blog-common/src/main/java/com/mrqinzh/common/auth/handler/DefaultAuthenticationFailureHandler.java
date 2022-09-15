@@ -1,4 +1,4 @@
-package com.mrqinzh.server.auth.handler;
+package com.mrqinzh.common.auth.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mrqinzh.common.model.enums.AppStatus;

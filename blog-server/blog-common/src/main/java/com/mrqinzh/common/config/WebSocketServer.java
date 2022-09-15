@@ -1,4 +1,4 @@
-package com.mrqinzh.server.config;
+package com.mrqinzh.common.config;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

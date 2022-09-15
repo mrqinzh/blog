@@ -1,4 +1,4 @@
-package com.mrqinzh.server.auth.component;
+package com.mrqinzh.common.auth.component;
 
 
 import lombok.extern.slf4j.Slf4j;

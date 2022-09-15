@@ -1,4 +1,4 @@
-package com.mrqinzh.server.auth.component;
+package com.mrqinzh.common.auth.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.SecurityMetadataSource;

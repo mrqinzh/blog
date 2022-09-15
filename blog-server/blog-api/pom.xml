@@ -18,16 +18,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.mrqinzh</groupId>
             <artifactId>blog-common</artifactId>
         </dependency>
         <dependency>
             <groupId>com.mrqinzh</groupId>
-            <artifactId>blog-service</artifactId>
+            <artifactId>blog-domain</artifactId>
         </dependency>
     </dependencies>
 

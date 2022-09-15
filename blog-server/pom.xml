@@ -6,7 +6,7 @@
     <modules>
         <module>blog-common</module>
         <module>blog-api</module>
-        <module>blog-service</module>
+        <module>blog-domain</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -177,7 +177,7 @@
             </dependency>
             <dependency>
                 <groupId>com.mrqinzh</groupId>
-                <artifactId>blog-service</artifactId>
+                <artifactId>blog-domain</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
         </dependencies>

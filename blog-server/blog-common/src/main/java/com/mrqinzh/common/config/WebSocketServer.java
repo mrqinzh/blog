@@ -48,9 +48,7 @@ public class WebSocketServer {
             addOnlineCount();
             //在线数加1
         }
-
         logger.info("用户连接: " + userId + " ,当前在线人数为: " + getOnlineCount());
-
         try {
             sendMessage("连接成功");
         } catch (IOException e) {
@@ -72,11 +70,6 @@ public class WebSocketServer {
         logger.info("用户退出:"+userId+",当前在线人数为:" + getOnlineCount());
     }
 
-    /**
-     *
-     * @param session
-     * @param error
-     */
     @OnError
     public void onError(Session session, Throwable error) {
         logger.error("用户错误:"+this.userId+",原因:"+error.getMessage());
@@ -85,8 +78,8 @@ public class WebSocketServer {
 
     /**
      * 收到客户端消息后调用的方法
-     *
-     * @param message 客户端发送过来的消息*/
+     * @param message 客户端发送过来的消息
+     */
     @OnMessage
     public void onMessage(String message, Session session) {
         logger.info("用户消息:" + userId + ", 报文: " + message);

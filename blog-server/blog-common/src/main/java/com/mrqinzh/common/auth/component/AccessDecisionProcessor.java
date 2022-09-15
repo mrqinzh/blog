@@ -1,7 +1,8 @@
 package com.mrqinzh.common.auth.component;
 
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
@@ -15,9 +16,10 @@ import java.util.Collection;
 /**
  * 自定义投票器
  */
-@Slf4j
 @Component
 public class AccessDecisionProcessor implements AccessDecisionVoter<FilterInvocation> {
+
+    private final Logger logger = LoggerFactory.getLogger(AccessDecisionProcessor.class);
 
     @Override
     public boolean supports(ConfigAttribute attribute) {
@@ -36,7 +38,7 @@ public class AccessDecisionProcessor implements AccessDecisionVoter<FilterInvoca
     public int vote(Authentication authentication, FilterInvocation object, Collection<ConfigAttribute> attributes) {
         String requestUrl = object.getRequestUrl();
         String method = object.getRequest().getMethod();
-        log.info("请求进入自定义投票器，URI：{}   method：{}", requestUrl, method);
+        logger.info("请求进入自定义投票器，URI：{}   method：{}", requestUrl, method);
 
         if (authentication == null) {
             return ACCESS_ABSTAIN;

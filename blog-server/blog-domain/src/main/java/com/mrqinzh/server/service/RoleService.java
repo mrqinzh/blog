@@ -1,6 +1,6 @@
 package com.mrqinzh.server.service;
 
-import com.mrqinzh.common.model.entity.Role;
+import com.mrqinzh.core.entity.Role;
 import com.mrqinzh.common.model.vo.PageVO;
 
 import java.util.List;

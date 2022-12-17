@@ -1,6 +1,6 @@
 package com.mrqinzh.api.controller;
 
-import com.mrqinzh.common.model.entity.Role;
+import com.mrqinzh.core.entity.Role;
 import com.mrqinzh.common.model.resp.DataResp;
 import com.mrqinzh.common.model.resp.PageResp;
 import com.mrqinzh.common.model.resp.Resp;

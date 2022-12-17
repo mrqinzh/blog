@@ -2,13 +2,13 @@ package com.mrqinzh.server.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mrqinzh.common.exception.BizException;
-import com.mrqinzh.common.model.entity.MyFile;
+import com.mrqinzh.core.entity.MyFile;
 import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.resp.DataResp;
 import com.mrqinzh.common.model.resp.Resp;
 import com.mrqinzh.common.util.FileUtil;
-import com.mrqinzh.common.constant.MyConstant;
-import com.mrqinzh.server.mapper.FileMapper;
+import com.mrqinzh.core.properties.GlobalProperties;
+import com.mrqinzh.core.mapper.FileMapper;
 import com.mrqinzh.server.service.FileService;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
@@ -98,7 +98,7 @@ public class FileServiceImpl implements FileService {
             Response response = uploadManager.put(uploadFile.getBytes(), fileName, upToken);
             JSONObject res = JSONObject.parseObject(response.bodyString());
 
-            String url = MyConstant.MY_HTTP + domain + "/" + res.getString("key");
+            String url = GlobalProperties.MY_HTTP + domain + "/" + res.getString("key");
 
             // 将添加的图片信息保存至数据库
             MyFile myFile = new MyFile();

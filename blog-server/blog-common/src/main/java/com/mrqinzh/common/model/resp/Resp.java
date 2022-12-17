@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 统一返回数据类型
  */
@@ -42,6 +44,14 @@ public class Resp {
         resp.setCode(status.getCode());
         resp.setSuccess(status.getSuccess());
         resp.setMsg(status.getMsg());
+        return resp;
+    }
+
+    public static Resp sendErrorMsg(Integer code, String msg) {
+        Resp resp = new Resp();
+        resp.setCode(code);
+        resp.setSuccess(false);
+        resp.setMsg(msg);
         return resp;
     }
 

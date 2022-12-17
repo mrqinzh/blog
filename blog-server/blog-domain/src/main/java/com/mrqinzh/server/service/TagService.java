@@ -1,6 +1,6 @@
 package com.mrqinzh.server.service;
 
-import com.mrqinzh.common.model.entity.Tag;
+import com.mrqinzh.core.entity.Tag;
 import com.mrqinzh.common.model.resp.Resp;
 import com.mrqinzh.common.model.vo.PageVO;
 

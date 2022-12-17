@@ -1,6 +1,6 @@
 package com.mrqinzh.api.controller;
 
-import com.mrqinzh.common.model.entity.Tag;
+import com.mrqinzh.core.entity.Tag;
 import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.resp.DataResp;
 import com.mrqinzh.common.model.resp.Resp;

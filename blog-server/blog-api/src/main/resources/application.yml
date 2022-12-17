@@ -31,7 +31,8 @@ spring:
     password: pfhogftiaugdbafg # 设置密码，开启SMTP的授权码
 
 mybatis-plus:
-  type-aliases-package: com.mrqinzh.common.model.entity
+  mapper-locations: classpath:com/mrqinzh/core/mapper/xml/*.xml
+  type-aliases-package: com.mrqinzh.core.entity
   global-config:
     db-config:
       logic-delete-value: 1

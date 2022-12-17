@@ -1,9 +1,9 @@
 package com.mrqinzh.common.exception;
 
-import com.google.common.base.Strings;
 import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.resp.Resp;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author mrqinzh
@@ -13,19 +13,33 @@ public class BizException extends RuntimeException {
 
     private AppStatus status;
 
+    private Integer code;
+
     private String msg;
+
+    public BizException(AppStatus status) {
+        this.status = status;
+    }
+
+    public BizException(String msg) {
+        this.status = AppStatus.SERVICE_ERROR;
+        this.msg = msg;
+    }
 
     public BizException(AppStatus status, String msg) {
         this.status = status;
         this.msg = msg;
     }
 
-    public BizException(AppStatus status) {
-        this.status = status;
+    public BizException(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
     }
 
     public Resp sendExceptionMsg() {
-        return Strings.isNullOrEmpty(this.msg) ? Resp.sendMsg(status) : Resp.sendMsg(status, msg);
+        return StringUtils.isBlank(this.msg) ?
+                Resp.sendErrorMsg(code == null ? status.getCode() : code, status.getMsg()) :
+                Resp.sendErrorMsg(code, msg);
     }
 
 }

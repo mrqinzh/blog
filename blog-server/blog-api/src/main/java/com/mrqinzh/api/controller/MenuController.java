@@ -1,6 +1,6 @@
 package com.mrqinzh.api.controller;
 
-import com.mrqinzh.common.model.entity.Menu;
+import com.mrqinzh.core.entity.Menu;
 import com.mrqinzh.common.model.resp.DataResp;
 import com.mrqinzh.common.model.resp.PageResp;
 import com.mrqinzh.common.model.resp.Resp;

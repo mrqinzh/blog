@@ -5,9 +5,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>blog-common</module>
-        <module>blog-api</module>
+        <module>blog-application</module>
         <module>blog-domain</module>
         <module>blog-core</module>
+        <module>blog-application</module>
+        <module>blog-test</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -169,7 +171,7 @@
             </dependency>
             <dependency>
                 <groupId>com.mrqinzh</groupId>
-                <artifactId>blog-api</artifactId>
+                <artifactId>blog-application</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>

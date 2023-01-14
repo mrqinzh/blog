@@ -11,6 +11,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -18,18 +19,13 @@ import java.util.List;
 public class SwaggerConfig {
 
     public static List<String> swaggerUrls = new ArrayList<>();
+    public static String[] swaggerApis = {
+            "/*.html", "*.ico", "/static/**", "/img/**",
+            "/swagger-ui.html", "/v2/api-docs", "/swagger-resources/configuration/ui",
+            "/swagger-resources", "/swagger-resources/configuration/security", "/webjars/**"
+    };
     static {
-        swaggerUrls.add("/*.html");
-        swaggerUrls.add("*.ico");
-        swaggerUrls.add("/static/**");
-        swaggerUrls.add("/img/**");
-
-        swaggerUrls.add("/swagger-ui.html");
-        swaggerUrls.add("/v2/api-docs"); // swagger api json
-        swaggerUrls.add("/swagger-resources/configuration/ui"); // 用来获取支持的动作
-        swaggerUrls.add("/swagger-resources"); // 用来获取api-docs的URI
-        swaggerUrls.add("/swagger-resources/configuration/security"); // 安全选项
-        swaggerUrls.add("/webjars/**");
+      swaggerUrls.addAll(Arrays.asList(swaggerApis));
     }
 
     @Bean

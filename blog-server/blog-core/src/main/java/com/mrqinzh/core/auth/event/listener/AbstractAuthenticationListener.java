@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-@Component
 public abstract class AbstractAuthenticationListener implements ApplicationListener<AbstractAuthenticationEvent> {
 
     @Async

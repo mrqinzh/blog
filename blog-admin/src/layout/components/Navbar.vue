@@ -16,6 +16,11 @@
               个人中心
             </el-dropdown-item>
           </router-link>
+          <router-link to="/account/system-setting">
+            <el-dropdown-item>
+              设置
+            </el-dropdown-item>
+          </router-link>
           <a href="https://github.com/mrqinzh" target="_blank">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
@@ -50,8 +55,8 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('user/logout')
-      // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-      this.$router.push(`/login`)
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      // this.$router.push(`/login`)
     }
   }
 }

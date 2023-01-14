@@ -13,4 +13,8 @@ public class SecurityContextHolder {
         return ctx;
     }
 
+    public static void clearContext() {
+        contextHolder.remove();
+    }
+
 }

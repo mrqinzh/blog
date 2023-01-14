@@ -15,6 +15,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Resp {
 
+    public static Resp logout = new Resp(AppStatus.LOGOUT_SUCCESS);
+
     private Integer code;
     private Boolean success;
     private String msg;

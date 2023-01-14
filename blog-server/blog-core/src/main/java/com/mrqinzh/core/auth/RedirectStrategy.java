@@ -13,6 +13,4 @@ public interface RedirectStrategy {
 
     void redirect(HttpServletRequest request, HttpServletResponse response, Resp resp, String url);
 
-    void sendRedirect(HttpServletRequest request, HttpServletResponse response, Resp resp, String url);
-
 }

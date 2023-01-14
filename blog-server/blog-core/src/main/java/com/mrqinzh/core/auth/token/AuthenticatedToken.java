@@ -9,13 +9,15 @@ public class AuthenticatedToken extends AbstractAuthenticationToken<SecurityUser
 
     private String tokenId;
     private String username;
-    private SecurityUser securityUser;
+    private SecurityUser principle;
     private LoginType loginType;
+
+    public AuthenticatedToken(){}
 
     public AuthenticatedToken(String username, SecurityUser securityUser) {
         super();
         this.username = username;
-        this.securityUser = securityUser;
+        this.principle = securityUser;
     }
 
     @Override
@@ -30,6 +32,6 @@ public class AuthenticatedToken extends AbstractAuthenticationToken<SecurityUser
 
     @Override
     public SecurityUser getPrinciple() {
-        return securityUser;
+        return principle;
     }
 }

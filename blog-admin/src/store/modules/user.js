@@ -42,7 +42,7 @@ const actions = {
     const { userName, userPwd } = userInfo
     return new Promise((resolve, reject) => {
       login({ userName: userName.trim(), userPwd: userPwd }).then(response => {
-        const token = response.data.token;
+        const token = response.data;
         commit('SET_TOKEN', token)
         setToken(token)
         // 获取菜单,调用其他文件中actions时必须加 { root: true }

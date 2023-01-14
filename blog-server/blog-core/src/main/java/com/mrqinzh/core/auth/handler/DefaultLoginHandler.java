@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DefaultLoginHandler implements LoginSuccessHandler, LoginFailureHandler {
 
     @Autowired
-    private AuthenticationEventPublisher authenticationEventPublisher;
+    private AuthenticationEventPublisher publisher;
     @Autowired
     private SessionManager sessionManager;
     @Autowired
@@ -35,7 +35,7 @@ public class DefaultLoginHandler implements LoginSuccessHandler, LoginFailureHan
         sessionManager.start(request, response, token);
         SecurityContextHolder.getContext().setToken(token);
 
-        authenticationEventPublisher.publishAuthenticationSuccess(token);
+        publisher.publishAuthenticationSuccess(token);
 
         Resp resp = DataResp.ok(sessionId);
         redirectStrategy.redirect(request, response, resp, "/");
@@ -45,7 +45,7 @@ public class DefaultLoginHandler implements LoginSuccessHandler, LoginFailureHan
     @Override
     public void onLoginFailure(HttpServletRequest request, HttpServletResponse response, AuthException exception) {
         Resp resp = Resp.sendErrorMsg(403, "authentication failure !");
-        authenticationEventPublisher.publishAuthenticationFailure(exception, null);
+        publisher.publishAuthenticationFailure(exception, null);
         redirectStrategy.redirect(request, response, resp, null);
     }
 

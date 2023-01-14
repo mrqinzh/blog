@@ -21,15 +21,14 @@ public class DefaultRedirectStrategy implements RedirectStrategy {
 
     @Override
     public void redirect(HttpServletRequest request, HttpServletResponse response, Resp resp, String url) {
-        String origin = request.getHeader(HttpHeaders.ORIGIN);
-        response.setHeader("Access-Control-Allow-Origin", origin);
+        response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("P3P","CP=CAO PSA OUR");
+        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
         sendRedirect(request, response, resp, url);
     }
 
-    @Override
-    public void sendRedirect(HttpServletRequest request, HttpServletResponse response, Resp resp, String url) {
+    private void sendRedirect(HttpServletRequest request, HttpServletResponse response, Resp resp, String url) {
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Expires", "0");

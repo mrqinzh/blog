@@ -18,6 +18,15 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.6</version>
+        </dependency>
+        <dependency>
             <groupId>com.mrqinzh</groupId>
             <artifactId>blog-common</artifactId>
         </dependency>

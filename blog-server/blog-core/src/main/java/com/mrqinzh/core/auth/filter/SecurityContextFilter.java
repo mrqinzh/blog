@@ -1,12 +1,11 @@
 package com.mrqinzh.core.auth.filter;
 
-import com.mrqinzh.core.auth.security.SecurityContextHolder;
+import com.mrqinzh.core.auth.context.AuthenticationContextHolder;
 import com.mrqinzh.core.auth.session.SessionManager;
 import com.mrqinzh.core.auth.token.AuthenticatedToken;
 import com.mrqinzh.core.security.SecurityProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,17 +25,20 @@ public class SecurityContextFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String sessionId = sessionManager.getSessionId(request);
-        if (StringUtils.isNotBlank(sessionId)) {
-            AuthenticatedToken token = sessionManager.getToken(sessionId);
-            if (token != null) {
-                SecurityContextHolder.getContext().setToken(token);
+        String tokenId = sessionManager.getTokenId(request);
+        if (StringUtils.isBlank(tokenId)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        AuthenticatedToken token = sessionManager.getToken(tokenId);
+        if (token != null) {
+            AuthenticationContextHolder.getContext().setToken(token);
+            try {
                 filterChain.doFilter(request, response);
-                return;
+            } finally {
+                AuthenticationContextHolder.clearContext();
             }
         }
-        // todo token为空处理
-        filterChain.doFilter(request, response);
-    }
 
+    }
 }

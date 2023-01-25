@@ -10,7 +10,8 @@ import com.mrqinzh.common.model.vo.comment.CommentPageVo;
 import com.mrqinzh.common.model.vo.comment.CommentVo;
 import com.mrqinzh.common.util.MyUtil;
 import com.mrqinzh.common.util.WebUtil;
-import com.mrqinzh.core.config.WebSocketServer;
+import com.mrqinzh.core.message.GlobalMessageProducer;
+import com.mrqinzh.core.message.WebSocketMessage;
 import com.mrqinzh.domain.mapper.CommentMapper;
 import com.mrqinzh.domain.mapper.UserMapper;
 import com.mrqinzh.domain.service.CommentService;
@@ -19,7 +20,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +29,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentMapper commentMapper;
-
+    @Autowired
+    private GlobalMessageProducer producer;
     @Autowired
     private UserMapper userMapper;
 
@@ -73,11 +74,7 @@ public class CommentServiceImpl implements CommentService {
 
         // Todo 通过webSocket向super-admin发送信息通知
         String message = "ip为" + ip + "的用户，留下了他的足迹。";
-        try {
-            WebSocketServer.sendInfo(message, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        producer.produce(new WebSocketMessage(message, 1));
     }
 
     @Override

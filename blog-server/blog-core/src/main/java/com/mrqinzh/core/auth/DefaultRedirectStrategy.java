@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 @Component
 public class DefaultRedirectStrategy implements RedirectStrategy {
@@ -20,22 +21,22 @@ public class DefaultRedirectStrategy implements RedirectStrategy {
     private ObjectMapper objectMapper;
 
     @Override
-    public void redirect(HttpServletRequest request, HttpServletResponse response, Resp resp, String url) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods", "*");
+    public void redirect(HttpServletRequest request, HttpServletResponse response, Resp resp) {
         response.setHeader("Access-Control-Allow-Headers", "*");
-        sendRedirect(request, response, resp, url);
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, HEAD");
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader(HttpHeaders.ORIGIN));
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        sendRedirect(request, response, resp);
     }
 
-    private void sendRedirect(HttpServletRequest request, HttpServletResponse response, Resp resp, String url) {
+    private void sendRedirect(HttpServletRequest request, HttpServletResponse response, Resp resp) {
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Expires", "0");
         response.setHeader("Pragma", "No-cache");
         try {
             String jsonResp = objectMapper.writeValueAsString(resp);
-            byte[] bytes = jsonResp.getBytes("UTF-8");
+            byte[] bytes = jsonResp.getBytes(StandardCharsets.UTF_8);
             OutputStream stream = response.getOutputStream();
             stream.write(bytes);
             stream.flush();

@@ -2,11 +2,11 @@ package com.mrqinzh.core.auth.session;
 
 import com.mrqinzh.common.util.RedisUtil;
 import com.mrqinzh.core.auth.token.AuthenticatedToken;
-import com.mrqinzh.core.auth.token.Token;
 import com.mrqinzh.core.security.SecurityProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,45 +19,46 @@ public class SessionManager {
     @Autowired
     private RedisUtil redisUtil;
 
-    public String generateSessionId() {
-        return UUID.randomUUID().toString();
+    public String generateTokenId() {
+        return SecurityProperties.TOKEN_CACHE_PREFIX + UUID.randomUUID().toString();
     }
 
     public void start(HttpServletRequest request, HttpServletResponse response, AuthenticatedToken token) {
+        String tokenId = generateTokenId();
+        token.setTokenId(tokenId);
+
         Cookie cookie = new Cookie(SecurityProperties.COOKIE_NAME, token.getTokenId());
         response.addCookie(cookie);
 
-        redisUtil.set(token.getTokenId(), token, SecurityProperties.DEFAULT_EXPIRE_TIME_SECONDS);
+        redisUtil.set(tokenId, token, SecurityProperties.DEFAULT_EXPIRE_TIME_SECONDS);
+
+        System.out.println(1);
     }
 
     public AuthenticatedToken getToken(String sessionId) {
         return (AuthenticatedToken) redisUtil.get(sessionId);
     }
 
-    public String getSessionId(HttpServletRequest request) {
-        String token = request.getParameter(SecurityProperties.COOKIE_NAME);
-        if (StringUtils.isBlank(token)) {
-            token = request.getHeader(SecurityProperties.COOKIE_NAME);
+    public String getTokenId(HttpServletRequest request) {
+        // 顺序：请求参数 -> 请求头 -> 请求cookie
+        String tokenId = request.getParameter(SecurityProperties.COOKIE_NAME);
+        if (StringUtils.isBlank(tokenId)) {
+            tokenId = request.getHeader(SecurityProperties.COOKIE_NAME);
         }
-        if (StringUtils.isBlank(token)) {
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (SecurityProperties.COOKIE_NAME.equals(cookie.getName())) {
-                        return cookie.getValue();
-                    }
-                }
+        if (StringUtils.isBlank(tokenId)) {
+            Cookie cookie = WebUtils.getCookie(request, SecurityProperties.COOKIE_NAME);
+            if (cookie != null) {
+                return cookie.getValue();
             }
         }
-        return token;
+        return tokenId;
     }
 
-    public void expire(Token token) {
-        AuthenticatedToken authenticated = (AuthenticatedToken) token;
-        if (authenticated != null) {
-            String username = authenticated.getUsername();
+    public void expire(AuthenticatedToken token) {
+        if (token != null) {
+            String username = token.getUsername();
             redisUtil.expire(username, 0);
-            redisUtil.expire(authenticated.getTokenId(), 0);
+            redisUtil.expire(token.getTokenId(), 0);
         }
     }
 }

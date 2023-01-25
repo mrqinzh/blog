@@ -5,17 +5,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @TableName("sys_menu")
 @Accessors(chain = true)
-public class Menu implements Serializable {
-
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+public class Menu extends BaseEntity {
 
     private Integer parentId;
 

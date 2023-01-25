@@ -2,7 +2,6 @@ package com.mrqinzh.core.auth.provider;
 
 import com.mrqinzh.common.exception.AuthException;
 import com.mrqinzh.core.auth.LoginType;
-import com.mrqinzh.core.auth.security.Principle;
 import com.mrqinzh.core.auth.token.AbstractAuthenticationToken;
 import com.mrqinzh.core.auth.token.AuthenticatedToken;
 import com.mrqinzh.core.auth.token.Token;

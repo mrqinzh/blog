@@ -405,7 +405,7 @@ public final class RedisUtil {
      * @param start 开始
      * @param end   结束 0 到 -1代表所有值
      */
-    public List<Object> lGet(String key, long start, long end) {
+    public List<?> lGet(String key, long start, long end) {
         try {
             return redisTemplate.opsForList().range(key, start, end);
         } catch (Exception e) {

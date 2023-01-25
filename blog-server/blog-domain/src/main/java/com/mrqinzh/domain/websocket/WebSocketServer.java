@@ -1,7 +1,8 @@
-package com.mrqinzh.core.config;
+package com.mrqinzh.domain.websocket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.mrqinzh.core.message.WebSocketMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,14 +26,11 @@ public class WebSocketServer {
      * 统计在线人数
      */
     private static int onlineCount = 0;
-
     /**
      * 存放所有在线的客户端
      */
-    private static Map<Integer, WebSocketServer> clients = new ConcurrentHashMap<>();
-
+    private static final Map<Integer, WebSocketServer> clients = new ConcurrentHashMap<>();
     private Session session;
-
     private Integer userId;
 
     @OnOpen
@@ -48,13 +47,9 @@ public class WebSocketServer {
             addOnlineCount();
             //在线数加1
         }
-        logger.info("用户连接: " + userId + " ,当前在线人数为: " + getOnlineCount());
-        try {
-            sendMessage("连接成功");
-        } catch (IOException e) {
-            logger.error("用户: " + userId + " ,网络异常!!!!!!");
-        }
-
+        String msg = "用户连接: " + userId + " ,当前在线人数为: " + getOnlineCount();
+        logger.info(msg);
+        sendMessage("websocket连接成功" + ", " + msg);
     }
 
     /**
@@ -108,20 +103,38 @@ public class WebSocketServer {
     /**
      * 实现服务器主动推送
      */
-    public void sendMessage(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
+    private void sendMessage(String message) {
+        try {
+            this.session.getBasicRemote().sendText(message);
+        } catch (IOException e) {
+            logger.error("send message {} error !", message);
+        }
     }
 
     /**
-     * 发送自定义消息
+     * 发送自定义消息,批量发
      */
-    public static void sendInfo(String message, @PathParam("userId") Integer userId) throws IOException {
-        logger.info("发送消息到:"+userId+"，报文:"+message);
-        if (userId != null && clients.containsKey(userId)) {
-            clients.get(userId).sendMessage(message);
-        } else {
-            logger.error("用户 " + userId + " ,不在线！");
+    public void sendToClient(WebSocketMessage webSocketMessage) {
+        List<Integer> receiveIds = webSocketMessage.getReceiveIds();
+        for (Integer receiveId : receiveIds) {
+            if (!clients.containsKey(receiveId)) {
+                logger.info("用户 " + receiveId + " ,不在线！");
+                return;
+            }
+            WebSocketServer socketServer = clients.get(receiveId);
+            socketServer.sendMessage(webSocketMessage.getContent());
+            logger.info("发送消息到:"+ receiveId +"，内容为:"+webSocketMessage.getContent());
         }
+    }
+
+    public void sendToClient(String content, Integer receiveId) {
+        if (!clients.containsKey(receiveId)) {
+            logger.info("用户 " + receiveId + " ,不在线！");
+            return;
+        }
+        WebSocketServer socketServer = clients.get(receiveId);
+        socketServer.sendMessage(content);
+        logger.info("发送消息到:"+ receiveId +"，内容:"+content);
     }
 
     public static synchronized int getOnlineCount() {

@@ -10,11 +10,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    public static ApplicationContext getApplicationContext() {
-        return applicationContext;
+        SpringContextUtil.applicationContext = applicationContext;
     }
 
     public static <T> T getBean(Class<T> clazz) {
@@ -23,6 +19,14 @@ public class SpringContextUtil implements ApplicationContextAware {
 
     public static Object getBean(String beanName) {
         return applicationContext.getBean(beanName);
+    }
+
+    public static boolean containsBean(String beanName) {
+        return applicationContext.containsBean(beanName);
+    }
+
+    public static Class<? extends Object> getBeanType(String beanName) {
+        return applicationContext.getType(beanName);
     }
 
 }

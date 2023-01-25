@@ -8,7 +8,8 @@ import com.mrqinzh.common.model.resp.DataResp;
 import com.mrqinzh.common.model.resp.Resp;
 import com.mrqinzh.common.model.vo.PageVO;
 import com.mrqinzh.common.model.vo.article.ArticleVo;
-import com.mrqinzh.core.config.WebSocketServer;
+import com.mrqinzh.core.message.GlobalMessageProducer;
+import com.mrqinzh.core.message.WebSocketMessage;
 import com.mrqinzh.domain.service.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 @Api(tags = "文章接口")
 @RestController
@@ -25,6 +25,8 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private GlobalMessageProducer producer;
 
     @ApiOperation(value = "根据 articleId 查询文章具体信息")
     @GetMapping("/{articleId}")
@@ -36,11 +38,7 @@ public class ArticleController {
     @ApiOperation(value = "分页加载文章列表")
     @GetMapping("/list")
     public Resp list(PageVO pageVO) {
-        try {
-            WebSocketServer.sendInfo("有人访问了 ===> /article/list", 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        producer.produce(new WebSocketMessage("有人访问了 ===> /article/list", 1));
         return articleService.list(pageVO);
     }
 

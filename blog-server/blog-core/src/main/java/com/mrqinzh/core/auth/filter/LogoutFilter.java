@@ -1,10 +1,12 @@
 package com.mrqinzh.core.auth.filter;
 
+import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.resp.Resp;
 import com.mrqinzh.core.auth.RedirectStrategy;
-import com.mrqinzh.core.auth.security.SecurityContextHolder;
+import com.mrqinzh.core.auth.context.AuthenticationContextHolder;
 import com.mrqinzh.core.auth.session.SessionManager;
-import com.mrqinzh.core.auth.token.Token;
+import com.mrqinzh.core.auth.token.AuthenticatedToken;
+import com.mrqinzh.core.auth.context.AuthenticationContextUtils;
 import com.mrqinzh.core.security.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -32,10 +34,10 @@ public class LogoutFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        Token token = SecurityContextHolder.getContext().getToken();
+        AuthenticatedToken token = AuthenticationContextUtils.getAuthenticatedToken();
         sessionManager.expire(token);
-        SecurityContextHolder.clearContext();
-        redirectStrategy.redirect(request, response, Resp.logout, SecurityProperties.LOGIN_URL);
+        AuthenticationContextHolder.clearContext();
+        redirectStrategy.redirect(request, response, new Resp(AppStatus.LOGOUT));
 
     }
 

@@ -2,7 +2,8 @@ package com.mrqinzh.common.model.enums;
 
 public enum AppStatus {
 
-    LOGOUT_SUCCESS(200, true, "success"),
+    LOGOUT(200, true, "login success"),
+    LOGIN_FAILURE(200, true, "login failure"),
 
     /**
      * 请求成功
@@ -17,6 +18,7 @@ public enum AppStatus {
 
     BAD_REQUEST(400, false, "参数校验失败"),
     USERNAME_PASSWORD_ERROR(4000 , false, "账号或密码错误！"),
+    SESSION_EXPIRE(403, false, "会话失效了，请重新登录哦。。.>_>"),
     NO_PERMISSION(403, false, "对不起，你的权限不足，请充值。。.>_>"),
     /**
      * 内部错误

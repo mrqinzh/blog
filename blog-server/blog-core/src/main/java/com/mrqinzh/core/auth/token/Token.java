@@ -1,15 +1,14 @@
 package com.mrqinzh.core.auth.token;
 
 import com.mrqinzh.core.auth.LoginType;
-import com.mrqinzh.core.auth.security.Principle;
 
 public interface Token {
 
-    String getUsername();
+    String getUsername(); // 登录账号
 
     LoginType getLoginType();
 
-    Object getPrinciple();
+    Object getPrincipal();
 
     boolean isAuthenticated();
 

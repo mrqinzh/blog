@@ -14,9 +14,7 @@ import com.mrqinzh.common.model.vo.PageVO;
 import com.mrqinzh.common.model.vo.article.ArticleVo;
 import com.mrqinzh.common.util.BizAssert;
 import com.mrqinzh.common.util.MyUtil;
-import com.mrqinzh.core.auth.security.SecurityContextHolder;
-import com.mrqinzh.core.security.SecurityUser;
-import com.mrqinzh.core.auth.token.Token;
+import com.mrqinzh.core.auth.context.AuthenticationContextUtils;
 import com.mrqinzh.domain.mapper.ArticleMapper;
 import com.mrqinzh.domain.mapper.CommentMapper;
 import com.mrqinzh.domain.mapper.TagMapper;
@@ -71,15 +69,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public void add(ArticleVo articleVo) {
         BizAssert.notNull(articleVo, "文章添加失败，文章信息为空");
         articleVo.setArticleSummary(MyUtil.stripHtml(articleVo.getArticleSummary()));
 
-        Token authentication = SecurityContextHolder.getContext().getToken();
-        BizAssert.notNull(authentication, "登录信息异常，请尝试重新登陆");
-        SecurityUser securityUser = (SecurityUser) authentication.getPrinciple();
-        User user = userMapper.getByUsernameOrEmail(securityUser.getName());
-
+        User user = (User) AuthenticationContextUtils.getSecurityUser();
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
 
@@ -105,6 +100,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public void update(ArticleVo articleVo) {
         // 判断传入文章的Id是否存在
         if (articleVo == null || articleVo.getId() == null) {
@@ -127,7 +123,7 @@ public class ArticleServiceImpl implements ArticleService {
      * 此处执行删除文章时(逻辑删除)，删除文章对应的评论
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void delete(Integer articleId) {
         articleMapper.deleteStatus(articleId);
         commentMapper.deleteByTypeId("articleId", articleId);

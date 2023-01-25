@@ -30,6 +30,11 @@
             <groupId>com.mrqinzh</groupId>
             <artifactId>blog-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>[7.2.0, 7.2.99]</version>
+        </dependency>
     </dependencies>
 
 </project>

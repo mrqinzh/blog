@@ -1,9 +1,8 @@
-package com.mrqinzh.core.auth.security;
+package com.mrqinzh.core.auth.context;
 
-import com.mrqinzh.core.auth.token.AuthenticatedToken;
 import com.mrqinzh.core.auth.token.Token;
 
-public class SecurityContext {
+public class AuthenticationContext {
 
     private Token token;
 

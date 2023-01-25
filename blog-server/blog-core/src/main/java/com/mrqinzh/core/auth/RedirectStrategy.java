@@ -11,6 +11,6 @@ import java.io.OutputStream;
 
 public interface RedirectStrategy {
 
-    void redirect(HttpServletRequest request, HttpServletResponse response, Resp resp, String url);
+    void redirect(HttpServletRequest request, HttpServletResponse response, Resp resp);
 
 }

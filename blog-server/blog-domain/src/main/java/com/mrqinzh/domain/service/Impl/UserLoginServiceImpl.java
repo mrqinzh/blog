@@ -20,10 +20,10 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private RoleMapper roleMapper;
 
-    public void cachePrinciple(Token token) {
-        Object principle = token.getPrinciple();
-        if (!(principle instanceof User)) return;
-        User user = (User) principle;
+    public void cachePrincipal(Token token) {
+        Object principal = token.getPrincipal();
+        if (!(principal instanceof User)) return;
+        User user = (User) principal;
 
         List<Role> roles = roleMapper.getRolesByUserId(user.getId());
         user.setRoles(roles);

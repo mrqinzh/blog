@@ -1,5 +1,4 @@
-package com.mrqinzh.core.auth.event.listener;
-
+package com.mrqinzh.core.auth.event;
 
 import com.mrqinzh.common.exception.AuthException;
 import com.mrqinzh.common.util.BizAssert;

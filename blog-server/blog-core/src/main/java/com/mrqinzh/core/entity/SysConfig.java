@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysConfig {
-
-    private Integer id;
+public class SysConfig extends BaseEntity {
 
     private String configKey;
 

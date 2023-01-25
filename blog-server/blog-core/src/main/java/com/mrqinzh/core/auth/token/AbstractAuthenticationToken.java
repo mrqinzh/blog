@@ -1,16 +1,12 @@
 package com.mrqinzh.core.auth.token;
 
-/**
- * 认证完成的token
- */
+import com.mrqinzh.core.auth.LoginType;
+
 public abstract class AbstractAuthenticationToken<T> implements Token {
 
     private boolean authenticated;
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
+    private LoginType loginType;
+    private String ip;
 
     @Override
     public boolean isAuthenticated() {
@@ -22,6 +18,22 @@ public abstract class AbstractAuthenticationToken<T> implements Token {
         this.authenticated = authenticated;
     }
 
-    public abstract T getPrinciple();
+    public abstract T getPrincipal();
 
+    @Override
+    public LoginType getLoginType() {
+        return loginType;
+    }
+
+    public void setLoginType(LoginType loginType) {
+        this.loginType = loginType;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 }

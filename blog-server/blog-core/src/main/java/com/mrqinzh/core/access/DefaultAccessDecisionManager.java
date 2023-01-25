@@ -2,7 +2,6 @@ package com.mrqinzh.core.access;
 
 import com.mrqinzh.core.access.vote.AccessDecisionVoter;
 import com.mrqinzh.core.auth.token.AuthenticatedToken;
-import com.mrqinzh.core.auth.token.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class DefaultAccessDecisionManager implements AccessDecisionManager {
         for (AccessDecisionVoter voter : voters) {
             if (voter.support(token, configRoles)) {
                 int result = voter.vote(token, configRoles); // 核心
-                logger.info("{} vote {}", voter.getClass().getName(), result);
+                logger.info("{} vote {} !", voter.getClass().getName(), result);
                 switch (result) {
                     case AccessDecisionVoter.GRANT:
                         grant++;

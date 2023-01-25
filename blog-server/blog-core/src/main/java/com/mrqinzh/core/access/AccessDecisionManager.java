@@ -1,7 +1,6 @@
 package com.mrqinzh.core.access;
 
 import com.mrqinzh.core.auth.token.AuthenticatedToken;
-import com.mrqinzh.core.auth.token.Token;
 
 import java.util.Collection;
 

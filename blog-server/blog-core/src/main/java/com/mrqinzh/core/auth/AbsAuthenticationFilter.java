@@ -1,13 +1,13 @@
 package com.mrqinzh.core.auth;
 
 import com.mrqinzh.common.exception.AuthException;
-import com.mrqinzh.core.auth.handler.AbstractAuthHandler;
+import com.mrqinzh.core.auth.handler.AbstractPrePostAuthHandler;
 import com.mrqinzh.core.auth.handler.DefaultLoginHandler;
 import com.mrqinzh.core.auth.token.AbstractAuthenticationToken;
 import com.mrqinzh.core.auth.token.AuthenticatedToken;
 import com.mrqinzh.core.security.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,17 +18,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@Component
-public abstract class AbsAuthenticationFilter extends OncePerRequestFilter implements Ordered {
-
-    private static final int DEFAULT_ORDER = SecurityProperties.DEFAULT_FILTER_ORDER;
+@Order(SecurityProperties.DEFAULT_FILTER_ORDER)
+public abstract class AbsAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private DefaultLoginHandler defaultLoginHandler;
     @Autowired
     private AuthenticationProcessor processor;
     @Autowired
-    private List<AbstractAuthHandler> authHandlers;
+    private List<AbstractPrePostAuthHandler> prePostAuthHandlers;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -43,10 +41,11 @@ public abstract class AbsAuthenticationFilter extends OncePerRequestFilter imple
     }
 
     protected boolean executeLogin(HttpServletRequest request, HttpServletResponse response) {
+        AbstractAuthenticationToken<?> credential = null;
         try {
-            AbstractAuthenticationToken<?> credential = createCredentialToken(request);
+            credential = createCredentialToken(request);
 
-            for (AbstractAuthHandler handler : authHandlers) {
+            for (AbstractPrePostAuthHandler handler : prePostAuthHandlers) {
                 if (!handler.preAuth(request, response, credential)) {
                     return false;
                 }
@@ -54,26 +53,21 @@ public abstract class AbsAuthenticationFilter extends OncePerRequestFilter imple
 
             AuthenticatedToken token = processor.auth(credential);
 
-            for (AbstractAuthHandler handler : authHandlers) {
+            for (AbstractPrePostAuthHandler handler : prePostAuthHandlers) {
                 if (!handler.postAuth(request, response, token)) {
                     return false;
                 }
             }
 
             defaultLoginHandler.onLoginSuccess(request, response, token);
-            return false;
         } catch (AuthException e) {
-            defaultLoginHandler.onLoginFailure(request, response, e);
-            return false;
+            defaultLoginHandler.onLoginFailure(request, response, credential, e);
         }
+        return false;
     }
 
     protected abstract boolean requiredAuthenticationRequest(HttpServletRequest request);
 
     protected abstract AbstractAuthenticationToken<?> createCredentialToken(HttpServletRequest request);
 
-    @Override
-    public int getOrder() {
-        return DEFAULT_ORDER;
-    }
 }

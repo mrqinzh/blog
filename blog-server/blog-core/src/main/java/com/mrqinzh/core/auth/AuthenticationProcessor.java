@@ -27,8 +27,9 @@ public class AuthenticationProcessor {
         throw new AuthException("no providers for auth !");
     }
 
-    private void copyDetails(AbstractAuthenticationToken<?> credential, AuthenticatedToken authResult) {
-        authResult.setLoginType(credential.getLoginType());
+    private void copyDetails(AbstractAuthenticationToken<?> credential, AuthenticatedToken authenticated) {
+        authenticated.setLoginType(credential.getLoginType());
+        authenticated.setIp(credential.getIp());
     }
 
 }

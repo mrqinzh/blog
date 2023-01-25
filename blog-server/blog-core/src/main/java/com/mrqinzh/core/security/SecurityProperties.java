@@ -11,6 +11,7 @@ public class SecurityProperties {
     public static final int DEFAULT_FILTER_ORDER = 1;
     public static final int DEFAULT_EXPIRE_TIME_SECONDS = 30 * 60;
 
+    public static final String TOKEN_CACHE_PREFIX = "authenticated:";
     public static final String LOGIN_URL = "/login";
     public static final String LOGOUT_URL = "/logout";
     public static final String SSO_URL = "/sso";

@@ -1,9 +1,7 @@
 package com.mrqinzh.core.entity;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,8 +17,6 @@ import java.util.stream.Collectors;
 @Data
 public class User extends BaseEntity implements SecurityUser {
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
     private String telephone;
     /**
      * 用户最后登录时间
@@ -48,11 +44,6 @@ public class User extends BaseEntity implements SecurityUser {
 
     @TableField(exist = false)
     private List<Role> roles;
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
 
     @JsonIgnore
     @Override

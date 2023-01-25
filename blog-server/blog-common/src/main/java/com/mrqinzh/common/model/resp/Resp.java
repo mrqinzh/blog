@@ -1,9 +1,11 @@
 package com.mrqinzh.common.model.resp;
 
+import cn.hutool.json.JSONUtil;
 import com.mrqinzh.common.model.enums.AppStatus;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
@@ -13,9 +15,7 @@ import java.io.Serializable;
 @ApiModel(value = "返回消息类")
 @Data
 @NoArgsConstructor
-public class Resp {
-
-    public static Resp logout = new Resp(AppStatus.LOGOUT_SUCCESS);
+public class Resp implements Serializable {
 
     private Integer code;
     private Boolean success;
@@ -55,6 +55,10 @@ public class Resp {
         resp.setSuccess(false);
         resp.setMsg(msg);
         return resp;
+    }
+
+    public String toJson() {
+        return JSONUtil.toJsonStr(this);
     }
 
 }

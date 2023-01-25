@@ -4,6 +4,6 @@ import com.mrqinzh.core.auth.token.Token;
 
 public interface UserLoginService {
 
-    void cachePrinciple(Token token);
+    void cachePrincipal(Token token);
 
 }

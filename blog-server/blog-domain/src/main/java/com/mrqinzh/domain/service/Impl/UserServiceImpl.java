@@ -9,7 +9,8 @@ import com.mrqinzh.common.model.resp.Resp;
 import com.mrqinzh.common.model.vo.PageVO;
 import com.mrqinzh.common.model.vo.user.UserVO;
 import com.mrqinzh.common.util.RedisUtil;
-import com.mrqinzh.core.auth.security.SecurityContextHolder;
+import com.mrqinzh.core.auth.context.AuthenticationContextHolder;
+import com.mrqinzh.core.security.SecurityService;
 import com.mrqinzh.core.security.SecurityUser;
 import com.mrqinzh.domain.mapper.MenuMapper;
 import com.mrqinzh.domain.mapper.RoleMapper;
@@ -19,6 +20,8 @@ import com.mrqinzh.domain.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +31,7 @@ import java.util.Map;
  * @author mrqinzh
  */
 @Service("userService")
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, SecurityService {
 
     @Autowired
     private MenuService menuService;
@@ -48,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Resp update(UserVO userVO) {
 
-        SecurityUser securityUser = (SecurityUser) SecurityContextHolder.getContext().getToken().getPrinciple(); // 当前登录的用户
+        SecurityUser securityUser = (SecurityUser) AuthenticationContextHolder.getContext().getToken().getPrincipal(); // 当前登录的用户
 
         User user = new User();
 
@@ -74,7 +77,6 @@ public class UserServiceImpl implements UserService {
     public Resp add(UserVO userVO) {
         User user = new User();
         BeanUtils.copyProperties(userVO, user);
-        // Todo 这里可以对用户密码 进行加密 再入库
         userMapper.insert(user);
 
         return Resp.sendMsg(AppStatus.INSERT_SUCCESS);
@@ -83,7 +85,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Object> info(String token) {
 
-        User securityUser = (User) SecurityContextHolder.getContext().getToken().getPrinciple();
+        User securityUser = (User) AuthenticationContextHolder.getContext().getToken().getPrincipal();
         User user = userMapper.selectById(securityUser.getId());
 
         // 返回用户信息
@@ -93,7 +95,6 @@ public class UserServiceImpl implements UserService {
         map.put("avatar", user.getUserAvatar());
 
         map.put("roles", user.getRoles());
-//        map.put("roles", user.getRole().getRoleName());
 
         // Todo 暂时使用全部，用于前端调试
         map.put("menus", menuService.findAll());
@@ -113,4 +114,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectById(id);
     }
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    @Override
+    public SecurityUser loadSecurityUserFromDb(String username) {
+        return userMapper.getByUsernameOrEmail(username);
+    }
 }

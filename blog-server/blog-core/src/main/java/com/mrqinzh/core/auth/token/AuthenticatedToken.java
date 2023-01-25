@@ -1,23 +1,24 @@
 package com.mrqinzh.core.auth.token;
 
-import com.mrqinzh.core.auth.LoginType;
 import com.mrqinzh.core.security.SecurityUser;
 import lombok.Data;
 
+/**
+ * 认证完成的token
+ */
 @Data
 public class AuthenticatedToken extends AbstractAuthenticationToken<SecurityUser> {
 
     private String tokenId;
     private String username;
-    private SecurityUser principle;
-    private LoginType loginType;
+    private SecurityUser principal;
 
     public AuthenticatedToken(){}
 
     public AuthenticatedToken(String username, SecurityUser securityUser) {
         super();
         this.username = username;
-        this.principle = securityUser;
+        this.principal = securityUser;
     }
 
     @Override
@@ -26,12 +27,12 @@ public class AuthenticatedToken extends AbstractAuthenticationToken<SecurityUser
     }
 
     @Override
-    public LoginType getLoginType() {
-        return loginType;
+    public String getUsername() {
+        return username;
     }
 
     @Override
-    public SecurityUser getPrinciple() {
-        return principle;
+    public SecurityUser getPrincipal() {
+        return principal;
     }
 }

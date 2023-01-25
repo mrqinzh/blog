@@ -1,6 +1,7 @@
 package com.mrqinzh.common.util;
 
 import com.mrqinzh.common.constant.FileConstant;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,6 +62,22 @@ public class FileUtil {
 
         resultMap.put("success", false);
         return resultMap;
+    }
+
+    public static String getPrefix(String fileName) {
+        if (StringUtils.isBlank(fileName)) return null;
+        int idx = fileName.lastIndexOf(".");
+        int xie = fileName.lastIndexOf("/");
+        idx = idx == -1 ? fileName.length() : idx;
+        xie = xie == -1 ? 0 : xie + 1;
+        return fileName.substring(xie, idx);
+    }
+
+    public static String getSuffix(String fileName) {
+        if (StringUtils.isBlank(fileName)) return null;
+        int index = fileName.lastIndexOf(".");
+        index = -1 == index ? fileName.length() : index;
+        return fileName.substring(index);
     }
 
     public static String getFileSize(long size) {

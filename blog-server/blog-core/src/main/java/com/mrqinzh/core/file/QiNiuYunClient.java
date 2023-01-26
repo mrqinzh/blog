@@ -15,9 +15,11 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class QiNiuYunClient extends AbstractFileClient<QiNiuYunResult> {
+public class QiNiuYunClient extends AbstractFileClient {
 
-    public static final String QINIU_FILE_PRE_KEY = "oss:qiniuyun:";
+    public static final String QINIU_FILE_PRE_KEY = "oss_qiniuyun_";
+
+    private String link;
 
     @Value("${oos.qiniu.domain}")
     private String domain;
@@ -32,26 +34,29 @@ public class QiNiuYunClient extends AbstractFileClient<QiNiuYunResult> {
     private ObjectMapper objectMapper;
 
     @Override
-    public QiNiuYunResult upload(byte[] file) throws Exception {
+    public void doUpload(byte[] file) throws Exception {
         Configuration cfg = new Configuration(Region.huadong());
         UploadManager uploadManager = new UploadManager(cfg);
         Auth auth = Auth.create(accessKey, secretKey);
         String uploadToken = auth.uploadToken(bucketName);
 
-        String newFileName = getFileName();
-        Response response = uploadManager.put(file, newFileName, uploadToken);
+        Response response = uploadManager.put(file, getNewFileNameWithSuffix(), uploadToken);
         Map res = objectMapper.readValue(response.bodyString(), Map.class);
-        String url = GlobalProperties.MY_HTTP + domain + "/" + res.get("key");
-
-        QiNiuYunResult result = new QiNiuYunResult();
-        result.setFileLink(url);
-        result.setFileName(newFileName);
-        return result;
+        link = GlobalProperties.MY_HTTP + domain + "/" + res.get("key");
     }
 
     @Override
-    protected String getFileName() {
-        return QINIU_FILE_PRE_KEY + UUID.randomUUID();
+    public String getFileName() {
+        return QINIU_FILE_PRE_KEY + UUID.randomUUID().toString().replaceAll("-", "");
     }
 
+    @Override
+    public String getFileLink() {
+        return link;
+    }
+
+    @Override
+    public FileClientType clientType() {
+        return FileClientType.QINIUYUN;
+    }
 }

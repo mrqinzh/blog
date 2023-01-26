@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface FileService {
 
-    Resp add(HttpServletRequest request, MultipartFile file);
+    Resp add(MultipartFile file);
 
     Resp delete(String fileName);
 

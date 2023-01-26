@@ -10,6 +10,4 @@ public class GlobalProperties {
     public static final String PROJECT_CREATE_TIME = "2021-4-10 14:10:00"; // 项目开始时间
     public static final String PROJECT_FIRST_USE_TIME = "2021-04-17 16:30:00"; // 项目首次使用时间
 
-    public static final String DEVELOPER_CACHE_KEY = "developer:mrqinzh:";
-
 }

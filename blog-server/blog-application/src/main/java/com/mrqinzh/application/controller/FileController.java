@@ -23,8 +23,8 @@ public class FileController {
 
     @ApiOperation(value = "添加一个文件到系统中")
     @PostMapping("add")
-    public Resp add(HttpServletRequest request, MultipartFile file) {
-        return fileService.add(request, file);
+    public Resp add(MultipartFile file) {
+        return fileService.add(file);
     }
 
     @ApiOperation(value = "根据文件名删除文件")

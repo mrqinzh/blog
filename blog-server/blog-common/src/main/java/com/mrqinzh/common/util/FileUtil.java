@@ -105,4 +105,14 @@ public class FileUtil {
         }
     }
 
+    public static void checkFilePath(String realFilePath) {
+        if (StringUtils.isBlank(realFilePath)) {
+            return;
+        }
+        File parentDir = new File(realFilePath);
+        if (!parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+    }
+
 }

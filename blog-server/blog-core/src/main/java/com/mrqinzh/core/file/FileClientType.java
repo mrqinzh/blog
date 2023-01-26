@@ -1,6 +1,6 @@
 package com.mrqinzh.core.file;
 
-public enum FilePlace {
+public enum FileClientType {
 
     QINIUYUN,
     LOCAL

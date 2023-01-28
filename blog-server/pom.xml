@@ -4,11 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>blog-common</module>
         <module>blog-application</module>
         <module>blog-domain</module>
         <module>blog-core</module>
-        <module>blog-application</module>
+        <module>blog-common</module>
         <module>blog-test</module>
     </modules>
     <parent>
@@ -181,23 +180,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
-    </build>
 
 </project>

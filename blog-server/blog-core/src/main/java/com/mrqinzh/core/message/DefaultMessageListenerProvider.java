@@ -1,6 +1,5 @@
 package com.mrqinzh.core.message;
 
-import com.mrqinzh.common.util.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

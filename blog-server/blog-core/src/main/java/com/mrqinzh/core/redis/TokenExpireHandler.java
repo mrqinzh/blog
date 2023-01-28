@@ -31,7 +31,7 @@ public class TokenExpireHandler implements RedisKeyExpiredHandler {
                 UUID.randomUUID().toString().replaceAll("-", "").length());
         SecurityUser user = securityService.loadSecurityUserFromDb(username);
         // 告诉前端token过期
-        this.sendMessageToClient(user);
+//        this.sendMessageToClient(user);
 
         // 。。。。。。
     }

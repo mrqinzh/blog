@@ -25,6 +25,7 @@ public class AccessControlFilter extends OncePerRequestFilter {
     @Autowired
     private RedirectStrategy redirectStrategy;
 
+    // 针对后台
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 是否过滤请求

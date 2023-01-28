@@ -1,7 +1,7 @@
 <template>
   <el-upload
   class="my-uploader"
-  :action="baseUrl + '/file/qiniu'"
+  :action="baseUrl + '/file/add'"
   :show-file-list="false"
   :data="upLoadData"
   :headers="headers"

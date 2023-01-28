@@ -4,7 +4,6 @@ spring:
 
   profiles:
     active: dev
-
   # Redis配置
   redis:
     host: 47.108.209.62

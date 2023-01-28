@@ -11,6 +11,4 @@ public interface FileService {
 
     Resp delete(String fileName);
 
-    String uploadToQiNiu(MultipartFile uploadFile);
-
 }

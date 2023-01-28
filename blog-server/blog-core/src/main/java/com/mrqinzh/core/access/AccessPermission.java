@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface AccessPermission {
 
-    RoleType[] value();
+    RoleType[] value() default { RoleType.ADMIN };
 
 }

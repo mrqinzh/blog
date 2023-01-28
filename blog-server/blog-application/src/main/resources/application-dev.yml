@@ -11,3 +11,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
+# 日志输出至物理文件
+#logging:
+#  file:
+#    path: D:/blog-log

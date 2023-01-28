@@ -1,5 +1,6 @@
 package com.mrqinzh.core.message;
 
+import com.mrqinzh.common.model.bean.WebSocketBean;
 import com.mrqinzh.common.util.BizAssert;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,12 +16,12 @@ import java.util.List;
 public class WebSocketMessage implements Message {
 
     private List<Integer> receiveIds = new ArrayList<>();
-    private String content;
+    private WebSocketBean webSocketBean;
 
-    public WebSocketMessage(String content, Integer... receiveIds) {
+    public WebSocketMessage(WebSocketBean webSocketBean, Integer... receiveIds) {
         BizAssert.notNull(receiveIds, "接收方信息不能为空");
         this.receiveIds = Arrays.asList(receiveIds);
-        this.content = content;
+        this.webSocketBean = webSocketBean;
     }
 
     public void addReceivers(Integer receiveId) {

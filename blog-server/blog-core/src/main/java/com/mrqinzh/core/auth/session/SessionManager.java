@@ -1,6 +1,7 @@
 package com.mrqinzh.core.auth.session;
 
 import com.mrqinzh.common.util.RedisUtil;
+import com.mrqinzh.core.auth.RedirectStrategy;
 import com.mrqinzh.core.auth.token.AuthenticatedToken;
 import com.mrqinzh.core.security.SecurityProperties;
 import org.apache.commons.lang3.StringUtils;
@@ -19,20 +20,23 @@ public class SessionManager {
     @Autowired
     private RedisUtil redisUtil;
 
-    public String generateTokenId() {
-        return SecurityProperties.TOKEN_CACHE_PREFIX + UUID.randomUUID().toString();
+    /**
+     * todo 后续根据jwt的规则生成
+     */
+    public String generateTokenId(AuthenticatedToken token) {
+        return SecurityProperties.TOKEN_CACHE_PREFIX +
+                UUID.randomUUID().toString().replaceAll("-", "") +
+                token.getUsername();
     }
 
     public void start(HttpServletRequest request, HttpServletResponse response, AuthenticatedToken token) {
-        String tokenId = generateTokenId();
+        String tokenId = generateTokenId(token);
         token.setTokenId(tokenId);
 
         Cookie cookie = new Cookie(SecurityProperties.COOKIE_NAME, token.getTokenId());
         response.addCookie(cookie);
 
-        redisUtil.set(tokenId, token, SecurityProperties.DEFAULT_EXPIRE_TIME_SECONDS);
-
-        System.out.println(1);
+        redisUtil.set(tokenId, token, 10);
     }
 
     public AuthenticatedToken getToken(String sessionId) {
@@ -52,6 +56,10 @@ public class SessionManager {
             }
         }
         return tokenId;
+    }
+
+    public boolean checkTokenId(String tokenId) {
+        return tokenId == null || tokenId.startsWith(SecurityProperties.TOKEN_CACHE_PREFIX);
     }
 
     public void expire(AuthenticatedToken token) {

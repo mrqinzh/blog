@@ -2,6 +2,7 @@ package com.mrqinzh.domain.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
+import com.mrqinzh.common.model.bean.WebSocketBean;
 import com.mrqinzh.core.entity.Comment;
 import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.resp.DataResp;
@@ -74,7 +75,10 @@ public class CommentServiceImpl implements CommentService {
 
         // Todo 通过webSocket向super-admin发送信息通知
         String message = "ip为" + ip + "的用户，留下了他的足迹。";
-        producer.produce(new WebSocketMessage(message, 1));
+        WebSocketBean webSocketBean = new WebSocketBean();
+        webSocketBean.setJsonMsg(false);
+        webSocketBean.setMsgContent(message);
+        producer.produce(new WebSocketMessage(webSocketBean, 1));
     }
 
     @Override

@@ -1,17 +1,19 @@
 <template>
   <div class="myfooter">
     <div class="foot-left">
-      <span>网站开始建设时间： {{ webStartBuild }}</span><br>
-      <span>网站首次发布时间： {{ webFirstUse }}</span><br>
-      <span><i class="el-icon-sunny"></i> 网站持续更新中。。。</span><br>
+      <span>网站开始建设时间： {{ resultMap.get('PROJECT_START_TIME') }}</span><br>
+      <span>网站首次发布时间： {{ resultMap.get('PROJECT_FIRST_USE_TIME') }}</span><br>
+      <span><i class="el-icon-sunny"></i> 网站持续建设中。。。</span><br>
     </div>
     <div class="foot-right">
       <img src="@/assets/img/beian.png" />
       <a style="line-height:20px;color: white" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50023002020179">
-        渝公网安备 50023002020179号
+        <!-- 渝公网安备 50023002020179号 -->
+        {{ resultMap.get('RECORD_CODE') }}
       </a>
       <br>
-      <a style="color: white;" href="https://beian.miit.gov.cn" target="_blank">渝ICP备2021004455号</a>
+      <!-- <a style="color: white;" href="https://beian.miit.gov.cn" target="_blank">渝ICP备2021004455号</a> -->
+      <a style="color: white;" href="https://beian.miit.gov.cn" target="_blank">{{ resultMap.get('ICP') }}</a>
       <br>
       <span>@Copyright - Author -> Mr.QinZH at 2021-05-06</span><br>
       <span >QQ: 1552589784</span>
@@ -24,11 +26,30 @@
 </template>
 
 <script>
+import { keys, configKeyMap, getConfigByKeys } from '@/api/authority/sys-config'
+import { initSystemConfigs } from '@/views/web/common.js'
+
 export default {
   data() {
     return {
       webStartBuild: '2021-04-10 14:10:00',
       webFirstUse: '2021-04-17 16:30:00',
+      recordCode: '',
+      icp: '',
+
+      resultMap: new Map,
+    }
+  },
+  mounted() {
+    this.getConfigData();
+  },
+  methods: {
+    getConfigData() {
+      let configKeys = 'PROJECT_START_TIME, PROJECT_FIRST_USE_TIME, RECORD_CODE, ICP';
+      initSystemConfigs(configKeys).then(resp => {
+        this.resultMap = resp;
+      })
+      
     }
   }
 }

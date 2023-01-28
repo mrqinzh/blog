@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       title: '个人网站后台系统',
-      logo: 'http://www.mrqinzh.info:9090/img/avatar.jpg'
+      logo: 'http://mrqinzh.com:9090/img/avatar.jpg'
     }
   }
 }

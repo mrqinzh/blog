@@ -5,6 +5,7 @@ import com.mrqinzh.core.access.AccessDenyException;
 import com.mrqinzh.common.exception.BizException;
 import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.resp.Resp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +19,7 @@ import java.util.List;
  * @author mrqinzh
  * @Description 全局异常处理器
  */
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -33,7 +35,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = AccessDenyException.class)
     public Resp accessDenyException(AccessDenyException e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return new Resp(AppStatus.NO_PERMISSION);
     }
 

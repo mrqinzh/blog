@@ -1,5 +1,6 @@
 package com.mrqinzh.application.controller;
 
+import com.mrqinzh.common.model.bean.WebSocketBean;
 import com.mrqinzh.core.access.AccessPermission;
 import com.mrqinzh.core.access.RoleType;
 import com.mrqinzh.core.entity.Article;
@@ -38,7 +39,9 @@ public class ArticleController {
     @ApiOperation(value = "分页加载文章列表")
     @GetMapping("/list")
     public Resp list(PageVO pageVO) {
-        producer.produce(new WebSocketMessage("有人访问了 ===> /article/list", 1));
+        String message = "有人访问了 ===> /article/list";
+        WebSocketBean webSocketBean = new WebSocketBean(false, message);
+        producer.produce(new WebSocketMessage(webSocketBean, 1));
         return articleService.list(pageVO);
     }
 

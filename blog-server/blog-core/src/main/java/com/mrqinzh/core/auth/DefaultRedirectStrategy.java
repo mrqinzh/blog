@@ -2,6 +2,7 @@ package com.mrqinzh.core.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mrqinzh.common.model.resp.Resp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
+@Slf4j
 @Component
 public class DefaultRedirectStrategy implements RedirectStrategy {
 
@@ -22,14 +24,6 @@ public class DefaultRedirectStrategy implements RedirectStrategy {
 
     @Override
     public void redirect(HttpServletRequest request, HttpServletResponse response, Resp resp) {
-        response.setHeader("Access-Control-Allow-Headers", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, HEAD");
-        response.setHeader("Access-Control-Allow-Origin", request.getHeader(HttpHeaders.ORIGIN));
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        sendRedirect(request, response, resp);
-    }
-
-    private void sendRedirect(HttpServletRequest request, HttpServletResponse response, Resp resp) {
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Expires", "0");
@@ -41,7 +35,7 @@ public class DefaultRedirectStrategy implements RedirectStrategy {
             stream.write(bytes);
             stream.flush();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 

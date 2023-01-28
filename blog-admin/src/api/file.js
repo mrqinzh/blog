@@ -10,7 +10,7 @@ export function delImg(fileName) {
 export function uploadFileRequest (data) {
   return request({
     method: 'post',
-    url: '/file/qiniu',
+    url: '/file/add',
     data: data,
     headers: {
       'Content-Type': 'multipart/form-data'

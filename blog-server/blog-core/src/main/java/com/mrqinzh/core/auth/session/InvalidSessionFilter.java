@@ -1,4 +1,4 @@
-package com.mrqinzh.core.access;
+package com.mrqinzh.core.auth.session;
 
 import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.resp.Resp;
@@ -18,23 +18,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Order(SecurityProperties.DEFAULT_FILTER_ORDER + 99)
+/**
+ * 需在 SecurityContextFilter 后执行。
+ */
 @Component
-public class AccessControlFilter extends OncePerRequestFilter {
+@Order(SecurityProperties.DEFAULT_FILTER_ORDER + 51)
+public class InvalidSessionFilter extends OncePerRequestFilter {
 
     @Autowired
     private RedirectStrategy redirectStrategy;
+    @Autowired
+    private SessionManager sessionManager;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 是否过滤请求
-        if (!SecurityUtils.withoutAuthApi(request)) {
-            Token token = AuthenticationContextHolder.getContext().getToken();
-            if (token == null || !token.isAuthenticated()) {
-                redirectStrategy.redirect(request, response, new Resp(AppStatus.TOKEN_EXPIRED));
-                return;
-            }
+        if (SecurityUtils.withoutAuthApi(request)) {
+            filterChain.doFilter(request, response);
+            return;
         }
+
+        String tokenId = sessionManager.getTokenId(request);
+        if (!sessionManager.checkTokenId(tokenId)) {
+            redirectStrategy.redirect(request, response, new Resp(AppStatus.TOKEN_ILLEGAL));
+            return;
+        }
+
+        Token token = AuthenticationContextHolder.getContext().getToken();
+        if (token == null || !token.isAuthenticated()) {
+            redirectStrategy.redirect(request, response, new Resp(AppStatus.TOKEN_EXPIRED));
+        }
+
+
         filterChain.doFilter(request, response);
     }
+
 }

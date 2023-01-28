@@ -2,8 +2,8 @@ package com.mrqinzh.common.model.enums;
 
 public enum AppStatus {
 
-    LOGOUT(200, true, "login success"),
-    LOGIN_FAILURE(200, true, "login failure"),
+    LOGOUT(200, true, "退出成功了"),
+    LOGIN_FAILURE(30001, true, "账号或密码错误了哦，请重新输入一下哦。。.>_>"),
 
     /**
      * 请求成功
@@ -18,14 +18,15 @@ public enum AppStatus {
 
     BAD_REQUEST(400, false, "参数校验失败"),
     USERNAME_PASSWORD_ERROR(4000 , false, "账号或密码错误！"),
-    SESSION_EXPIRE(403, false, "会话失效了，请重新登录哦。。.>_>"),
-    NO_PERMISSION(403, false, "对不起，你的权限不足，请充值。。.>_>"),
+    NO_PERMISSION(40002, false, "对不起，你的权限不足，请充值。。.>_>"),
+    TOKEN_EXPIRED(40003, false, "会话失效了，请重新登录哦。。.>_>"),
+    TOKEN_ILLEGAL(40004, false, "这个token好像有点不正常啊。。。-_-"),
     /**
      * 内部错误
      */
     UNKNOWN_SERVER_ERROR(500, false, "不好意思，服务端出现了未知的错误，赶快通知管理员修改BUG吧。。。-_-"),
     NULL_PRINTER_EXCEPTION(500, false, "服务器出现了空指针异常。。。"),
-    SERVICE_ERROR(50000, false, "业务出现异常了，赶紧去通知管理员吧。。。-_-"),
+    SERVICE_ERROR(50000, false, "业务异常，可能是bug，也可能不是。。。-_-"),
 
     IMAGE_UPLOAD_ERROR(50001, false, "图片上传失败了"),
     INSERT_FAILED(50001, false, "添加失败"),
@@ -34,8 +35,6 @@ public enum AppStatus {
 
     INTERNET_ERROR(50002, false, "网络好像出现了问题，稍后再试试吧。。。"),
 
-    TOKEN_ILLEGAL(50008, false, "token不合法"),
-    TOKEN_EXPIRED(50014, false, "token过期"),
     ;
 
     private int code;

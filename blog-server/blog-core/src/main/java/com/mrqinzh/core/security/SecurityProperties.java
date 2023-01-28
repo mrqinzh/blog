@@ -11,7 +11,7 @@ public class SecurityProperties {
     public static final int DEFAULT_FILTER_ORDER = 1;
     public static final int DEFAULT_EXPIRE_TIME_SECONDS = 30 * 60;
 
-    public static final String TOKEN_CACHE_PREFIX = "authenticated:";
+    public static final String TOKEN_CACHE_PREFIX = "authentication:";
     public static final String LOGIN_URL = "/login";
     public static final String LOGOUT_URL = "/logout";
     public static final String SSO_URL = "/sso";
@@ -20,8 +20,14 @@ public class SecurityProperties {
     public static final String COOKIE_NAME = "token";
 
     public static final Set<String> accessApisWithoutAuth = new HashSet<>();
+    // todo 待调整
     public static final String[] systemWhiteApis = {
-            "/", LOGIN_URL, "/**"
+            "/files/**", "/static/**",       // 静态资源
+            "/api/websocket/**",               // websocket
+            LOGIN_URL, "/login/**",            // 登录相关
+            "/**/list", "/**/page", "/**/byKeys",
+            "/article/{articleId}",
+            "/comment/message-list", "/comment/add", "/comment/{idType}/{id}"
     };
     static {
         accessApisWithoutAuth.addAll(Arrays.asList(systemWhiteApis));

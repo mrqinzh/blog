@@ -1,11 +1,18 @@
 package com.mrqinzh.domain.websocket;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mrqinzh.common.model.bean.WebSocketBean;
+import com.mrqinzh.core.entity.User;
 import com.mrqinzh.core.message.WebSocketMessage;
+import com.mrqinzh.domain.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -21,6 +28,24 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketServer {
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
+
+    /**
+     * Q: 无法 autowired ?
+     * A: WebSocket是多对象的，使用的spring却是单例模式。这两者刚好冲突。
+     * Autowired 注解注入对象是在启动的时候就把对象注入，而不是在使用A对象时才把A需要的B对象注入到A中。
+     * 而WebSocket在刚刚有说到，有连接时才实例化对象，而且有多个连接就有多个对象。
+     * 由此得知，UserService根本就没有注入到WebSocket当中。
+     */
+    private static UserService userService;
+    private static ObjectMapper objectMapper;
+    @Autowired
+    public void setUserService(UserService userService) {
+        WebSocketServer.userService = userService;
+    }
+    @Autowired
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        WebSocketServer.objectMapper = objectMapper;
+    }
 
     /**
      * 统计在线人数
@@ -47,9 +72,13 @@ public class WebSocketServer {
             addOnlineCount();
             //在线数加1
         }
-        String msg = "用户连接: " + userId + " ,当前在线人数为: " + getOnlineCount();
-        logger.info(msg);
-        sendMessage("websocket连接成功" + ", " + msg);
+        sendConnectMessage();
+    }
+
+    private void sendConnectMessage() {
+        User user = userService.getById(userId);
+        String msg = "欢迎" + user.getName() + "来到管理后台。";
+        sendToClient(new WebSocketMessage(new WebSocketBean(false, msg), userId));
     }
 
     /**
@@ -104,6 +133,7 @@ public class WebSocketServer {
      * 实现服务器主动推送
      */
     private void sendMessage(String message) {
+        logger.info("发送消息至{}，内容：{}", userId, message);
         try {
             this.session.getBasicRemote().sendText(message);
         } catch (IOException e) {
@@ -114,16 +144,25 @@ public class WebSocketServer {
     /**
      * 发送自定义消息,批量发
      */
-    public void sendToClient(WebSocketMessage webSocketMessage) {
+    public static void sendToClient(WebSocketMessage webSocketMessage) {
         List<Integer> receiveIds = webSocketMessage.getReceiveIds();
+        if (CollectionUtil.isEmpty(receiveIds)) {
+            logger.warn("发送webSocket消息失败。无接收人。");
+        }
         for (Integer receiveId : receiveIds) {
             if (!clients.containsKey(receiveId)) {
                 logger.info("用户 " + receiveId + " ,不在线！");
                 return;
             }
             WebSocketServer socketServer = clients.get(receiveId);
-            socketServer.sendMessage(webSocketMessage.getContent());
-            logger.info("发送消息到:"+ receiveId +"，内容为:"+webSocketMessage.getContent());
+            // todo 改逻辑
+            try {
+                String message = objectMapper.writeValueAsString(webSocketMessage.getWebSocketBean());
+                socketServer.sendMessage(message);
+                logger.info("发送消息到:"+ receiveId +"，内容为:"+message);
+            } catch (JsonProcessingException e) {
+                logger.error(e.getMessage(), e);
+            }
         }
     }
 

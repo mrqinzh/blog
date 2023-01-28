@@ -3,6 +3,12 @@ package com.mrqinzh.domain.config;
 public enum ConfigKey {
 
     MY_PRIMARY_DOMAIN("主域名"),
+    IMG_DOMAIN("图片域名"),
+    PROJECT_START_TIME("项目开始时间"),
+    PROJECT_FIRST_USE_TIME("项目首次使用时间"),
+    RECORD_CODE("备案号"),
+    ICP("ICP备案号"),
+    DEFAULT_AVATAR_LINK("默认头像链接"),
     ;
 
 

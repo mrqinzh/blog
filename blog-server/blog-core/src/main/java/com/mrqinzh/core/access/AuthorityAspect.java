@@ -19,7 +19,6 @@ import java.util.List;
 @Component
 public class AuthorityAspect {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthorityAspect.class);
     @Autowired
     private AccessDecisionManager accessDecisionManager;
 

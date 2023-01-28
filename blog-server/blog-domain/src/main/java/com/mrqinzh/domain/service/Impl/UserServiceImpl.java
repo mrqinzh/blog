@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * @author mrqinzh
  */
-@Service("userService")
+@Service
 public class UserServiceImpl implements UserService, SecurityService {
 
     @Autowired

@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import store from '@/store'
 
 export default {
   name: 'AppMain',
@@ -48,8 +49,20 @@ export default {
     },
     // 接受数据
     websocketonmessage: function (e) {
-        console.log(e);
-        this.$message.success(e.data)
+      console.log(e);
+      let resp = JSON.parse(e.data);
+      if (resp.jsonMsg) {
+        let jsonContent = JSON.parse(resp.msgContent);
+        if (jsonContent.code === 40003 || jsonContent.code === 40004) {
+          this.$message.warning(jsonContent.msg)
+          store.dispatch('user/resetToken').then(() => {
+            this.$router.push('/login')
+          })
+          return;
+        }
+      }
+      this.$message.success(resp.msgContent);
+      
     },
     // 数据发送
     websocketsend(Data) {

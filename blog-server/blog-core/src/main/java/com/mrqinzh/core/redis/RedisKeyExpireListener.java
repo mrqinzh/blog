@@ -35,11 +35,11 @@ public class RedisKeyExpireListener extends KeyExpirationEventMessageListener {
     @Override
     public void onMessage(Message message, byte[] pattern) {
         System.out.println("message ==> key " + message);
-        String value = new String(pattern, StandardCharsets.UTF_8);
+        String value = new String(message.getBody(), StandardCharsets.UTF_8);
         System.out.println("partten " + value); // __keyevent@*__:expired
 
         for (RedisKeyExpiredHandler handler : handlers) {
-            if (handler.support(value)) {
+            if (handler.support(new String(message.getBody(), StandardCharsets.UTF_8))) {
                 try {
                     handler.handle(value);
                 } catch (Exception e) {

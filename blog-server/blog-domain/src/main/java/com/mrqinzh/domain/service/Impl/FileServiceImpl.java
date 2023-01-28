@@ -11,35 +11,17 @@ import com.mrqinzh.core.file.FileClientType;
 import com.mrqinzh.core.file.FileInfo;
 import com.mrqinzh.core.file.FileSource;
 import com.mrqinzh.core.file.GlobalFileHandler;
-import com.mrqinzh.core.properties.GlobalProperties;
 import com.mrqinzh.domain.mapper.FileMapper;
 import com.mrqinzh.domain.service.FileService;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.Region;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.util.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.Date;
-import java.util.UUID;
 
 @Service
 public class FileServiceImpl implements FileService {
-
-    @Value("${oos.qiniu.domain}")
-    private String domain;
-    @Value("${oos.qiniu.bucketname}")
-    private String bucketName;
-    @Value("${oos.qiniu.access-key}")
-    private String accessKey;
-    @Value("${oos.qiniu.secret-key}")
-    private String secretKey;
 
     @Autowired
     private FileMapper fileMapper;

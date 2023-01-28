@@ -36,7 +36,7 @@ public class SessionManager {
         Cookie cookie = new Cookie(SecurityProperties.COOKIE_NAME, token.getTokenId());
         response.addCookie(cookie);
 
-        redisUtil.set(tokenId, token, 10);
+        redisUtil.set(tokenId, token, SecurityProperties.DEFAULT_EXPIRE_TIME_SECONDS);
     }
 
     public AuthenticatedToken getToken(String sessionId) {

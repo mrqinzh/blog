@@ -1,6 +1,7 @@
 package com.mrqinzh.core.file;
 
 import com.mrqinzh.common.util.BizAssert;
+import com.mrqinzh.common.util.SpringContextUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class GlobalFileHandler {
 
-    @Value("mrqinzh.blog.oss:LOCAL")
+    @Value("${mrqinzh.blog.oss.client:LOCAL}")
     private String fileClient;
 
     public FileInfo upload(MultipartFile file, FileSource source) {
@@ -27,10 +28,10 @@ public class GlobalFileHandler {
         }
         switch (fileClientType) {
             case QINIUYUN:
-                return new QiNiuYunClient();
+                return SpringContextUtil.getBean(QiNiuYunClient.class);
             case LOCAL:
             default:
-                return new LocalFileClient();
+                return SpringContextUtil.getBean(LocalFileClient.class);
         }
     }
 

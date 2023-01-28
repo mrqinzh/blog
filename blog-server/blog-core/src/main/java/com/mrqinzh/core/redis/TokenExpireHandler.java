@@ -1,11 +1,9 @@
 package com.mrqinzh.core.redis;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mrqinzh.common.model.bean.WebSocketBean;
 import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.resp.Resp;
-import com.mrqinzh.core.auth.token.AuthenticatedToken;
 import com.mrqinzh.core.message.GlobalMessageProducer;
 import com.mrqinzh.core.message.WebSocketMessage;
 import com.mrqinzh.core.security.SecurityProperties;
@@ -29,15 +27,19 @@ public class TokenExpireHandler implements RedisKeyExpiredHandler {
     @Override
     public void handle(String value) throws Exception {
         // todo 后续将token转为jwt方式保存
-        // 告诉前端过期
         String username = value.substring(SecurityProperties.TOKEN_CACHE_PREFIX.length() +
                 UUID.randomUUID().toString().replaceAll("-", "").length());
         SecurityUser user = securityService.loadSecurityUserFromDb(username);
-        if (user == null) return;
-        WebSocketBean webSocketBean = buildMsgToClient();
-        producer.produce(new WebSocketMessage(webSocketBean, user.getId()));
+        // 告诉前端token过期
+        this.sendMessageToClient(user);
 
         // 。。。。。。
+    }
+
+    private void sendMessageToClient(SecurityUser user) throws Exception {
+        if (user == null) return;
+        WebSocketBean webSocketBean = new WebSocketBean(true, objectMapper.writeValueAsString(new Resp(AppStatus.TOKEN_EXPIRED)));
+        producer.produce(new WebSocketMessage(webSocketBean, user.getId(), SecurityProperties.PROJECT_DEVELOPER_ID));
     }
 
     @Override
@@ -45,7 +47,4 @@ public class TokenExpireHandler implements RedisKeyExpiredHandler {
         return value.startsWith(SecurityProperties.TOKEN_CACHE_PREFIX);
     }
 
-    private WebSocketBean buildMsgToClient() throws JsonProcessingException {
-        return new WebSocketBean(true, objectMapper.writeValueAsString(new Resp(AppStatus.TOKEN_EXPIRED)));
-    }
 }

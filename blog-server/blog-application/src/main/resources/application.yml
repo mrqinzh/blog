@@ -39,13 +39,14 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
 
-# 七牛云配置
-oos:
-  qiniu:
-    domain: img.mrqinzh.info
-    bucketname: mrqinzh-blog
-    access-key: sKhKRCxpKHgYW-gy5g4Vzoos76jT1AA9Um7heSwC
-    secret-key: KBvSkna0rxl2ucTXltdA6wfzqZxAZs-jpESoNaEp
+#
+#oos:
+#  qiniu:
+#    domain: img.mrqinzh.info
+#    bucketname: mrqinzh-blog
+#    access-key: sKhKRCxpKHgYW-gy5g4Vzoos76jT1AA9Um7heSwC
+#    secret-key: KBvSkna0rxl2ucTXltdA6wfzqZxAZs-jpESoNaEp
+
 
 #server:
 #  ssl:

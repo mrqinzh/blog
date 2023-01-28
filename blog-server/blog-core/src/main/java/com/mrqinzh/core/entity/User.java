@@ -41,6 +41,8 @@ public class User extends BaseEntity implements SecurityUser {
      * 密码
      */
     private String userPwd;
+    private String qqNo;
+    private String wxNo;
 
     @TableField(exist = false)
     private List<Role> roles;

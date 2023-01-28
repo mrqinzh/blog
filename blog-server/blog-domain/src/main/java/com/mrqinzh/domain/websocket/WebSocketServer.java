@@ -21,6 +21,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @ServerEndpoint("/api/websocket/{userId}")
@@ -145,7 +146,7 @@ public class WebSocketServer {
      * 发送自定义消息,批量发
      */
     public static void sendToClient(WebSocketMessage webSocketMessage) {
-        List<Integer> receiveIds = webSocketMessage.getReceiveIds();
+        Set<Integer> receiveIds = webSocketMessage.getReceiveIds();
         if (CollectionUtil.isEmpty(receiveIds)) {
             logger.warn("发送webSocket消息失败。无接收人。");
         }
@@ -159,7 +160,6 @@ public class WebSocketServer {
             try {
                 String message = objectMapper.writeValueAsString(webSocketMessage.getWebSocketBean());
                 socketServer.sendMessage(message);
-                logger.info("发送消息到:"+ receiveId +"，内容为:"+message);
             } catch (JsonProcessingException e) {
                 logger.error(e.getMessage(), e);
             }

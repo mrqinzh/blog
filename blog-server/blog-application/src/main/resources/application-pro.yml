@@ -8,3 +8,13 @@ spring:
     password: '000928'
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
+
+# 七牛云配置
+mrqinzh:
+  blog:
+    oss:
+      client: QINIUYUN
+      domain: img.mrqinzh.com
+      bucketname: mrqinzh-blog
+      access-key: sKhKRCxpKHgYW-gy5g4Vzoos76jT1AA9Um7heSwC
+      secret-key: KBvSkna0rxl2ucTXltdA6wfzqZxAZs-jpESoNaEp

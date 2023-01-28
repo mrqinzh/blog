@@ -9,6 +9,8 @@ public enum ConfigKey {
     RECORD_CODE("备案号"),
     ICP("ICP备案号"),
     DEFAULT_AVATAR_LINK("默认头像链接"),
+
+    QI_NIU_CLOUD_OSS_PROPERTIES("七牛云存储配置")
     ;
 
 

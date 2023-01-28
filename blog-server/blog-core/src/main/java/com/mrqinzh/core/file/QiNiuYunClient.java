@@ -1,12 +1,14 @@
 package com.mrqinzh.core.file;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mrqinzh.common.exception.BizException;
 import com.mrqinzh.core.properties.GlobalProperties;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,13 +23,13 @@ public class QiNiuYunClient extends AbstractFileClient {
 
     private String link;
 
-    @Value("${oos.qiniu.domain}")
+    @Value("${mrqinzh.blog.oss.domain:}")
     private String domain;
-    @Value("${oos.qiniu.bucketname}")
+    @Value("${mrqinzh.blog.oss.bucketname:}")
     private String bucketName;
-    @Value("${oos.qiniu.access-key}")
+    @Value("${mrqinzh.blog.oss.access-key:}")
     private String accessKey;
-    @Value("${oos.qiniu.secret-key}")
+    @Value("${mrqinzh.blog.oss.secret-key:}")
     private String secretKey;
 
     @Autowired
@@ -35,6 +37,7 @@ public class QiNiuYunClient extends AbstractFileClient {
 
     @Override
     public void doUpload(byte[] file) throws Exception {
+        checkProperties();
         Configuration cfg = new Configuration(Region.huadong());
         UploadManager uploadManager = new UploadManager(cfg);
         Auth auth = Auth.create(accessKey, secretKey);
@@ -43,6 +46,15 @@ public class QiNiuYunClient extends AbstractFileClient {
         Response response = uploadManager.put(file, getNewFileNameWithSuffix(), uploadToken);
         Map res = objectMapper.readValue(response.bodyString(), Map.class);
         link = GlobalProperties.MY_HTTP + domain + "/" + res.get("key");
+    }
+
+    private void checkProperties() {
+        if (StringUtils.isBlank(domain) ||
+                StringUtils.isBlank(bucketName) ||
+                StringUtils.isBlank(accessKey) ||
+                StringUtils.isBlank(secretKey)) {
+            throw new BizException("七牛云配置错误，请检查相关配置信息。！");
+        }
     }
 
     @Override

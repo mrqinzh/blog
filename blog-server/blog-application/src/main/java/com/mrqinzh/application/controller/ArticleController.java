@@ -3,15 +3,19 @@ package com.mrqinzh.application.controller;
 import com.mrqinzh.common.model.bean.WebSocketBean;
 import com.mrqinzh.core.access.AccessPermission;
 import com.mrqinzh.core.access.RoleType;
+import com.mrqinzh.core.auth.context.AuthenticationContextUtils;
 import com.mrqinzh.core.entity.Article;
 import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.resp.DataResp;
 import com.mrqinzh.common.model.resp.Resp;
 import com.mrqinzh.common.model.vo.PageVO;
 import com.mrqinzh.common.model.vo.article.ArticleVo;
+import com.mrqinzh.core.entity.User;
 import com.mrqinzh.core.message.GlobalMessageProducer;
 import com.mrqinzh.core.message.WebSocketMessage;
+import com.mrqinzh.core.security.SecurityProperties;
 import com.mrqinzh.domain.service.ArticleService;
+import com.mrqinzh.domain.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,8 @@ public class ArticleController {
     private ArticleService articleService;
     @Autowired
     private GlobalMessageProducer producer;
+    @Autowired
+    private UserService userService;
 
     @ApiOperation(value = "根据 articleId 查询文章具体信息")
     @GetMapping("/{articleId}")
@@ -39,9 +45,12 @@ public class ArticleController {
     @ApiOperation(value = "分页加载文章列表")
     @GetMapping("/list")
     public Resp list(PageVO pageVO) {
-        String message = "有人访问了 ===> /article/list";
-        WebSocketBean webSocketBean = new WebSocketBean(false, message);
-        producer.produce(new WebSocketMessage(webSocketBean, 1));
+        User user = AuthenticationContextUtils.getUser();
+        if (user != null) {
+            String message = user.getName() + "刚刚浏览了文章列表，请注意查收。";
+            WebSocketBean webSocketBean = new WebSocketBean(false, message);
+            producer.produce(new WebSocketMessage(webSocketBean, SecurityProperties.PROJECT_DEVELOPER_ID));
+        }
         return articleService.list(pageVO);
     }
 

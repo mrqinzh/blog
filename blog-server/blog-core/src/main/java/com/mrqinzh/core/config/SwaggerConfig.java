@@ -20,7 +20,6 @@ public class SwaggerConfig {
 
     public static List<String> swaggerUrls = new ArrayList<>();
     public static String[] swaggerApis = {
-            "/*.html", "*.ico", "/static/**", "/img/**",
             "/swagger-ui.html", "/v2/api-docs", "/swagger-resources/configuration/ui",
             "/swagger-resources", "/swagger-resources/configuration/security", "/webjars/**"
     };

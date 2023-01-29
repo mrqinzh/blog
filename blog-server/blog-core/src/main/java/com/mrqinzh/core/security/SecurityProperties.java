@@ -24,7 +24,7 @@ public class SecurityProperties {
     public static final Set<String> accessApisWithoutAuth = new HashSet<>();
     // todo 待调整
     public static final String[] systemWhiteApis = {
-            "/files/**", "/static/**",       // 静态资源
+            "/static/**", "/files/**", "/*.html", "/*.ico", "/img/**",       // 静态资源
             "/api/websocket/**",               // websocket
             LOGIN_URL, "/login/**",            // 登录相关
             "/**/list", "/**/page", "/**/byKeys",

@@ -1,6 +1,8 @@
 package com.mrqinzh.application.controller;
 
+import com.mrqinzh.common.exception.BizException;
 import com.mrqinzh.common.model.bean.WebSocketBean;
+import com.mrqinzh.common.util.RedisUtil;
 import com.mrqinzh.core.access.AccessPermission;
 import com.mrqinzh.core.access.RoleType;
 import com.mrqinzh.core.auth.context.AuthenticationContextUtils;
@@ -18,11 +20,13 @@ import com.mrqinzh.domain.service.ArticleService;
 import com.mrqinzh.domain.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @Api(tags = "文章接口")
 @RestController
 @RequestMapping("/article")
@@ -33,11 +37,13 @@ public class ArticleController {
     @Autowired
     private GlobalMessageProducer producer;
     @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
     private UserService userService;
 
     @ApiOperation(value = "根据 articleId 查询文章具体信息")
     @GetMapping("/{articleId}")
-    public Resp getById(@PathVariable("articleId") Integer articleId){
+    public Resp getById(@PathVariable("articleId") Integer articleId) {
         Article article = articleService.getById(articleId);
         return DataResp.ok(article);
     }
@@ -66,6 +72,9 @@ public class ArticleController {
     @ApiOperation(value = "根据 articleId 更新文章")
     @PostMapping("/update")
     public Resp update(@RequestBody ArticleVo articleVo){
+        if (articleVo.getId() == null) {
+            throw new BizException(AppStatus.BAD_PARAMETER_REQUEST);
+        }
         articleService.update(articleVo);
         return Resp.sendMsg(AppStatus.UPDATE_SUCCESS);
     }

@@ -6,6 +6,7 @@ import com.mrqinzh.core.auth.handler.DefaultLoginHandler;
 import com.mrqinzh.core.auth.token.AbstractAuthenticationToken;
 import com.mrqinzh.core.auth.token.AuthenticatedToken;
 import com.mrqinzh.core.security.SecurityProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @Order(SecurityProperties.DEFAULT_FILTER_ORDER)
 public abstract class AbsAuthenticationFilter extends OncePerRequestFilter {
 
@@ -61,6 +63,7 @@ public abstract class AbsAuthenticationFilter extends OncePerRequestFilter {
 
             defaultLoginHandler.onLoginSuccess(request, response, token);
         } catch (AuthException e) {
+            log.error(e.getMessage(), e);
             defaultLoginHandler.onLoginFailure(request, response, credential, e);
         }
         return false;

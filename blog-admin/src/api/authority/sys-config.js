@@ -35,7 +35,7 @@ export var configKeyMap = new Map ([
     ['PROJECT_FIRST_USE_TIME', '项目首次使用时间'],
     ['RECORD_CODE', '公安部备案号'],
     ['ICP', 'ICP备案号'],
-    ['DEFAULT_AVATAR_LINK', '默认头像链接']
+    ['DEFAULT_AVATAR_LINK', '默认头像链接'],
 ])
 
 export var keys = {

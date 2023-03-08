@@ -40,7 +40,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public void add(Tag tag) {
         if (StringUtils.isBlank(tag.getTagImg())) {
-            throw new BizException(AppStatus.BAD_REQUEST, "必须上传标签对应图片！");
+            throw new BizException(AppStatus.BAD_PARAMETER_REQUEST, "必须上传标签对应图片！");
         }
         tagMapper.insert(tag);
     }
@@ -54,7 +54,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public void update(Tag tag) {
         if (tag.getId() == null || StringUtils.isBlank(tag.getTagImg())) {
-            throw new BizException(AppStatus.BAD_REQUEST);
+            throw new BizException(AppStatus.BAD_PARAMETER_REQUEST);
         }
         tagMapper.updateById(tag);
     }

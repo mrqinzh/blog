@@ -16,10 +16,11 @@ public enum AppStatus {
     EMAIL_SEND_SUCCESS(200, true,"邮件发送成功"),
 
 
-    BAD_REQUEST(400, false, "参数校验失败"),
+    BAD_PARAMETER_REQUEST(400, false, "参数校验失败"),
     USERNAME_PASSWORD_ERROR(4000 , false, "账号或密码错误！"),
     NO_PERMISSION(40002, false, "对不起，你的权限不足，请充值。。.>_>"),
     TOKEN_EXPIRED(40003, false, "会话失效了，请重新登录哦。。.>_>"),
+    TOKEN_EXPIRE_NO_REDIRECT(40013, false, "会话失效了，删掉cookie就好了。。。-_-"),
     TOKEN_ILLEGAL(40004, false, "这个token好像有点不正常啊。。。-_-"),
     /**
      * 内部错误

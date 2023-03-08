@@ -1,16 +1,17 @@
 package com.mrqinzh.core.auth.event;
 
+import com.mrqinzh.core.auth.token.AbstractAuthenticationToken;
 import com.mrqinzh.core.auth.token.Token;
 import org.springframework.context.ApplicationEvent;
 
 public abstract class AbstractAuthenticationEvent extends ApplicationEvent {
 
-    public AbstractAuthenticationEvent(Token source) {
+    public AbstractAuthenticationEvent(AbstractAuthenticationToken<?> source) {
         super(source);
     }
 
-    public Token getToken() {
-        return (Token) super.getSource();
+    public AbstractAuthenticationToken<?> getToken() {
+        return (AbstractAuthenticationToken<?>) super.getSource();
     }
 
 }

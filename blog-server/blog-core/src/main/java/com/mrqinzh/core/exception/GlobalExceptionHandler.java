@@ -8,9 +8,7 @@ import com.mrqinzh.common.model.resp.Resp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
@@ -51,7 +49,7 @@ public class GlobalExceptionHandler {
         }
         String errMsg = StrUtil.removeSuffix(stringBuilder.toString(), ";");
         e.printStackTrace();
-        return Resp.sendMsg(AppStatus.BAD_REQUEST, errMsg);
+        return Resp.sendMsg(AppStatus.BAD_PARAMETER_REQUEST, errMsg);
     }
 
     /**

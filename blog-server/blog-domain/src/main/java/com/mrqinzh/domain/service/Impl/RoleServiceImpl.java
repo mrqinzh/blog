@@ -8,7 +8,6 @@ import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.vo.PageVO;
 import com.mrqinzh.domain.mapper.RoleMapper;
 import com.mrqinzh.domain.service.RoleService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +44,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void add(Role role) {
         if (role.getRoleName() == null) {
-            throw new BizException(AppStatus.BAD_REQUEST, "请输入角色名称");
+            throw new BizException(AppStatus.BAD_PARAMETER_REQUEST, "请输入角色名称");
         }
         role.setCreateTime(new Date()).setUpdateTime(new Date()).setStatus(0);
         roleMapper.insert(role);
@@ -54,7 +53,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void update(Role role) {
         if (role.getId() == null || role.getRoleName() == null) {
-            throw new BizException(AppStatus.BAD_REQUEST, "请输入角色名称");
+            throw new BizException(AppStatus.BAD_PARAMETER_REQUEST, "请输入角色名称");
         }
         role.setUpdateTime(new Date());
         roleMapper.updateById(role);

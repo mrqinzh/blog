@@ -1,9 +1,13 @@
 package com.mrqinzh.core;
 
-import com.mrqinzh.core.auth.token.Token;
+import com.mrqinzh.core.auth.token.AbstractAuthenticationToken;
 
 public interface UserLoginService {
 
-    void cachePrincipal(Token token);
+    void cachePrincipal(AbstractAuthenticationToken<?> token);
+
+    void addLoginRecord(AbstractAuthenticationToken<?> token);
+
+    boolean checkTokenExpired(String tokenId);
 
 }

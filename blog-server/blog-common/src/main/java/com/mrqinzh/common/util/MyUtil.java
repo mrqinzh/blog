@@ -1,6 +1,7 @@
 package com.mrqinzh.common.util;
 
 import com.mrqinzh.common.constant.MyConstant;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Random;
 
@@ -19,6 +20,7 @@ public class MyUtil {
      * @return java.lang.String
      */
     public static String stripHtml(String content) {
+        if (StringUtils.isEmpty(content)) return content;
         content = content.replaceAll("<p .*?>", "");
         content = content.replaceAll("<br\\s*/?>", "");
         content = content.replaceAll("\\<.*?>", "");

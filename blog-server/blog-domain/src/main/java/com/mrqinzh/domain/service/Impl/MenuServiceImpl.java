@@ -63,7 +63,7 @@ public class MenuServiceImpl implements MenuService {
         if (menuVO.getParentId() != null && menuVO.getParentId() != 0) {
             parentMenu = menuMapper.selectById(menuVO.getParentId());
             if (parentMenu == null) {
-                throw new BizException(AppStatus.BAD_REQUEST, "上级菜单选择错误");
+                throw new BizException(AppStatus.BAD_PARAMETER_REQUEST, "上级菜单选择错误");
             }
         }
         Menu menu = new Menu();
@@ -76,7 +76,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void update(MenuVO menuVO) {
         if (menuVO.getId() == null || menuVO.getId() == 0) {
-            throw new BizException(AppStatus.BAD_REQUEST, "参数校验错误，缺少菜单id");
+            throw new BizException(AppStatus.BAD_PARAMETER_REQUEST, "参数校验错误，缺少菜单id");
         }
         Menu menu = menuMapper.selectById(menuVO.getId());
         BeanUtils.copyProperties(menuVO, menu);

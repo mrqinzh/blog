@@ -2,6 +2,7 @@ package com.mrqinzh.domain.service.Impl;
 
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.common.exception.BizException;
 import com.mrqinzh.core.entity.Article;
@@ -33,19 +34,16 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ArticleServiceImpl implements ArticleService {
+public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
     @Autowired
     private UserMapper userMapper;
-
     @Autowired
     private ArticleMapper articleMapper;
-
     @Autowired
     private CommentMapper commentMapper;
-
     @Autowired
     private TagMapper tagMapper;
 
@@ -64,7 +62,6 @@ public class ArticleServiceImpl implements ArticleService {
         // 更新浏览量
         article.setArticleViews(article.getArticleViews() + 1);
         articleMapper.updateById(article);
-
         return article;
     }
 
@@ -75,6 +72,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleVo.setArticleSummary(MyUtil.stripHtml(articleVo.getArticleSummary()));
 
         User user = (User) AuthenticationContextUtils.getSecurityUser();
+        BizAssert.notNull(user, "用户异常。！");
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
 
@@ -104,16 +102,21 @@ public class ArticleServiceImpl implements ArticleService {
     public void update(ArticleVo articleVo) {
         // 判断传入文章的Id是否存在
         if (articleVo == null || articleVo.getId() == null) {
-            throw new BizException(AppStatus.BAD_REQUEST);
+            throw new BizException(AppStatus.BAD_PARAMETER_REQUEST);
         }
 
         Article origin = articleMapper.getById(articleVo.getId());
         if (origin == null) {
-            throw new BizException(AppStatus.BAD_REQUEST, "当前文章不存在数据库中");
+            throw new BizException(AppStatus.BAD_PARAMETER_REQUEST, "当前文章错误。");
         }
 
+        origin.setArticleTitle(articleVo.getArticleTitle());
         // 获取文章摘要，截取内容的前100
-        origin.setArticleSummary(MyUtil.stripHtml(origin.getArticleSummary()));
+        origin.setArticleSummary(MyUtil.stripHtml(articleVo.getArticleSummary()));
+        origin.setArticleCoverImg(articleVo.getArticleCoverImg());
+        origin.setArticleContentMd(articleVo.getArticleContentMd());
+        origin.setArticleTag(articleVo.getArticleTag());
+        origin.setArticleType(articleVo.getArticleType());
         // 设置更新时间
         origin.setArticleUpdateTime(new Date());
         articleMapper.updateById(origin);
@@ -143,7 +146,7 @@ public class ArticleServiceImpl implements ArticleService {
                 return tagList.get(0).getTagImg();
             }
             if (threshold++ > 4) {
-                throw new BizException(AppStatus.BAD_REQUEST, "对不起，系统里好像没有选择标签的相关图片，请重新选择标签，或者上传自己的封面图！！！");
+                throw new BizException(AppStatus.BAD_PARAMETER_REQUEST, "对不起，系统里好像没有选择标签的相关图片，请重新选择标签，或者上传自己的封面图！！！");
             }
         }
     }

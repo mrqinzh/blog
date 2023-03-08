@@ -11,7 +11,7 @@ public class SecurityProperties {
     public static final int PROJECT_DEVELOPER_ID = 1;
 
     public static final int DEFAULT_FILTER_ORDER = 1;
-    public static final int DEFAULT_EXPIRE_TIME_SECONDS = 10 * 60;
+    public static final int DEFAULT_EXPIRE_TIME_SECONDS = 10 * 60; // 单位 second
 
     public static final String TOKEN_CACHE_PREFIX = "authentication:";
     public static final String LOGIN_URL = "/login";

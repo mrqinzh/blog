@@ -1,5 +1,6 @@
 package com.mrqinzh.domain.service.Impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.mrqinzh.core.entity.LoginLog;
 import com.mrqinzh.common.model.resp.PageResp;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class LoginLogServiceImpl implements LoginLogService {
+public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> implements LoginLogService {
 
     @Autowired
     private LoginLogMapper loginLogMapper;

@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService, SecurityService {
         if (userVO.getUserPwd() != null && userVO.getNewPass() != null) {
             // 修改密码操作
             if (!userVO.getUserPwd().equals(securityUser.getPassword())) {
-                throw new BizException(AppStatus.BAD_REQUEST, "原密码发生了错误。。。");
+                throw new BizException(AppStatus.BAD_PARAMETER_REQUEST, "原密码发生了错误。。。");
             }
             // Todo 此处可以对密码进行加密。。。
             user.setUserPwd(userVO.getNewPass()); // 设置新密码

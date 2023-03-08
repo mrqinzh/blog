@@ -2,14 +2,13 @@ package com.mrqinzh.core.auth.event;
 
 import com.mrqinzh.common.exception.AuthException;
 import com.mrqinzh.common.util.BizAssert;
-import com.mrqinzh.core.auth.event.AbstractAuthenticationEvent;
-import com.mrqinzh.core.auth.token.Token;
+import com.mrqinzh.core.auth.token.AbstractAuthenticationToken;
 
 public class AuthFailureEvent extends AbstractAuthenticationEvent {
 
     private AuthException exception;
 
-    public AuthFailureEvent(AuthException exception, Token source) {
+    public AuthFailureEvent(AuthException exception, AbstractAuthenticationToken<?> source) {
         super(source);
         BizAssert.notNull(exception, "exception must be not null");
         this.exception = exception;

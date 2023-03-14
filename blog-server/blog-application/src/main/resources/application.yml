@@ -53,3 +53,8 @@ mybatis-plus:
 #    key-store: classpath:6138774_www.mrqinzh.info.pfx #拷贝到根目录的证书文件
 #    key-store-password: tK75MMVp #密码(下载tomcat证书压缩包里的txt文件)
 #    key-store-type: U0Iu879t       #固定写法
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: blog-producer

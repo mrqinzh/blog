@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mrqinzh.common.model.bean.WebSocketBean;
 import com.mrqinzh.common.model.enums.AppStatus;
 import com.mrqinzh.common.model.resp.Resp;
-import com.mrqinzh.core.message.GlobalMessageProducer;
 import com.mrqinzh.core.message.WebSocketMessage;
 import com.mrqinzh.core.security.SecurityProperties;
 import com.mrqinzh.core.security.SecurityService;
 import com.mrqinzh.core.security.SecurityUser;
+import com.mrqinzh.mq.producer.GlobalMessageProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +39,7 @@ public class TokenExpireHandler implements RedisKeyExpiredHandler {
     private void sendMessageToClient(SecurityUser user) throws Exception {
         if (user == null) return;
         WebSocketBean webSocketBean = new WebSocketBean(true, objectMapper.writeValueAsString(new Resp(AppStatus.TOKEN_EXPIRED)));
-        producer.produce(new WebSocketMessage(webSocketBean, user.getId(), SecurityProperties.PROJECT_DEVELOPER_ID));
+        producer.send(WebSocketMessage.TOPIC, new WebSocketMessage(webSocketBean, user.getId(), SecurityProperties.PROJECT_DEVELOPER_ID));
     }
 
     @Override

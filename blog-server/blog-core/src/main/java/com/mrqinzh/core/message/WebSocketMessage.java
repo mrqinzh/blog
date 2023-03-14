@@ -5,14 +5,15 @@ import com.mrqinzh.common.model.bean.WebSocketBean;
 import com.mrqinzh.common.util.BizAssert;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import org.apache.rocketmq.common.message.Message;
 
 import java.util.*;
 
 @NoArgsConstructor
-@ToString
 @Data
-public class WebSocketMessage implements Message {
+public class WebSocketMessage extends Message {
+
+    public static final String TOPIC = "websocket-topic";
 
     private Set<Integer> receiveIds = new HashSet<>();
     private WebSocketBean webSocketBean;
@@ -27,4 +28,11 @@ public class WebSocketMessage implements Message {
         receiveIds.add(receiveId);
     }
 
+    @Override
+    public String toString() {
+        return "WebSocketMessage{" +
+                "receiveIds=" + receiveIds +
+                ", webSocketBean=" + webSocketBean +
+                '}';
+    }
 }

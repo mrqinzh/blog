@@ -13,11 +13,11 @@ import com.mrqinzh.common.model.resp.Resp;
 import com.mrqinzh.common.model.vo.PageVO;
 import com.mrqinzh.common.model.vo.article.ArticleVo;
 import com.mrqinzh.core.entity.User;
-import com.mrqinzh.core.message.GlobalMessageProducer;
 import com.mrqinzh.core.message.WebSocketMessage;
 import com.mrqinzh.core.security.SecurityProperties;
 import com.mrqinzh.domain.service.ArticleService;
 import com.mrqinzh.domain.service.UserService;
+import com.mrqinzh.mq.producer.GlobalMessageProducer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +55,7 @@ public class ArticleController {
         if (user != null) {
             String message = user.getName() + "刚刚浏览了文章列表，请注意查收。";
             WebSocketBean webSocketBean = new WebSocketBean(false, message);
-            producer.produce(new WebSocketMessage(webSocketBean, SecurityProperties.PROJECT_DEVELOPER_ID));
+            producer.send(WebSocketMessage.TOPIC, new WebSocketMessage(webSocketBean, SecurityProperties.PROJECT_DEVELOPER_ID));
         }
         return articleService.list(pageVO);
     }

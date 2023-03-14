@@ -1,6 +1,5 @@
 package com.mrqinzh.core.auth.event;
 
-import com.mrqinzh.common.util.BizAssert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
@@ -19,7 +18,7 @@ public abstract class AbstractAuthenticationListener implements ApplicationListe
             doAuthFailureEvent((AuthFailureEvent) event);
         }
 
-        log.warn("error event at authentication");
+//        log.warn("error event at authentication");
     }
 
     protected void doPreAuthEvent(PreAuthEvent event) {

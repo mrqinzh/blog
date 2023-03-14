@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>blog-test</artifactId>
+    <artifactId>blog-mq</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -18,20 +18,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.mrqinzh</groupId>
-            <artifactId>blog-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-client</artifactId>
-            <version>4.9.4</version>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>

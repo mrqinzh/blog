@@ -11,11 +11,11 @@ import com.mrqinzh.common.model.vo.comment.CommentPageVo;
 import com.mrqinzh.common.model.vo.comment.CommentVo;
 import com.mrqinzh.common.util.MyUtil;
 import com.mrqinzh.common.util.WebUtil;
-import com.mrqinzh.core.message.GlobalMessageProducer;
 import com.mrqinzh.core.message.WebSocketMessage;
 import com.mrqinzh.domain.mapper.CommentMapper;
 import com.mrqinzh.domain.mapper.UserMapper;
 import com.mrqinzh.domain.service.CommentService;
+import com.mrqinzh.mq.producer.GlobalMessageProducer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +78,7 @@ public class CommentServiceImpl implements CommentService {
         WebSocketBean webSocketBean = new WebSocketBean();
         webSocketBean.setJsonMsg(false);
         webSocketBean.setMsgContent(message);
-        producer.produce(new WebSocketMessage(webSocketBean, 1));
+        producer.send(WebSocketMessage.TOPIC, new WebSocketMessage(webSocketBean, 1));
     }
 
     @Override

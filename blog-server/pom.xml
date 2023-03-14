@@ -10,6 +10,7 @@
         <module>blog-common</module>
         <module>blog-test</module>
         <module>blog-mq</module>
+        <module>blog-apis</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

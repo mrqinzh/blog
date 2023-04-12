@@ -140,7 +140,7 @@ export default {
     // 加载博客
     loadBlogs() {
       list(this.currentPage, this.pageSize, this.condition).then( resp => {
-        // console.log(resp);
+        console.log(resp);
         this.allBlogs = resp.data.rows;
         this.totalCount = resp.data.totalCount; //获取数据行数
         this.loading = false;
